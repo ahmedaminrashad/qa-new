@@ -1,0 +1,352 @@
+<?php session_start(); ?>
+<?php
+// Enable error reporting
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+ini_set('log_errors', 1);
+
+if (session_status() !== PHP_SESSION_ACTIVE) {
+    session_start();
+}
+
+require("../includes/dbconnection.php");
+require_once("../includes/mysql-compat.php");
+
+// Check database connection
+if (!isset($conn) || !$conn) {
+    die("Database connection failed. Please contact the administrator.");
+}
+  <?php
+  include("../includes/session.php");
+require("../includes/dbconnection.php");
+include("../includes/teacher_rights.php");  include("header.php");
+  $Course_ID =base64_decode($_GET["Course_ID"]);
+function lesson($er)
+{
+// sending query
+   $result = mysql_query("SELECT * FROM lesson_pages Where lesson_id = $er");
+if (!$result) 
+	{
+    die("Query to show fields from table failed");
+	}
+$tnumberOfRows = MYSQL_NUMROWS($result);
+If ($tnumberOfRows == 0){
+			echo '';
+			}
+		else if ($tnumberOfRows > 0) 
+			{
+			$i=0;
+			while ($i<$tnumberOfRows)
+				{			
+					$l_name = MYSQL_RESULT($result,$i,"lesson_name");
+			  		echo $l_name;
+	$i++;	 
+			}
+			}
+	}
+?>
+<?php
+date_default_timezone_set("Asia/Karachi");
+$sy = date('Y-m-d');
+?>
+<?php echo $main_header; ?>
+<head>
+<link href="../../assets/global/plugins/bootstrap-modal/css/bootstrap-modal-bs3patch.css" rel="stylesheet" type="text/css"/>
+<link href="../../assets/global/plugins/bootstrap-modal/css/bootstrap-modal.css" rel="stylesheet" type="text/css"/>
+</head>
+<?php echo $tool_bar; ?>
+<?php echo $start_menu; ?>
+<?php echo $main_menu; ?>
+<!-- BEGIN PAGE CONTAINER -->
+<div class="page-container">
+	<!-- BEGIN PAGE HEAD -->
+	<div class="page-head">
+		<div class="container">
+			<!-- BEGIN PAGE TITLE -->
+			<div class="page-title">
+				<h1>History<small> Class Progress</small></h1>
+			</div>
+			<!-- END PAGE TITLE -->
+			<!-- BEGIN PAGE TOOLBAR -->
+			<div class="page-toolbar">
+			</div>
+			<!-- END PAGE TOOLBAR -->
+		</div>
+	</div>
+	<!-- END PAGE HEAD -->
+	<!-- BEGIN PAGE CONTENT -->
+	<div class="page-content">
+		<div class="container">
+
+			<!-- BEGIN PAGE BREADCRUMB -->
+			<ul class="page-breadcrumb breadcrumb">
+				<li>
+					<a href="teacher-home">Home</a><i class="fa fa-circle"></i>
+				</li>
+				<li class="active">
+					 Class History of <?php
+				$Course_ID =base64_decode($_GET["Course_ID"]);
+				$result = mysql_query("SELECT * FROM course HAVING course_id='$Course_ID'");
+if (!$result) 
+		{
+		die("Query to show fields from table failed");
+		}
+			$numberOfRows = MYSQL_NUMROWS($result);
+			If ($numberOfRows == 0) 
+				{
+			//echo 'Sorry No Record Found!';
+				}
+			else if ($numberOfRows > 0) 
+				{
+				$i=0;
+			$course = MYSQL_RESULT($result,$i,"course_yrSec");
+				}
+				echo $course;				
+				?>
+				</li>
+			</ul>
+			<!-- END PAGE BREADCRUMB -->
+			<!-- BEGIN PAGE CONTENT INNER -->
+			<div class="row">
+				<div class="col-md-12">
+					<!-- BEGIN SAMPLE TABLE PORTLET-->
+					<div class="portlet light">
+					<h3>Class History of <font color="#44B6AE"> <b><?php
+				$Course_ID =base64_decode($_GET["Course_ID"]);
+				$result = mysql_query("SELECT * FROM course HAVING course_id='$Course_ID'");
+if (!$result) 
+		{
+		die("Query to show fields from table failed");
+		}
+			$numberOfRows = MYSQL_NUMROWS($result);
+			If ($numberOfRows == 0) 
+				{
+			//echo 'Sorry No Record Found!';
+				}
+			else if ($numberOfRows > 0) 
+				{
+				$i=0;
+			$course = MYSQL_RESULT($result,$i,"course_yrSec");
+				}
+				echo $course;				
+				?></b></font></h3>
+				<a class="btn default" data-target="#full-width" data-toggle="modal">
+									View Previous Month Class History</a>
+						<div class="portlet-body">
+							<div id="mytable" class="table-responsive">
+								<table class="table table-hover">
+								<thead>
+								<tr>
+								<th>
+									 Date
+								</th>
+								<th>
+									 Lesson
+								</th>
+								<th>
+									 Description
+								</th>
+								<th>
+									 Additional
+								</th>
+								<th>
+									 Description
+								</th>
+								<th>
+									 Sabaq
+								</th>
+								<th>
+									 Sabaqi
+								</th>
+								<th>
+									 Manzil
+								</th>
+								<th></th>
+								<?php 
+// sending query
+   $Course_ID =base64_decode($_GET["Course_ID"]);
+$result = mysql_query("SELECT `class_history`.*,`course`.`course_yrSec`,`monitor`.`mnt_name`,`remaks`.`remak`,`profile`.`teacher_name` FROM `class_history`,`course`,`monitor`,`remaks`,`profile` WHERE class_history.course_id=course.course_id and class_history.monitor_id=monitor.mnt_id and class_history.teacher_remarks=remaks.remk_id and class_history.teacher_id=profile.teacher_id HAVING monitor_id > 1 AND course_id = '$Course_ID' ORDER BY date_teacher DESC;") or die(mysql_error());
+	if (!$result) 
+	{
+    die("Query not");
+	}
+$numberOfRows = MYSQL_NUMROWS($result);
+If ($numberOfRows == 0) 
+	{
+	echo 'Sorry No Record Found!';
+	}
+else if ($numberOfRows > 0) 
+	{
+	$i=0;
+	while ($i<$numberOfRows)
+		{		
+			if(($i%2)==0) 
+				{
+					$bgcolor ='#FFFFFF';
+				}
+			else
+				{
+					$bgcolor ='#F7F7FF';
+				}
+			$hid = MYSQL_RESULT($result,$i,"history_id");
+			$student = MYSQL_RESULT($result,$i,"course_yrSec");
+			$remarkst = MYSQL_RESULT($result,$i,"remak");
+			$teacher = MYSQL_RESULT($result,$i,"teacher_name");
+			$t_date = MYSQL_RESULT($result,$i,"date_teacher");
+			$tech_id = MYSQL_RESULT($result,$i,"teacher_id");
+			$stur_course_id = MYSQL_RESULT($result,$i,"course_id");
+			$st = MYSQL_RESULT($result,$i,"start_time");
+			$et = MYSQL_RESULT($result,$i,"end_time");
+			$sabuq = MYSQL_RESULT($result,$i,"sabaq");
+			$sabuqi = MYSQL_RESULT($result,$i,"sabaqi");
+			$manz = MYSQL_RESULT($result,$i,"manzil");
+			$r_course_id = MYSQL_RESULT($result,$i,"dept_id");
+			$r_lesson_id = MYSQL_RESULT($result,$i,"lesson_id");
+			$r_lesson_des = MYSQL_RESULT($result,$i,"lesson_discription");
+			$a_course_id = MYSQL_RESULT($result,$i,"adept_id");
+			$a_lesson_id = MYSQL_RESULT($result,$i,"alesson_id");
+			$a_lesson_des = MYSQL_RESULT($result,$i,"additional_des");
+			$monitor = MYSQL_RESULT($result,$i,"mnt_name");
+			$status = MYSQL_RESULT($result,$i,"status");
+			$t_date = MYSQL_RESULT($result,$i,"date_teacher");
+			$mnp_id = MYSQL_RESULT($result,$i,"monitor_id");
+
+?>
+							</tr>
+								</thead>
+								<tbody>
+								<tr bgcolor="<?php echo $bgcolor; ?>">
+								<td>
+									 <?php echo $t_date; ?>
+								</td>
+								<td>
+									 <a href="lesson-page?c_id=<?php echo $r_lesson_id; ?>&did=<?php echo $r_course_id; ?>"><?php echo lesson("$r_lesson_id"); ?></a>
+								</td>
+								<td>
+									 <?php echo $r_lesson_des; ?>
+								</td>
+								<td>
+									 <a href="lesson-page?c_id=<?php echo $a_lesson_id; ?>&did=<?php echo $a_course_id; ?>"><?php echo lesson("$a_lesson_id"); ?></a>
+								</td>
+								<td>
+									 <?php echo $a_lesson_des; ?>
+								</td>
+								<td>
+									 <?php echo $sabuq; ?>
+								</td>
+								<td>
+									 <?php echo $sabuqi; ?>
+								</td>
+								<td>
+									 <?php echo $manz; ?>
+								</td>
+								<td><?php echo $teacher; ?></td>
+							</tr>
+							<?php 	
+		$i++;		
+		}
+	}	
+?>
+								</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+					<!-- END SAMPLE TABLE PORTLET-->
+				</div>
+			</div>
+			<!-- END PAGE CONTENT INNER -->
+		</div>
+	</div>
+	<!-- END PAGE CONTENT -->
+</div>
+<!-- END PAGE CONTAINER -->
+<!-- full width -->
+							<div id="full-width" class="modal container fade" tabindex="-1">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+								</div>
+								<div class="portlet box green">
+									<div class="portlet-title">
+										<div class="caption">
+											<i class="fa fa-chevron-right"></i>Search For Previous Month Class History
+										</div>
+									</div>
+									<div class="portlet-body form">
+										<!-- BEGIN FORM-->
+										<form action="history_course_search" method="GET" class="form-horizontal">
+											<div class="form-body">
+												<h3 class="form-section">Please Select Desired Month and Year</h3>
+												<div class="row">
+													<div class="col-md-6">
+														<div class="form-group">
+															<label class="control-label col-md-3">Month</label>
+															<div class="col-md-9">
+																<select required class="form-control" name="month_id"  id="month_id">
+
+																	<?php // source 1: http://www.dmxzone.com/showDetail.asp?NewsId=5102&TypeId=25
+			  	// source 2: http://localhost/phpmyadmin/index.php?db=mydbase&token=651c0063e511c381c9c82ce1fe9b6854
+				$result = mysql_query("SELECT * FROM month ORDER BY month_id ");			  	
+				do {  ?>
+  <option value="<?php echo $row['month_id'];?>"><?php echo $row['month_name'];?> </option>
+  <?php } while ($row = mysql_fetch_assoc($result)); ?>
+</select>
+																<span class="help-block">
+																Please Select Month. </span>
+															</div>
+														</div>
+													</div>
+													<!--/span-->
+													<div class="col-md-6">
+														<div class="form-group">
+															<label class="control-label col-md-3">Year</label>
+															<div class="col-md-9">
+															<select required class="form-control" name="year_id"  id="year_id">
+																<?php // source 1: http://www.dmxzone.com/showDetail.asp?NewsId=5102&TypeId=25
+			  	// source 2: http://localhost/phpmyadmin/index.php?db=mydbase&token=651c0063e511c381c9c82ce1fe9b6854
+				$result = mysql_query("SELECT * FROM school_yr ORDER BY year_id ");			  	
+				do {  ?>
+  <option value="<?php echo $row['year_id'];?>"><?php echo $row['school_year'];?> </option>
+  <?php } while ($row = mysql_fetch_assoc($result)); ?>
+</select>
+<span class="help-block">
+																Please Select Year. </span>
+
+<input type="hidden" id="Course_ID" name="Course_ID"  value="<?php echo base64_encode($Course_ID); ?>" />
+
+															</div>
+														</div>
+													</div>
+													<!--/span-->
+												</div>
+												<!--/row-->
+												</div>
+											<div class="form-actions">
+												<div class="row">
+													<div class="col-md-6">
+														<div class="row">
+															<div class="col-md-offset-3 col-md-9">
+																<button type="submit" class="btn green">Submit</button>
+															</div>
+														</div>
+													</div>
+													<div class="col-md-6">
+													</div>
+												</div>
+											</div>
+										</form>
+										<!-- END FORM-->
+									</div>
+								</div>
+							</div><!-- BEGIN PAGE LEVEL PLUGINS -->
+<script src="../../assets/global/plugins/bootstrap-modal/js/bootstrap-modalmanager.js" type="text/javascript"></script>
+<script src="../../assets/global/plugins/bootstrap-modal/js/bootstrap-modal.js" type="text/javascript"></script>
+<!-- END PAGE LEVEL PLUGINS -->
+<!-- BEGIN PAGE LEVEL SCRIPTS -->
+<script src="../../assets/global/scripts/metronic.js" type="text/javascript"></script>
+<script src="../../assets/admin/layout3/scripts/layout.js" type="text/javascript"></script>
+<script src="../../assets/admin/layout3/scripts/demo.js" type="text/javascript"></script>
+<script src="../../assets/admin/pages/scripts/ui-extended-modals.js"></script>
+<!-- END PAGE LEVEL SCRIPTS -->
+<?php echo $fot; ?>

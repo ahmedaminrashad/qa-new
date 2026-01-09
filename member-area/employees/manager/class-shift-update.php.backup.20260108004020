@@ -1,0 +1,7 @@
+<?php
+require ("../includes/dbconnection.php");
+$cid =$_REQUEST['class_id'];
+$tid =$_REQUEST['techid'];
+			mysql_query( "UPDATE class_history SET teacher_id = '$tid', status = '18' where history_id = '$cid'") or die(mysql_error());
+header('Location: ' . $_SERVER['HTTP_REFERER']);
+?>

@@ -1,0 +1,13 @@
+<?php
+
+  require ("../includes/dbconnection.php");  
+date_default_timezone_set("Africa/Cairo");
+$time_start = date("h:i:s A", time(true));
+?>
+<?php
+	$pid =$_REQUEST['pT'];
+
+	mysql_query("UPDATE test_results SET status_id = '3' WHERE test_id = '$pid' ") or die(mysql_error());  	
+
+	header('Location: ' . $_SERVER['HTTP_REFERER']);
+?>

@@ -1,0 +1,5 @@
+<?php
+//$date = date('Y-m-d', time());
+$data_date1 = date('Y-m-d H:i:S', strtotime('now +3 hour'));
+
+echo $data_date1;

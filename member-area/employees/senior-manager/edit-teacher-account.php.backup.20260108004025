@@ -1,0 +1,877 @@
+<?php session_start(); ?>
+<?php
+include("../includes/session.php");
+  include("../includes/s_manager_rights.php");
+  require ("../includes/dbconnection.php");
+  include("header.php");
+	$pro =$_REQUEST['profile_no'];
+		$result = mysql_query("SELECT * FROM profile Where teacher_id = $pro");
+if (!$result) 
+		{
+		die("Query to show fields from table failed");
+		}
+			$numberOfRows = MYSQL_NUMROWS($result);
+			If ($numberOfRows == 0) 
+				{
+			//echo 'Sorry No Record Found!';
+				}
+			else if ($numberOfRows > 0) 
+				{
+				$i=0;
+			$this_profile_no = MYSQL_RESULT($result,$i,"teacher_id");
+			$tname = MYSQL_RESULT($result,$i,"teacher_name");
+			$fname = MYSQL_RESULT($result,$i,"Father_name");
+			$cnic = MYSQL_RESULT($result,$i,"CNIC");
+			$add = MYSQL_RESULT($result,$i,"Address");
+			$tphone = MYSQL_RESULT($result,$i,"Telephone");
+			$mphone = MYSQL_RESULT($result,$i,"Mobile");
+			$email = MYSQL_RESULT($result,$i,"Email");
+			$age = MYSQL_RESULT($result,$i,"Age");
+			$nat = MYSQL_RESULT($result,$i,"Nationality");
+			$gender = MYSQL_RESULT($result,$i,"g_id");
+			$mat = MYSQL_RESULT($result,$i,"ms_id");
+			$q1 = MYSQL_RESULT($result,$i,"Qualification1");
+			$q2 = MYSQL_RESULT($result,$i,"Qualification2");
+			$q3 = MYSQL_RESULT($result,$i,"Qualification3");
+			$exe = MYSQL_RESULT($result,$i,"Experience");
+			$em_id = MYSQL_RESULT($result,$i,"cat_id");
+			$skype = MYSQL_RESULT($result,$i,"Skype");
+			$sal = MYSQL_RESULT($result,$i,"Salary");
+			$user = MYSQL_RESULT($result,$i,"username");
+			$pass = MYSQL_RESULT($result,$i,"userpass");
+			$i_remk = MYSQL_RESULT($result,$i,"i_remk");
+			$wn1 = MYSQL_RESULT($result,$i,"witness_1");
+			$cnic1 = MYSQL_RESULT($result,$i,"cnic_1");
+			$rel1 = MYSQL_RESULT($result,$i,"relation_1");
+			$mnum1 = MYSQL_RESULT($result,$i,"phone_1");
+			$anum1 = MYSQL_RESULT($result,$i,"aphone_1");
+			$year1 = MYSQL_RESULT($result,$i,"years_1");
+			$add1 = MYSQL_RESULT($result,$i,"address_1");
+			$wn2 = MYSQL_RESULT($result,$i,"witness_2");
+			$cnic2 = MYSQL_RESULT($result,$i,"cnic_2");
+			$rel2 = MYSQL_RESULT($result,$i,"relation_2");
+			$mnum2 = MYSQL_RESULT($result,$i,"phone_2");
+			$anum2 = MYSQL_RESULT($result,$i,"aphone_2");
+			$year2 = MYSQL_RESULT($result,$i,"years_2");
+			$add2 = MYSQL_RESULT($result,$i,"address_2");
+			$doj = MYSQL_RESULT($result,$i,"joining_date");
+			$tz_time = MYSQL_RESULT($result,$i,"time");
+			$tz_diff = MYSQL_RESULT($result,$i,"timezone_dif");
+			$skype_p = MYSQL_RESULT($result,$i,"s_pass");
+			$st1 = MYSQL_RESULT($result,$i,"st1");
+			$st2 = MYSQL_RESULT($result,$i,"st2");
+			$st3 = MYSQL_RESULT($result,$i,"st3");
+			$et1 = MYSQL_RESULT($result,$i,"et1");
+			$et2 = MYSQL_RESULT($result,$i,"et2");
+			$et3 = MYSQL_RESULT($result,$i,"et3");
+			$shift = MYSQL_RESULT($result,$i,"shift_id");
+			$live = MYSQL_RESULT($result,$i,"inout_id");
+			$atphone = MYSQL_RESULT($result,$i,"alt_phone");
+			$amphone = MYSQL_RESULT($result,$i,"alt_moblie");
+			$bank = MYSQL_RESULT($result,$i,"bank");
+			$b_code = MYSQL_RESULT($result,$i,"branch_code");
+			$acc_no = MYSQL_RESULT($result,$i,"account_no");
+			$t_salary = MYSQL_RESULT($result,$i,"salary_amount");
+			$t_rent = MYSQL_RESULT($result,$i,"residence_all");
+			$t_tax = MYSQL_RESULT($result,$i,"tax");
+			$t_title = MYSQL_RESULT($result,$i,"account_title");
+				}#FFF0F5
+				?>
+<?php 
+   if (isset($_POST['cmdSubmit'])) 
+  	{ 		
+			$teacher_name = $_POST['teach_name'];
+			$father_name = $_POST['fname'];
+			$teacher_cnic = $_POST['t_cnic'];
+			$address = $_POST['taddress'];
+			$teacher_phone = $_POST['ttnumber'];
+			$teacher_mobile = $_POST['tmnumber'];
+			$ateacher_phone = $_POST['attnumber'];
+			$ateacher_mobile = $_POST['atmnumber'];
+			$teacher_email = $_POST['temail'];
+			$teacher_age = $_POST['tage'];
+			$teacher_gender = $_POST['tgender'];
+			$teacher_marital = $_POST['tmarital'];
+			$teacher_q1 = $_POST['tq1'];
+			$teacher_q2 = $_POST['tq2'];
+			$teacher_q3 = $_POST['tq3'];
+			$teacher_exe = $_POST['texpi'];
+			$teacher_designation = $_POST['designation'];
+			$teacher_skype = $_POST['skype'];
+			$teacher_spass = $_POST['skype_pass'];
+			$teacher_tzdiff = $_POST['tzdiff'];
+			$teacher_live = $_POST['local_id'];
+			$teacher_nation = $_POST['pnational'];
+			$teacher_timezone = $_POST['timez'];
+			$teacher_salary = $_POST['salary'];
+			$st1 = $_POST['st1'];
+			$et1 = $_POST['et1'];
+			$st2 = $_POST['st2'];
+			$et2 = $_POST['et2'];
+			$st3 = $_POST['st3'];
+			$et3 = $_POST['et3'];
+			$teacher_user = $_POST['tuser'];
+			$teacher_pass = $_POST['tpass'];
+			$witness_name1 = $_POST['wn1'];
+			$witness_cnic1 = $_POST['wcnic1'];
+			$witness_r1 = $_POST['wr1'];
+			$witness_m1 = $_POST['wm1'];
+			$witness_a1 = $_POST['wa1'];
+			$witness_year1 = $_POST['wy1'];
+			$witness_add1 = $_POST['wadd1'];
+			$witness_name2 = $_POST['wn2'];
+			$witness_cnic2 = $_POST['wcnic2'];
+			$witness_r2 = $_POST['wr2'];
+			$witness_m2 = $_POST['wm2'];
+			$witness_a2 = $_POST['wa2'];
+			$witness_year2 = $_POST['wy2'];
+			$witness_add2 = $_POST['wadd2'];
+			$teacher_date = $_POST['jdate'];
+			$teacher_bank = $_POST['abank'];
+			$teacher_bcode = $_POST['acode'];
+			$teacher_acc = $_POST['aacc'];
+			$pppiiiddd = $_POST['proiidd'];
+			$salary_amu = $_POST['tsalary'];
+			$rent_amu = $_POST['trent'];
+			$tax_amu = $_POST['ttax'];
+			mysql_query ("UPDATE profile SET teacher_name = '$teacher_name', Father_name = '$father_name', CNIC = '$teacher_cnic', Address = '$address', Email = '$teacher_email', Mobile = '$teacher_mobile', Telephone = '$teacher_phone', Age = '$teacher_age', g_id = '$teacher_gender', ms_id = '$teacher_marital', Nationality = '$teacher_nation', Qualification1 = '$teacher_q1', Qualification2 = '$teacher_q2', Qualification2 = '$teacher_q3', Experience = '$teacher_exe', Salary = '$teacher_salary', Skype = '$teacher_skype', cat_id = '$teacher_designation', username = '$teacher_user', userpass = '$teacher_pass', witness_1 = '$witness_name1', cnic_1 = '$witness_cnic1', relation_1 = '$witness_r1', phone_1 = '$witness_m1', aphone_1 = '$witness_a1', years_1 = '$witness_year1', address_1 = '$witness_add1', witness_2 = '$witness_name2', cnic_2 = '$witness_cnic2', relation_2 = '$witness_r2', phone_2 = '$witness_m2', aphone_2 = '$witness_a2', years_2 = '$witness_year2', address_2 = '$witness_add2', joining_date = '$teacher_date', s_pass = '$teacher_spass', timezone = '$teacher_timezone', timezone_dif = '$teacher_tzdiff', inout_id = '$teacher_live', st1 = '$st1', st2 = '$st2', st3 = '$st3', et1 = '$et1', et2 = '$et2', et3 = '$et3', alt_phone = '$ateacher_phone', alt_moblie = '$ateacher_mobile', salary_amount = '$salary_amu', residence_all = '$rent_amu', tax = '$tax_amu', bank = '$teacher_bank', branch_code = '$teacher_bcode', account_no = '$teacher_acc' WHERE teacher_id = '$pppiiiddd'") or die(mysql_error()); 
+header("Location: list-of-teachers");
+}
+?>
+<?php
+date_default_timezone_set("Africa/Cairo");
+$sy = date('Y-m-d');
+?>
+<?php echo $main_header; ?>
+<?php echo $tool_bar; ?>
+<?php echo $start_menu; ?>
+<?php echo $main_menu; ?>
+<!-- BEGIN PAGE CONTAINER -->
+<div class="page-container">
+	<!-- BEGIN PAGE HEAD -->
+	<div class="page-head">
+		<div class="container">
+			<!-- BEGIN PAGE TITLE -->
+			<div class="page-title">
+				<h1>Edit<small> Parent Account</small></h1>
+			</div>
+			<!-- END PAGE TITLE -->
+			<!-- BEGIN PAGE TOOLBAR -->
+			<div class="page-toolbar">
+			</div>
+			<!-- END PAGE TOOLBAR -->
+		</div>
+	</div>
+	<!-- END PAGE HEAD -->
+	<!-- BEGIN PAGE CONTENT -->
+	<div class="page-content">
+		<div class="container">
+			<!-- BEGIN PAGE BREADCRUMB -->
+			<ul class="page-breadcrumb breadcrumb">
+				<li>
+					<a href="admin-home">Home</a><i class="fa fa-circle"></i>
+				</li>
+				<li>
+					<a href="parent-accounts">List of Parent Accounts</a><i class="fa fa-circle"></i>
+				</li>
+				<li class="active">
+					 Edit Parent Account
+				</li>
+			</ul>
+			<!-- END PAGE BREADCRUMB -->
+			<!-- BEGIN PAGE CONTENT INNER -->
+			<div class="row">
+				<div class="col-md-12">
+					<div class="tabbable tabbable-custom tabbable-noborder tabbable-reversed">
+						<div class="tab-content">
+								<div class="portlet box green">
+									<div class="portlet-title">
+										<div class="caption">
+											<i class="fa fa-plus"></i>Edit 
+											Parent Details
+										</div>
+										<div class="tools">
+											<a href="javascript:;" class="collapse">
+											</a>
+											<a href="#portlet-config" data-toggle="modal" class="config">
+											</a>
+											<a href="javascript:;" class="reload">
+											</a>
+											<a href="javascript:;" class="remove">
+											</a>
+										</div>
+									</div>
+									<div class="portlet-body form">
+										<!-- BEGIN FORM-->
+										<form method="post" class="form-horizontal">
+											<div class="form-body">
+												<h3 class="form-section">Person 
+												Bio Data of<font color="#44B6AE"> <b><?php echo $tname; ?></b></font></h3>
+												<div class="row">
+													<div class="col-md-6">
+														<div class="form-group">
+															<label class="control-label col-md-3">Teacher Name*</label>
+															<div class="col-md-9">
+																<input required type="text" class="form-control" value="<?php echo $tname; ?>" name="teach_name" id="teach_name">
+															</div>
+														</div>
+													</div>
+													<!--/span-->
+													<div class="col-md-6">
+														<div class="form-group">
+															<label class="control-label col-md-3">Father Name</label>
+															<div class="col-md-9">
+																<input type="text" class="form-control" value="<?php echo $fname; ?>" name="fname" id="fname">
+															</div>
+														</div>
+													</div>
+													<!--/span-->
+												</div>
+												<div class="row">
+													<div class="col-md-6">
+														<div class="form-group">
+															<label class="control-label col-md-3">CNIC*</label>
+															<div class="col-md-9">
+																<input required type="text" class="form-control" value="<?php echo $cnic; ?>" name="t_cnic" id="t_cnic">
+															</div>
+														</div>
+													</div>
+													<!--/span-->
+													<div class="col-md-6">
+														<div class="form-group">
+															<label class="control-label col-md-3">Address</label>
+															<div class="col-md-9">
+																<input type="text" class="form-control" value="<?php echo $add; ?>" name="taddress" id="taddress">
+															</div>
+														</div>
+													</div>
+													<!--/span-->
+												</div>
+												<div class="row">
+													<div class="col-md-6">
+														<div class="form-group">
+															<label class="control-label col-md-3">Telephone</label>
+															<div class="col-md-9">
+																<input type="text" class="form-control" value="<?php echo $tphone; ?>" name="ttnumber" id="ttnumber">
+															</div>
+														</div>
+													</div>
+													<!--/span-->
+													<div class="col-md-6">
+														<div class="form-group">
+															<label class="control-label col-md-3">Mobile*</label>
+															<div class="col-md-9">
+																<input required type="text" class="form-control" value="<?php echo $mphone; ?>" name="tmnumber" id="tmnumber">
+															</div>
+														</div>
+													</div>
+													<!--/span-->
+												</div>
+												<div class="row">
+													<div class="col-md-6">
+														<div class="form-group">
+															<label class="control-label col-md-3">Alt-Phone</label>
+															<div class="col-md-9">
+																<input type="text" class="form-control" value="<?php echo $atphone; ?>" name="attnumber" id="attnumber">
+															</div>
+														</div>
+													</div>
+													<!--/span-->
+													<div class="col-md-6">
+														<div class="form-group">
+															<label class="control-label col-md-3">Alt-Mobile</label>
+															<div class="col-md-9">
+																<input required type="text" class="form-control" value="<?php echo $amphone; ?>" name="atmnumber" id="atmnumber">
+															</div>
+														</div>
+													</div>
+													<!--/span-->
+												</div>
+												<div class="row">
+													<div class="col-md-6">
+														<div class="form-group">
+															<label class="control-label col-md-3">E-mail*</label>
+															<div class="col-md-9">
+																<input type="email" class="form-control" value="<?php echo $email; ?>" name="temail" id="temail" required>
+															</div>
+														</div>
+													</div>
+													<!--/span-->
+													<div class="col-md-6">
+														<div class="form-group">
+															<label class="control-label col-md-3">Age</label>
+															<div class="col-md-9">
+																<input type="text" class="form-control" value="<?php echo $age; ?>" name="tage" id="tage">
+															</div>
+														</div>
+													</div>
+													<!--/span-->
+												</div>
+												<div class="row">
+													<div class="col-md-6">
+														<div class="form-group">
+															<label class="control-label col-md-3">Gender*</label>
+															<div class="col-md-9">
+															<select required class="form-control" name="tgender"  id="tgender" onchange="javascript: return optionList43_SelectedIndex()">
+                      <?php // source 1: http://www.dmxzone.com/showDetail.asp?NewsId=5102&TypeId=25
+			  	// source 2: http://localhost/phpmyadmin/index.php?db=mydbase&token=651c0063e511c381c9c82ce1fe9b6854
+				$result = mysql_query("SELECT * FROM Gender ORDER BY g_id ");			  	
+				do {  ?>
+                      <option value="<?php echo $row['g_id'];?>"><?php echo $row['gender'];?> </option>
+                      <?php } while ($row = mysql_fetch_assoc($result)); ?>
+               </select>
+															</div>
+														</div>
+													</div>
+													<!--/span-->
+													<div class="col-md-6">
+													<div class="form-group">
+															<label class="control-label col-md-3">Marital Status*</label>
+															<div class="col-md-9">
+															<select required class="form-control" name="tmarital"  id="tmarital" onchange="javascript: return optionList43_SelectedIndex()">
+                      <?php // source 1: http://www.dmxzone.com/showDetail.asp?NewsId=5102&TypeId=25
+			  	// source 2: http://localhost/phpmyadmin/index.php?db=mydbase&token=651c0063e511c381c9c82ce1fe9b6854
+				$result = mysql_query("SELECT * FROM marital ORDER BY ms_id ");			  	
+				do {  ?>
+                      <option value="<?php echo $row['ms_id'];?>"><?php echo $row['marital_s'];?> </option>
+                      <?php } while ($row = mysql_fetch_assoc($result)); ?>
+               </select>
+															</div>
+														</div>
+													</div>
+													<!--/span-->
+												</div>
+												<!--/row-->
+												<div class="row">
+													<div class="col-md-6">
+														<div class="form-group">
+															<label class="control-label col-md-3">Qualification 1</label>
+															<div class="col-md-9">
+																<input type="text" class="form-control" value="<?php echo $q1; ?>" name="tq1" id="tq1">
+															</div>
+														</div>
+													</div>
+													<!--/span-->
+													<div class="col-md-6">
+														<div class="form-group">
+															<label class="control-label col-md-3">Qualification 2</label>
+															<div class="col-md-9">
+																<input type="text" class="form-control" value="<?php echo $q2; ?>" name="tq2" id="tq2">
+															</div>
+														</div>
+													</div>
+													<!--/span-->
+												</div>
+												<!--/row-->
+												<div class="row">
+													<div class="col-md-6">
+														<div class="form-group">
+															<label class="control-label col-md-3">Qualification 3</label>
+															<div class="col-md-9">
+																<input type="text" class="form-control" value="<?php echo $q3; ?>" name="tq3" id="tq3">
+															</div>
+														</div>
+													</div>
+													<!--/span-->
+													<div class="col-md-6">
+														<div class="form-group">
+															<label class="control-label col-md-3">Experience</label>
+															<div class="col-md-9">
+																<input type="text" class="form-control" value="<?php echo $exe; ?>" name="texpi" id="texpi">
+															</div>
+														</div>
+													</div>
+													<!--/span-->
+												</div>
+												<!--/row-->
+												<h3 class="form-section"><font color="#44B6AE">Official Details</font></h3>
+												<!--/row-->
+												<div class="row">
+													<div class="col-md-6">
+														<div class="form-group">
+															<label class="control-label col-md-3">Designation</label>
+															<div class="col-md-9">
+																<select required class="form-control" name="designation"  id="designation" onchange="javascript: return optionList43_SelectedIndex()">
+                      <?php // source 1: http://www.dmxzone.com/showDetail.asp?NewsId=5102&TypeId=25
+			  	// source 2: http://localhost/phpmyadmin/index.php?db=mydbase&token=651c0063e511c381c9c82ce1fe9b6854
+				$result = mysql_query("SELECT * FROM employee_catagory ORDER BY cat_id ");			  	
+				do {  ?>
+                      <option value="<?php echo $row['cat_id'];?>"><?php echo $row['cat_name'];?> </option>
+                      <?php } while ($row = mysql_fetch_assoc($result)); ?>
+               </select>
+															</div>
+														</div>
+													</div>
+													<div class="col-md-6">
+														<div class="form-group">
+															<label required class="control-label col-md-3">Salary Package*</label>
+															<div class="col-md-9">
+																<select required class="form-control" name="salary"  id="salary" onchange="javascript: return optionList43_SelectedIndex()">
+                      <?php // source 1: http://www.dmxzone.com/showDetail.asp?NewsId=5102&TypeId=25
+			  	// source 2: http://localhost/phpmyadmin/index.php?db=mydbase&token=651c0063e511c381c9c82ce1fe9b6854
+				$result = mysql_query("SELECT * FROM salary_package ORDER BY salary_id ");			  	
+				do {  ?>
+                      <option value="<?php echo $row['salary_id'];?>"><?php echo $row['salary_name'];?> </option>
+                      <?php } while ($row = mysql_fetch_assoc($result)); ?>
+               </select>
+															</div>
+														</div>
+													</div>
+													<!--/span-->
+												</div>
+												<!--/row-->
+												<div class="row">
+													<div class="col-md-6">
+														<div class="form-group">
+															<label class="control-label col-md-3">Skype ID</label>
+															<div class="col-md-9">
+																<input type="text" class="form-control" value="<?php echo $skype; ?>" name="skype" id="skype">
+															</div>
+														</div>
+													</div>
+													<div class="col-md-6">
+														<div class="form-group">
+															<label class="control-label col-md-3">Password</label>
+															<div class="col-md-9">
+																<input type="text" class="form-control" value="<?php echo $skype_p; ?>" name="skype_pass" id="skype_pass">
+															</div>
+														</div>
+													</div>
+													<!--/span-->
+												</div>
+												<!--/row-->
+												<div class="row">
+													<div class="col-md-6">
+														<div class="form-group">
+															<label required class="control-label col-md-3">Tz-Difference*</label>
+															<div class="col-md-9">
+															<input required type="text" class="form-control" value="<?php echo $tz_diff; ?>" name="tzdiff" id="tzdiff">
+															</div>
+														</div>
+													</div>
+													<!--/span-->
+													<div class="col-md-6">
+													<div class="form-group">
+															<label class="control-label col-md-3">Live in*</label>
+															<div class="col-md-9">
+															<select required class="form-control" name="local_id"  id="local_id" onchange="javascript: return optionList43_SelectedIndex()">
+                      <?php // source 1: http://www.dmxzone.com/showDetail.asp?NewsId=5102&TypeId=25
+			  	// source 2: http://localhost/phpmyadmin/index.php?db=mydbase&token=651c0063e511c381c9c82ce1fe9b6854
+				$result = mysql_query("SELECT * FROM hello ORDER BY inout_id ");			  	
+				do {  ?>
+                      <option value="<?php echo $row['inout_id'];?>"><?php echo $row['inout_name'];?> </option>
+                      <?php } while ($row = mysql_fetch_assoc($result)); ?>
+               </select>
+															</div>
+														</div>
+													</div>
+													<!--/span-->
+												</div>
+												<!--/row-->
+												<div class="row">
+													<div class="col-md-6">
+														<div class="form-group">
+															<label class="control-label col-md-3">Nationality</label>
+															<div class="col-md-9">
+																<input type="text" class="form-control" value="<?php echo $nat; ?>" name="pnational" id="pnational">
+															</div>
+														</div>
+													</div>
+													<div class="col-md-6">
+														<div class="form-group">
+															<label class="control-label col-md-3">TimeZone*</label>
+															<div class="col-md-9">
+																<input required type="text" class="form-control" value="<?php echo $tz_time; ?>" name="timez" id="timez">															</div>
+														</div>
+													</div>
+													<!--/span-->
+												</div>
+												<!--/row-->
+												<div class="row">
+													<div class="col-md-6">
+														<div class="form-group">
+															<label class="control-label col-md-3">Bank</label>
+															<div class="col-md-9">
+																<input type="text" class="form-control" value="<?php echo $bank; ?>" name="abank" id="abank">
+															</div>
+														</div>
+													</div>
+													<div class="col-md-6">
+														<div class="form-group">
+															<label class="control-label col-md-3">Branch Code</label>
+															<div class="col-md-9">
+																<input type="text" class="form-control" value="<?php echo $b_code; ?>" name="acode" id="acode">															</div>
+														</div>
+													</div>
+													<!--/span-->
+												</div>
+												<!--/row-->
+												<div class="row">
+													<div class="col-md-6">
+														<div class="form-group">
+															<label class="control-label col-md-3">Account No.</label>
+															<div class="col-md-9">
+																<input required type="text" class="form-control" value="<?php echo $acc_no; ?>" name="aacc" id="aacc">
+															</div>
+														</div>
+													</div>
+													<div class="col-md-6">
+														<div class="form-group">
+															<label class="control-label col-md-3">Joining Date*</label>
+															<div class="col-md-9">
+																<input required type="text" class="form-control" value="<?php echo $doj; ?>" name="jdate" id="jdate">															</div>
+														</div>
+													</div>
+													<!--/span-->
+												</div>
+												<!--/row-->
+												<div class="row">
+													<div class="col-md-6">
+														<div class="form-group">
+															<label class="control-label col-md-3">Salary Amount</label>
+															<div class="col-md-9">
+																<input required type="text" class="form-control" value="<?php echo $t_salary; ?>" name="tsalary" id="tsalary">
+															</div>
+														</div>
+													</div>
+													<div class="col-md-6">
+														<div class="form-group">
+															<label class="control-label col-md-3">Residence Allowance</label>
+															<div class="col-md-9">
+																<input required type="text" class="form-control" value="<?php echo $t_rent; ?>" name="trent" id="trent">															</div>
+														</div>
+													</div>
+													<!--/span-->
+												</div>
+												<!--/row-->
+												<div class="row">
+													<div class="col-md-6">
+														<div class="form-group">
+															<label class="control-label col-md-3">Tax Amount</label>
+															<div class="col-md-9">
+																<input required type="text" class="form-control" value="<?php echo $t_tax; ?>" name="ttax" id="ttax">
+															</div>
+														</div>
+													</div>
+												<!--/row-->
+												<h3 class="form-section"><font color="#44B6AE">Schedule Details</font></h3>
+												<!--/row-->
+												<div class="row">
+													<div class="col-md-6">
+														<div class="form-group">
+															<label class="control-label col-md-3">Start Time 1*</label>
+															<div class="col-md-9">
+																<select required class="form-control" name="st1"  id="st1" onchange="javascript: return optionList43_SelectedIndex()">
+                      <?php // source 1: http://www.dmxzone.com/showDetail.asp?NewsId=5102&TypeId=25
+			  	// source 2: http://localhost/phpmyadmin/index.php?db=mydbase&token=651c0063e511c381c9c82ce1fe9b6854
+				$result = mysql_query("SELECT * FROM TimeTable ORDER BY TimeID ");			  	
+				do {  ?>
+                      <option value="<?php echo $row['TimeID'];?>"><?php echo $row['TimeList'];?> </option>
+                      <?php } while ($row = mysql_fetch_assoc($result)); ?>
+               </select>
+															</div>
+														</div>
+													</div>
+													<div class="col-md-6">
+														<div class="form-group">
+															<label class="control-label col-md-3">End Time 1*</label>
+															<div class="col-md-9">
+																<select required class="form-control" name="et1"  id="et1" onchange="javascript: return optionList43_SelectedIndex()">
+                      <?php // source 1: http://www.dmxzone.com/showDetail.asp?NewsId=5102&TypeId=25
+			  	// source 2: http://localhost/phpmyadmin/index.php?db=mydbase&token=651c0063e511c381c9c82ce1fe9b6854
+				$result = mysql_query("SELECT * FROM TimeTable ORDER BY TimeID ");			  	
+				do {  ?>
+                      <option value="<?php echo $row['TimeID'];?>"><?php echo $row['TimeList'];?> </option>
+                      <?php } while ($row = mysql_fetch_assoc($result)); ?>
+               </select>
+															</div>
+														</div>
+													</div>
+												</div>
+												<!--/row-->
+												<div class="row">
+													<div class="col-md-6">
+														<div class="form-group">
+															<label class="control-label col-md-3">Start Time 2*</label>
+															<div class="col-md-9">
+																<select required class="form-control" name="st2"  id="st2" onchange="javascript: return optionList43_SelectedIndex()">
+                      <?php // source 1: http://www.dmxzone.com/showDetail.asp?NewsId=5102&TypeId=25
+			  	// source 2: http://localhost/phpmyadmin/index.php?db=mydbase&token=651c0063e511c381c9c82ce1fe9b6854
+				$result = mysql_query("SELECT * FROM TimeTable ORDER BY TimeID ");			  	
+				do {  ?>
+                      <option value="<?php echo $row['TimeID'];?>"><?php echo $row['TimeList'];?> </option>
+                      <?php } while ($row = mysql_fetch_assoc($result)); ?>
+               </select>
+															</div>
+														</div>
+													</div>
+													<div class="col-md-6">
+														<div class="form-group">
+															<label class="control-label col-md-3">End Time 2*</label>
+															<div class="col-md-9">
+																<select required class="form-control" name="et2"  id="et2" onchange="javascript: return optionList43_SelectedIndex()">
+                      <?php // source 1: http://www.dmxzone.com/showDetail.asp?NewsId=5102&TypeId=25
+			  	// source 2: http://localhost/phpmyadmin/index.php?db=mydbase&token=651c0063e511c381c9c82ce1fe9b6854
+				$result = mysql_query("SELECT * FROM TimeTable ORDER BY TimeID ");			  	
+				do {  ?>
+                      <option value="<?php echo $row['TimeID'];?>"><?php echo $row['TimeList'];?> </option>
+                      <?php } while ($row = mysql_fetch_assoc($result)); ?>
+               </select>															
+               												</div>
+														</div>
+													</div>
+												</div>
+												<!--/row-->
+												<div class="row">
+													<div class="col-md-6">
+														<div class="form-group">
+															<label class="control-label col-md-3">Start Time 3*</label>
+															<div class="col-md-9">
+																<select required class="form-control" name="st3"  id="st3" onchange="javascript: return optionList43_SelectedIndex()">
+                      <?php // source 1: http://www.dmxzone.com/showDetail.asp?NewsId=5102&TypeId=25
+			  	// source 2: http://localhost/phpmyadmin/index.php?db=mydbase&token=651c0063e511c381c9c82ce1fe9b6854
+				$result = mysql_query("SELECT * FROM TimeTable ORDER BY TimeID ");			  	
+				do {  ?>
+                      <option value="<?php echo $row['TimeID'];?>"><?php echo $row['TimeList'];?> </option>
+                      <?php } while ($row = mysql_fetch_assoc($result)); ?>
+               </select>
+															</div>
+														</div>
+													</div>
+													<div class="col-md-6">
+														<div class="form-group">
+															<label class="control-label col-md-3">End Time 3*</label>
+															<div class="col-md-9">
+																<select required class="form-control" name="et3"  id="et3" onchange="javascript: return optionList43_SelectedIndex()">
+                      <?php // source 1: http://www.dmxzone.com/showDetail.asp?NewsId=5102&TypeId=25
+			  	// source 2: http://localhost/phpmyadmin/index.php?db=mydbase&token=651c0063e511c381c9c82ce1fe9b6854
+				$result = mysql_query("SELECT * FROM TimeTable ORDER BY TimeID ");			  	
+				do {  ?>
+                      <option value="<?php echo $row['TimeID'];?>"><?php echo $row['TimeList'];?> </option>
+                      <?php } while ($row = mysql_fetch_assoc($result)); ?>
+               </select>
+															</div>
+														</div>
+													</div>
+												</div>
+												<!--/row-->
+												<h3 class="form-section"><font color="#44B6AE">Login Details</font></h3>
+												<!--/row-->
+												<div class="row">
+													<div class="col-md-6">
+														<div class="form-group">
+															<label class="control-label col-md-3">Username*</label>
+															<div class="col-md-9">
+																<input required type="text" class="form-control" value="<?php echo $user; ?>" name="tuser" id="tuser">
+															</div>
+														</div>
+													</div>
+													<div class="col-md-6">
+														<div class="form-group">
+															<label class="control-label col-md-3">Userpass*</label>
+															<div class="col-md-9">
+																<input required type="text" class="form-control" value="<?php echo $pass; ?>" name="tpass" id="tpass">
+															</div>
+														</div>
+													</div>
+												</div>
+												<!--/row-->
+												<h3 class="form-section"><font color="#44B6AE">First Witness Details</font></h3>
+												<!--/row-->
+												<div class="row">
+													<div class="col-md-6">
+														<div class="form-group">
+															<label class="control-label col-md-3">Witness Name</label>
+															<div class="col-md-9">
+																<input type="text" class="form-control" value="<?php echo $wn1; ?>" name="wn1" id="wn1">
+															</div>
+														</div>
+													</div>
+													<div class="col-md-6">
+														<div class="form-group">
+															<label class="control-label col-md-3">CNIC</label>
+															<div class="col-md-9">
+																<input type="text" class="form-control" value="<?php echo $cnic1; ?>" name="wcnic1" id="wcnic1">
+															</div>
+														</div>
+													</div>
+												</div>
+												<!--/row-->
+												<div class="row">
+													<div class="col-md-6">
+														<div class="form-group">
+															<label class="control-label col-md-3">Relation</label>
+															<div class="col-md-9">
+																<input type="text" class="form-control" value="<?php echo $rel1; ?>" name="wr1" id="wr1">
+															</div>
+														</div>
+													</div>
+													<div class="col-md-6">
+														<div class="form-group">
+															<label class="control-label col-md-3">Mobile No.</label>
+															<div class="col-md-9">
+																<input type="text" class="form-control" value="<?php echo $mnum1; ?>" name="wm1" id="wm1">
+															</div>
+														</div>
+													</div>
+												</div>
+												<!--/row-->
+												<div class="row">
+													<div class="col-md-6">
+														<div class="form-group">
+															<label class="control-label col-md-3">Alt-Contact</label>
+															<div class="col-md-9">
+																<input type="text" class="form-control" value="<?php echo $anum1; ?>" name="wa1" id="wa1">
+															</div>
+														</div>
+													</div>
+													<div class="col-md-6">
+														<div class="form-group">
+															<label class="control-label col-md-3">Years</label>
+															<div class="col-md-9">
+																<input type="number" class="form-control" value="<?php echo $year1; ?>" name="wy1" id="wy1">
+															</div>
+														</div>
+													</div>
+												</div>
+												<!--/row-->
+												<div class="row">
+													<div class="col-md-6">
+														<div class="form-group">
+															<label class="control-label col-md-3">Address</label>
+															<div class="col-md-9">
+																<input type="text" class="form-control" value="<?php echo $add1; ?>" name="wadd1" id="wadd1">
+															</div>
+														</div>
+													</div>
+												</div>
+												<!--/row-->
+												<h3 class="form-section"><font color="#44B6AE">Second  Witness Details</font></h3>
+												<!--/row-->
+												<div class="row">
+													<div class="col-md-6">
+														<div class="form-group">
+															<label class="control-label col-md-3">Witness Name</label>
+															<div class="col-md-9">
+																<input type="text" class="form-control" value="<?php echo $wn2; ?>" name="wn2" id="wn2">
+															</div>
+														</div>
+													</div>
+													<div class="col-md-6">
+														<div class="form-group">
+															<label class="control-label col-md-3">CNIC</label>
+															<div class="col-md-9">
+																<input type="text" class="form-control" value="<?php echo $cnic2; ?>" name="wcnic2" id="wcnic2">
+															</div>
+														</div>
+													</div>
+												</div>
+												<!--/row-->
+												<div class="row">
+													<div class="col-md-6">
+														<div class="form-group">
+															<label class="control-label col-md-3">Relation</label>
+															<div class="col-md-9">
+																<input type="text" class="form-control" value="<?php echo $rel2; ?>" name="wr2" id="wr2">
+															</div>
+														</div>
+													</div>
+													<div class="col-md-6">
+														<div class="form-group">
+															<label class="control-label col-md-3">Mobile No.</label>
+															<div class="col-md-9">
+																<input type="text" class="form-control" value="<?php echo $mnum2; ?>" name="wm2" id="wm2">
+															</div>
+														</div>
+													</div>
+												</div>
+												<!--/row-->
+												<div class="row">
+													<div class="col-md-6">
+														<div class="form-group">
+															<label class="control-label col-md-3">Alt-Contact</label>
+															<div class="col-md-9">
+																<input type="text" class="form-control" value="<?php echo $anum2; ?>" name="wa2" id="wa2">
+															</div>
+														</div>
+													</div>
+													<div class="col-md-6">
+														<div class="form-group">
+															<label class="control-label col-md-3">Years</label>
+															<div class="col-md-9">
+																<input type="number" class="form-control" value="<?php echo $year2; ?>" name="wy2" id="wy2">
+															</div>
+														</div>
+													</div>
+												</div>
+												<!--/row-->
+												<div class="row">
+													<div class="col-md-6">
+														<div class="form-group">
+															<label class="control-label col-md-3">Address</label>
+															<div class="col-md-9">
+																<input type="text" class="form-control" value="<?php echo $add2; ?>" name="wadd2" id="wadd2">
+															</div>
+														</div>
+													</div>
+													<input type="hidden" class="form-control" value="<?php echo $pro; ?>" name="proiidd" id="proiidd">
+												</div>
+											<div class="form-actions">
+												<div class="row">
+													<div class="col-md-6">
+														<div class="row">
+															<div class="col-md-offset-3 col-md-9">
+																<button type="submit" name="cmdSubmit" class="btn green">
+																Submit</button>
+																<button type="button" class="btn default">
+																Cancel</button>
+															</div>
+														</div>
+													</div>
+													<div class="col-md-6">
+													</div>
+												</div>
+											</div>
+										</form>
+										<!-- END FORM-->
+									</div>
+								</div>
+													<div class="col-md-6">
+													</div>
+												</div>
+											</div>
+										</form>
+										<!-- END FORM-->
+									</div>
+								</div>
+							</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- END PAGE CONTENT INNER -->
+		</div>
+	</div>
+	<!-- END PAGE CONTENT -->
+</div>
+<!-- END PAGE CONTAINER -->
+<?php echo $fot; ?>
+<script language="javascript" >
+	var form = document.forms[0];
+	//purpose?: to retrieve what users last input on the field..
+	form.st1.value = ("<?php echo $st1; ?>");
+	form.st2.value = ("<?php echo $st2; ?>");
+	form.st3.value = ("<?php echo $st3; ?>");
+	form.et1.value = ("<?php echo $et1; ?>");
+	form.et2.value = ("<?php echo $et2; ?>");
+	form.et3.value = ("<?php echo $et3; ?>");
+	form.salary.value = ("<?php echo $sal; ?>");
+	form.local_id.value = ("<?php echo $live; ?>");
+	form.tgender.value = ("<?php echo $gender; ?>");
+	form.tmarital.value = ("<?php echo $mat; ?>");
+	form.designation.value = ("<?php echo $em_id; ?>");
+	//alert (form.pCityM.value);				
+</script>

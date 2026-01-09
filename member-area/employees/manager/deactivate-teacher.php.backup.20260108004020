@@ -1,0 +1,24 @@
+<?php
+  require ("../includes/dbconnection.php");  
+date_default_timezone_set("Asia/Karachi");
+$time_start = date(" g:i:A", time(true));
+?>
+<?php
+	$pid =$_REQUEST['pteacher'];
+	$pidname =$_REQUEST['pname'];
+	$date = date('d-m-Y', time());
+	$result = mysql_query("SELECT * FROM course Where Teacher = $pid");
+if (!$result) 
+	{
+    die("Query to show fields from table failed");
+	}
+$tnumberOfRows = MYSQL_NUMROWS($result);
+If ($tnumberOfRows == 0){
+			mysql_query("UPDATE profile SET active = '2', dept_id = '8', deactive = '$date' WHERE teacher_id = '$pid'") or die(mysql_error());
+			header('Location: ' . $_SERVER['HTTP_REFERER']);
+			}
+		elseif ($tnumberOfRows > 0) 
+			{
+			echo '<center style=" margin-top: 200px; font-size: larger; color: #FF0000; vertical-align: middle;">You are not allowed to deactivate teacher <b>'.$pidname.'</b>. Total number of students with him/her is '.$tnumberOfRows.'. <a href="list-of-teachers"><button type="button" class="btn red btn-xs">Go Back</button></a></center>';
+			}	
+?>

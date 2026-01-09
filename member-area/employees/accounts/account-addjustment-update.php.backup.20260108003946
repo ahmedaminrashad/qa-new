@@ -1,0 +1,7 @@
+<?php
+require ("../includes/dbconnection.php");
+$rid =$_REQUEST['r_id'];
+$cid =$_REQUEST['csrid'];
+			mysql_query( "UPDATE new_request SET csr_id = '$cid' where request_id = '$rid'") or die(mysql_error()); 
+					header('Location: ' . $_SERVER['HTTP_REFERER']);
+?>

@@ -1,0 +1,115 @@
+<?php session_start(); ?>
+<?php
+include("../includes/session1.php");
+require ("../includes/dbconnection.php");
+include("header-accounts.php");
+
+    if (isset($_POST['cmdSubmit'])) 
+  	{ 		
+		 	$vn= $_POST['ven_name'];
+		 	$vc= $_POST['ven_contact'];
+		 	$va= $_POST['ven_address'];
+			mysql_query ("INSERT INTO vendor (vendor_name, contact, address)
+					VALUES('" . mysql_real_escape_string($vn) . "','$vc','" . mysql_real_escape_string($va) . "')") or die(mysql_error()); 
+					 header(
+			 	"Location: list-of-vendor");
+				}
+?>
+<?php
+date_default_timezone_set("Africa/Cairo");
+$sy = date('Y-m-d');
+?>
+<?php echo $main_header; ?>
+<?php echo $tool_bar; ?>
+<?php echo $start_menu; ?>
+<?php echo $search_bar; ?>
+<?php echo $main_menu; ?>
+<!-- BEGIN PAGE CONTAINER -->
+<div class="page-container">
+	<!-- BEGIN PAGE HEAD -->
+	<div class="page-head">
+		<div class="container">
+			<!-- BEGIN PAGE TITLE -->
+			<div class="page-title">
+				<h1>Add <small>New Vendor</small></h1>
+			</div>
+			<!-- END PAGE TITLE -->
+			<!-- BEGIN PAGE TOOLBAR -->
+			<div class="page-toolbar">
+			</div>
+			<!-- END PAGE TOOLBAR -->
+		</div>
+	</div>
+	<!-- END PAGE HEAD -->
+	<!-- BEGIN PAGE CONTENT -->
+	<div class="page-content">
+		<div class="container">
+			<!-- BEGIN PAGE BREADCRUMB -->
+			<ul class="page-breadcrumb breadcrumb">
+				<li>
+					<a href="admin-home">Home</a><i class="fa fa-circle"></i>
+				</li>
+				<li class="active">
+					 You are adding new vendor
+				</li>
+			</ul>
+			<!-- END PAGE BREADCRUMB -->
+			<!-- BEGIN PAGE CONTENT INNER -->
+			<div class="row">
+				<div class="col-md-12">
+					<div class="tabbable tabbable-custom tabbable-noborder tabbable-reversed">
+						<div class="tab-content">
+								<div class="portlet box green">
+									<div class="portlet-title">
+										<div class="caption">
+											<i class="fa fa-plus"></i>You are adding new vendor
+										</div>
+									</div>
+									<div class="portlet-body form">
+										<!-- BEGIN FORM-->
+										<form action="<?php echo $_SERVER['PHP_SELF']?>" method="post" class="form-horizontal form-row-seperated">
+										<div class="form-group">
+															<label class="control-label col-md-3">
+															<strong>Vendor Name</strong></label>
+															<div class="col-md-4">
+															<input required type="text" placeholder="e.g. Karachi Computer's" name="ven_name" id="ven_name" class="form-control input-circle">															</div>
+												</div>
+												<div class="form-group">
+													<label class="col-md-3 control-label"><strong>Contact Number</strong></label>
+													<div class="col-md-4">
+														<input type="text" placeholder="e.g. +923210000000" name="ven_contact" id="ven_contact" class="form-control input-circle">
+													</div>
+												</div>
+												<div class="form-group">
+													<label class="col-md-3 control-label"><strong>Address</strong></label>
+													<div class="col-md-4">
+														<textarea class="form-control" placeholder="Enter Address" name="ven_address" id="ven_address"></textarea>
+													</div>
+												</div>
+											<div class="form-actions">
+												<div class="row">
+													<div class="col-md-offset-3 col-md-9">
+														<button type="submit" name="cmdSubmit" class="btn btn-circle blue">Submit</button>
+														<button type="button" class="btn btn-circle default">Cancel</button>
+													</div>
+												</div>
+											</div>
+										</form>
+										<!-- END FORM-->
+									</div>
+								</div>
+							</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- END PAGE CONTENT INNER -->
+		</div>
+	</div>
+	<!-- END PAGE CONTENT -->
+</div>
+<!-- END PAGE CONTAINER -->
+<?php echo $fot; ?>

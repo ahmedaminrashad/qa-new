@@ -1,0 +1,11 @@
+<?php session_start(); ?>
+<?php
+include("../includes/session1.php");
+require ("../includes/dbconnection.php");
+date_default_timezone_set("Africa/Cairo");
+$sy11 = date('Y-m-d');
+$man =$_REQUEST['man'];
+$tech =$_REQUEST['tech'];
+			mysql_query( "UPDATE profile SET manager_id = '$man' where teacher_id = '$tech'") or die(mysql_error());
+header('Location: ' . $_SERVER['HTTP_REFERER']);
+?>

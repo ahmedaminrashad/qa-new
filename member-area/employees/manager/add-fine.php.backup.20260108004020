@@ -1,0 +1,12 @@
+<?php session_start(); ?>
+<?php
+require ("../includes/dbconnection.php");
+$ft =$_REQUEST['t_id'];
+$fa =$_REQUEST['amount'];
+$fdes =$_REQUEST['des'];
+$fd =$_REQUEST['date'];
+$fty =$_REQUEST['type'];
+			mysql_query ("INSERT INTO teacher_fine (teacher_id, date, amount, des, type)
+					VALUES('$ft', '$fd', '$fa', '$fdes', '$fty')") or die(mysql_error()); 
+					header('Location: ' . $_SERVER['HTTP_REFERER']);
+?>

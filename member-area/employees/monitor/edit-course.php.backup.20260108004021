@@ -1,0 +1,291 @@
+<?php session_start(); ?>
+<?php
+  include("../includes/session.php");
+  include("../includes/s_manager_rights.php");
+  require ("../includes/dbconnection.php");
+   include("header.php");
+   $cid =$_REQUEST['c_id'];
+$cname =$_REQUEST['cname'];
+	$result = mysql_query("SELECT * FROM dept WHERE dept_id = '$cid'");
+	if (!$result) 
+		{
+		die("Query to show fields from table failed");
+		}
+			$numberOfRows = MYSQL_NUMROWS($result);
+			If ($numberOfRows == 0) 
+				{
+			//echo 'Sorry No Record Found!';
+				}
+			else if ($numberOfRows > 0) 
+				{
+				$i=0;
+			$did = MYSQL_RESULT($result,$i,"dept_id");
+			$cname = MYSQL_RESULT($result,$i,"department");
+			$dcname = MYSQL_RESULT($result,$i,"name");
+			$img = MYSQL_RESULT($result,$i,"image_name");
+			$tid = MYSQL_RESULT($result,$i,"type_id");
+			$pid = MYSQL_RESULT($result,$i,"position_id");
+			$clevel = MYSQL_RESULT($result,$i,"course_level");
+			$cdes = MYSQL_RESULT($result,$i,"course_des");
+			$cage = MYSQL_RESULT($result,$i,"age");
+
+			}
+?>
+<?php
+if (isset($_POST['cmdSubmit'])) 
+  	{ 	
+  $acname= $_POST['course'];
+  $adcname= $_POST['dcourse'];
+  $actype= $_POST['dept'];
+  $aposi= $_POST['pos'];
+  $alev= $_POST['level'];
+  $adesi= $_POST['des'];
+  $acage= $_POST['age'];
+  $acid= $_POST['ccid'];
+
+			mysql_query( "UPDATE dept SET department = '$acname', name = '$adcname', type_id = '$actype', position_id = '$aposi', course_level = '$alev', course_des = '$adesi', age = '$acage' WHERE dept_id = '$acid'") or die(mysql_error()); 
+							 header("Location: course-material");
+				}
+?>
+<?php
+date_default_timezone_set("Africa/Cairo");
+$sy = date('Y-m-d');
+?>
+<?php echo $main_header; ?>
+<head>
+<link href="../assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css" rel="stylesheet" type="text/css"/>
+<link href="../assets/global/plugins/bootstrap-modal/css/bootstrap-modal-bs3patch.css" rel="stylesheet" type="text/css"/>
+<link href="../assets/global/plugins/bootstrap-modal/css/bootstrap-modal.css" rel="stylesheet" type="text/css"/>
+<script src="jquery-1.9.0.min.js"></script>
+    <script>
+      $(document).ready(function() {
+        $(".add").click(function() {
+          $('<div><input class="files" name="user_files[]" type="file" ><span class="rem" ><a href="javascript:void(0);" >Remove</span></div>').appendTo(".contents");
+
+        });
+        $('.contents').on('click', '.rem', function() {
+          $(this).parent("div").remove();
+        });
+
+      });
+    </script>
+  </head>
+<?php echo $tool_bar; ?>
+<?php echo $start_menu; ?>
+<?php echo $main_menu; ?>
+<!-- BEGIN PAGE CONTAINER -->
+<div class="page-container">
+	<!-- BEGIN PAGE HEAD -->
+	<div class="page-head">
+		<div class="container">
+			<!-- BEGIN PAGE TITLE -->
+			<div class="page-title">
+				<h1>Edit <small>Course</small></h1>
+			</div>
+			<!-- END PAGE TITLE -->
+			<!-- BEGIN PAGE TOOLBAR -->
+			<div class="page-toolbar">
+			</div>
+			<!-- END PAGE TOOLBAR -->
+		</div>
+	</div>
+	<!-- END PAGE HEAD -->
+	<!-- BEGIN PAGE CONTENT -->
+	<div class="page-content">
+		<div class="container">
+			<!-- BEGIN PAGE BREADCRUMB -->
+			<ul class="page-breadcrumb breadcrumb">
+				<li>
+					<a href="admin-home">Home</a><i class="fa fa-circle"></i>
+				</li>
+				<li>
+					<a href="course-material">All Courses</a><i class="fa fa-circle"></i>
+				</li>
+				<li class="active">
+					 Edit Course Details
+				</li>
+			</ul>
+			<!-- END PAGE BREADCRUMB -->
+			<!-- BEGIN PAGE CONTENT INNER -->
+			<div class="row">
+				<div class="col-md-12">
+					<div class="tabbable tabbable-custom tabbable-noborder tabbable-reversed">
+						<div class="tab-content">
+								<div class="portlet box green">
+									<div class="portlet-title">
+										<div class="caption">
+											<i class="fa fa-edit"></i>Edit Course Details <?php echo $msg; ?>
+										</div>
+									</div>
+									<div class="portlet-body form">
+										<!-- BEGIN FORM-->
+										<div class="form-body">
+										<form action="<?php echo $_SERVER['PHP_SELF']?>" method="post" class="form-horizontal">
+										<div class="row">
+													<div class="col-md-6">
+														<div class="form-group">
+															<label class="control-label col-md-3">
+															<strong>Course Name*</strong></label>
+															<div class="col-md-9">
+																<input required type="text" value="<?php echo $cname; ?>" name="course" id="course" class="form-control">	
+														</div>
+														</div>
+													</div>
+													<!--/span-->
+													<div class="col-md-6">
+														<div class="form-group">
+															<label class="control-label col-md-3">
+															<strong>Display Name*</strong></label>
+															<div class="col-md-9">
+															<input required type="text" value="<?php echo $dcname; ?>" name="dcourse" id="dcourse" class="form-control">
+														</div>
+													</div>
+													</div>
+													<!--/span-->
+												</div>
+												<div class="row">
+													<div class="col-md-6">
+														<div class="form-group">
+															<label class="control-label col-md-3">
+															<strong>Position*</strong></label>
+															<div class="col-md-9">
+																<input required type="number" value="<?php echo $pid; ?>" name="pos" id="pos" class="form-control">	
+														</div>
+														</div>
+													</div>
+													<!--/span-->
+													<div class="col-md-6">
+														<div class="form-group">
+															<label class="control-label col-md-3">
+															<strong>Age*</strong></label>
+															<div class="col-md-9">
+															<input required type="number" value="<?php echo $cage; ?>" name="age" id="age" class="form-control">														</div>
+													</div>
+													</div>
+													<!--/span-->
+												</div>
+												<div class="row">
+													<div class="col-md-6">
+														<div class="form-group">
+															<label class="control-label col-md-3">
+															<strong>Category*</strong></label>
+															<div class="col-md-9">
+																<select required class="form-control" name="dept"  id="dept" onchange="javascript: return optionList41119_SelectedIndex()">
+              												<?php // source 1: http://www.dmxzone.com/showDetail.asp?NewsId=5102&TypeId=25
+			  	// source 2: http://localhost/phpmyadmin/index.php?db=mydbase&token=651c0063e511c381c9c82ce1fe9b6854
+				$result = mysql_query("SELECT * FROM course_cata WHERE lev_id = 2 ORDER BY cata_id ");			  	
+				do {  ?>
+                      <option value="<?php echo $row['code_id'];?>"><?php echo $row['cata_name'];?> </option>
+                      <?php } while ($row = mysql_fetch_assoc($result)); ?>
+               </select>
+														</div>
+														</div>
+													</div>
+													<!--/span-->
+													<div class="col-md-6">
+														<div class="form-group">
+															<label class="control-label col-md-3">
+															<strong>Description*</strong></label>
+															<div class="col-md-9">
+															<textarea required type="text" name="des" id="des" class="form-control"><?php echo $cdes; ?></textarea>														</div>
+													</div>
+													</div>
+													<!--/span-->
+												</div>
+												<input type="hidden" value="<?php echo $cid; ?>" name="ccid" id="ccid" class="form-control">
+												<div class="row">
+													<div class="col-md-6">
+														<div class="form-group">
+															<label class="control-label col-md-3">
+															<strong>Level*</strong></label>
+															<div class="col-md-9">
+																<select required class="form-control" name="level"  id="level" onchange="javascript: return optionList41119_SelectedIndex()">
+              												<?php // source 1: http://www.dmxzone.com/showDetail.asp?NewsId=5102&TypeId=25
+			  	// source 2: http://localhost/phpmyadmin/index.php?db=mydbase&token=651c0063e511c381c9c82ce1fe9b6854
+				$result = mysql_query("SELECT * FROM course_cata WHERE lev_id = 1 ORDER BY cata_id ");			  	
+				do {  ?>
+                      <option value="<?php echo $row['code_id'];?>"><?php echo $row['cata_name'];?> </option>
+                      <?php } while ($row = mysql_fetch_assoc($result)); ?>
+               </select>
+													</div>
+														</div>
+													</div>
+													<!--/span-->
+													<div class="col-md-6">
+														<div class="form-group">
+															<label class="control-label col-md-3">
+															<strong>Image*</strong></label>
+															<div class="col-md-9">
+															<img src="../uploads/<?php echo $img; ?>"  height="20%" width="20%" alt=""/>														</div>
+													</div>
+													</div>
+													<!--/span-->
+												</div>
+											<div class="form-actions">
+												<div class="row">
+													<div class="col-md-offset-3 col-md-9">
+														<button type="submit" name="cmdSubmit" value="Upload Images" class="btn btn-circle blue">Submit</button>
+														<button type="button" class="btn btn-circle default">Cancel</button>
+													</div>
+												</div>
+											</div>
+										</form>
+										<!-- END FORM-->
+									</div>
+								</div>
+							</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal fade" id="basic" tabindex="-1" role="basic" aria-hidden="true">
+								<div class="modal-dialog">
+									<div class="modal-content">
+										<div class="modal-header">
+											<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+											<h4 class="modal-title">Help!</h4>
+										</div>
+										<div class="modal-body">
+											 <li>1. COURSE NAME will be displayed in LIST OF STUDENTS under course heading.</li>
+											 <li>1. DISPLAY NAME will be displayed on COURSE MATERIAL page.</li>
+											 <li>1. COURSE NAME will be displayed in LIST OF STUDENTS under course heading.</li>
+										</div>
+										<div class="modal-footer">
+											<button type="button" class="btn default" data-dismiss="modal">Close</button>
+										</div>
+									</div>
+									<!-- /.modal-content -->
+								</div>
+								<!-- /.modal-dialog -->
+							</div>
+			</div>
+			<!-- END PAGE CONTENT INNER -->
+		</div>
+	</div>
+	<!-- END PAGE CONTENT -->
+</div>
+<!-- END PAGE CONTAINER -->
+<script>
+$(document).on("click", ".open-AddBookDialog", function () {
+     var myBookId = $(this).data('id');
+     $(".modal-body #bookId").val( myBookId );
+});
+</script>
+<?php echo $fot; ?>
+<script type="text/javascript" src="../assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.js"></script>
+<!-- END PAGE LEVEL PLUGINS -->
+<!-- BEGIN PAGE LEVEL SCRIPTS -->
+<script src="../assets/global/plugins/bootstrap-modal/js/bootstrap-modalmanager.js" type="text/javascript"></script>
+<script src="../assets/global/plugins/bootstrap-modal/js/bootstrap-modal.js" type="text/javascript"></script>
+<!-- END PAGE LEVEL PLUGINS -->
+<!-- BEGIN PAGE LEVEL SCRIPTS -->
+<script src="../assets/admin/pages/scripts/ui-extended-modals.js"></script>
+<script language="javascript" >
+	var form = document.forms[0];
+	//purpose?: to retrieve what users last input on the field..
+	form.dept.value = ("<?php echo $tid; ?>");
+	form.level.value = ("<?php echo $clevel; ?>");
+	//alert (form.pCityM.value);				
+</script>

@@ -1,0 +1,161 @@
+<?php session_start(); ?>
+<?php
+// Enable error reporting
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+ini_set('log_errors', 1);
+
+if (session_status() !== PHP_SESSION_ACTIVE) {
+    session_start();
+}
+
+require("../includes/dbconnection.php");
+require_once("../includes/mysql-compat.php");
+
+// Check database connection
+if (!isset($conn) || !$conn) {
+    die("Database connection failed. Please contact the administrator.");
+}
+  <?php
+  include("../includes/session1.php");
+  require ("../includes/dbconnection.php");
+  $mm_id =$_REQUEST['mon'];
+  $yy_id =$_REQUEST['yyy'];
+function salary1($tr, $mr, $yr)
+{
+// sending query
+   $result = mysql_query("SELECT * FROM teacher_salary WHERE teacher_id = $tr AND MONTH(date) = '$mr' AND YEAR(date) = '$yr'");
+if (!$result) 
+	{
+    die("Please Contact Farooq");
+	}
+$tnumberOfRows = MYSQL_NUMROWS($result);
+If ($tnumberOfRows == 0){
+			echo '<font color="#E26A6A"> <b>Not Genarated</b></font>';
+			}
+		else if ($tnumberOfRows > 0) 
+			{
+			$i=0;
+		
+			$sal_id = MYSQL_RESULT($result,$i,"salary_id");
+			$ttt_id = MYSQL_RESULT($result,$i,"teacher_id");
+			$t_date = MYSQL_RESULT($result,$i,"date");
+			$t_salary = MYSQL_RESULT($result,$i,"monthly_salary");
+			$t_returns = MYSQL_RESULT($result,$i,"company_returns");
+			$t_bouns = MYSQL_RESULT($result,$i,"performance");
+			$t_rent = MYSQL_RESULT($result,$i,"residence_all");
+			$t_fine = MYSQL_RESULT($result,$i,"fine");
+			$t_leave = MYSQL_RESULT($result,$i,"leave_duc");
+			$t_advance = MYSQL_RESULT($result,$i,"advance_duc");
+			$t_tax = MYSQL_RESULT($result,$i,"tax");
+			$t_type = MYSQL_RESULT($result,$i,"type");
+			$t_reduc = MYSQL_RESULT($result,$i,"fine_reduc");
+			$total_add = $t_returns + $t_bouns + $t_rent;
+			$total_sub = $t_fine + $t_leave + $t_advance + $t_tax;
+			$paid = $t_salary + $total_add + $t_reduc - $total_sub;
+
+			echo $paid;
+
+			}
+	}
+
+function abc($er)
+{
+// sending query
+   $result = mysql_query("SELECT * FROM course Where Teacher = $er");
+if (!$result) 
+	{
+    die("Query to show fields from table failed");
+	}
+$tnumberOfRows = MYSQL_NUMROWS($result);
+echo $tnumberOfRows;
+}
+?>
+<table class="table table-hover">
+								<thead>
+								<tr>
+								<th>
+									 #
+								</th>
+								<th>
+									 Teacher Name
+								</th>
+								<th>
+									 No.
+								</th>
+								<th>
+									 Bank
+								</th>
+								<th>
+									 Branch Code
+								</th>
+								<th>
+									 Account No
+								</th>
+								<?php 
+// sending query
+$checkbox = $_POST['checkbox'];
+
+for($i=0;$i<count($checkbox);$i++){
+$del_id = $checkbox[$i];
+$result = mysql_query("SELECT `profile`.*, `Gender`.`gender`, `shift`.`shift_name`, `hello`.`inout_name` FROM
+  			`profile`,`Gender`,`shift`,`hello` WHERE profile.g_id=Gender.g_id and profile.shift_id=shift.shift_id and profile.inout_id=hello.inout_id HAVING teacher_id ='$del_id'");
+if (!$result) 
+	{
+    die("Query to show fields from table failed");
+	}
+$numberOfRows = MYSQL_NUMROWS($result);
+If ($numberOfRows == 0) 
+	{
+	echo 'Sorry No Record Found!';
+	}
+else if ($numberOfRows > 0) 
+	{
+	$i=0;
+	while($row = mysql_fetch_array($result))
+		{		
+	
+				$profile_no = MYSQL_RESULT($result,$i,"teacher_id");
+			$tname = MYSQL_RESULT($result,$i,"teacher_name");
+			$shift = MYSQL_RESULT($result,$i,"shift_name");
+			$q1 = MYSQL_RESULT($result,$i,"Qualification1");
+			$gender = MYSQL_RESULT($result,$i,"gender");
+			$sky = MYSQL_RESULT($result,$i,"Skype");		
+			$pT = MYSQL_RESULT($result,$i,"teacher_id");
+			$spass = MYSQL_RESULT($result,$i,"s_pass");
+			$hello = MYSQL_RESULT($result,$i,"inout_name");
+			$aimage = MYSQL_RESULT($result,$i,"ima");
+			$witness_id1 = MYSQL_RESULT($result,$i,"w1");
+			$witness_id2 = MYSQL_RESULT($result,$i,"w2");
+			$cheque_id = MYSQL_RESULT($result,$i,"cheque");
+			$agree_id = MYSQL_RESULT($result,$i,"agreement");
+			$b_name = MYSQL_RESULT($result,$i,"bank");
+			$b_code = MYSQL_RESULT($result,$i,"branch_code");
+			$b_no = MYSQL_RESULT($result,$i,"account_no");
+							echo '</tr>
+								</thead>
+								<tbody>
+								<tr bgcolor="'.$bgcolor.'">
+								<td>
+									 '.++$counter.'
+								</td>
+								<td>
+									 <b><a href="teacher-schedule?pT='.$profile_no.'">'.$tname.' ('.$profile_no.')</a></b>
+								</td>
+								<td>
+									 '.$b_name.'
+								</td>
+								<td>
+									 '.$b_code.'
+								</td>
+								<td>
+									 '.$b_no.'
+								</td>
+							</tr>';
+		}
+	}
+	}
+?>
+								</tbody>
+								</table>

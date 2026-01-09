@@ -1,0 +1,16 @@
+<?php
+
+  require ("../includes/dbconnection.php"); 
+  
+$tcid =$_REQUEST['cid']; 
+$tdid =$_REQUEST['did'];
+$link =$_REQUEST['link'];
+$p_id =$_REQUEST['parent_id']; 
+$cur_id =$_REQUEST['ttcur'];
+$nod =$_REQUEST['nnod'];
+
+mysql_query("UPDATE sched SET dept_id = '$tdid' WHERE course_id = '$tcid'") or die(mysql_error()); 
+
+	header("Location: update-fee?parent_id=".$p_id."&ttcur=".$cur_id."&nnod=".$nod."&aaa=".$tcid."");
+
+?>

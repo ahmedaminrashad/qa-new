@@ -1,0 +1,269 @@
+<?php
+require ("../../includes/dbconnection.php");
+<?php
+// Enable error reporting
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+ini_set('log_errors', 1);
+
+if (session_status() !== PHP_SESSION_ACTIVE) {
+    session_start();
+}
+
+require_once("../includes/mysql-compat.php");
+
+// Check database connection
+if (!isset($conn) || !$conn) {
+    die("Database connection failed. Please contact the administrator.");
+}
+date_default_timezone_set("Asia/Karachi");
+$y = date('Y');
+// Connect to MySQL
+$link = mysql_connect( $server_db, $username_db, $userpass_db );
+if ( !$link ) {
+  die( 'Could not connect: ' . mysql_error() );
+}
+
+// Select the data base
+$db = mysql_select_db( $name_db, $link );
+if ( !$db ) {
+  die ( 'Error selecting database \'test\' : ' . mysql_error() );
+}
+
+// Fetch the data
+function tajweed($m, $y)
+{
+$c_id=$_REQUEST['c_id'];
+// sending query
+   $result = mysql_query("SELECT * FROM test_results Where course_id = '$c_id' AND status_id = '2' AND MONTH(test_date) = $m AND YEAR(test_date) = $y");
+if (!$result) 
+	{
+    die("Query to show fields from table failed");
+	}
+$tnumberOfRows = MYSQL_NUMROWS($result);
+If ($tnumberOfRows == 0){
+			echo '0.00';
+			}
+		else if ($tnumberOfRows > 0) 
+			{
+			$i=0;
+			while ($i<$tnumberOfRows)
+				{			
+					$tajweed = MYSQL_RESULT($result,$i,"tajweed_marks");	
+			  		echo number_format($tajweed, 2);
+	$i++;	 
+			}
+			}
+	}
+function reading($m, $y)
+{
+$c_id=$_REQUEST['c_id'];
+// sending query
+   $result = mysql_query("SELECT * FROM test_results Where course_id = '$c_id' AND status_id = '2' AND MONTH(test_date) = $m AND YEAR(test_date) = $y");
+if (!$result) 
+	{
+    die("Query to show fields from table failed");
+	}
+$tnumberOfRows = MYSQL_NUMROWS($result);
+If ($tnumberOfRows == 0){
+			echo '0.00';
+			}
+		else if ($tnumberOfRows > 0) 
+			{
+			$i=0;
+			while ($i<$tnumberOfRows)
+				{			
+					$tajweed = MYSQL_RESULT($result,$i,"reading_marks");	
+			  		echo number_format($tajweed, 2);
+	$i++;	 
+			}
+			}
+	}
+function hifz($m, $y)
+{
+$c_id=$_REQUEST['c_id'];
+// sending query
+   $result = mysql_query("SELECT * FROM test_results Where course_id = '$c_id' AND status_id = '2' AND MONTH(test_date) = $m AND YEAR(test_date) = $y");
+if (!$result) 
+	{
+    die("Query to show fields from table failed");
+	}
+$tnumberOfRows = MYSQL_NUMROWS($result);
+If ($tnumberOfRows == 0){
+			echo '0.00';
+			}
+		else if ($tnumberOfRows > 0) 
+			{
+			$i=0;
+			while ($i<$tnumberOfRows)
+				{			
+					$tajweed = MYSQL_RESULT($result,$i,"hifz_marks");	
+			  		echo number_format($tajweed, 2);
+	$i++;	 
+			}
+			}
+	}
+function avg($m, $y)
+{
+$c_id=$_REQUEST['c_id'];
+// sending query
+   $result = mysql_query("SELECT * FROM test_results Where course_id = '$c_id' AND status_id = '2' AND MONTH(test_date) = $m AND YEAR(test_date) = $y");
+if (!$result) 
+	{
+    die("Query to show fields from table failed");
+	}
+$tnumberOfRows = MYSQL_NUMROWS($result);
+If ($tnumberOfRows == 0){
+			echo '0.00';
+			}
+		else if ($tnumberOfRows > 0) 
+			{
+			$i=0;
+			while ($i<$tnumberOfRows)
+				{			
+					$tajweed = MYSQL_RESULT($result,$i,"tajweed_marks");
+					$reading = MYSQL_RESULT($result,$i,"reading_marks");
+					$hifz = MYSQL_RESULT($result,$i,"hifz_marks");
+					$dept_id = MYSQL_RESULT($result,$i,"dept_id");	
+			  		echo number_format(($tajweed+$reading+$hifz)/$dept_id, 2);
+	$i++;	 
+			}
+			}
+	}
+function month($var)
+  {
+			$result = mysql_query("SELECT * FROM month WHERE month_id = $var");
+		if (!$result) 
+			{
+			die("Query to show fields from table failed");
+			}
+		$numberOfRows = MYSQL_NUMROWS($result);
+		If ($numberOfRows == 0){
+			echo '0';
+			}
+		else if ($numberOfRows > 0) 
+			{
+			$i=0;
+			while ($i<$numberOfRows)
+				{			
+					$m_id = MYSQL_RESULT($result,$i,"month_id");
+					$m_name = MYSQL_RESULT($result,$i,"month_name");
+					$m_num = MYSQL_RESULT($result,$i,"num");
+					$s_name = MYSQL_RESULT($result,$i,"short_name");
+			 echo $s_name;		
+	$i++;	 
+			}
+			}
+	}
+date_default_timezone_set("Asia/Karachi");
+$year1 = date('Y');
+$month1 = date('m');
+$month2 = date('m', strtotime('-1 month', strtotime(date("F") . "1")));
+$month3 = date('m', strtotime('-2 month', strtotime(date("F") . "1")));
+$month4 = date('m', strtotime('-3 month', strtotime(date("F") . "1")));
+$month5 = date('m', strtotime('-4 month', strtotime(date("F") . "1")));
+$month6 = date('m', strtotime('-5 month', strtotime(date("F") . "1")));
+$month7 = date('m', strtotime('-6 month', strtotime(date("F") . "1")));
+$month8 = date('m', strtotime('-7 month', strtotime(date("F") . "1")));
+$month9 = date('m', strtotime('-8 month', strtotime(date("F") . "1")));
+$month10 = date('m', strtotime('-9 month', strtotime(date("F") . "1")));
+$month11 = date('m', strtotime('-10 month', strtotime(date("F") . "1")));
+$month12 = date('m', strtotime('-11 month', strtotime(date("F") . "1")));
+if($month2 > $month1){$year2 = $year1-1;} else{$year2 = $year1;}
+if($month3 > $month2){$year3 = $year2-1;} else{$year3 = $year2;}
+if($month4 > $month3){$year4 = $year3-1;} else{$year4 = $year3;}
+if($month5 > $month4){$year5 = $year4-1;} else{$year5 = $year4;}
+if($month6 > $month5){$year6 = $year5-1;} else{$year6 = $year5;}
+if($month7 > $month6){$year7 = $year6-1;} else{$year7 = $year6;}
+if($month8 > $month7){$year8 = $year7-1;} else{$year8 = $year7;}
+if($month9 > $month8){$year9 = $year8-1;} else{$year9 = $year8;}
+if($month10 > $month9){$year10 = $year9-1;} else{$year10 = $year9;}
+if($month11 > $month10){$year11 = $year10-1;} else{$year11 = $year10;}
+if($month12 > $month11){$year12 = $year12-1;} else{$year12 = $year11;}
+?>
+[{
+    "month": "<?php echo month("$month12"); ?>-<?php echo $year12; ?>" ,
+    "tajweed": <?php echo tajweed("$month12","$year12"); ?> ,
+    "reading": <?php echo reading("$month12","$year12"); ?> ,
+    "hifz": <?php echo hifz("$month12","$year12"); ?> ,
+    "avg": <?php echo avg("$month12","$year12"); ?>
+    
+}, {
+    "month": "<?php echo month("$month11"); ?>-<?php echo $year11; ?>" ,
+    "tajweed": <?php echo tajweed("$month11","$year11"); ?> ,
+    "reading": <?php echo reading("$month11","$year11"); ?> ,
+    "hifz": <?php echo hifz("$month11","$year11"); ?> ,
+    "avg": <?php echo avg("$month11","$year11"); ?>
+    
+},{
+    "month": "<?php echo month("$month10"); ?>-<?php echo $year10; ?>" ,
+    "tajweed": <?php echo tajweed("$month10","$year10"); ?> ,
+    "reading": <?php echo reading("$month10","$year10"); ?> ,
+    "hifz": <?php echo hifz("$month10","$year10"); ?> ,
+    "avg": <?php echo avg("$month10","$year10"); ?>
+    
+},{
+    "month": "<?php echo month("$month9"); ?>-<?php echo $year9; ?>" ,
+    "tajweed": <?php echo tajweed("$month9","$year9"); ?> ,
+    "reading": <?php echo reading("$month9","$year9"); ?> ,
+    "hifz": <?php echo hifz("$month9","$year9"); ?> ,
+    "avg": <?php echo avg("$month9","$year9"); ?>
+    
+},{
+    "month": "<?php echo month("$month8"); ?>-<?php echo $year8; ?>" ,
+    "tajweed": <?php echo tajweed("$month8","$year8"); ?> ,
+    "reading": <?php echo reading("$month8","$year8"); ?> ,
+    "hifz": <?php echo hifz("$month8","$year8"); ?> ,
+    "avg": <?php echo avg("$month8","$year8"); ?>
+
+}, {
+    "month": "<?php echo month("$month7"); ?>-<?php echo $year7; ?>" ,
+    "tajweed": <?php echo tajweed("$month7","$year7"); ?> ,
+    "reading": <?php echo reading("$month7","$year7"); ?> ,
+    "hifz": <?php echo hifz("$month7","$year7"); ?> ,
+    "avg": <?php echo avg("$month7","$year7"); ?>
+
+}, {
+    "month": "<?php echo month("$month6"); ?>-<?php echo $year6; ?>" ,
+    "tajweed": <?php echo tajweed("$month6","$year6"); ?> ,
+    "reading": <?php echo reading("$month6","$year6"); ?> ,
+    "hifz": <?php echo hifz("$month6","$year6"); ?> ,
+    "avg": <?php echo avg("$month6","$year6"); ?>
+
+}, {
+    "month": "<?php echo month("$month5"); ?>-<?php echo $year5; ?>" ,
+    "tajweed": <?php echo tajweed("$month5","$year5"); ?> ,
+    "reading": <?php echo reading("$month5","$year5"); ?> ,
+    "hifz": <?php echo hifz("$month5","$year5"); ?> ,
+    "avg": <?php echo avg("$month5","$year5"); ?>
+
+}, {
+    "month": "<?php echo month("$month4"); ?>-<?php echo $year4; ?>" ,
+    "tajweed": <?php echo tajweed("$month4","$year4"); ?> ,
+    "reading": <?php echo reading("$month4","$year4"); ?> ,
+    "hifz": <?php echo hifz("$month4","$year4"); ?> ,
+    "avg": <?php echo avg("$month4","$year4"); ?>
+
+}, {
+    "month": "<?php echo month("$month3"); ?>-<?php echo $year3; ?>" ,
+    "tajweed": <?php echo tajweed("$month3","$year3"); ?> ,
+    "reading": <?php echo reading("$month3","$year3"); ?> ,
+    "hifz": <?php echo hifz("$month3","$year3"); ?> ,
+    "avg": <?php echo avg("$month3","$year3"); ?>
+
+}, {
+    "month": "<?php echo month("$month2"); ?>-<?php echo $year2; ?>" ,
+    "tajweed": <?php echo tajweed("$month2","$year2"); ?> ,
+    "reading": <?php echo reading("$month2","$year2"); ?> ,
+    "hifz": <?php echo hifz("$month2","$year2"); ?> ,
+    "avg": <?php echo avg("$month2","$year2"); ?>
+
+}, {
+    "month": "<?php echo month("$month1"); ?>-<?php echo $year1; ?>" ,
+    "tajweed": <?php echo tajweed("$month1","$year1"); ?> ,
+    "reading": <?php echo reading("$month1","$year1"); ?> ,
+    "hifz": <?php echo hifz("$month1","$year1"); ?> ,
+    "avg": <?php echo avg("$month1","$year1"); ?>
+
+}]

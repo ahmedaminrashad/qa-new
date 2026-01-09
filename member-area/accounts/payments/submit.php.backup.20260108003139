@@ -1,0 +1,92 @@
+<?php
+    require('config.php');
+    require ("../../includes/dbconnection.php");  
+    date_default_timezone_set($TimeZoneCustome);
+
+$time_start = date(" g:i:A", time(true));
+$date = date('d/m/Y', time());
+
+$curl = curl_init();
+$amount=$_POST['amount']*100;
+$currency=$_POST['currency'];
+$session_id=$_POST['session_id'];
+
+$post="currency={$currency}&unit_amount={$amount}&product=prod_PmEnANS8He0NfG";
+header('Content-Type: application/json');
+curl_setopt_array($curl, array(
+    CURLOPT_URL => 'https://api.stripe.com/v1/prices',
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_ENCODING => '',
+    CURLOPT_MAXREDIRS => 10,
+    CURLOPT_TIMEOUT => 0,
+    CURLOPT_FOLLOWLOCATION => true,
+    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+    CURLOPT_CUSTOMREQUEST => 'POST',
+    CURLOPT_POSTFIELDS =>$post,
+    CURLOPT_HTTPHEADER => $header
+));
+
+$response = curl_exec($curl);
+$response=json_decode($response);
+$price= $response->id;
+curl_close($curl);
+$curl = curl_init();
+
+$post="currency={$currency}&line_items[0][price]={$price}&line_items[0][quantity]=1&after_completion[type]=redirect&after_completion[redirect][url]=https://qarabic.com/member-area/accounts/payments/callback?session_id=$session_id";
+
+curl_setopt_array($curl, array(
+    CURLOPT_URL => 'https://api.stripe.com/v1/payment_links',
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_ENCODING => '',
+    CURLOPT_MAXREDIRS => 10,
+    CURLOPT_TIMEOUT => 0,
+    CURLOPT_FOLLOWLOCATION => true,
+    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+    CURLOPT_CUSTOMREQUEST => 'POST',
+    CURLOPT_POSTFIELDS =>$post,
+    CURLOPT_HTTPHEADER => $header
+));
+$paymentLink = curl_exec($curl);
+
+$response=json_decode($paymentLink);
+//print_r($response);
+curl_close($curl);
+
+header("Location: {$response->url}") ;
+
+
+
+/*if (isset($_POST['stripeToken'])) {
+    
+    $amount = $_POST['amount'];
+    $currency = $_POST['currency'];
+    $description= $_POST['description'];
+    
+    
+	\Stripe\Stripe::setVerifySslCerts(false);
+
+	$token = $_POST['stripeToken'];
+
+	 $data = \Stripe\Charge::create(array(
+		"amount" => $amount,
+		"currency" => $currency,
+		"description" => $description,
+		"source" => $token,
+	));
+echo $token."<br>".$amount."<br>".$currency."<br>".$description;
+die();
+    $oid = $data['id'];
+    $status = $data['status'];
+	if($status=="succeeded"){
+      $ids = explode(",",$_POST['checkbox']);
+	   for($i=0;$i<count($ids );$i++){
+	   $pid =$ids[$i];
+     	mysql_query("UPDATE invoice SET status = '2', order_num = '$oid', submit = '$date', d = now() WHERE py_id IN ($pid)");// or die(mysql_error()); 
+	   }
+	   	header("Location: ../payment-done");
+	}else{
+	     header("Location: ../payment-not-done");
+	}
+}else{
+//      header("Location: ../payment-not-done");
+}*/

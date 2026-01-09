@@ -1,0 +1,10 @@
+<?php
+
+  require ("../includes/dbconnection.php");  
+date_default_timezone_set("Africa/Cairo");
+$sy = date('Y-m-d h:i:sa');
+
+	$tkid =$_REQUEST['new_id'];
+	mysql_query("UPDATE task_creator SET clear = '2', status = 2 WHERE task_id = '$tkid'") or die(mysql_error());
+					 header('Location: ' . $_SERVER['HTTP_REFERER']);
+?>

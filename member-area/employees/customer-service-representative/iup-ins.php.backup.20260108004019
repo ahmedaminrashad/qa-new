@@ -1,0 +1,67 @@
+<?php
+  require ("../includes/dbconnection.php");  
+date_default_timezone_set("Africa/Cairo");
+?>
+<?php
+$m =$_REQUEST['month'];
+$dd =$_REQUEST['due'];
+$y =$_REQUEST['year'];
+$p =$_REQUEST['pid'];
+$mn =$_REQUEST['mont'];
+$yr =$_REQUEST['yeat'];
+$link =$_REQUEST['link2'];
+$result = mysql_query ("SELECT * FROM invoice")or die(mysql_error());
+if (!$result) 
+	{
+    die("Query to show fields from table failed");
+	}
+$numberOfRows = MYSQL_NUMROWS($result);
+If ($numberOfRows == 0) 
+	{
+	echo '';
+	}
+else if ($numberOfRows > 0) 
+	{
+	$i=0;
+	while ($i<$numberOfRows)
+		{			
+			$parent_id = MYSQL_RESULT($result,$i,"parent_id");
+			$mon_id = MYSQL_RESULT($result,$i,"mon_id");
+			$y_id = MYSQL_RESULT($result,$i,"y_id");
+			if ($parent_id == $p && $mon_id == $mn && $y_id == $yr){
+			   $result = mysql_query("SELECT `invoice`.*, `month`.`month_name`, `school_yr`.`school_year` FROM `invoice`,`month`,`school_yr` WHERE invoice.mon_id=month.month_id and invoice.y_id=school_yr.year_id having parent_id = '$parent_id'
+  			");
+			 if (!$result) 
+	{
+    die("Query to show fields from table failed");
+	}
+$numberOfRows = MYSQL_NUMROWS($result);
+If ($numberOfRows == 0) 
+	{
+	echo '';
+	}
+else if ($numberOfRows > 0) 
+	{
+	$i=0;
+	while ($i<$numberOfRows)
+		{			
+			$parent = MYSQL_RESULT($result,$i,"parent_name");
+			$mon = MYSQL_RESULT($result,$i,"month_name");
+			$y = MYSQL_RESULT($result,$i,"school_year");
+	$i++;	 
+			}
+			}
+			echo "&nbsp;&nbsp;&nbsp;&nbsp;<font face = 'Verdana, Arial, Helvetica, sans-serif', color = '#FF0000' size='2'><i><b>* You have already send invoice for the month of $mon, $y to $parent.</b> <a href='".$link."'>Go Back</a></i></font><br><br> ";
+			$conflict = true;
+			end;
+			}
+	$i++;	 
+			}
+			}
+if ($conflict != true){
+	mysql_query("INSERT INTO invoice(parent_id, parent_name, fee, issue, due, submit, status, mon_id, y_id, email, telephone, mobile, skype, c_id, currency_id, mode_id, m_id, group_id)
+	SELECT parent_id, parent_name, fee, issue, due, submit, status, mon_id, y_id, email, telephone, mobile, skype, c_id, currency_id, mode_id, m_id, group_id
+	FROM payment") or die(mysql_error());  	
+	header("Location: mailing_list_ins?due=$dd&month=$m&year=$y&pid=$p&link=$link");
+		}
+?>

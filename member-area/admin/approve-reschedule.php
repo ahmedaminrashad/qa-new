@@ -1,0 +1,25 @@
+<?php
+  require ("../includes/dbconnection.php");
+<?php
+// Enable error reporting
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+ini_set('log_errors', 1);
+
+if (session_status() !== PHP_SESSION_ACTIVE) {
+    session_start();
+}
+
+require_once("../includes/mysql-compat.php");
+
+// Check database connection
+if (!isset($conn) || !$conn) {
+    die("Database connection failed. Please contact the administrator.");
+}
+  $o_id =$_REQUEST['original_id'];
+  $h_id =$_REQUEST['his_id'];  
+mysql_query("INSERT INTO class_history (parent_id, course_id, teacher_id, time_start, time_end, start_time_S, end_time_S, start_time_A, end_time_A, duration, dept_id, lesson_id, lesson_discription, adept_id, alesson_id, additional_des, monitor_id, status, type, end_time, activation, teacher_remarks, sabaq, sabaqi, manzil, re_date_admin, re_date_teacher, re_date_student, re_status, date_admin, date_student, date_teacher, le_date_admin, le_date_student, le_date_teacher) SELECT parent_id, course_id, teacher_id, time_start, time_end, start_time_S, end_time_S, start_time_A, end_time_A, duration, dept_id, lesson_id, lesson_discription, adept_id, alesson_id, additional_des, monitor_id, status, type, end_time, activation, teacher_remarks, sabaq, sabaqi, manzil, re_date_admin, re_date_teacher, re_date_student, re_status, date_admin, date_student, date_teacher, le_date_admin, le_date_student, le_date_teacher FROM class_resched WHERE history_id = '$h_id'") or die(mysql_error());
+mysql_query("DELETE FROM class_resched WHERE history_id = '$h_id'") or die(mysql_error());
+header('Location: ' . $_SERVER['HTTP_REFERER']);
+?>

@@ -1,0 +1,66 @@
+<?php
+
+  require ('../includes/dbconnection.php');
+  require ("../includes/smsGateway.php");
+<?php
+// Enable error reporting
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+ini_set('log_errors', 1);
+
+if (session_status() !== PHP_SESSION_ACTIVE) {
+    session_start();
+}
+
+require_once("../includes/mysql-compat.php");
+
+// Check database connection
+if (!isset($conn) || !$conn) {
+    die("Database connection failed. Please contact the administrator.");
+}
+		$acc =$_REQUEST['name'];
+		$com =$_REQUEST['msg'];
+		
+				$result = mysql_query("SELECT * FROM sms_status WHERE service_id = 8");
+ if (!$result) 
+			{
+			die("Query to show fields from table failed");
+			}
+		$numberOfRows = MYSQL_NUMROWS($result);
+		If ($numberOfRows == 0){
+			echo '';
+			}
+		else if ($numberOfRows > 0) 
+			{
+			$i=0;
+			while ($i<$numberOfRows)
+				{			
+					$ser_id = MYSQL_RESULT($result,$i,"service_id");
+					$ser_name = MYSQL_RESULT($result,$i,"service_name");
+					$ser_status = MYSQL_RESULT($result,$i,"service_status");
+					$ser_number = MYSQL_RESULT($result,$i,"service_number");
+					$ser_device = MYSQL_RESULT($result,$i,"device_id");
+					$ser_user = MYSQL_RESULT($result,$i,"sms_user");
+					$ser_pass = MYSQL_RESULT($result,$i,"sms_pass");
+			 if ($ser_status == 1){			
+ $smsGateway = new SmsGateway($ser_user, $ser_pass);
+
+$deviceID = $ser_device;
+$number = $ser_number;
+$message = ''.$ser_name.' NAME: '.$acc.' COMPLAINT: '.$com.'';
+
+$options = [
+'expires_at' => strtotime('+1 hour') // Cancel the message in 1 hour if the message is not yet sent
+];
+
+//Please note options is no required and can be left out
+$result = $smsGateway->sendMessageToNumber($number, $message, $deviceID, $options);
+}
+else {}
+	$i++;	 
+			}
+			}
+				header(
+			 	"Location: thank-you");
+?>

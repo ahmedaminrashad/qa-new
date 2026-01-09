@@ -1,0 +1,101 @@
+<?
+require ("../includes/dbconnection.php");
+$famID=$_GET['famID'];
+$famValue=$_GET['famValue'];
+$famMonth=$_GET['famMonth'];
+$famYear=$_GET['famYear'];
+?>
+<div class="portlet-body">
+<div class="timeline">
+						<div class="timeline-item">
+							<div class="timeline-body">
+								<div class="timeline-body-arrow">
+								</div>
+								<div class="timeline-body-head">
+								<div class="timeline-body-content">
+									<span class="font-grey-cascade">
+									<div id="mytable" class="table-responsive">
+								<table class="table table-hover">
+								<thead>
+								<tr>
+								<th>
+									 Date
+								</th>
+								<th>
+									 Head
+								</th>
+								<th>
+									 Description
+								</th>
+								<th>
+									 Vendor Name
+								</th>
+								<th>
+									 Amount
+								</th>
+								</tr>
+								</thead>
+								<tbody>
+								<?php 
+// sending query
+$result = mysql_query("SELECT `account_entry`.*, `accounts_head`.`account_head_name`, `vendor`.`vendor_name` FROM `account_entry`,`accounts_head`, `vendor` WHERE account_entry.account_head=accounts_head.account_head_id and account_entry.vendor_id=vendor.vendor_id HAVING MONTH(date) = $famMonth AND YEAR(date) = $famYear AND account_head = $famID ORDER BY date");
+	if (!$result) 
+	{
+    die("There is an issue in data");
+	}
+$numberOfRows = MYSQL_NUMROWS($result);
+If ($numberOfRows == 0) 
+	{
+	echo 'No Entry Found';
+	}
+else if ($numberOfRows > 0) 
+	{
+	$i=0;
+	while ($i<$numberOfRows)
+		{		
+			$vdate = MYSQL_RESULT($result,$i,"date");
+			$vdes = MYSQL_RESULT($result,$i,"description");
+			$vname = MYSQL_RESULT($result,$i,"vendor_name");
+			$vmod = MYSQL_RESULT($result,$i,"ac_cat_id");
+			$vamu = MYSQL_RESULT($result,$i,"amount");
+			$vhead = MYSQL_RESULT($result,$i,"account_head_name");
+			$en_head = MYSQL_RESULT($result,$i,"account_head");
+?>
+								<tr bgcolor="<?php echo $bgcolor; ?>">
+								<td>
+									 <?php $date1=date_create("$vdate"); echo date_format($date1,"d/m/Y"); ?>
+								</td>
+								<td>
+									 <?php echo $vhead; ?>
+								</td>
+								<td>
+									 <?php echo $vdes; ?>
+								</td>
+								<td>
+									 <?php echo $vname; ?>
+								</td>
+								<td>
+									 Rs. <?php echo number_format($vamu, 0); ?>
+								</td>
+							</tr>
+						<?php 	
+		$i++;		
+		}
+	}	
+?>
+<tr bgcolor="#E0DFDF">
+								<td colspan="4">
+									Total
+								</td>
+								<td>
+									 Rs. <?php echo $famValue; ?>
+								</td>
+							</tr>
+</tbody>
+								</table>
+								</div>
+								</span>
+								</div>
+							</div>
+						</div>
+										</div></div>

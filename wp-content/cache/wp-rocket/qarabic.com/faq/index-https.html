@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+
+<html class="no-js" lang="en-US" prefix="og: https://ogp.me/ns#">
+	<head><meta charset="UTF-8"><script>if(navigator.userAgent.match(/MSIE|Internet Explorer/i)||navigator.userAgent.match(/Trident\/7\..*?rv:11/i)){var href=document.location.href;if(!href.match(/[?&]nowprocket/)){if(href.indexOf("?")==-1){if(href.indexOf("#")==-1){document.location.href=href+"?nowprocket=1"}else{document.location.href=href.replace("#","?nowprocket=1#")}}else{if(href.indexOf("#")==-1){document.location.href=href+"&nowprocket=1"}else{document.location.href=href.replace("#","&nowprocket=1#")}}}}</script><script>class RocketLazyLoadScripts{constructor(){this.v="1.2.3",this.triggerEvents=["keydown","mousedown","mousemove","touchmove","touchstart","touchend","wheel"],this.userEventHandler=this._triggerListener.bind(this),this.touchStartHandler=this._onTouchStart.bind(this),this.touchMoveHandler=this._onTouchMove.bind(this),this.touchEndHandler=this._onTouchEnd.bind(this),this.clickHandler=this._onClick.bind(this),this.interceptedClicks=[],window.addEventListener("pageshow",t=>{this.persisted=t.persisted}),window.addEventListener("DOMContentLoaded",()=>{this._preconnect3rdParties()}),this.delayedScripts={normal:[],async:[],defer:[]},this.trash=[],this.allJQueries=[]}_addUserInteractionListener(t){if(document.hidden){t._triggerListener();return}this.triggerEvents.forEach(e=>window.addEventListener(e,t.userEventHandler,{passive:!0})),window.addEventListener("touchstart",t.touchStartHandler,{passive:!0}),window.addEventListener("mousedown",t.touchStartHandler),document.addEventListener("visibilitychange",t.userEventHandler)}_removeUserInteractionListener(){this.triggerEvents.forEach(t=>window.removeEventListener(t,this.userEventHandler,{passive:!0})),document.removeEventListener("visibilitychange",this.userEventHandler)}_onTouchStart(t){"HTML"!==t.target.tagName&&(window.addEventListener("touchend",this.touchEndHandler),window.addEventListener("mouseup",this.touchEndHandler),window.addEventListener("touchmove",this.touchMoveHandler,{passive:!0}),window.addEventListener("mousemove",this.touchMoveHandler),t.target.addEventListener("click",this.clickHandler),this._renameDOMAttribute(t.target,"onclick","rocket-onclick"),this._pendingClickStarted())}_onTouchMove(t){window.removeEventListener("touchend",this.touchEndHandler),window.removeEventListener("mouseup",this.touchEndHandler),window.removeEventListener("touchmove",this.touchMoveHandler,{passive:!0}),window.removeEventListener("mousemove",this.touchMoveHandler),t.target.removeEventListener("click",this.clickHandler),this._renameDOMAttribute(t.target,"rocket-onclick","onclick"),this._pendingClickFinished()}_onTouchEnd(t){window.removeEventListener("touchend",this.touchEndHandler),window.removeEventListener("mouseup",this.touchEndHandler),window.removeEventListener("touchmove",this.touchMoveHandler,{passive:!0}),window.removeEventListener("mousemove",this.touchMoveHandler)}_onClick(t){t.target.removeEventListener("click",this.clickHandler),this._renameDOMAttribute(t.target,"rocket-onclick","onclick"),this.interceptedClicks.push(t),t.preventDefault(),t.stopPropagation(),t.stopImmediatePropagation(),this._pendingClickFinished()}_replayClicks(){window.removeEventListener("touchstart",this.touchStartHandler,{passive:!0}),window.removeEventListener("mousedown",this.touchStartHandler),this.interceptedClicks.forEach(t=>{t.target.dispatchEvent(new MouseEvent("click",{view:t.view,bubbles:!0,cancelable:!0}))})}_waitForPendingClicks(){return new Promise(t=>{this._isClickPending?this._pendingClickFinished=t:t()})}_pendingClickStarted(){this._isClickPending=!0}_pendingClickFinished(){this._isClickPending=!1}_renameDOMAttribute(t,e,r){t.hasAttribute&&t.hasAttribute(e)&&(event.target.setAttribute(r,event.target.getAttribute(e)),event.target.removeAttribute(e))}_triggerListener(){this._removeUserInteractionListener(this),"loading"===document.readyState?document.addEventListener("DOMContentLoaded",this._loadEverythingNow.bind(this)):this._loadEverythingNow()}_preconnect3rdParties(){let t=[];document.querySelectorAll("script[type=rocketlazyloadscript]").forEach(e=>{if(e.hasAttribute("src")){let r=new URL(e.src).origin;r!==location.origin&&t.push({src:r,crossOrigin:e.crossOrigin||"module"===e.getAttribute("data-rocket-type")})}}),t=[...new Map(t.map(t=>[JSON.stringify(t),t])).values()],this._batchInjectResourceHints(t,"preconnect")}async _loadEverythingNow(){this.lastBreath=Date.now(),this._delayEventListeners(this),this._delayJQueryReady(this),this._handleDocumentWrite(),this._registerAllDelayedScripts(),this._preloadAllScripts(),await this._loadScriptsFromList(this.delayedScripts.normal),await this._loadScriptsFromList(this.delayedScripts.defer),await this._loadScriptsFromList(this.delayedScripts.async);try{await this._triggerDOMContentLoaded(),await this._triggerWindowLoad()}catch(t){console.error(t)}window.dispatchEvent(new Event("rocket-allScriptsLoaded")),this._waitForPendingClicks().then(()=>{this._replayClicks()}),this._emptyTrash()}_registerAllDelayedScripts(){document.querySelectorAll("script[type=rocketlazyloadscript]").forEach(t=>{t.hasAttribute("data-rocket-src")?t.hasAttribute("async")&&!1!==t.async?this.delayedScripts.async.push(t):t.hasAttribute("defer")&&!1!==t.defer||"module"===t.getAttribute("data-rocket-type")?this.delayedScripts.defer.push(t):this.delayedScripts.normal.push(t):this.delayedScripts.normal.push(t)})}async _transformScript(t){return new Promise((await this._littleBreath(),navigator.userAgent.indexOf("Firefox/")>0||""===navigator.vendor)?e=>{let r=document.createElement("script");[...t.attributes].forEach(t=>{let e=t.nodeName;"type"!==e&&("data-rocket-type"===e&&(e="type"),"data-rocket-src"===e&&(e="src"),r.setAttribute(e,t.nodeValue))}),t.text&&(r.text=t.text),r.hasAttribute("src")?(r.addEventListener("load",e),r.addEventListener("error",e)):(r.text=t.text,e());try{t.parentNode.replaceChild(r,t)}catch(i){e()}}:async e=>{function r(){t.setAttribute("data-rocket-status","failed"),e()}try{let i=t.getAttribute("data-rocket-type"),n=t.getAttribute("data-rocket-src");t.text,i?(t.type=i,t.removeAttribute("data-rocket-type")):t.removeAttribute("type"),t.addEventListener("load",function r(){t.setAttribute("data-rocket-status","executed"),e()}),t.addEventListener("error",r),n?(t.removeAttribute("data-rocket-src"),t.src=n):t.src="data:text/javascript;base64,"+window.btoa(unescape(encodeURIComponent(t.text)))}catch(s){r()}})}async _loadScriptsFromList(t){let e=t.shift();return e&&e.isConnected?(await this._transformScript(e),this._loadScriptsFromList(t)):Promise.resolve()}_preloadAllScripts(){this._batchInjectResourceHints([...this.delayedScripts.normal,...this.delayedScripts.defer,...this.delayedScripts.async],"preload")}_batchInjectResourceHints(t,e){var r=document.createDocumentFragment();t.forEach(t=>{let i=t.getAttribute&&t.getAttribute("data-rocket-src")||t.src;if(i){let n=document.createElement("link");n.href=i,n.rel=e,"preconnect"!==e&&(n.as="script"),t.getAttribute&&"module"===t.getAttribute("data-rocket-type")&&(n.crossOrigin=!0),t.crossOrigin&&(n.crossOrigin=t.crossOrigin),t.integrity&&(n.integrity=t.integrity),r.appendChild(n),this.trash.push(n)}}),document.head.appendChild(r)}_delayEventListeners(t){let e={};function r(t,r){!function t(r){!e[r]&&(e[r]={originalFunctions:{add:r.addEventListener,remove:r.removeEventListener},eventsToRewrite:[]},r.addEventListener=function(){arguments[0]=i(arguments[0]),e[r].originalFunctions.add.apply(r,arguments)},r.removeEventListener=function(){arguments[0]=i(arguments[0]),e[r].originalFunctions.remove.apply(r,arguments)});function i(t){return e[r].eventsToRewrite.indexOf(t)>=0?"rocket-"+t:t}}(t),e[t].eventsToRewrite.push(r)}function i(t,e){let r=t[e];Object.defineProperty(t,e,{get:()=>r||function(){},set(i){t["rocket"+e]=r=i}})}r(document,"DOMContentLoaded"),r(window,"DOMContentLoaded"),r(window,"load"),r(window,"pageshow"),r(document,"readystatechange"),i(document,"onreadystatechange"),i(window,"onload"),i(window,"onpageshow")}_delayJQueryReady(t){let e;function r(r){if(r&&r.fn&&!t.allJQueries.includes(r)){r.fn.ready=r.fn.init.prototype.ready=function(e){return t.domReadyFired?e.bind(document)(r):document.addEventListener("rocket-DOMContentLoaded",()=>e.bind(document)(r)),r([])};let i=r.fn.on;r.fn.on=r.fn.init.prototype.on=function(){if(this[0]===window){function t(t){return t.split(" ").map(t=>"load"===t||0===t.indexOf("load.")?"rocket-jquery-load":t).join(" ")}"string"==typeof arguments[0]||arguments[0]instanceof String?arguments[0]=t(arguments[0]):"object"==typeof arguments[0]&&Object.keys(arguments[0]).forEach(e=>{let r=arguments[0][e];delete arguments[0][e],arguments[0][t(e)]=r})}return i.apply(this,arguments),this},t.allJQueries.push(r)}e=r}r(window.jQuery),Object.defineProperty(window,"jQuery",{get:()=>e,set(t){r(t)}})}async _triggerDOMContentLoaded(){this.domReadyFired=!0,await this._littleBreath(),document.dispatchEvent(new Event("rocket-DOMContentLoaded")),await this._littleBreath(),window.dispatchEvent(new Event("rocket-DOMContentLoaded")),await this._littleBreath(),document.dispatchEvent(new Event("rocket-readystatechange")),await this._littleBreath(),document.rocketonreadystatechange&&document.rocketonreadystatechange()}async _triggerWindowLoad(){await this._littleBreath(),window.dispatchEvent(new Event("rocket-load")),await this._littleBreath(),window.rocketonload&&window.rocketonload(),await this._littleBreath(),this.allJQueries.forEach(t=>t(window).trigger("rocket-jquery-load")),await this._littleBreath();let t=new Event("rocket-pageshow");t.persisted=this.persisted,window.dispatchEvent(t),await this._littleBreath(),window.rocketonpageshow&&window.rocketonpageshow({persisted:this.persisted})}_handleDocumentWrite(){let t=new Map;document.write=document.writeln=function(e){let r=document.currentScript;r||console.error("WPRocket unable to document.write this: "+e);let i=document.createRange(),n=r.parentElement,s=t.get(r);void 0===s&&(s=r.nextSibling,t.set(r,s));let a=document.createDocumentFragment();i.setStart(a,0),a.appendChild(i.createContextualFragment(e)),n.insertBefore(a,s)}}async _littleBreath(){Date.now()-this.lastBreath>45&&(await this._requestAnimFrame(),this.lastBreath=Date.now())}async _requestAnimFrame(){return document.hidden?new Promise(t=>setTimeout(t)):new Promise(t=>requestAnimationFrame(t))}_emptyTrash(){this.trash.forEach(t=>t.remove())}static run(){let t=new RocketLazyLoadScripts;t._addUserInteractionListener(t)}}RocketLazyLoadScripts.run();</script>
+		
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" >
+		<meta http-equiv="X-UA-Compatible" content="IE=Edge">		
+		<link rel="profile" href="https://gmpg.org/xfn/11">
+		<meta name="google-site-verification" content="c8cMwx8JTJsAsVJQb46XdZjafdU77rgjCDjJMERpiQ4" />
+		
+		
+<!-- Search Engine Optimization by Rank Math - https://rankmath.com/ -->
+<title>Frequently Asked Questions | QArabic</title>
+<meta name="description" content="We offer you this page to answer all your questions due to our keenness on healing and your comfort and satisfaction in dealing with us"/>
+<meta name="robots" content="follow, index, max-snippet:-1, max-video-preview:-1, max-image-preview:large"/>
+<link rel="canonical" href="https://qarabic.com/faq/" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Frequently Asked Questions | QArabic" />
+<meta property="og:description" content="We offer you this page to answer all your questions due to our keenness on healing and your comfort and satisfaction in dealing with us" />
+<meta property="og:url" content="https://qarabic.com/faq/" />
+<meta property="og:site_name" content="QArabic" />
+<meta property="article:publisher" content="https://www.facebook.com/qarabicacademy/" />
+<meta property="og:updated_time" content="2022-07-02T13:13:56+00:00" />
+<meta property="og:image" content="https://qarabic.com/wp-content/uploads/2021/12/Violet-and-Green-Childrens-Day-Facebook-Post-1.jpg" />
+<meta property="og:image:secure_url" content="https://qarabic.com/wp-content/uploads/2021/12/Violet-and-Green-Childrens-Day-Facebook-Post-1.jpg" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="628" />
+<meta property="og:image:alt" content="Violet and Green Children&#039;s Day Facebook Post (1)" />
+<meta property="og:image:type" content="image/jpeg" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Frequently Asked Questions | QArabic" />
+<meta name="twitter:description" content="We offer you this page to answer all your questions due to our keenness on healing and your comfort and satisfaction in dealing with us" />
+<meta name="twitter:image" content="https://qarabic.com/wp-content/uploads/2021/12/Violet-and-Green-Childrens-Day-Facebook-Post-1.jpg" />
+<meta name="twitter:label1" content="Time to read" />
+<meta name="twitter:data1" content="2 minutes" />
+<script type="application/ld+json" class="rank-math-schema">{"@context":"https://schema.org","@graph":[{"@type":"BreadcrumbList","@id":"https://qarabic.com/faq/#breadcrumb","itemListElement":[{"@type":"ListItem","position":"1","item":{"@id":"https://qarabic.com","name":"Home"}},{"@type":"ListItem","position":"2","item":{"@id":"https://qarabic.com/faq/","name":"FAQ"}}]}]}</script>
+<!-- /Rank Math WordPress SEO plugin -->
+
+<script type="rocketlazyloadscript" data-rocket-type='application/javascript'  id='pys-version-script'>console.log('PixelYourSite Free version 9.6.0');</script>
+<link rel='dns-prefetch' href='//use.fontawesome.com' />
+
+<link rel="alternate" type="application/rss+xml" title="QArabic &raquo; Feed" href="https://qarabic.com/feed/" />
+<link rel="alternate" type="application/rss+xml" title="QArabic &raquo; Comments Feed" href="https://qarabic.com/comments/feed/" />
+<style id='wp-emoji-styles-inline-css'>
+
+	img.wp-smiley, img.emoji {
+		display: inline !important;
+		border: none !important;
+		box-shadow: none !important;
+		height: 1em !important;
+		width: 1em !important;
+		margin: 0 0.07em !important;
+		vertical-align: -0.1em !important;
+		background: none !important;
+		padding: 0 !important;
+	}
+</style>
+<style id='rank-math-toc-block-style-inline-css'>
+.wp-block-rank-math-toc-block nav ol{counter-reset:item}.wp-block-rank-math-toc-block nav ol li{display:block}.wp-block-rank-math-toc-block nav ol li:before{content:counters(item, ".") ". ";counter-increment:item}
+
+</style>
+<style id='classic-theme-styles-inline-css'>
+/*! This file is auto-generated */
+.wp-block-button__link{color:#fff;background-color:#32373c;border-radius:9999px;box-shadow:none;text-decoration:none;padding:calc(.667em + 2px) calc(1.333em + 2px);font-size:1.125em}.wp-block-file__button{background:#32373c;color:#fff;text-decoration:none}
+</style>
+<style id='global-styles-inline-css'>
+body{--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: #abb8c3;--wp--preset--color--white: #ffffff;--wp--preset--color--pale-pink: #f78da7;--wp--preset--color--vivid-red: #cf2e2e;--wp--preset--color--luminous-vivid-orange: #ff6900;--wp--preset--color--luminous-vivid-amber: #fcb900;--wp--preset--color--light-green-cyan: #7bdcb5;--wp--preset--color--vivid-green-cyan: #00d084;--wp--preset--color--pale-cyan-blue: #8ed1fc;--wp--preset--color--vivid-cyan-blue: #0693e3;--wp--preset--color--vivid-purple: #9b51e0;--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple: linear-gradient(135deg,rgba(6,147,227,1) 0%,rgb(155,81,224) 100%);--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan: linear-gradient(135deg,rgb(122,220,180) 0%,rgb(0,208,130) 100%);--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange: linear-gradient(135deg,rgba(252,185,0,1) 0%,rgba(255,105,0,1) 100%);--wp--preset--gradient--luminous-vivid-orange-to-vivid-red: linear-gradient(135deg,rgba(255,105,0,1) 0%,rgb(207,46,46) 100%);--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray: linear-gradient(135deg,rgb(238,238,238) 0%,rgb(169,184,195) 100%);--wp--preset--gradient--cool-to-warm-spectrum: linear-gradient(135deg,rgb(74,234,220) 0%,rgb(151,120,209) 20%,rgb(207,42,186) 40%,rgb(238,44,130) 60%,rgb(251,105,98) 80%,rgb(254,248,76) 100%);--wp--preset--gradient--blush-light-purple: linear-gradient(135deg,rgb(255,206,236) 0%,rgb(152,150,240) 100%);--wp--preset--gradient--blush-bordeaux: linear-gradient(135deg,rgb(254,205,165) 0%,rgb(254,45,45) 50%,rgb(107,0,62) 100%);--wp--preset--gradient--luminous-dusk: linear-gradient(135deg,rgb(255,203,112) 0%,rgb(199,81,192) 50%,rgb(65,88,208) 100%);--wp--preset--gradient--pale-ocean: linear-gradient(135deg,rgb(255,245,203) 0%,rgb(182,227,212) 50%,rgb(51,167,181) 100%);--wp--preset--gradient--electric-grass: linear-gradient(135deg,rgb(202,248,128) 0%,rgb(113,206,126) 100%);--wp--preset--gradient--midnight: linear-gradient(135deg,rgb(2,3,129) 0%,rgb(40,116,252) 100%);--wp--preset--font-size--small: 13px;--wp--preset--font-size--medium: 20px;--wp--preset--font-size--large: 36px;--wp--preset--font-size--x-large: 42px;--wp--preset--spacing--20: 0.44rem;--wp--preset--spacing--30: 0.67rem;--wp--preset--spacing--40: 1rem;--wp--preset--spacing--50: 1.5rem;--wp--preset--spacing--60: 2.25rem;--wp--preset--spacing--70: 3.38rem;--wp--preset--spacing--80: 5.06rem;--wp--preset--shadow--natural: 6px 6px 9px rgba(0, 0, 0, 0.2);--wp--preset--shadow--deep: 12px 12px 50px rgba(0, 0, 0, 0.4);--wp--preset--shadow--sharp: 6px 6px 0px rgba(0, 0, 0, 0.2);--wp--preset--shadow--outlined: 6px 6px 0px -3px rgba(255, 255, 255, 1), 6px 6px rgba(0, 0, 0, 1);--wp--preset--shadow--crisp: 6px 6px 0px rgba(0, 0, 0, 1);}:where(.is-layout-flex){gap: 0.5em;}:where(.is-layout-grid){gap: 0.5em;}body .is-layout-flex{display: flex;}body .is-layout-flex{flex-wrap: wrap;align-items: center;}body .is-layout-flex > *{margin: 0;}body .is-layout-grid{display: grid;}body .is-layout-grid > *{margin: 0;}:where(.wp-block-columns.is-layout-flex){gap: 2em;}:where(.wp-block-columns.is-layout-grid){gap: 2em;}:where(.wp-block-post-template.is-layout-flex){gap: 1.25em;}:where(.wp-block-post-template.is-layout-grid){gap: 1.25em;}.has-black-color{color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-color{color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-color{color: var(--wp--preset--color--white) !important;}.has-pale-pink-color{color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-color{color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-color{color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-color{color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-color{color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-color{color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-color{color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-color{color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-color{color: var(--wp--preset--color--vivid-purple) !important;}.has-black-background-color{background-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-background-color{background-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-background-color{background-color: var(--wp--preset--color--white) !important;}.has-pale-pink-background-color{background-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-background-color{background-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-background-color{background-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-background-color{background-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-background-color{background-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-background-color{background-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-background-color{background-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-background-color{background-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-background-color{background-color: var(--wp--preset--color--vivid-purple) !important;}.has-black-border-color{border-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-border-color{border-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-border-color{border-color: var(--wp--preset--color--white) !important;}.has-pale-pink-border-color{border-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-border-color{border-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-border-color{border-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-border-color{border-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-border-color{border-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-border-color{border-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-border-color{border-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-border-color{border-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-border-color{border-color: var(--wp--preset--color--vivid-purple) !important;}.has-vivid-cyan-blue-to-vivid-purple-gradient-background{background: var(--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple) !important;}.has-light-green-cyan-to-vivid-green-cyan-gradient-background{background: var(--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan) !important;}.has-luminous-vivid-amber-to-luminous-vivid-orange-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange) !important;}.has-luminous-vivid-orange-to-vivid-red-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-orange-to-vivid-red) !important;}.has-very-light-gray-to-cyan-bluish-gray-gradient-background{background: var(--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray) !important;}.has-cool-to-warm-spectrum-gradient-background{background: var(--wp--preset--gradient--cool-to-warm-spectrum) !important;}.has-blush-light-purple-gradient-background{background: var(--wp--preset--gradient--blush-light-purple) !important;}.has-blush-bordeaux-gradient-background{background: var(--wp--preset--gradient--blush-bordeaux) !important;}.has-luminous-dusk-gradient-background{background: var(--wp--preset--gradient--luminous-dusk) !important;}.has-pale-ocean-gradient-background{background: var(--wp--preset--gradient--pale-ocean) !important;}.has-electric-grass-gradient-background{background: var(--wp--preset--gradient--electric-grass) !important;}.has-midnight-gradient-background{background: var(--wp--preset--gradient--midnight) !important;}.has-small-font-size{font-size: var(--wp--preset--font-size--small) !important;}.has-medium-font-size{font-size: var(--wp--preset--font-size--medium) !important;}.has-large-font-size{font-size: var(--wp--preset--font-size--large) !important;}.has-x-large-font-size{font-size: var(--wp--preset--font-size--x-large) !important;}
+.wp-block-navigation a:where(:not(.wp-element-button)){color: inherit;}
+:where(.wp-block-post-template.is-layout-flex){gap: 1.25em;}:where(.wp-block-post-template.is-layout-grid){gap: 1.25em;}
+:where(.wp-block-columns.is-layout-flex){gap: 2em;}:where(.wp-block-columns.is-layout-grid){gap: 2em;}
+.wp-block-pullquote{font-size: 1.5em;line-height: 1.6;}
+</style>
+<link data-minify="1" rel='stylesheet' id='contact-form-7-css' href='https://qarabic.com/wp-content/cache/min/1/wp-content/plugins/contact-form-7/includes/css/styles.css?ver=1715600628' media='all' />
+<link rel='stylesheet' id='nbcpf-intlTelInput-style-css' href='https://qarabic.com/wp-content/plugins/country-phone-field-contact-form-7/assets/css/intlTelInput.min.css?ver=034ed650842b77ac62b92d0acc823a3b' media='all' />
+<link rel='stylesheet' id='nbcpf-countryFlag-style-css' href='https://qarabic.com/wp-content/plugins/country-phone-field-contact-form-7/assets/css/countrySelect.min.css?ver=034ed650842b77ac62b92d0acc823a3b' media='all' />
+<link data-minify="1" rel='stylesheet' id='wp-post-comment-rating-css' href='https://qarabic.com/wp-content/cache/min/1/wp-content/plugins/wp-post-comment-rating/public/css/wp-post-comment-rating-public.css?ver=1715600628' media='all' />
+<link data-minify="1" rel='stylesheet' id='dashicons-css' href='https://qarabic.com/wp-content/cache/min/1/wp-includes/css/dashicons.min.css?ver=1715600628' media='all' />
+<link data-minify="1" rel='stylesheet' id='twentytwenty-style-css' href='https://qarabic.com/wp-content/cache/min/1/wp-content/themes/qarabic/style.css?ver=1715600628' media='all' />
+<link data-minify="1" rel='stylesheet' id='font-awesome-free-css' href='https://qarabic.com/wp-content/cache/min/1/releases/v5.2.0/css/all.css?ver=1715600628' media='all' />
+<link data-minify="1" rel='stylesheet' id='site-reviews-css' href='https://qarabic.com/wp-content/cache/min/1/wp-content/plugins/site-reviews/assets/styles/default.css?ver=1715600628' media='all' />
+<style id='site-reviews-inline-css'>
+.glsr-star-empty,.glsr-star-rating--stars[class*=" s"]>span{background-image:url(https://qarabic.com/wp-content/plugins/site-reviews/assets/images/stars/default/star-empty.svg)!important;-webkit-mask-image:url(https://qarabic.com/wp-content/plugins/site-reviews/assets/images/stars/default/star-empty.svg)!important;mask-image:url(https://qarabic.com/wp-content/plugins/site-reviews/assets/images/stars/default/star-empty.svg)!important}.glsr-field-is-invalid .glsr-star-rating--stars[class*=" s"]>span{background-image:url(https://qarabic.com/wp-content/plugins/site-reviews/assets/images/stars/default/star-error.svg)!important;-webkit-mask-image:url(https://qarabic.com/wp-content/plugins/site-reviews/assets/images/stars/default/star-error.svg)!important;mask-image:url(https://qarabic.com/wp-content/plugins/site-reviews/assets/images/stars/default/star-error.svg)!important}.glsr-star-half{background-image:url(https://qarabic.com/wp-content/plugins/site-reviews/assets/images/stars/default/star-half.svg)!important;-webkit-mask-image:url(https://qarabic.com/wp-content/plugins/site-reviews/assets/images/stars/default/star-half.svg)!important;mask-image:url(https://qarabic.com/wp-content/plugins/site-reviews/assets/images/stars/default/star-half.svg)!important}.glsr-star-full,.glsr-star-rating--stars[class*=" s"]>span.gl-active,.glsr-star-rating--stars[class*=" s"]>span.gl-active.gl-selected{background-image:url(https://qarabic.com/wp-content/plugins/site-reviews/assets/images/stars/default/star-full.svg)!important;-webkit-mask:url(https://qarabic.com/wp-content/plugins/site-reviews/assets/images/stars/default/star-full.svg)!important;mask:url(https://qarabic.com/wp-content/plugins/site-reviews/assets/images/stars/default/star-full.svg)!important}
+
+</style>
+<script type="rocketlazyloadscript" data-rocket-src="https://qarabic.com/wp-includes/js/jquery/jquery.min.js?ver=3.7.1" id="jquery-core-js" defer></script>
+<script type="rocketlazyloadscript" data-rocket-src="https://qarabic.com/wp-includes/js/jquery/jquery-migrate.min.js?ver=3.4.1" id="jquery-migrate-js" defer></script>
+<script type="rocketlazyloadscript" data-minify="1" data-rocket-src="https://qarabic.com/wp-content/cache/min/1/wp-content/plugins/wp-post-comment-rating/public/js/wp-post-comment-rating-public.js?ver=1715600628" id="wp-post-comment-rating-js" defer></script>
+<script type="rocketlazyloadscript" data-rocket-src="https://qarabic.com/wp-content/plugins/pixelyoursite/dist/scripts/jquery.bind-first-0.2.3.min.js?ver=034ed650842b77ac62b92d0acc823a3b" id="jquery-bind-first-js" defer></script>
+<script type="rocketlazyloadscript" data-rocket-src="https://qarabic.com/wp-content/plugins/pixelyoursite/dist/scripts/js.cookie-2.1.3.min.js?ver=2.1.3" id="js-cookie-pys-js" defer></script>
+<script id="pys-js-extra">
+var pysOptions = {"staticEvents":{"facebook":{"init_event":[{"delay":0,"type":"static","name":"PageView","pixelIds":["753543843464649"],"eventID":"48e06e2d-e643-446d-ae11-8b1fd45bc726","params":{"page_title":"FAQ","post_type":"page","post_id":2575,"plugin":"PixelYourSite","user_role":"guest","event_url":"qarabic.com\/faq\/"},"e_id":"init_event","ids":[],"hasTimeWindow":false,"timeWindow":0,"woo_order":"","edd_order":""}]}},"dynamicEvents":[],"triggerEvents":[],"triggerEventTypes":[],"facebook":{"pixelIds":["753543843464649"],"advancedMatching":{"external_id":"feddbefddcbcfdabbbddeccbcce"},"advancedMatchingEnabled":true,"removeMetadata":false,"contentParams":{"post_type":"page","post_id":2575,"content_name":"FAQ"},"commentEventEnabled":true,"wooVariableAsSimple":false,"downloadEnabled":true,"formEventEnabled":true,"serverApiEnabled":true,"wooCRSendFromServer":false,"send_external_id":null,"fbp":"fb.1.1716809961.6913646800","fbc":""},"ga":{"trackingIds":["G-8PB304KR7Y"],"commentEventEnabled":true,"downloadEnabled":true,"formEventEnabled":true,"crossDomainEnabled":false,"crossDomainAcceptIncoming":false,"crossDomainDomains":[],"isDebugEnabled":[false],"serverContainerUrls":[],"disableAdvertisingFeatures":false,"disableAdvertisingPersonalization":false,"wooVariableAsSimple":true},"debug":"","siteUrl":"https:\/\/qarabic.com","ajaxUrl":"https:\/\/qarabic.com\/wp-admin\/admin-ajax.php","ajax_event":"158cfdf419","enable_remove_download_url_param":"1","cookie_duration":"7","last_visit_duration":"60","enable_success_send_form":"","ajaxForServerEvent":"1","send_external_id":"1","external_id_expire":"180","google_consent_mode":"1","gdpr":{"ajax_enabled":false,"all_disabled_by_api":false,"facebook_disabled_by_api":false,"analytics_disabled_by_api":false,"google_ads_disabled_by_api":false,"pinterest_disabled_by_api":false,"bing_disabled_by_api":false,"externalID_disabled_by_api":false,"facebook_prior_consent_enabled":true,"analytics_prior_consent_enabled":true,"google_ads_prior_consent_enabled":null,"pinterest_prior_consent_enabled":true,"bing_prior_consent_enabled":true,"cookiebot_integration_enabled":false,"cookiebot_facebook_consent_category":"marketing","cookiebot_analytics_consent_category":"statistics","cookiebot_tiktok_consent_category":"marketing","cookiebot_google_ads_consent_category":null,"cookiebot_pinterest_consent_category":"marketing","cookiebot_bing_consent_category":"marketing","consent_magic_integration_enabled":false,"real_cookie_banner_integration_enabled":false,"cookie_notice_integration_enabled":false,"cookie_law_info_integration_enabled":false,"analytics_storage":{"enabled":true,"value":"granted","filter":false},"ad_storage":{"enabled":true,"value":"granted","filter":false},"ad_user_data":{"enabled":true,"value":"granted","filter":false},"ad_personalization":{"enabled":true,"value":"granted","filter":false}},"cookie":{"disabled_all_cookie":false,"disabled_start_session_cookie":false,"disabled_advanced_form_data_cookie":false,"disabled_landing_page_cookie":false,"disabled_first_visit_cookie":false,"disabled_trafficsource_cookie":false,"disabled_utmTerms_cookie":false,"disabled_utmId_cookie":false},"tracking_analytics":{"TrafficSource":"direct","TrafficLanding":"https:\/\/qarabic.com\/faq\/","TrafficUtms":[],"TrafficUtmsId":[]},"woo":{"enabled":false},"edd":{"enabled":false}};
+</script>
+<script type="rocketlazyloadscript" data-minify="1" data-rocket-src="https://qarabic.com/wp-content/cache/min/1/wp-content/plugins/pixelyoursite/dist/scripts/public.js?ver=1715600628" id="pys-js" defer></script>
+<link rel="https://api.w.org/" href="https://qarabic.com/wp-json/" /><link rel="alternate" type="application/json" href="https://qarabic.com/wp-json/wp/v2/pages/2575" /><link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://qarabic.com/xmlrpc.php?rsd" />
+
+<link rel='shortlink' href='https://qarabic.com/?p=2575' />
+<link rel="alternate" type="application/json+oembed" href="https://qarabic.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fqarabic.com%2Ffaq%2F" />
+<link rel="alternate" type="text/xml+oembed" href="https://qarabic.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fqarabic.com%2Ffaq%2F&#038;format=xml" />
+
+		<!-- GA Google Analytics @ https://m0n.co/ga -->
+		<script type="rocketlazyloadscript" async data-rocket-src="https://www.googletagmanager.com/gtag/js?id=G-8PB304KR7Y"></script>
+		<script type="rocketlazyloadscript">
+			window.dataLayer = window.dataLayer || [];
+			function gtag(){dataLayer.push(arguments);}
+			gtag('js', new Date());
+			gtag('config', 'G-8PB304KR7Y');
+		</script>
+
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+<script type="rocketlazyloadscript" async data-rocket-src="https://www.googletagmanager.com/gtag/js?id=UA-190186557-4"></script>
+<script type="rocketlazyloadscript">
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-190186557-4');
+</script>
+
+<meta name="p:domain_verify" content="2d161644cd0999c170fb27b17b0368be"/>
+
+<!-- Google Tag Manager -->
+<script type="rocketlazyloadscript">(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-T9FJ5CG');</script>
+<!-- End Google Tag Manager -->
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '753543843464649');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=753543843464649&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->		<style type="text/css">
+			fieldset.wppcr_rating > legend{
+				color:			}
+
+			.comment-form-comment, .comment-notes {clear:both;}
+			.wppcr_rating {
+				float:left;display: initial;
+			}
+
+			/* :not(:checked) is a filter, so that browsers that don’t support :checked don’t 
+			   follow these rules. Every browser that supports :checked also supports :not(), so
+			   it doesn’t make the test unnecessarily selective */
+			.wppcr_rating:not(:checked) > input {
+				position:absolute;
+				/*top:-9999px;*/
+				clip:rect(0,0,0,0);
+			}
+
+			.wppcr_rating:not(:checked) > label {
+				float:right;
+				width:1em !important;
+				padding:0;
+				overflow:hidden;
+				white-space:nowrap;
+				cursor:pointer;
+				font-size:22px;
+				line-height:1.2;
+				color:#ddd !important;
+				text-shadow:1px 1px #bbb, 1px 1px #666, .1em .1em .2em rgba(0,0,0,.2);
+			}
+
+			.wppcr_rating:not(:checked) > label:before {
+				content: '★ ';
+			}
+
+			.wppcr_rating > input:checked ~ label {
+				color: #ea0 !important;
+				text-shadow:1px 1px #bbb, 1px 1px #666, .1em .1em .2em rgba(0,0,0,.5);
+			}
+
+			.wppcr_rating:not(:checked) > label:hover,
+			.wppcr_rating:not(:checked) > label:hover ~ label {
+				color: #ffd700 !important;
+				text-shadow:1px 1px #bbb, 1px 1px #666, .1em .1em .2em rgba(0,0,0,.5);
+			}
+
+			.wppcr_rating > input:checked + label:hover,
+			.wppcr_rating > input:checked + label:hover ~ label,
+			.wppcr_rating > input:checked ~ label:hover,
+			.wppcr_rating > input:checked ~ label:hover ~ label,
+			.wppcr_rating > label:hover ~ input:checked ~ label {
+				color: #ea0 !important;
+				text-shadow:1px 1px goldenrod, 1px 1px #B57340, .1em .1em .2em rgba(0,0,0,.5);
+			}
+
+			.wppcr_rating > label:active {
+				position:relative;
+				top:2px;
+				left:2px;
+			}
+			p.logged-in-as {clear:both;}
+			span.wpcr_author_stars, span.wpcr_author_stars span {
+				display: block;
+				background: url(https://qarabic.com/wp-content/plugins/wp-post-comment-rating/public/images/yelstars.png) 0 -16px repeat-x;
+				width: 80px;
+				height: 16px;
+			}
+
+			span.wpcr_author_stars span {
+				background-position: 0 0;
+			}
+			span.wpcr_averageStars, span.wpcr_averageStars span {
+				display: block;
+				background: url(https://qarabic.com/wp-content/plugins/wp-post-comment-rating/public/images/yelstars.png) 0 -16px repeat-x;
+				width: 80px;
+				height: 16px;
+			}
+
+			span.wpcr_averageStars span {
+				background-position: 0 0;
+			}
+
+			/*for tooltip*/
+			.wpcr_tooltip, .wpcr_inline{
+				display: inline;
+				position: relative;
+				width:auto;
+				float:left;
+				font-size: 12px;
+			}
+			a.wpcr_tooltip span.wpcr_stars, .wpcr_inline span.wpcr_stars{float:left;font-size: 14px;}
+			a.wpcr_tooltip span.wpcr_averageStars, a.wpcr_inline span.wpcr_averageStars {float:left; margin:2px 5px 0px 5px;}
+			
+			.wpcr_tooltip:hover:after{
+				background-color: rgba(0,0,0,.8);
+				border-radius: 5px;
+				bottom: 26px;
+				color: #fff;
+				content: attr(title);
+				left: 20%;
+				padding: 5px 10px;
+				position: absolute;
+				z-index: 98;
+				width: 205px;
+				border-radius: 7px;
+				font-size: 13px;
+			}
+			.wpcr_tooltip:hover:before{
+				border: solid;
+				border-color: rgba(0,0,0,.8) transparent;
+				border-width: 6px 6px 0 6px;
+				bottom: 20px;
+				content: "";
+				left: 50%;
+				position: absolute;
+				z-index: 99;
+			}
+			.wpcr_aggregate{float: left;display: inline-block;width: auto;line-height: 20px;}
+			#hide-stars {display:none;}
+			#review_form .wppcr_rating {display:none;}
+			#reviews .wpcr_author_stars {display:none;}
+			.col-2 .aggr_options {
+				margin-bottom: 5px;
+				display: inline-block;
+			}
+			.wpcr_floating_links, .wpcr_ss_links{position: fixed;left: auto;right:0;
+			z-index: 99999;max-width: 3.2%; width: 3.2% !important;}
+			.wpcr_floating_links{top:40%}
+			.wpcr_ss_links{top:56%}
+			.wpcr_floating_links ul, .wpcr_ss_links ul{list-style: none;margin: 0px;padding: 0;}
+			.wpcr_floating_links li:before, .wpcr_ss_links li:before{display:none !important;}
+			.wpcr_floating_links li, .wpcr_ss_links li{
+				padding: 5px 12px;
+				background-color: #fff;
+				box-shadow: 1px 1px 2px 2px #ccc;
+				text-align: center;
+				margin: 0 !important;
+			}
+			
+		</style>
+		<!-- sitelink-search-box Schema optimized by Schema Pro --><script type="application/ld+json">{"@context":"https:\/\/schema.org","@type":"WebSite","name":"QArabic","url":"https:\/\/qarabic.com","potentialAction":[{"@type":"SearchAction","target":"https:\/\/qarabic.com\/?s={search_term_string}","query-input":"required name=search_term_string"}]}</script><!-- / sitelink-search-box Schema optimized by Schema Pro --><!-- breadcrumb Schema optimized by Schema Pro --><script type="application/ld+json">{"@context":"https:\/\/schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https:\/\/qarabic.com\/","name":"Home"}},{"@type":"ListItem","position":2,"item":{"@id":"https:\/\/qarabic.com\/faq\/","name":"FAQ"}}]}</script><!-- / breadcrumb Schema optimized by Schema Pro -->		<script type="rocketlazyloadscript">
+			( function() {
+				window.onpageshow = function( event ) {
+					// Defined window.wpforms means that a form exists on a page.
+					// If so and back/forward button has been clicked,
+					// force reload a page to prevent the submit button state stuck.
+					if ( typeof window.wpforms !== 'undefined' && event.persisted ) {
+						window.location.reload();
+					}
+				};
+			}() );
+		</script>
+			<script>document.documentElement.className = document.documentElement.className.replace( 'no-js', 'js' );</script>
+	
+<!-- Meta Pixel Code -->
+<script type='text/javascript'>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+document,'script','https://connect.facebook.net/en_US/fbevents.js?v=next');
+</script>
+<!-- End Meta Pixel Code -->
+
+      <script type="rocketlazyloadscript" data-rocket-type='text/javascript'>
+        var url = window.location.origin + '?ob=open-bridge';
+        fbq('set', 'openbridge', '753543843464649', url);
+      </script>
+    <script type="rocketlazyloadscript" data-rocket-type='text/javascript'>fbq('init', '753543843464649', {}, {
+    "agent": "wordpress-6.5.3-3.0.16"
+})</script><script type="rocketlazyloadscript" data-rocket-type='text/javascript'>
+    fbq('track', 'PageView', []);
+  </script>
+<!-- Meta Pixel Code -->
+<noscript>
+<img height="1" width="1" style="display:none" alt="fbpx"
+src="https://www.facebook.com/tr?id=753543843464649&ev=PageView&noscript=1" />
+</noscript>
+<!-- End Meta Pixel Code -->
+			<style id="wpsp-style-frontend"></style>
+			<link rel="icon" href="https://qarabic.com/wp-content/uploads/2022/06/cropped-favicon-32x32.png" sizes="32x32" />
+<link rel="icon" href="https://qarabic.com/wp-content/uploads/2022/06/cropped-favicon-192x192.png" sizes="192x192" />
+<link rel="apple-touch-icon" href="https://qarabic.com/wp-content/uploads/2022/06/cropped-favicon-180x180.png" />
+<meta name="msapplication-TileImage" content="https://qarabic.com/wp-content/uploads/2022/06/cropped-favicon-270x270.png" />
+		<style id="wp-custom-css">
+			.glsr-default button.glsr-button {
+    border: none !important;
+    background: #7a1c1a !important;
+}		</style>
+		<style id="wpforms-css-vars-root">
+				:root {
+					--wpforms-field-border-radius: 3px;
+--wpforms-field-border-style: solid;
+--wpforms-field-border-size: 1px;
+--wpforms-field-background-color: #ffffff;
+--wpforms-field-border-color: rgba( 0, 0, 0, 0.25 );
+--wpforms-field-border-color-spare: rgba( 0, 0, 0, 0.25 );
+--wpforms-field-text-color: rgba( 0, 0, 0, 0.7 );
+--wpforms-field-menu-color: #ffffff;
+--wpforms-label-color: rgba( 0, 0, 0, 0.85 );
+--wpforms-label-sublabel-color: rgba( 0, 0, 0, 0.55 );
+--wpforms-label-error-color: #d63637;
+--wpforms-button-border-radius: 3px;
+--wpforms-button-border-style: none;
+--wpforms-button-border-size: 1px;
+--wpforms-button-background-color: #066aab;
+--wpforms-button-border-color: #066aab;
+--wpforms-button-text-color: #ffffff;
+--wpforms-page-break-color: #066aab;
+--wpforms-background-image: none;
+--wpforms-background-position: center center;
+--wpforms-background-repeat: no-repeat;
+--wpforms-background-size: cover;
+--wpforms-background-width: 100px;
+--wpforms-background-height: 100px;
+--wpforms-background-color: rgba( 0, 0, 0, 0 );
+--wpforms-background-url: none;
+--wpforms-container-padding: 0px;
+--wpforms-container-border-style: none;
+--wpforms-container-border-width: 1px;
+--wpforms-container-border-color: #000000;
+--wpforms-container-border-radius: 3px;
+--wpforms-field-size-input-height: 43px;
+--wpforms-field-size-input-spacing: 15px;
+--wpforms-field-size-font-size: 16px;
+--wpforms-field-size-line-height: 19px;
+--wpforms-field-size-padding-h: 14px;
+--wpforms-field-size-checkbox-size: 16px;
+--wpforms-field-size-sublabel-spacing: 5px;
+--wpforms-field-size-icon-size: 1;
+--wpforms-label-size-font-size: 16px;
+--wpforms-label-size-line-height: 19px;
+--wpforms-label-size-sublabel-font-size: 14px;
+--wpforms-label-size-sublabel-line-height: 17px;
+--wpforms-button-size-font-size: 17px;
+--wpforms-button-size-height: 41px;
+--wpforms-button-size-padding-h: 15px;
+--wpforms-button-size-margin-top: 10px;
+--wpforms-container-shadow-size-box-shadow: none;
+
+				}
+			</style>	</head>
+
+	<body class="page-template page-template-faqs page-template-faqs-php page page-id-2575 wp-embed-responsive wp-schema-pro-2.7.1 singular enable-search-modal missing-post-thumbnail has-no-pagination not-showing-comments show-avatars faqs footer-top-hidden">
+
+		<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-T9FJ5CG"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+    
+<header>
+   <div class="headerbg__blank">
+      <div class="headerbg bg-white headroom headroom--top headroom--not-bottom">
+         <div class="container">
+            <div class="d-flex align-items-center justify-content-between">
+               <a class="d-block header-logo" href="https://qarabic.com/">
+               <img class="headerbg__logo" src="https://qarabic.com/wp-content/uploads/2022/06/qarabic-logo.png" alt="QArabic">
+               </a>
+               <div class="d-flex align-items-center">
+				   <a class="headerbutton px-24 ml-lg-4 ml-md-3 ml-0 font-19 font-w700 d-flex align-items-center" href="https://qarabic.com/">
+					   <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <rect x="0" y="0" width="24" height="24"/>
+        <path d="M3.95709826,8.41510662 L11.47855,3.81866389 C11.7986624,3.62303967 12.2013376,3.62303967 12.52145,3.81866389 L20.0429,8.41510557 C20.6374094,8.77841684 21,9.42493654 21,10.1216692 L21,19.0000642 C21,20.1046337 20.1045695,21.0000642 19,21.0000642 L4.99998155,21.0000673 C3.89541205,21.0000673 2.99998155,20.1046368 2.99998155,19.0000673 L2.99999828,10.1216672 C2.99999935,9.42493561 3.36258984,8.77841732 3.95709826,8.41510662 Z M10,13 C9.44771525,13 9,13.4477153 9,14 L9,17 C9,17.5522847 9.44771525,18 10,18 L14,18 C14.5522847,18 15,17.5522847 15,17 L15,14 C15,13.4477153 14.5522847,13 14,13 L10,13 Z" fill="#000000"/>
+    </g>
+</svg>
+                  <span class="d-none d-lg-inline-block">Home</span>
+                  </a>
+				   
+				   
+                  <a class="blockmenusfull__open headerbutton px-24 ml-lg-4 ml-md-3 ml-0 font-19 font-w700 d-flex align-items-center" href="javascript:void(0)">
+					  <img class="img-h20 mr-1" src="https://qarabic.com/wp-content/themes/qarabic/assets/img/icon01.svg" alt="Menu">
+                  <span class="d-none d-lg-inline-block">Main Menu</span>
+                  </a>
+				   
+				   
+                  <a class="headerbutton px-24 ml-lg-4 ml-md-3 ml-0 font-19 font-w700 d-flex align-items-center" data-toggle="modal" data-target="#modalcontact" href="#modalcontact">
+					  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                        <path d="M17.707,12.293c-0.391-0.391-1.023-0.391-1.414,0l-1.594,1.594c-0.739-0.22-2.118-0.72-2.992-1.594 s-1.374-2.253-1.594-2.992l1.594-1.594c0.391-0.391,0.391-1.023,0-1.414l-4-4c-0.391-0.391-1.023-0.391-1.414,0L3.581,5.005 c-0.38,0.38-0.594,0.902-0.586,1.435c0.023,1.424,0.4,6.37,4.298,10.268s8.844,4.274,10.269,4.298c0.005,0,0.023,0,0.028,0 c0.528,0,1.027-0.208,1.405-0.586l2.712-2.712c0.391-0.391,0.391-1.023,0-1.414L17.707,12.293z M17.58,19.005 c-1.248-0.021-5.518-0.356-8.873-3.712c-3.366-3.366-3.692-7.651-3.712-8.874L7,4.414L9.586,7L8.293,8.293 C8.054,8.531,7.952,8.875,8.021,9.205c0.024,0.115,0.611,2.842,2.271,4.502s4.387,2.247,4.502,2.271 c0.333,0.071,0.674-0.032,0.912-0.271L17,14.414L19.586,17L17.58,19.005z"></path>
+                     </svg>
+                     <span class="d-none d-lg-inline-block">Contact</span>
+                  </a>
+
+				   <a class="headerbutton px-24 ml-lg-4 ml-md-3 ml-0 font-19 font-w700 d-flex align-items-center d-lg-none" href="https://qarabic.com/member-area/accounts/">
+					  <i class="fas fa-sign-in-alt mr-1"></i><span class="d-none d-lg-inline-block">Login</span>
+                  </a>
+				   
+               </div>
+				
+				<div class="d-flex align-items-center">
+					<a class="header-button ml-lg-2 ml-md-2 ml-0 font-17 d-flex align-items-center" href="https://qarabic.com/member-area/accounts/">
+                     <span class="d-none d-lg-inline-block"><i class="fas fa-sign-in-alt mr-1"></i>Students Login</span>
+                  	</a>
+					<a class="header-button ml-lg-2 ml-md-2 ml-0 font-17 d-flex align-items-center" href="https://qarabic.com/free-trial/">
+                     <span class="d-none d-lg-inline-block"><i class="fa fa-user mr-1"></i> Free Trial</span>
+                  	</a>
+				</div>
+				
+            </div>
+         </div>
+      </div>
+   </div>
+   
+	<div class="blockmenusfull bg-primary text-white pt-5 pb-5 py-lg-0">
+				<a class="blockmenusfull__close position-absolute d-block">
+					<img class="img-h20" src="https://qarabic.com/wp-content/themes/qarabic/assets/img/icon23w.svg" alt="Close">
+				</a>
+				<div class="container">
+					<div class="row align-items-center">
+						<div class="col-lg-12">
+							<div class="row">
+								<div class="col-lg-12 col-sm-6 col-md-4 mb-3">
+									<h4 class="font-lg-25 font-25 mb-3 text-secondary">
+										Quick Links
+									</h4>
+									
+									<div class="menu-main-menu-container"><ul id="menu-main-menu" class="blockmenusfull__links2"><li id="menu-item-54" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-home menu-item-54"><a href="https://qarabic.com/">Home</a></li>
+<li id="menu-item-56" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-56"><a href="https://qarabic.com/about-us/">About</a></li>
+<li id="menu-item-59" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-59"><a href="https://qarabic.com/fee-and-plans/">Pricing</a></li>
+<li id="menu-item-4303" class="menu-item menu-item-type-post_type menu-item-object-page current-menu-item page_item page-item-2575 current_page_item menu-item-4303"><a href="https://qarabic.com/faq/" aria-current="page">FAQ</a></li>
+<li id="menu-item-55" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-55"><a href="https://qarabic.com/blog/">Blog</a></li>
+</ul></div>									
+								</div>
+								
+							</div>
+						</div>
+						
+						<div class="col-lg-12 order-1 order-lg-2 mb-3">
+							<h4 class="font-lg-25 font-25 mb-3 text-secondary">
+								Adult Courses
+							</h4>
+							
+							<div class="menu-adults-courses-container"><ul id="menu-adults-courses" class="blockmenusfull__links mb-2"><li id="menu-item-4592" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4592"><a href="https://qarabic.com/courses/learn-quran-for-adults/">Learn Quran Online</a></li>
+<li id="menu-item-4596" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4596"><a href="https://qarabic.com/courses/learn-arabic-for-adults/">Learn Arabic Online</a></li>
+<li id="menu-item-4595" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4595"><a href="https://qarabic.com/courses/islamic-studies-for-adults/">Islamic Studies Course</a></li>
+<li id="menu-item-4593" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4593"><a href="https://qarabic.com/courses/learn-tafsir-al-quran/">Learn Quran Tafseer</a></li>
+<li id="menu-item-4594" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4594"><a href="https://qarabic.com/courses/new-muslim-course/">New Muslim Course</a></li>
+</ul></div>						</div>
+						
+						<div class="col-lg-12 order-1 order-lg-2">
+							<h4 class="font-lg-25 font-25 mb-3 text-secondary">
+								Kids Courses
+							</h4>
+							
+							<div class="menu-kids-courses-container"><ul id="menu-kids-courses" class="blockmenusfull__links mb-2"><li id="menu-item-4599" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4599"><a href="https://qarabic.com/courses/learn-quran-for-kids/">Online Quran Classes</a></li>
+<li id="menu-item-4598" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4598"><a href="https://qarabic.com/courses/learn-arabic-for-kids/">learn Arabic Online</a></li>
+<li id="menu-item-4600" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4600"><a href="https://qarabic.com/courses/learn-pillars-of-islam/">Pillars Of Islam</a></li>
+<li id="menu-item-4597" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4597"><a href="https://qarabic.com/courses/islamic-studies-for-kids/">Islamic Studies For Kids</a></li>
+<li id="menu-item-4583" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4583"><a href="https://qarabic.com/courses/learn-islamic-supplication-duaa/">Islamic Supplication Dua Course</a></li>
+</ul></div>						</div>
+					</div>
+				</div>
+			</div>
+	
+	
+	
+ 
+</header>
+<aside>
+	<div class="bg-primary text-center text-white py-5">
+		<div class="container">
+			<h1 class="font-24 font-lg-30 mb-2 wow fadeInUp">
+				FAQ			</h1>
+			<nav aria-label="breadcrumbs" class="rank-math-breadcrumb"><p><a href="https://qarabic.com">Home</a><span class="separator"> &raquo; </span><span class="last">FAQ</span></p></nav>		</div>
+	</div>
+
+	
+	
+	<div class="bg-white py-5 py-lg-5">
+      <div class="container">
+         <div class="blocktitle primary text-center mb-5 mb-lg-5 position-relative">
+            <p class="font-20 font-lg-26 mb-3 text-primary font-w700">Frequently Asked Questions</p>
+            <p class="font-17 mb-3 text-light">
+            </p>
+         </div>
+         <div class="row justify-content-center">
+            <div class="col-lg-10">
+               <div class="customaccordion" id="accordion">
+				   
+				   
+				   					
+									   
+				   <div class="card">
+                     <div class="card-header" id="a1">
+                        <a class="collapsed" data-toggle="collapse" href="#b1" aria-expanded="true" aria-controls="b1">
+                        How do I get enrolled in the Academy? 						 </a>
+                     </div>
+                     <div id="b1" class="collapse" aria-labelledby="a1" data-parent="#accordion">
+                        <div class="card-body">
+							File in the form on the website and sign up for a free trial Class .						 </div>
+                     </div>
+                  </div>
+
+					
+						
+			
+											   
+				   <div class="card">
+                     <div class="card-header" id="a2">
+                        <a class="collapsed" data-toggle="collapse" href="#b2" aria-expanded="true" aria-controls="b2">
+                        How do I sign up for a trail class ? 						 </a>
+                     </div>
+                     <div id="b2" class="collapse" aria-labelledby="a2" data-parent="#accordion">
+                        <div class="card-body">
+							Just file in the for in the website ( Link ) or contact us on our live chat or send message via whatsapp 001 (309) 377- 5300 
+						 </div>
+                     </div>
+                  </div>
+
+					
+						
+			
+											   
+				   <div class="card">
+                     <div class="card-header" id="a3">
+                        <a class="collapsed" data-toggle="collapse" href="#b3" aria-expanded="true" aria-controls="b3">
+                        I signed up , now what should I do after ?						 </a>
+                     </div>
+                     <div id="b3" class="collapse" aria-labelledby="a3" data-parent="#accordion">
+                        <div class="card-body">
+							After you sign up, we will contact you to arrange day and time for your free trial class . We will contact you from our official Email or our official number .
+						 </div>
+                     </div>
+                  </div>
+
+					
+						
+			
+											   
+				   <div class="card">
+                     <div class="card-header" id="a4">
+                        <a class="collapsed" data-toggle="collapse" href="#b4" aria-expanded="true" aria-controls="b4">
+                        Can I have male / female teacher ? 						 </a>
+                     </div>
+                     <div id="b4" class="collapse" aria-labelledby="a4" data-parent="#accordion">
+                        <div class="card-body">
+							Yes we have male and female teachers and you can request male or female teachers , but recommend matching  the gender .
+						 </div>
+                     </div>
+                  </div>
+
+					
+						
+			
+											   
+				   <div class="card">
+                     <div class="card-header" id="a5">
+                        <a class="collapsed" data-toggle="collapse" href="#b5" aria-expanded="true" aria-controls="b5">
+                        Do we have a Money Back Guarantee ?						 </a>
+                     </div>
+                     <div id="b5" class="collapse" aria-labelledby="a5" data-parent="#accordion">
+                        <div class="card-body">
+							If you’re not completely satisfied during your first week of classes and wish to discontinue, we will refund 100% of your payment .
+						 </div>
+                     </div>
+                  </div>
+
+					
+						
+			
+											   
+				   <div class="card">
+                     <div class="card-header" id="a6">
+                        <a class="collapsed" data-toggle="collapse" href="#b6" aria-expanded="true" aria-controls="b6">
+                        When am I getting my pill ? Is it weekly or monthly ?						 </a>
+                     </div>
+                     <div id="b6" class="collapse" aria-labelledby="a6" data-parent="#accordion">
+                        <div class="card-body">
+							Our tuition is calculated according to the hours of instruction our students are receiving on a weekly basis. You need to pay monthly in advance at the beginning of each month . You will therefore receive a statement every four weeks including the pill of the current month . If you have any questions regarding your statement or billing, please contact us.
+						 </div>
+                     </div>
+                  </div>
+
+					
+						
+			
+														
+											
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+	
+	
+	
+</aside>
+
+		
+
+
+<footer>
+   <a class="buttonwhastapp2 d-block position-fixed text-center font-16 rounded px-24 shadow-sm pb-24 pt-2" href="tel:0013093775300"><i class="fa fa-phone mr-2"></i> Call Us</a>
+   <a class="buttonwhastapp d-block position-fixed text-center font-16 rounded px-24 shadow-sm pb-24 pt-2" target="_blank" href="https://api.whatsapp.com/send?phone=13093775300&amp;text=Hello, I have enquiry"><i class="fab fa-whatsapp mr-2"></i> Send a Message</a>
+	
+   
+   <div class="footercenter text-white bg-background bg-size-cover bg-position-centerbottom py-5 py-lg-6" style="background-image: url(https://qarabic.com/wp-content/themes/qarabic/assets/img/footerbg.png);background-color:#7a1c1a">
+      <div class="container">
+         <div class="row justify-content-between">
+            <div class="col-lg-3 mb-2 mb-lg-0">
+				<img width="189" height="54" src="https://qarabic.com/wp-content/uploads/2022/07/qarabic-footer-300x85.png" class="image wp-image-4166  attachment-189x54 size-189x54" alt="qarabic-footer" style="max-width: 100%; height: auto;" decoding="async" loading="lazy" srcset="https://qarabic.com/wp-content/uploads/2022/07/qarabic-footer-300x85.png 300w, https://qarabic.com/wp-content/uploads/2022/07/qarabic-footer-340x97.png 340w, https://qarabic.com/wp-content/uploads/2022/07/qarabic-footer.png 394w" sizes="(max-width: 189px) 100vw, 189px" /><div class="textwidget custom-html-widget">Professional online Quran academy to learn Quran, Arabic Language, and Islamic Studies for kids & adults through one-to-one online classes.</div><h3 class="text-yellow">QArabic Academy</h3><div class="textwidget custom-html-widget"><strong>QArabic Academy</strong> is a professional online Quran academy to learn Quran, Arabic Language, and Islamic Studies for kids &amp; adults through one-to-one online classes.
+
+</div><h3 class="text-yellow">Adults Courses</h3><div class="menu-adults-courses-container"><ul id="menu-adults-courses-1" class="menu"><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4592"><a href="https://qarabic.com/courses/learn-quran-for-adults/">Learn Quran Online</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4596"><a href="https://qarabic.com/courses/learn-arabic-for-adults/">Learn Arabic Online</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4595"><a href="https://qarabic.com/courses/islamic-studies-for-adults/">Islamic Studies Course</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4593"><a href="https://qarabic.com/courses/learn-tafsir-al-quran/">Learn Quran Tafseer</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4594"><a href="https://qarabic.com/courses/new-muslim-course/">New Muslim Course</a></li>
+</ul></div><h3 class="text-yellow">Kids Courses</h3><div class="menu-kids-courses-container"><ul id="menu-kids-courses-1" class="menu"><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4599"><a href="https://qarabic.com/courses/learn-quran-for-kids/">Online Quran Classes</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4598"><a href="https://qarabic.com/courses/learn-arabic-for-kids/">learn Arabic Online</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4600"><a href="https://qarabic.com/courses/learn-pillars-of-islam/">Pillars Of Islam</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4597"><a href="https://qarabic.com/courses/islamic-studies-for-kids/">Islamic Studies For Kids</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4583"><a href="https://qarabic.com/courses/learn-islamic-supplication-duaa/">Islamic Supplication Dua Course</a></li>
+</ul></div><h3 class="text-yellow">Important links</h3><div class="menu-important-links-container"><ul id="menu-important-links" class="menu"><li id="menu-item-2583" class="menu-item menu-item-type-post_type menu-item-object-page current-menu-item page_item page-item-2575 current_page_item menu-item-2583"><a href="https://qarabic.com/faq/" aria-current="page">FAQ</a></li>
+<li id="menu-item-2525" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2525"><a href="https://qarabic.com/about-us/">About Us</a></li>
+<li id="menu-item-2524" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2524"><a href="https://qarabic.com/blog/">Blog</a></li>
+<li id="menu-item-2527" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2527"><a href="https://qarabic.com/privacy-policy/">Privacy Policy</a></li>
+<li id="menu-item-2503" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2503"><a href="https://qarabic.com/sitemap/">Sitemap</a></li>
+</ul></div>            </div>
+			 
+			 <div class="col-lg-3 list-unstyled m-0 footercenter__links d-flex flex-wrap wow fadeInUp">
+				 <h3 class="text-yellow">Courses for Kids</h3><div class="menu-kids-courses-container"><ul id="menu-kids-courses-2" class="menu"><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4599"><a href="https://qarabic.com/courses/learn-quran-for-kids/">Online Quran Classes</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4598"><a href="https://qarabic.com/courses/learn-arabic-for-kids/">learn Arabic Online</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4600"><a href="https://qarabic.com/courses/learn-pillars-of-islam/">Pillars Of Islam</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4597"><a href="https://qarabic.com/courses/islamic-studies-for-kids/">Islamic Studies For Kids</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4583"><a href="https://qarabic.com/courses/learn-islamic-supplication-duaa/">Islamic Supplication Dua Course</a></li>
+</ul></div>			 </div>
+			<div class="col-lg-3 list-unstyled m-0 footercenter__links d-flex flex-wrap wow fadeInUp">
+				<h3 class="text-yellow">Courses for Adults</h3><div class="menu-adults-courses-container"><ul id="menu-adults-courses-2" class="menu"><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4592"><a href="https://qarabic.com/courses/learn-quran-for-adults/">Learn Quran Online</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4596"><a href="https://qarabic.com/courses/learn-arabic-for-adults/">Learn Arabic Online</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4595"><a href="https://qarabic.com/courses/islamic-studies-for-adults/">Islamic Studies Course</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4593"><a href="https://qarabic.com/courses/learn-tafsir-al-quran/">Learn Quran Tafseer</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4594"><a href="https://qarabic.com/courses/new-muslim-course/">New Muslim Course</a></li>
+</ul></div>			</div>
+				
+			 
+			 <div class="col-lg-3 mb-2 mb-lg-0">
+				<h3 class="text-yellow">Contact Us</h3>
+                 <a class="line-15 d-block font-18 text-white m-0" href="tel:+1 (309) 377-5300">
+					  <i class="fa fa-phone mr-2"></i>+1 (309) 377-5300
+				 </a>
+				 <a class="line-15 d-block font-18 text-white m-0" href="https://wa.me/13093775300">
+					  <i class="fab fa-whatsapp mr-2"></i>+1 (309) 377-5300
+				 </a>
+				 <a class="line-15 d-block font-20 text-white m-0" href="mailto:info@qarabic.com">
+					 <i class="fa fa-envelope mr-2"></i> info@qarabic.com
+				 </a>
+				 <div class="textwidget custom-html-widget"><ul class="sharesocial d-flex flex-wrap my-2 wow fadeInUp">
+				   <li><a href="https://www.facebook.com/qarabicacademy/" class="fb fab fa-facebook-f wow fadeInUp"></a></li>
+				   <li><a href="https://www.instagram.com/qarabicacademy/" class="in fab fa-instagram wow fadeInUp"></a></li>
+				   <li><a href="https://twitter.com/qarabicacademy" class="tw fab fa-twitter wow fadeInUp"></a></li>
+				   <li><a href="https://api.whatsapp.com/send?phone=1%20(309)%20377-5300" class="wh fab fa-whatsapp wow fadeInUp"></a></li>
+				   <li><a href="https://www.youtube.com/channel/UCN95F_XKKYAbQMcpdMJdO5Q?view_as=subscriber" class="sn fab fa-youtube wow fadeInUp"></a></li>
+				</ul></div>            </div>
+			 
+         </div>
+      </div>
+   </div>
+   <div class="footerbottom bg-white py-3">
+      <div class="container">
+         <div class="d-lg-flex align-items-center justify-content-between text-center">
+            <p class="font-16 m-0 line-15 wow fadeInUp">
+               All Rights Reserved for QArabic © 2024. 
+            </p>
+            
+			 <div class="menu-copyrights-menu-container"><ul id="menu-copyrights-menu" class="list-unstyled m-0 p-0 footerbottom__links d-flex flex-wrap justify-content-center wow fadeInUp"><li id="menu-item-4275" class="menu-item menu-item-type-post_type menu-item-object-page current-menu-item page_item page-item-2575 current_page_item menu-item-4275"><a href="https://qarabic.com/faq/" aria-current="page">FAQs</a></li>
+<li id="menu-item-4272" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4272"><a href="https://qarabic.com/privacy-policy/">Privacy Policy</a></li>
+<li id="menu-item-4273" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4273"><a href="https://qarabic.com/sitemap/">Sitemap</a></li>
+<li id="menu-item-4304" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-4304"><a href="https://qarabic.com/member-area/employees/">Teachers Login</a></li>
+</ul></div>			 
+            
+         </div>
+      </div>
+   </div>
+   
+</footer>
+
+    <!-- Meta Pixel Event Code -->
+    <script type="rocketlazyloadscript" data-rocket-type='text/javascript'>
+        document.addEventListener( 'wpcf7mailsent', function( event ) {
+        if( "fb_pxl_code" in event.detail.apiResponse){
+          eval(event.detail.apiResponse.fb_pxl_code);
+        }
+      }, false );
+    </script>
+    <!-- End Meta Pixel Event Code -->
+    <div id='fb-pxl-ajax-code'></div><noscript><img height="1" width="1" style="display: none;" src="https://www.facebook.com/tr?id=753543843464649&ev=PageView&noscript=1&cd%5Bpage_title%5D=FAQ&cd%5Bpost_type%5D=page&cd%5Bpost_id%5D=2575&cd%5Bplugin%5D=PixelYourSite&cd%5Buser_role%5D=guest&cd%5Bevent_url%5D=qarabic.com%2Ffaq%2F" alt=""></noscript>
+<script type="rocketlazyloadscript" data-minify="1" data-rocket-src="https://qarabic.com/wp-content/cache/min/1/wp-content/plugins/contact-form-7/includes/swv/js/index.js?ver=1715600628" id="swv-js" defer></script>
+<script id="contact-form-7-js-extra">
+var wpcf7 = {"api":{"root":"https:\/\/qarabic.com\/wp-json\/","namespace":"contact-form-7\/v1"},"cached":"1"};
+</script>
+<script type="rocketlazyloadscript" data-minify="1" data-rocket-src="https://qarabic.com/wp-content/cache/min/1/wp-content/plugins/contact-form-7/includes/js/index.js?ver=1715600628" id="contact-form-7-js" defer></script>
+<script type="rocketlazyloadscript" data-rocket-src="https://qarabic.com/wp-content/plugins/country-phone-field-contact-form-7/assets/js/intlTelInput.min.js?ver=034ed650842b77ac62b92d0acc823a3b" id="nbcpf-intlTelInput-script-js" defer></script>
+<script id="nbcpf-countryFlag-script-js-extra">
+var nbcpf = {"ajaxurl":"https:\/\/qarabic.com\/wp-admin\/admin-ajax.php"};
+</script>
+<script type="rocketlazyloadscript" data-rocket-src="https://qarabic.com/wp-content/plugins/country-phone-field-contact-form-7/assets/js/countrySelect.min.js?ver=034ed650842b77ac62b92d0acc823a3b" id="nbcpf-countryFlag-script-js" defer></script>
+<script type="rocketlazyloadscript" id="nbcpf-countryFlag-script-js-after">window.addEventListener('DOMContentLoaded', function() {
+		(function($) {
+			$(function() {
+
+				function render_country_flags(){
+
+					$(".wpcf7-countrytext").countrySelect({
+						
+					});
+					$(".wpcf7-phonetext").intlTelInput({
+						autoHideDialCode: false,
+						autoPlaceholder: "off",
+						nationalMode: false,
+						separateDialCode: false,
+						hiddenInput: "full_number",
+							
+					});
+	
+					$(".wpcf7-phonetext").each(function () {
+						var hiddenInput = $(this).attr('name');
+						//console.log(hiddenInput);
+						$("input[name="+hiddenInput+"-country-code]").val($(this).val());
+					});
+					
+					$(".wpcf7-phonetext").on("countrychange", function() {
+						// do something with iti.getSelectedCountryData()
+						//console.log(this.value);
+						var hiddenInput = $(this).attr("name");
+						$("input[name="+hiddenInput+"-country-code]").val(this.value);
+						
+					});$(".wpcf7-phonetext").on("keyup", function() {
+							var dial_code = $(this).siblings(".flag-container").find(".country-list li.active span.dial-code").text();
+							if(dial_code == "")
+							var dial_code = $(this).siblings(".flag-container").find(".country-list li.highlight span.dial-code").text();
+							var value   = $(this).val();
+							console.log(dial_code, value);
+							$(this).val(dial_code + value.substring(dial_code.length));
+						 });$(".wpcf7-countrytext").on("keyup", function() {
+						var country_name = $(this).siblings(".flag-dropdown").find(".country-list li.active span.country-name").text();
+						if(country_name == "")
+						var country_name = $(this).siblings(".flag-dropdown").find(".country-list li.highlight span.country-name").text();
+						
+						var value   = $(this).val();
+						//console.log(country_name, value);
+						$(this).val(country_name + value.substring(country_name.length));
+					});
+				}
+
+				var ip_address = "";
+
+				jQuery.ajax({
+					//url: "https://ipwho.is/",
+					url: "https://reallyfreegeoip.org/json/",
+					success: function(response){
+						
+						//console.log(response);
+						//var location = JSON.parse(response);
+						console.log(response.country_code);
+						if( response.country_code !== undefined){
+							//console.log("here");
+							$(".wpcf7-countrytext").countrySelect({defaultCountry: response.country_code.toLowerCase(),
+							});
+							$(".wpcf7-phonetext").intlTelInput({
+								autoHideDialCode: false,
+								autoPlaceholder: "off",
+								nationalMode: false,
+								separateDialCode: false,
+								hiddenInput: "full_number",initialCountry: response.country_code.toLowerCase(),	
+							});
+							
+							$(".wpcf7-phonetext").each(function () {
+								var hiddenInput = $(this).attr('name');
+								//console.log(hiddenInput);
+								$("input[name="+hiddenInput+"-country-code]").val($(this).val());
+							});
+							
+							$(".wpcf7-phonetext").on("countrychange", function() {
+								// do something with iti.getSelectedCountryData()
+								//console.log(this.value);
+								var hiddenInput = $(this).attr("name");
+								$("input[name="+hiddenInput+"-country-code]").val(this.value);
+								
+							});$(".wpcf7-phonetext").on("keyup", function() {
+									var dial_code = $(this).siblings(".flag-container").find(".country-list li.active span.dial-code").text();
+									if(dial_code == "")
+									var dial_code = $(this).siblings(".flag-container").find(".country-list li.highlight span.dial-code").text();
+									var value   = $(this).val();
+									console.log(dial_code, value);
+									$(this).val(dial_code + value.substring(dial_code.length));
+								});$(".wpcf7-countrytext").on("keyup", function() {
+								var country_name = $(this).siblings(".flag-dropdown").find(".country-list li.active span.country-name").text();
+								if(country_name == "")
+								var country_name = $(this).siblings(".flag-dropdown").find(".country-list li.highlight span.country-name").text();
+								
+								var value   = $(this).val();
+								//console.log(country_name, value);
+								$(this).val(country_name + value.substring(country_name.length));
+							});
+
+						} else {
+
+							render_country_flags();
+
+						}
+
+					},
+					error: function(){
+						render_country_flags();
+					}
+				});
+			});
+		})(jQuery);
+});</script>
+<script type="rocketlazyloadscript" data-minify="1" data-rocket-src="https://qarabic.com/wp-content/cache/min/1/wp-content/themes/qarabic/assets/js/index.js?ver=1715600628" id="index-js-js" defer></script>
+<script type="rocketlazyloadscript" data-rocket-src="https://www.google.com/recaptcha/api.js?render=6LfeSI0lAAAAABsJ3frDj3dlTHnCdtMU6ypTOx4U&amp;ver=3.0" id="google-recaptcha-js"></script>
+<script type="rocketlazyloadscript" data-rocket-src="https://qarabic.com/wp-includes/js/dist/vendor/wp-polyfill-inert.min.js?ver=3.1.2" id="wp-polyfill-inert-js" defer></script>
+<script type="rocketlazyloadscript" data-rocket-src="https://qarabic.com/wp-includes/js/dist/vendor/regenerator-runtime.min.js?ver=0.14.0" id="regenerator-runtime-js" defer></script>
+<script type="rocketlazyloadscript" data-rocket-src="https://qarabic.com/wp-includes/js/dist/vendor/wp-polyfill.min.js?ver=3.15.0" id="wp-polyfill-js"></script>
+<script id="wpcf7-recaptcha-js-extra">
+var wpcf7_recaptcha = {"sitekey":"6LfeSI0lAAAAABsJ3frDj3dlTHnCdtMU6ypTOx4U","actions":{"homepage":"homepage","contactform":"contactform"}};
+</script>
+<script type="rocketlazyloadscript" data-minify="1" data-rocket-src="https://qarabic.com/wp-content/cache/min/1/wp-content/plugins/contact-form-7/modules/recaptcha/index.js?ver=1715600628" id="wpcf7-recaptcha-js" defer></script>
+<script type="rocketlazyloadscript" id="site-reviews-js-before">
+window.hasOwnProperty("GLSR")||(window.GLSR={Event:{on:()=>{}}});GLSR.action="glsr_public_action";GLSR.addons=[];GLSR.ajaxpagination=["#wpadminbar",".site-navigation-fixed"];GLSR.ajaxurl="https://qarabic.com/wp-admin/admin-ajax.php";GLSR.captcha=[];GLSR.nameprefix="site-reviews";GLSR.starsconfig={"clearable":false,"tooltip":false};GLSR.state={"popstate":false};GLSR.text={closemodal:"Close Modal"};GLSR.urlparameter="reviews-page";GLSR.validationconfig={field:"glsr-field",form:"glsr-form","field_error":"glsr-field-is-invalid","field_hidden":"glsr-hidden","field_message":"glsr-field-error","field_required":"glsr-required","field_valid":"glsr-field-is-valid","form_error":"glsr-form-is-invalid","form_message":"glsr-form-message","form_message_failed":"glsr-form-failed","form_message_success":"glsr-form-success","input_error":"glsr-is-invalid","input_valid":"glsr-is-valid"};GLSR.validationstrings={accepted:"This field must be accepted.",between:"This field value must be between %s and %s.",betweenlength:"This field must have between %s and %s characters.",email:"This field requires a valid e-mail address.",errors:"Please fix the submission errors.",max:"Maximum value for this field is %s.",maxfiles:"This field allows a maximum of %s files.",maxlength:"This field allows a maximum of %s characters.",min:"Minimum value for this field is %s.",minfiles:"This field requires a minimum of %s files.",minlength:"This field requires a minimum of %s characters.",number:"This field requires a number.",pattern:"Please match the requested format.",regex:"Please match the requested format.",required:"This field is required.",tel:"This field requires a valid telephone number.",url:"This field requires a valid website URL (make sure it starts with http or https).",unsupported:"The review could not be submitted because this browser is too old. Please try again with a modern browser."};GLSR.version="7.0.10";
+</script>
+<script type="rocketlazyloadscript" data-minify="1" data-rocket-src="https://qarabic.com/wp-content/cache/min/1/wp-content/plugins/site-reviews/assets/scripts/site-reviews.js?ver=1715600628" id="site-reviews-js" defer data-wp-strategy="defer"></script>
+			<script type="rocketlazyloadscript" data-rocket-type="text/javascript" id="wpsp-script-frontend"></script>
+			</body>
+</html>
+
+<!-- This website is like a Rocket, isn't it? Performance optimized by WP Rocket. Learn more: https://wp-rocket.me - Debug: cached@1716809967 -->

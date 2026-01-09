@@ -1,0 +1,22 @@
+<?php
+/*require ("dbconnection.php");
+  $ID = $_SESSION['is']['teacher_id'];
+			$result = mysql_query("SELECT * FROM profile Where teacher_id = '$ID'");
+			if (!$result) 
+			{
+			die("Query to show fields from table failed");
+			}
+		$numberOfRows = MYSQL_NUMROWS($result);
+		If ($numberOfRows == 0){
+			echo '2';
+			}
+		else if ($numberOfRows > 0) 
+			{
+			$i=0;
+			$right_id = MYSQL_RESULT($result,$i,"s_supper_rights");
+			if ($right_id == 2){
+			require('logout.php');
+			exit;
+			}
+	}*/
+?>

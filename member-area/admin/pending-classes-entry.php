@@ -1,0 +1,264 @@
+<?php
+require ("../includes/dbconnection.php");
+<?php
+// Enable error reporting
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+ini_set('log_errors', 1);
+
+if (session_status() !== PHP_SESSION_ACTIVE) {
+    session_start();
+}
+
+require("../includes/dbconnection.php");
+require_once("../includes/mysql-compat.php");
+
+// Check database connection
+if (!isset($conn) || !$conn) {
+    die("Database connection failed. Please contact the administrator.");
+}
+date_default_timezone_set("Africa/Cairo");
+$time_start = date("h:i A", time(true));
+$today = date('Y-m-d');
+$atoday = date("l");
+    if($atoday == "Sunday") 
+        {
+            $c = 7;
+        }
+    elseif($atoday == "Monday")
+        {
+            $c = 1;
+        } 
+    elseif($atoday == "Tuesday") 
+        {
+            $c = 2;
+        } 
+    elseif($atoday == "Wednesday")
+        {
+            $c = 3;
+        } 
+    elseif($atoday == "Thursday")
+        {
+            $c = 4;
+        } 
+    elseif($atoday == "Friday") 
+        {
+            $c = 5;
+        } 
+    else 
+        {
+    // Since it is not any of the days above it must be Saturday
+            $c = 6;
+        }
+$amon = date('F');
+if($amon== "January") 
+        {
+            $am = 1;
+        }
+    elseif($amon== "February")
+        {
+            $am = 2;
+        } 
+    elseif($amon== "March") 
+        {
+            $am = 3;
+        } 
+    elseif($amon== "April")
+        {
+            $am = 4;
+        } 
+    elseif($amon== "May")
+        {
+            $am = 5;
+        } 
+    elseif($amon== "June") 
+        {
+            $am = 6;
+        } 
+    elseif($amon== "July")
+        {
+            $am = 7;
+        } 
+    elseif($amon== "August") 
+        {
+            $am = 8;
+        } 
+    elseif($amon== "September")
+        {
+            $am = 9;
+        } 
+    elseif($amon== "October")
+        {
+            $am = 10;
+        } 
+    elseif($amon== "November") 
+        {
+            $am = 11;
+        }
+    else 
+        {
+    // Since it is not any of the days above it must be Saturday
+            $am = 12;
+        }
+$asy = date('Y');
+if($asy == "2014") 
+        {
+            $ay = 1;
+        }
+    elseif($asy == "2015")
+        {
+           $ay = 2;
+        } 
+    elseif($asy == "2016") 
+        {
+            $ay = 3;
+        }
+    elseif($asy == "2017") 
+        {
+            $ay = 4;
+        }
+    elseif($asy == "2018") 
+        {
+            $ay = 5;
+        }
+    elseif($asy == "2019") 
+        {
+            $ay = 6;
+        }
+    elseif($asy == "2020") 
+        {
+            $ay = 7;
+        }
+?>
+<?php
+$result = mysql_query("SELECT * FROM sched3");
+if(mysql_num_rows($result) > 0) 
+{ 
+$count = 0; 
+while ($row = mysql_fetch_array ($result, MYSQL_ASSOC)) 
+{
+$to = $row['php_tz'];
+  date_default_timezone_set($row['php_tz']);//Set New York timezone
+$today2 = date('Y-m-d');
+$stoday = date("l");
+    if($stoday == "Sunday") 
+        {
+            $sc = 7;
+        }
+    elseif($stoday == "Monday")
+        {
+            $sc = 1;
+        } 
+    elseif($stoday == "Tuesday") 
+        {
+            $sc = 2;
+        } 
+    elseif($stoday == "Wednesday")
+        {
+            $sc = 3;
+        } 
+    elseif($stoday == "Thursday")
+        {
+            $sc = 4;
+        } 
+    elseif($stoday == "Friday") 
+        {
+            $sc = 5;
+        } 
+    else 
+        {
+    // Since it is not any of the days above it must be Saturday
+            $sc = 6;
+        }
+$smon = date('F');
+if($smon== "January") 
+        {
+            $sm = 1;
+        }
+    elseif($smon== "February")
+        {
+            $sm = 2;
+        } 
+    elseif($smon== "March") 
+        {
+            $sm = 3;
+        } 
+    elseif($smon== "April")
+        {
+            $sm = 4;
+        } 
+    elseif($smon== "May")
+        {
+            $sm = 5;
+        } 
+    elseif($smon== "June") 
+        {
+            $sm = 6;
+        } 
+    elseif($smon== "July")
+        {
+            $sm = 7;
+        } 
+    elseif($smon== "August") 
+        {
+            $sm = 8;
+        } 
+    elseif($smon== "September")
+        {
+            $sm = 9;
+        } 
+    elseif($smon== "October")
+        {
+            $sm = 10;
+        } 
+    elseif($smon== "November") 
+        {
+            $sm = 11;
+        }
+    else 
+        {
+    // Since it is not any of the days above it must be Saturday
+            $sm = 12;
+        }
+$ssy = date('Y');
+if($ssy == "2014") 
+        {
+            $sy = 1;
+        }
+    elseif($ssy == "2015")
+        {
+           $sy = 2;
+        } 
+    elseif($ssy == "2016") 
+        {
+            $sy = 3;
+        }
+    elseif($ssy == "2017") 
+        {
+            $sy = 4;
+        }
+    elseif($ssy == "2018") 
+        {
+            $sy = 5;
+        }
+    elseif($ssy == "2019") 
+        {
+            $sy = 6;
+        }
+    elseif($ssy == "2020") 
+        {
+            $sy = 7;
+        }
+mysql_query("UPDATE sched3 SET date = '$today', date2 = '$today2', adayid = '$c', amonid = '$am', ayearid = '$ay', sdayid = '$sc', smonid = '$sm', syearid = '$sy' , make = '2' WHERE php_tz = 'Africa/Cairo' AND aday_id = '$c' AND mnt_id = '5'") or die(mysql_error());
+}
+}
+if ($result){
+mysql_query("INSERT INTO History1(course_id, teacher_id, student_date, student_day, student_month, student_year, admin_date, admin_day, admin_month, admin_year, sched_id, a_id, dept_id, additional_dept, make)
+	SELECT course_id, teacher_id, date2, sdayid, smonid, syearid, date, adayid, amonid, ayearid, uni, mnt_id, dept_id, adept_id, make
+	FROM sched3 WHERE php_tz = 'Africa/Cairo' AND aday_id = '$c' AND mnt_id = '5'") or die(mysql_error());
+	if(mysql_query){
+mysql_query ("UPDATE History1 SET lesson_id = '100', lesson_discription = 'N-A', teacher_remarks = '6', a_id = '9' WHERE admin_date = '$today' AND make = '2'") or die(mysql_error());
+}
+}
+?>

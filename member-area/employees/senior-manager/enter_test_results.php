@@ -1,0 +1,514 @@
+<?php session_start(); ?>
+<?php
+// Enable error reporting
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+ini_set('log_errors', 1);
+
+if (session_status() !== PHP_SESSION_ACTIVE) {
+    session_start();
+}
+
+require("../includes/dbconnection.php");
+require_once("../includes/mysql-compat.php");
+
+// Check database connection
+if (!isset($conn) || !$conn) {
+    die("Database connection failed. Please contact the administrator.");
+}
+<?php
+include("../includes/session.php");
+  include("../includes/s_manager_rights.php");
+  require ("../includes/dbconnection.php");
+include("header.php");
+    $pnid =base64_decode($_GET["test_id"]);
+	$result = mysql_query("SELECT `test_results`.*,`profile`.`teacher_name`,`course`.`course_yrSec`,`month`.`month_name`,`school_yr`.`school_year`,`timestart`.`time_s`,`dept`.`department`,`lan`.`lan_name`,`Gender`.`gender` FROM `test_results`,`profile`,`course`,`month`,`school_yr`,`timestart`,`dept`,`lan`,`Gender` WHERE test_results.teacher_id=profile.teacher_id and test_results.course_id=course.course_id and test_results.m_id=month.month_id and test_results.y_id=school_yr.year_id and test_results.test_time=timestart.time_s_id and test_results.dept_id=dept.dept_id and test_results.lan_id=lan.lan_id and test_results.g_id=Gender.g_id HAVING test_id = '$pnid'");
+	if (!$result) 
+		{
+		die("Query to etyeriled");
+		}
+			$numberOfRows = MYSQL_NUMROWS($result);
+			If ($numberOfRows == 0) 
+				{
+			//echo 'Sorry No Record Found!';
+				}
+			else if ($numberOfRows > 0) 
+				{
+				$i=0;
+			$t_id = MYSQL_RESULT($result,$i,"test_id");
+			$student_name = MYSQL_RESULT($result,$i,"course_yrSec");
+			$teacher_name = MYSQL_RESULT($result,$i,"teacher_name");
+			$month = MYSQL_RESULT($result,$i,"month_name");
+			$year = MYSQL_RESULT($result,$i,"school_year");
+			$test_d = MYSQL_RESULT($result,$i,"test_date");
+			$test_t = MYSQL_RESULT($result,$i,"time_s");
+			$test_dis = MYSQL_RESULT($result,$i,"test_discription");
+			$course = MYSQL_RESULT($result,$i,"department");
+			$cdept = MYSQL_RESULT($result,$i,"dept_id");
+			$lan = MYSQL_RESULT($result,$i,"lan_name");
+			$gen = MYSQL_RESULT($result,$i,"Gender");
+			$makharij = MYSQL_RESULT($result,$i,"makharij");
+			$noon = MYSQL_RESULT($result,$i,"noon_sakin");
+			$meem = MYSQL_RESULT($result,$i,"meem_sakin");
+			$qulqala = MYSQL_RESULT($result,$i,"qulqala");
+			$guuna = MYSQL_RESULT($result,$i,"guuna");
+			$madda = MYSQL_RESULT($result,$i,"madda");
+			}
+?>
+<?php
+date_default_timezone_set("Africa/Cairo");
+$sy = date('Y-m-d');
+?>
+<?php
+if (isset($_POST['cmdSubmit'])) 
+  	{ 	
+			$remarks_p = $_POST['p_remarks'];
+			$remarks_t = $_POST['t_remarks'];
+			$grade_a = $_POST['grade'];
+			$gradet = $_POST['grade_t'];
+			$ttt_id = $_POST['tt_id'];
+
+			mysql_query( "UPDATE test_results SET parent_remarks = '" . mysql_real_escape_string($remarks_p) . "', test_remarks = '" . mysql_real_escape_string($remarks_t) . "', test_grade = '$grade_a', taken_date_admin = '$sy', status_id = '2', teacher_p = '$gradet', taken_by = '1' where test_id = '$ttt_id'") or die(mysql_error()); 
+							 header("Location: test_status");
+				}
+?>
+<?php
+date_default_timezone_set("Africa/Cairo");
+$sy = date('Y-m-d');
+?>
+<?php echo $main_header; ?>
+<?php echo $tool_bar; ?>
+<?php echo $start_menu; ?>
+<?php echo $search_bar; ?>
+<?php echo $main_menu; ?>
+<!-- BEGIN PAGE CONTAINER -->
+<div class="page-container">
+	<!-- BEGIN PAGE HEAD -->
+	<div class="page-head">
+		<div class="container">
+			<!-- BEGIN PAGE TITLE -->
+			<div class="page-title">
+				<h1>Enter Test <small>Results</small></h1>
+			</div>
+			<!-- END PAGE TITLE -->
+			<!-- BEGIN PAGE TOOLBAR -->
+			<div class="page-toolbar">
+			</div>
+			<!-- END PAGE TOOLBAR -->
+		</div>
+	</div>
+	<!-- END PAGE HEAD -->
+	<!-- BEGIN PAGE CONTENT -->
+	<div class="page-content">
+		<div class="container">
+			<!-- BEGIN PAGE BREADCRUMB -->
+			<ul class="page-breadcrumb breadcrumb">
+				<li>
+					<a href="admin-home">Home</a><i class="fa fa-circle"></i>
+				</li>
+				<li class="active">
+					 You are adding Test Results
+				</li>
+			</ul>
+			<!-- END PAGE BREADCRUMB -->
+			<!-- BEGIN PAGE CONTENT INNER -->
+			<div class="row">
+				<div class="col-md-12">
+					<div class="tabbable tabbable-custom tabbable-noborder tabbable-reversed">
+						<div class="tab-content">
+								<div class="portlet box green">
+									<div class="portlet-title">
+										<div class="caption">
+											<i class="fa fa-mortar-board"></i>Test Details
+										</div>
+										<div class="tools">
+											<a href="javascript:;" class="collapse">
+											</a>
+										</div>
+									</div>
+									<div class="portlet-body form">
+										<!-- BEGIN FORM-->
+										<table class="table table-hover">
+								<tbody>
+								<tr>
+								<td>Student Name:</td>
+								<td><font color="#44B6AE"> <b><?php echo $student_name; ?></b></font></td>
+								</tr>
+								<tr>
+								<td>Teacher Name:</td>
+								<td><font color="#44B6AE"> <b><?php echo $teacher_name; ?></b></font></td>
+								</tr>
+								<tr>
+								<tr>
+								<td>Test Month:</td>
+								<td><font color="#44B6AE"> <b><?php echo $month; ?> - <?php echo $year; ?></b></font></td>
+								</tr>
+								<tr>
+								<td>Creation Date/Class Time:</td>
+								<td>
+								<font color="#44B6AE"> <b><?php echo $test_d; ?> - <?php echo $test_t; ?></b></font>
+								</td>
+								</tr>
+								<tr>
+								<td>Other Details:</td>
+								<td>
+								<font color="#44B6AE"> Lang: <b><?php echo $lan; ?></b> Gender: <b><?php echo $gen; ?></b> Course: <b><?php echo $course; ?></b></font>
+								</td>
+								</tr>
+								<tr>
+								<td>Discription:</td>
+								<td><font color="#44B6AE"> <b><?php echo $test_dis; ?></b></font></td>
+								</tr>
+								</tbody>
+								</table>
+										<!-- END FORM-->
+									</div>
+								</div>
+							</div>
+					<div class="tabbable tabbable-custom tabbable-noborder tabbable-reversed">
+						<div class="tab-content">
+								<div class="portlet box green">
+									<div class="portlet-title">
+										<div class="caption">
+											<i class="fa fa-plus"></i>You are adding test result
+										</div>
+									</div>
+									<div class="portlet-body form">
+										<!-- BEGIN FORM-->
+										<form action="add-test-results-marks" method="post" class="form-horizontal form-row-seperated">
+										<div class="form-group">
+															<label class="control-label col-md-3">
+															<h3><strong>TAJWEED</strong></h3></label>
+										</div>
+										<?php if ($makharij == 1){
+										echo '<input type="hidden" value="6" name="makharij" id="makharij"><div class="form-group">
+															<label class="control-label col-md-3">
+															<strong>Makharij</strong></label>
+															<div class="md-checkbox-inline col-md-9">
+										<div class="md-checkbox col-md-5">
+											<input type="checkbox" name="checkbox1" value="1:1" id="checkbox1" class="md-check">
+											<label for="checkbox1">
+											<span></span>
+											<span class="check"></span>
+											<span class="box"></span>
+											Prononunciation of letters is not good. </label>
+										</div>
+										<div class="md-checkbox col-md-5">
+											<input type="checkbox" name="checkbox2" value="1:2" id="checkbox2" class="md-check">
+											<label for="checkbox2">
+											<span></span>
+											<span class="check"></span>
+											<span class="box"></span>
+											Confusion in reading Haa and HHaa. </label>
+										</div>
+										<div class="md-checkbox col-md-5">
+											<input type="checkbox" name="checkbox3" value="1:3" id="checkbox3" class="md-check">
+											<label for="checkbox3">
+											<span></span>
+											<span class="check"></span>
+											<span class="box"></span>
+											Confusion in reading Hamza and Ain. </label>
+										</div>
+										<div class="md-checkbox col-md-5">
+											<input type="checkbox" name="checkbox5" value="1:5" id="checkbox5" class="md-check">
+											<label for="checkbox5">
+											<span></span>
+											<span class="check"></span>
+											<span class="box"></span>
+											Confusion in reading Thaa and Seen. </label>
+										</div>
+										<div class="md-checkbox col-md-5">
+											<input type="checkbox" name="checkbox4" value="1:4" id="checkbox4" class="md-check">
+											<label for="checkbox4">
+											<span></span>
+											<span class="check"></span>
+											<span class="box"></span>
+											Not pronouncing the bold letters properly. </label>
+										</div>
+										<div class="md-checkbox col-md-5">
+											<input type="checkbox" name="checkbox6" value="1:6" id="checkbox6" class="md-check">
+											<label for="checkbox6">
+											<span></span>
+											<span class="check"></span>
+											<span class="box"></span>
+											Not reading Zaal and Zaa from their articulation points. </label>
+										</div>															
+														</div>
+												</div>'; } ?>
+												<?php if ($noon == 1){
+										echo '<input type="hidden" value="6" name="noon" id="noon"><div class="form-group">
+															<label class="control-label col-md-3">
+															<strong>Rules of Noon Sakin &amp; Tanween</strong></label>
+															<div class="md-checkbox-inline col-md-9">
+										<div class="md-checkbox col-md-5">
+											<input type="checkbox" name="checkbox7" value="1:7" id="checkbox7" class="md-check">
+											<label for="checkbox7">
+											<span></span>
+											<span class="check"></span>
+											<span class="box"></span>
+											Izhar is not memorized. </label>
+										</div>
+										<div class="md-checkbox col-md-5">
+											<input type="checkbox" name="checkbox8" value="1:8" id="checkbox8" class="md-check">
+											<label for="checkbox8">
+											<span></span>
+											<span class="check"></span>
+											<span class="box"></span>
+											Idgham is not memorized. </label>
+										</div>
+										<div class="md-checkbox col-md-5">
+											<input type="checkbox" name="checkbox9" value="1:9" id="checkbox9" class="md-check">
+											<label for="checkbox9">
+											<span></span>
+											<span class="check"></span>
+											<span class="box"></span>
+											Do not know about Ikhfa. </label>
+										</div>
+										<div class="md-checkbox col-md-5">
+											<input type="checkbox" name="checkbox10" value="1:10" id="checkbox10" class="md-check">
+											<label for="checkbox10">
+											<span></span>
+											<span class="check"></span>
+											<span class="box"></span>
+											 Iqlab is not memorized. </label>
+										</div>
+										<div class="md-checkbox col-md-5">
+											<input type="checkbox" name="checkbox11" value="1:11" id="checkbox11" class="md-check">
+											<label for="checkbox11">
+											<span></span>
+											<span class="check"></span>
+											<span class="box"></span>
+											Memorized but unable to apply. </label>
+										</div>
+										<div class="md-checkbox col-md-5">
+											<input type="checkbox" name="checkbox12" value="1:12" id="checkbox12" class="md-check">
+											<label for="checkbox12">
+											<span></span>
+											<span class="check"></span>
+											<span class="box"></span>
+											Applied but not memorized. </label>
+										</div>															
+														</div>
+												</div>';} ?>
+												<?php if ($meem == 1){
+										echo '<input type="hidden" value="3" name="meem" id="meem"><div class="form-group">
+															<label class="control-label col-md-3">
+															<strong>Rules of Meem Sakin</strong></label>
+															<div class="md-checkbox-inline col-md-9">
+										<div class="md-checkbox col-md-5">
+											<input type="checkbox" name="checkbox13" value="1:13" id="checkbox13" class="md-check">
+											<label for="checkbox13">
+											<span></span>
+											<span class="check"></span>
+											<span class="box"></span>
+											Memorized but unable to apply. </label>
+										</div>
+										<div class="md-checkbox col-md-5">
+											<input type="checkbox" name="checkbox14" value="1:14" id="checkbox14" class="md-check">
+											<label for="checkbox14">
+											<span></span>
+											<span class="check"></span>
+											<span class="box"></span>
+											Applied but not memorized. </label>
+										</div>
+										<div class="md-checkbox col-md-5">
+											<input type="checkbox" name="checkbox15" value="1:15" id="checkbox15" class="md-check">
+											<label for="checkbox15">
+											<span></span>
+											<span class="check"></span>
+											<span class="box"></span>
+											Have no idea about Meem Sakin. </label>
+										</div>														
+											</div>
+												</div>';} ?>
+												<?php if ($qulqala == 1){
+										echo '<input type="hidden" value="3" name="qulqala" id="qulqala"><div class="form-group">
+															<label class="control-label col-md-3">
+															<strong>Qalqalah</strong></label>
+															<div class="md-checkbox-inline col-md-9">
+										<div class="md-checkbox col-md-5">
+											<input type="checkbox" name="checkbox16" value="1:16" id="checkbox16" class="md-check">
+											<label for="checkbox16">
+											<span></span>
+											<span class="check"></span>
+											<span class="box"></span>
+											Memorized but unable to apply. </label>
+										</div>
+										<div class="md-checkbox col-md-5">
+											<input type="checkbox" name="checkbox17" value="1:17" id="checkbox17" class="md-check">
+											<label for="checkbox17">
+											<span></span>
+											<span class="check"></span>
+											<span class="box"></span>
+											Applied but not memorized. </label>
+										</div>
+										<div class="md-checkbox col-md-5">
+											<input type="checkbox" name="checkbox18" value="1:18" id="checkbox18" class="md-check">
+											<label for="checkbox18">
+											<span></span>
+											<span class="check"></span>
+											<span class="box"></span>
+											Have no idea about Qalqalah. </label>
+										</div>													
+											</div>
+												</div>';} ?>
+												<?php if ($guuna == 1){
+										echo '<input type="hidden" value="3" name="guuna" id="guuna"><div class="form-group">
+															<label class="control-label col-md-3">
+															<strong>Ghunna</strong></label>
+															<div class="md-checkbox-inline col-md-9">
+										<div class="md-checkbox col-md-5">
+											<input type="checkbox" name="checkbox21" value="1:21" id="checkbox21" class="md-check">
+											<label for="checkbox21">
+											<span></span>
+											<span class="check"></span>
+											<span class="box"></span>
+											Have no idea about ghunna. </label>
+										</div>
+										<div class="md-checkbox col-md-5">
+											<input type="checkbox" name="checkbox19" value="1:19" id="checkbox19" class="md-check">
+											<label for="checkbox19">
+											<span></span>
+											<span class="check"></span>
+											<span class="box"></span>
+											Not doing Ghunna properly. </label>
+										</div>
+										<div class="md-checkbox col-md-5">
+											<input type="checkbox" name="checkbox20" value="1:20" id="checkbox20" class="md-check">
+											<label for="checkbox20">
+											<span></span>
+											<span class="check"></span>
+											<span class="box"></span>
+											Some times do not care of Ghunna. </label>
+										</div>															
+											</div>
+												</div>';} ?>
+												<?php if ($madda == 1){
+										echo '<input type="hidden" value="5" name="madda" id="madda"><div class="form-group">
+									<label class="control-label col-md-3">
+												<strong>Madda Letters &amp; Madh</strong></label>
+									<div class="md-checkbox-inline col-md-9">
+										<div class="md-checkbox col-md-5">
+											<input type="checkbox" name="checkbox26" value="1:26" id="checkbox26" class="md-check">
+											<label for="checkbox26">
+											<span></span>
+											<span class="check"></span>
+											<span class="box"></span>
+											Have no idea about Madda &amp; Madh. </label>
+										</div>
+										<div class="md-checkbox col-md-5">
+											<input type="checkbox" name="checkbox22" value="1:22" id="checkbox22" class="md-check">
+											<label for="checkbox22">
+											<span></span>
+											<span class="check"></span>
+											<span class="box"></span>
+											Not stretching madda letters. </label>
+										</div>
+										<div class="md-checkbox col-md-5">
+											<input type="checkbox" name="checkbox23" value="1:23" id="checkbox23" class="md-check">
+											<label for="checkbox23">
+											<span></span>
+											<span class="check"></span>
+											<span class="box"></span>
+											Stretching the Harakat. </label>
+										</div>
+										<div class="md-checkbox col-md-5">
+											<input type="checkbox" name="checkbox24" value="1:24" id="checkbox24" class="md-check">
+											<label for="checkbox24">
+											<span></span>
+											<span class="check"></span>
+											<span class="box"></span>
+											Not stretch Madd properly. </label>
+										</div>
+										<div class="md-checkbox col-md-5">
+											<input type="checkbox" name="checkbox25" value="1:25" id="checkbox25" class="md-check">
+											<label for="checkbox25">
+											<span></span>
+											<span class="check"></span>
+											<span class="box"></span>
+											Know about the madda letters but not reading accordingly. </label>
+										</div>
+											</div>
+												</div>'; }?>
+										<?php if ($cdept >= 2){
+										echo '<div class="form-group">
+															<label class="control-label col-md-3">
+															<h3><strong>QURAN READING</strong></h3></label>
+										</div>
+										<div class="form-group">
+															<label class="control-label col-md-3">
+															<strong>Reading Fluency</strong></label>
+															<div class="col-md-4">
+															<select required class="form-control input-circle" name="read"  id="read" onchange="javascript: return optionList49_SelectedIndex()">
+                      							<option value="100">Excellent</option>
+												<option value="75">Above Average</option>
+												<option value="50">On Average</option>
+												<option value="25">Below Average</option>
+												<option value="0">Not Good</option>
+              									</select>
+															</div>
+												</div>';} ?>
+											<?php if ($cdept >= 3){
+										echo '<div class="form-group">
+															<label class="control-label col-md-3">
+															<h3><strong>QURAN MEMORIZATION</strong></h3></label>
+										</div>
+										<div class="form-group">
+															<label class="control-label col-md-3">
+															<strong>Munzil</strong></label>
+															<div class="col-md-4">
+															<select required class="form-control input-circle" name="manzil"  id="manzil" onchange="javascript: return optionList49_SelectedIndex()">
+                      							<option value="100">Excellent</option>
+												<option value="75">Above Average</option>
+												<option value="50">On Average</option>
+												<option value="25">Below Average</option>
+												<option value="0">Not Good</option>
+              									</select>
+															</div>
+												</div>';} ?>
+												<div class="form-group">
+															<label class="control-label col-md-3">
+															<h3><strong>Teacher Performance</strong></h3></label>
+										</div>
+										<div class="form-group">
+															<label class="control-label col-md-3">
+															<strong>Teacher Performance</strong></label>
+															<div class="col-md-4">
+															<select required class="form-control input-circle" name="tgrade"  id="tgrade" onchange="javascript: return optionList49_SelectedIndex()">
+                      							<option value="100">Excellent</option>
+												<option value="75">Above Average</option>
+												<option value="50">On Average</option>
+												<option value="25">Below Average</option>
+												<option value="0">Not Good</option>
+              									</select>
+															</div>
+												</div>
+												<input type="hidden" value="<?php echo $pnid; ?>" name="test_id" id="test_id">
+											<div class="form-actions">
+												<div class="row">
+													<div class="col-md-offset-3 col-md-9">
+														<button type="submit" name="cmdSubmit" class="btn btn-circle blue">Submit</button>
+														<button type="button" class="btn btn-circle default">Cancel</button>
+													</div>
+												</div>
+											</div>
+										</form>
+										<!-- END FORM-->
+									</div>
+								</div>
+							</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- END PAGE CONTENT INNER -->
+		</div>
+	</div>
+	<!-- END PAGE CONTENT -->
+</div>
+<!-- END PAGE CONTAINER -->
+<?php echo $fot; ?>

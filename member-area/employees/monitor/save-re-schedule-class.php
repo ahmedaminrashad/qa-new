@@ -1,0 +1,42 @@
+<?php
+  require ('../includes/dbconnection.php');
+<?php
+// Enable error reporting
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+ini_set('log_errors', 1);
+
+if (session_status() !== PHP_SESSION_ACTIVE) {
+    session_start();
+}
+
+require("../includes/dbconnection.php");
+require_once("../includes/mysql-compat.php");
+
+// Check database connection
+if (!isset($conn) || !$conn) {
+    die("Database connection failed. Please contact the administrator.");
+}
+		$t_id =$_REQUEST['teacher'];
+		$s_id =$_REQUEST['student'];
+		$t_timee =$_REQUEST['t_time'];
+		$s_timee =$_REQUEST['s_time'];
+		$a_timee =$_REQUEST['a_time'];
+		$tdate =$_REQUEST['t_date'];
+		$sdate =$_REQUEST['s_date'];
+		$adate =$_REQUEST['a_date'];
+		$p_id =$_REQUEST['parent_id'];
+		$d_id =$_REQUEST['dept'];
+		$ad_id =$_REQUEST['a_dept'];
+		$history =$_REQUEST['history'];
+		$leadate =$_REQUEST['admindate'];
+		$letdate =$_REQUEST['teacherdate'];
+		$lesdate =$_REQUEST['studentdate'];
+		$link =base64_decode($_GET["link"]);
+				
+			mysql_query ("INSERT INTO class_history(parent_id, course_id, teacher_id, atime_s_id, stime_s_id, time_s_id, dept_id, adept_id, status, date_admin, date_student, date_teacher, type, le_date_admin, le_date_teacher, le_date_student)
+					VALUES('$p_id','$s_id','$t_id','$a_timee','$s_timee','$t_timee','$d_id', '$ad_id', '20', '$adate', '$sdate', '$tdate', '11','$leadate','$letdate','$lesdate')") or die(mysql_error()); 
+			mysql_query("UPDATE class_history SET re_status = 2, re_date_admin = '$adate', re_date_student = '$sdate', re_date_teacher = '$tdate' WHERE history_id = $history") or die(mysql_error());
+			header('Location: '.$link.'');
+?>

@@ -1,0 +1,7 @@
+<?php
+  require ("../includes/dbconnection.php");  
+?>
+<?php
+	mysql_query("DELETE FROM sched3 WHERE mnt_id = 5") or die(mysql_error());  	
+	header("Location: tty1.php");
+?>

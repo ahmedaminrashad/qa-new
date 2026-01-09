@@ -1,0 +1,10 @@
+<?php
+  require ("../includes/dbconnection.php");
+  $o_id =$_REQUEST['original_id'];
+  $h_id =$_REQUEST['his_id'];  
+$sql = "INSERT INTO class_history (parent_id, course_id, teacher_id, time_start, time_end, start_time_S, end_time_S, start_time_A, end_time_A, duration, dept_id, lesson_id, lesson_discription, adept_id, alesson_id, additional_des, monitor_id, status, type, end_time, activation, teacher_remarks, sabaq, sabaqi, manzil, re_date_admin, re_date_teacher, re_date_student, re_status, date_admin, date_student, date_teacher, le_date_admin, le_date_student, le_date_teacher) SELECT parent_id, course_id, teacher_id, time_start, time_end, start_time_S, end_time_S, start_time_A, end_time_A, duration, dept_id, lesson_id, lesson_discription, adept_id, alesson_id, additional_des, monitor_id, status, type, end_time, activation, teacher_remarks, sabaq, sabaqi, manzil, re_date_admin, re_date_teacher, re_date_student, re_status, date_admin, date_student, date_teacher, le_date_admin, le_date_student, le_date_teacher FROM class_resched WHERE history_id = '$h_id'";
+$sql = "DELETE FROM class_resched WHERE history_id = '$h_id'";
+if ($conn->query($sql) === TRUE) {
+        header('Location: ' . $_SERVER['HTTP_REFERER']);
+    }
+?>

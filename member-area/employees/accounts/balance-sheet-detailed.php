@@ -1,0 +1,663 @@
+<?php if (empty($session)) { session_start(); } 
+<?php
+// Enable error reporting
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+ini_set('log_errors', 1);
+
+if (session_status() !== PHP_SESSION_ACTIVE) {
+    session_start();
+}
+
+require("../includes/dbconnection.php");
+require_once("../includes/mysql-compat.php");
+
+// Check database connection
+if (!isset($conn) || !$conn) {
+    die("Database connection failed. Please contact the administrator.");
+}
+?>
+<?php
+  include("../includes/session.php");
+  include("../includes/accounts_rights.php");
+  require ("../includes/dbconnection.php");
+  include("header.php");
+function tot($y){
+  $sql = "select sum(amount) from account_entry where (ac_cat_id = 2 OR ac_cat_id = 7 OR ac_cat_id = 8 OR ac_cat_id = 9 OR ac_cat_id = 1 OR ac_cat_id = 10 OR ac_cat_id = 11) AND date <= '$y'";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+$first = $row[0];
+$sql = "select sum(amount) from account_entry where (ac_cat_id = 3 OR ac_cat_id = 4 OR ac_cat_id = 6) AND date <= '$y'";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+$second = $row[0];
+$sql = "select sum(ad_amount) from adjusment_account where ac_cat_id = 5 AND date <= '$y'";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+$acc = $row[0];
+$total = $second-$first-$acc;
+echo number_format($total, 2);
+}
+function tan_ass($y){
+$sql = "select sum(amount) from account_entry where ac_cat_id = 10 AND date <= '$y'";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+$first = $row[0];
+$sql = "select sum(tax) from account_entry where ac_cat_id = 10 AND date <= '$y'";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+$second = $row[0];
+$sql = "select sum(ad_amount) from adjusment_account where ac_cat_id = 10 AND date <= '$y'";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+$third = $row[0];
+$total = $first+$second-$third;
+echo number_format($total, 2);
+}
+function intan_ass($y){
+$sql = "select sum(amount) from account_entry where ac_cat_id = 1 AND date <= '$y'";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+$first = $row[0];
+$sql = "select sum(tax) from account_entry where ac_cat_id = 1 AND date <= '$y'";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+$second = $row[0];
+$sql = "select sum(ad_amount) from adjusment_account where ac_cat_id = 1 AND date <= '$y'";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+$third = $row[0];
+$total = $first+$second-$third;
+echo number_format($total, 2);
+}
+function tot_ass($y){
+$sql = "select sum(amount) from account_entry where (ac_cat_id = 10 OR ac_cat_id = 1) AND date <= '$y'";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+$first = $row[0];
+$sql = "select sum(ad_amount) from adjusment_account where (ac_cat_id = 10 OR ac_cat_id = 1) AND date <= '$y'";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+$second = $row[0];
+$sql = "select sum(tax) from account_entry where (ac_cat_id = 10 OR ac_cat_id = 1) AND date <= '$y'";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+$third = $row[0];
+$total = $first+$third-$second;
+echo number_format($total, 2);
+}
+function advances($y){
+$sql = "select sum(amount) from account_entry where ac_cat_id = 2 AND date <= '$y'";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+$second = $row[0];
+$sql = "select sum(ad_amount) from adjusment_account where ac_cat_id = 2 AND date <= '$y'";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+$third = $row[0];
+$total = $second-$third;
+echo number_format($total, 2);
+}
+function tot_n_ass($y){
+  $sql = "select sum(amount) from account_entry where (ac_cat_id = 7 OR ac_cat_id = 8 OR ac_cat_id = 9 OR ac_cat_id = 1 OR ac_cat_id = 10 OR ac_cat_id = 11) AND date <= '$y'";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+$first = $row[0];
+$sql = "select sum(amount) from account_entry where (ac_cat_id = 3 OR ac_cat_id = 4 OR ac_cat_id = 6) AND date <= '$y'";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+$second = $row[0];
+$sql = "select sum(ad_amount) from adjusment_account where ac_cat_id = 2 AND date <= '$y'";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+$third = $row[0];
+$total = $second-$first-$third;
+echo number_format($total, 2);
+}
+function long_loan($y){
+$sql = "select sum(amount) from account_entry where ac_cat_id = 4 AND date <= '$y'";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+$second = $row[0];
+echo number_format($second, 2);
+}
+function accrued($y){
+$sql = "select sum(amount) from account_entry where ac_cat_id = 5 AND date <= '$y'";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+$second = $row[0];
+//Total Adjustment of accrued(5)
+$sql = "select sum(ad_amount) from adjusment_account where ac_cat_id = 5 AND date <= '$y'";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+$accrued_adj = $row[0];
+$total = $second-$accrued_adj;
+echo number_format($total, 2);
+}
+function total_assests($y){
+  $sql = "select sum(amount) from account_entry where (ac_cat_id = 7 OR ac_cat_id = 8 OR ac_cat_id = 9 OR ac_cat_id = 1 OR ac_cat_id = 10 OR ac_cat_id = 11) AND date <= '$y'";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+$first = $row[0];
+$sql = "select sum(amount) from account_entry where (ac_cat_id = 3 OR ac_cat_id = 4 OR ac_cat_id = 6 OR ac_cat_id = 10 OR ac_cat_id = 1) AND date <= '$y'";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+$second = $row[0];
+$sql = "select sum(ad_amount) from adjusment_account where (ac_cat_id = 2 OR ac_cat_id = 5 OR ac_cat_id = 10 OR ac_cat_id = 1) AND date <= '$y'";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+$third = $row[0];
+$sql = "select sum(tax) from account_entry where (ac_cat_id = 10 OR ac_cat_id = 1) AND date <= '$y'";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+$tax = $row[0];
+$total = $second-$first-$third+$tax;
+echo number_format($total, 2);
+}
+function pot($y){
+$sql = "select sum(amount) from account_entry where ac_cat_id = 11 AND date <= '$y'";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+$first = $row[0];
+$sql = "select sum(tax) from account_entry where date <= '$y'";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+$second = $row[0];
+$total = $second-$first;
+echo number_format($total, 2);
+}
+function total_laibility($y){
+  $sql = "select sum(amount) from account_entry where (ac_cat_id = 4 OR ac_cat_id = 5) AND date <= '$y'";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+$first1 = $row[0];
+$sql = "select sum(amount) from account_entry where ac_cat_id = 11 AND date <= '$y'";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+$first = $row[0];
+$sql = "select sum(tax) from account_entry where date <= '$y'";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+$second = $row[0];
+$total = $second-$first+$first1;
+echo number_format($total, 2);
+}
+function equity(){
+ $sql = "select sum(share_value) from equity";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+$first = $row[0];
+$sql = "select sum(nos) from equity";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+$second = $row[0];
+$total = $second*$first;
+echo number_format($total, 2);
+}
+function all_laibility($y){
+  $sql = "select sum(amount) from account_entry where (ac_cat_id = 4 OR ac_cat_id = 5) AND date <= '$y'";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+$first1 = $row[0];
+$sql = "select sum(amount) from account_entry where ac_cat_id = 11 AND date <= '$y'";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+$first = $row[0];
+$sql = "select sum(tax) from account_entry where date <= '$y'";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+$second = $row[0];
+$subtotal1 = $second-$first+$first1;
+$sql = "select sum(share_value) from equity";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+$firste = $row[0];
+$sql = "select sum(nos) from equity";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+$seconde = $row[0];
+$subtotal2 = $seconde*$firste;
+$gtotal = $subtotal2+$subtotal1;
+echo number_format($gtotal, 2);
+}
+function p_boy_bal($y){
+//Total COST OF SERVICES(7) and ADMINISTRATIVE & GENERAL EXPENSES(8) and Accrued Expense
+$sql = "select sum(amount) from account_entry where (ac_cat_id = 7 OR ac_cat_id = 8 OR ac_cat_id = 5 OR ac_cat_id = 9) AND date <= '$y'";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+$cost = $row[0];
+//Total Adjustment of advance
+$sql = "select sum(ad_amount) from adjusment_account where date <= '$y'";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+$advance_adj_teach = $row[0];
+//Total income from CASH AND BANK(3) BALANCES and INCOME(6)
+$sql = "select sum(amount) from account_entry where (ac_cat_id = 3 OR ac_cat_id = 6) AND date <= '$y'";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+$income = $row[0];
+//tax
+$sql = "select sum(tax) from account_entry where date <= '$y'";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+$tax = $row[0];
+$total = $income-$cost-$advance_adj_teach-$tax;
+echo number_format($total, 2);
+}
+function tot_eqi($y){
+$sql = "select sum(amount) from account_entry where (ac_cat_id = 3 OR ac_cat_id = 6) AND date <= '$y'";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+$first = $row[0];
+$sql = "select sum(ad_amount) from adjusment_account where date <= '$y'";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+$second = $row[0];
+$sql = "select sum(amount) from account_entry where (ac_cat_id = 7 OR ac_cat_id = 9 OR ac_cat_id = 8) AND date <= '$y'";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+$third = $row[0];
+$total = $first-$second-$third;
+$sql = "select sum(tax) from account_entry where date <= '$y'";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+$second3 = $row[0];
+$final_profit = $total-$second3;
+$sql = "select sum(share_value) from equity";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+$first4 = $row[0];
+$sql = "select sum(nos) from equity";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+$second4 = $row[0];
+$total4 = $second4*$first4;
+$final4_total = $total4+$final_profit;
+echo number_format($final4_total, 2);
+}
+?>
+<?php echo $main_header; ?>
+<?php
+date_default_timezone_set("Asia/Karachi");
+$sy = date('Y-m-d');
+?>
+<?php echo $tool_bar; ?>
+<?php echo $start_menu; ?>
+<?php echo $search_bar; ?>
+<?php echo $main_menu; ?>
+<!-- BEGIN PAGE CONTAINER -->
+<div class="page-container">
+	<!-- BEGIN PAGE HEAD -->
+	<div class="page-head">
+		<div class="container">
+			<!-- BEGIN PAGE TITLE -->
+			<div class="page-title">
+				<h1>Balance<small> Sheet</small></h1>
+			</div>
+			<!-- END PAGE TITLE -->
+			<!-- BEGIN PAGE TOOLBAR -->
+			<div class="page-toolbar">
+			</div>
+			<!-- END PAGE TOOLBAR -->
+		</div>
+	</div>
+	<!-- END PAGE HEAD -->
+	<!-- BEGIN PAGE CONTENT -->
+	<div class="page-content">
+		<div class="container">
+			<!-- BEGIN PAGE BREADCRUMB -->
+			<ul class="page-breadcrumb breadcrumb">
+				<li>
+					<a href="admin-home">Home</a><i class="fa fa-circle"></i>
+				</li>
+				<li class="active">
+					 Balance Sheet Till Today (<?php echo $sy; ?>)
+				</li>
+			</ul>
+			<!-- END PAGE BREADCRUMB -->
+			<!-- BEGIN PAGE CONTENT INNER -->
+					<div class="row">
+				<div class="col-md-6">
+				<div class="portlet light">
+									<h4>
+									<font color="#44B6AE"> <b>ASSETS</b></font>
+									</h4><br>
+									<h5>
+									<font color="#44B6AE"> <b>NON-CURRENT ASSETS</b></font>
+									</h5>
+									<div id="mytable" class="table-responsive">
+								<table class="table table-hover">
+								<tbody>
+								<tr class="warning">
+								<td><b>TANGIBLE ASSETS:</b></td>
+								<td></td>
+								<td></td>
+								</tr>
+								<?php 
+								$result = mysql_query("SELECT * FROM accounts_head WHERE account_cat_id = 10");
+$counter = 0;
+if (!$result) 
+	{
+    die("Query to show fields from table failed");
+	}
+$numberOfRows = MYSQL_NUMROWS($result);
+If ($numberOfRows == 0) 
+	{
+	echo 'Sorry No Record Found!';
+	}
+else if ($numberOfRows > 0) 
+	{
+	$i=0;
+	while ($i<$numberOfRows)
+		{		
+				$AH_id = MYSQL_RESULT($result,$i,"account_head_id");
+			$AH_name = MYSQL_RESULT($result,$i,"account_head_name");
+			$sql = "select sum(amount) from account_entry where account_head = '$AH_id' AND date <= '$sy'";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+$first = $row[0];
+$sql = "select sum(tax) from account_entry where account_head = '$AH_id' AND date <= '$sy'";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+$second = $row[0];
+$sql = "select sum(ad_amount) from adjusment_account where head_id = '$AH_id' AND date <= '$sy'";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+$third = $row[0];
+$total = $first+$second-$third;
+if ($total != 0){
+							echo '<tr>
+								<td><span style="margin-left:30px">'.$AH_name.'</span></td>
+								<td>'.number_format($total, 2).'</td>
+								<td></td>
+								</tr>';
+								}
+else { echo ''; }
+		$i++;		
+		}
+	}	
+								?>
+								<tr>
+								<td><b>Total Tangible Assets:</b></td>
+								<td></td>
+								<td><b><?php echo tan_ass("$sy"); ?></b></td>
+								</tr>
+								<tr>
+								<tr class="warning">
+								<td><b>INTANGIBLE ASSETS:</b></td>
+								<td></td>
+								<td></td>
+								</tr>
+								<?php 
+								$result = mysql_query("SELECT * FROM accounts_head WHERE account_cat_id = 1");
+$counter = 0;
+if (!$result) 
+	{
+    die("Query to show fields from table failed");
+	}
+$numberOfRows = MYSQL_NUMROWS($result);
+If ($numberOfRows == 0) 
+	{
+	echo 'Sorry No Record Found!';
+	}
+else if ($numberOfRows > 0) 
+	{
+	$i=0;
+	while ($i<$numberOfRows)
+		{		
+				$AH_id = MYSQL_RESULT($result,$i,"account_head_id");
+			$AH_name = MYSQL_RESULT($result,$i,"account_head_name");
+			$sql = "select sum(amount) from account_entry where account_head = '$AH_id' AND date <= '$sy'";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+$first = $row[0];
+$sql = "select sum(tax) from account_entry where account_head = '$AH_id' AND date <= '$sy'";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+$second = $row[0];
+$sql = "select sum(ad_amount) from adjusment_account where head_id = '$AH_id' AND date <= '$sy'";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+$third = $row[0];
+$total = $first+$second-$third;
+if ($total != 0){
+							echo '<tr>
+								<td><span style="margin-left:30px">'.$AH_name.'</span></td>
+								<td>'.number_format($total, 2).'</td>
+								<td></td>
+								</tr>';
+								}
+else { echo ''; }
+		$i++;		
+		}
+	}	
+								?>
+								<tr>
+								<td><b>Total Intangible Assets:</b></td>
+								<td></td>
+								<td><b><?php echo intan_ass("$sy"); ?></b></td>
+								</tr>
+								<tr class="success">
+								<td><b>TOTAL NON-CURRENT ASSETS:</b></td>
+								<td></td>
+								<td><b><?php echo tot_ass("$sy"); ?></b></td>
+								</tr>
+								<tr><td>
+								<h5>
+									<font color="#44B6AE"> <b>CURRENT ASSETS</b></font>
+									</h5>
+								</td><td></td><td></td></tr>
+								<tr class="warning">
+								<td><b>ADVANCES, DEPOSITES &amp; PREPAYMENTS:</b></td>
+								<td></td>
+								<td></td>
+								</tr>
+								<?php 
+								$result = mysql_query("SELECT * FROM accounts_head WHERE account_cat_id = 2");
+$counter = 0;
+if (!$result) 
+	{
+    die("Query to show fields from table failed");
+	}
+$numberOfRows = MYSQL_NUMROWS($result);
+If ($numberOfRows == 0) 
+	{
+	echo 'Sorry No Record Found!';
+	}
+else if ($numberOfRows > 0) 
+	{
+	$i=0;
+	while ($i<$numberOfRows)
+		{		
+				$AH_id = MYSQL_RESULT($result,$i,"account_head_id");
+			$AH_name = MYSQL_RESULT($result,$i,"account_head_name");
+			$sql = "select sum(amount) from account_entry where account_head = '$AH_id' AND date <= '$sy'";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+$first = $row[0];
+$sql = "select sum(tax) from account_entry where account_head = '$AH_id' AND date <= '$sy'";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+$second = $row[0];
+$sql = "select sum(ad_amount) from adjusment_account where head_id = '$AH_id' AND date <= '$sy'";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+$third = $row[0];
+$total = $first+$second-$third;
+if ($total != 0){
+							echo '<tr>
+								<td><span style="margin-left:30px">'.$AH_name.'</span></td>
+								<td>'.number_format($total, 2).'</td>
+								<td></td>
+								</tr>';
+								}
+else { echo ''; }
+		$i++;		
+		}
+	}	
+								?>
+								<tr>
+								<td><b>Total Advances, Deposits &amp; Prepayments:</b></td>
+								<td></td>
+								<td><b><?php echo advances("$sy"); ?></b></td>
+								</tr>
+								<tr class="warning">
+								<td><b>CASH &amp; BANK BALANCE:</b></td>
+								<td></td>
+								<td></td>
+								</tr>
+								<tr>
+								<td><b>Total Cash &amp; Bank Balances:</b></td>
+								<td></td>
+								<td><b><?php echo tot("$sy"); ?></b></td>
+								</tr>
+								<tr class="success">
+								<td><b>TOTAL CURRENT ASSETS:</b></td>
+								<td></td>
+								<td><b><?php echo tot_n_ass("$sy"); ?></b></td>
+								</tr>
+								<tr bgcolor="#44B6AE">
+								<td><b>TOTAL ASSETS:</b></td>
+								<td></td>
+								<td><b><?php echo total_assests("$sy"); ?></b></td>
+								</tr>
+								<tr><td>								<h4>
+									<font color="#44B6AE"> <b>EQUITY &amp; LIABILITIES</b></font>
+									</h4><br>
+									<h5>
+									<font color="#44B6AE"> <b>SHARE CAPITAL &amp; RESERVES</b></font>
+									</h5>
+								</td><td></td><td></td></tr>								<tr>
+								<td>Authorized capital (1,000 x 100 each):</td>
+								<td></td>
+								<td><?php echo equity(); ?></td>
+								</tr>
+								<tr>
+								<td>Issued, subscribed &amp; paid up capital (1,000 x 100 each):</td>
+								<td></td>
+								<td><?php echo equity(); ?></td>
+								</tr>
+								<tr>
+								<td>Surplus of income over expenses</td>
+								<td></td>
+								<td>
+								<?php echo p_boy_bal("$sy"); ?>
+								</td>
+								</tr>
+								<tr class="success">
+								<td><b>TOTAL EQUITY:</b></td>
+								<td></td>
+								<td><b><?php echo tot_eqi("$sy"); ?></b></td>
+								</tr>
+								<tr><td>								<h5>
+									<font color="#44B6AE"> <b>NON-CURRENT LIABILITIES</b></font>
+									</h5>
+								</td><td></td><td></td></tr>								
+								<tr class="warning">
+								<td><b>LONG TERM LOANS:</b></td>
+								<td></td>
+								<td></td>
+								</tr>
+								<tr>
+								<tr>
+								<td><b>Total Long Term Loan:</b></td>
+								<td></td>
+								<td><b><?php echo long_loan("$sy"); ?></b></td>
+								</tr>
+								<tr class="success">
+								<td><b>TOTAL NON-CURRENT LIABILITIES:</b></td>
+								<td></td>
+								<td><b><?php echo long_loan("$sy"); ?></b></td>
+								</tr>
+								<tr><td>								<h5>
+									<font color="#44B6AE"> <b>CURRENT LIABILITIES</b></font>
+									</h5>
+								</td><td></td><td></td></tr>								
+								<tr class="warning">
+								<td><b>ACCRUED EXPENSES:</b></td>
+								<td></td>
+								<td></td>
+								</tr>
+								<?php 
+								$result = mysql_query("SELECT * FROM accounts_head WHERE account_cat_id = 5");
+$counter = 0;
+if (!$result) 
+	{
+    die("Query to show fields from table failed");
+	}
+$numberOfRows = MYSQL_NUMROWS($result);
+If ($numberOfRows == 0) 
+	{
+	echo 'Sorry No Record Found!';
+	}
+else if ($numberOfRows > 0) 
+	{
+	$i=0;
+	while ($i<$numberOfRows)
+		{		
+				$AH_id = MYSQL_RESULT($result,$i,"account_head_id");
+			$AH_name = MYSQL_RESULT($result,$i,"account_head_name");
+			$sql = "select sum(amount) from account_entry where account_head = '$AH_id' AND date <= '$sy'";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+$first = $row[0];
+$sql = "select sum(tax) from account_entry where account_head = '$AH_id' AND date <= '$sy'";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+$second = $row[0];
+$sql = "select sum(ad_amount) from adjusment_account where head_id = '$AH_id' AND date <= '$sy'";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+$third = $row[0];
+$total = $first+$second-$third;
+if ($total != 0){
+							echo '<tr>
+								<td><span style="margin-left:30px">'.$AH_name.'</span></td>
+								<td>'.number_format($total, 2).'</td>
+								<td></td>
+								</tr>';
+								}
+else { echo ''; }
+		$i++;		
+		}
+	}	
+								?>
+								<tr>
+								<td><b>Total Accrued Expenses:</b></td>
+								<td></td>
+								<td><b><?php echo accrued("$sy"); ?></b></td>
+								</tr>
+								<tr class="warning">
+								<td><b>PROVISION FOR TAXATION:</b></td>
+								<td></td>
+								<td></td>
+								</tr>
+								<tr>
+								<td><b>Total Provision for Taxation:</b></td>
+								<td></td>
+								<td><b><?php echo pot("$sy"); ?></b></td>
+								</tr>
+								<tr class="success">
+								<td><b>TOTAL CURRENT LIABILITIES:</b></td>
+								<td></td>
+								<td><b><?php echo total_laibility("$sy"); ?></b></td>
+								</tr>
+								<tr bgcolor="#44B6AE">
+								<td><b>TOTAL EQUITY &amp; LIABILITIES:</b></td>
+								<td></td>
+								<td><b><?php echo all_laibility("$sy"); ?></b></td>
+								</tr>
+								</tbody>
+								</table>
+							</div>
+					<!-- END SAMPLE TABLE PORTLET-->
+				</div>
+			</div>
+			<!-- END PAGE CONTENT INNER -->
+		</div>
+	</div>
+	<!-- END PAGE CONTENT -->
+</div>
+<!-- END PAGE CONTAINER -->
+<?php echo $fot; ?>

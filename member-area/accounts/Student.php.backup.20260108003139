@@ -1,0 +1,637 @@
+<?php session_start(); ?>
+<?php
+		unset($_SESSION['is']);
+		session_destroy();
+?>
+<?php
+error_reporting(0);
+  require ("../includes/dbconnection.php");
+  include("../includes/main-var.php");
+ $msg =''; 
+ $userNEror = false;
+ $passEror = false;
+//if (isset($_GET["action"]) && ($_GET["action"] == "login")) {
+//if the login form is submitted
+if (isset($_POST['submit'])) {
+    // if form has been submitted
+// makes sure they filled it in
+if(!$_POST['username'] | !$_POST['pass']){
+$error ='You did not fill in a required field.';
+}
+// checks it against the database
+if (!get_magic_quotes_gpc()) {
+$_POST['email'] = addslashes($_POST['email']);
+}
+$check = mysql_query("SELECT * FROM account WHERE username = '".$_POST['username']."'")or die(mysql_error());
+//Gives error if user dosen't exist
+$check2 = mysql_num_rows($check);
+if ($check2 == 0) {
+//die('Asalam-O-Elekum! This user does not exist in our database. Please contact the Admin for assistance.');
+  //  $msg ='This user does not exist.';
+ $userNEror = true;
+ $passEror = false;
+}
+while($info = mysql_fetch_array( $check )) 
+{
+$_POST['pass'] = stripslashes($_POST['pass']);
+$info['userpass'] = stripslashes($info['userpass']);
+$_POST['pass'] = $_POST['pass'];
+$dept_id = $info['dept_id'];
+$parent_id = $info['parent_id'];
+$parent = $info['parent_name'];
+$timezone = $info['timezone'];
+$email1 = $info['email'];
+$currency1 = $info['currency_id'];
+$modeid = $info['mode_id'];
+//gives error if the password is wrong
+if ($_POST['pass'] != $info['userpass']) {
+//$error ='Incorrect combination, please try again.';
+//$msg ='The password is incorrect';
+ $passEror = true;
+ $userNEror = false;
+}
+else 
+{ 
+// if login is ok then we add a cookie 
+$_POST['username'] = stripslashes($_POST['username']); 
+$hour = time() + 3600; 
+setcookie(ID_my_site, $_POST['username'], $hour); 
+setcookie(Key_my_site, $_POST['userpass'], $hour);	
+//then redirect them to the members area 
+if ($info['dept_id'] == '1'){
+		session_start();
+		$_SESSION['is']['login']    = TRUE;
+		$_SESSION['is']['username'] = $_POST['username'];
+		$_SESSION['is']['parent_id'] = $parent_id;
+		$_SESSION['is']['parent'] = $parent;
+		$session = "1";	
+ header(
+			 		"Location: teacher.php?username=".md5($_POST['username'])
+		 		   );
+}
+elseif($info['dept_id'] == '1002'){
+		session_start();
+		$_SESSION['is']['login']    = TRUE;
+		$_SESSION['is']['username'] = $_POST['username'];
+		$_SESSION['is']['parent_id'] = $parent_id;
+		$_SESSION['is']['parent'] = $parent;
+		$_SESSION['is']['timezone_id'] = $timezone;
+		$_SESSION['is']['email_id'] = $email1;
+		$_SESSION['is']['$currency1'] = $currency1;
+		$_SESSION['is']['$modeid'] = $modeid;
+		$session = "1";	
+ header(
+			 		"Location: parents-home?username=". $_POST['username'] 
+		 		   );
+				   }
+elseif($info['dept_id'] == '1003'){
+		session_start();
+		$_SESSION['is']['login']    = TRUE;
+		$_SESSION['is']['username'] = $_POST['username'];
+		$_SESSION['is']['parent_id'] = $parent_id;
+		$_SESSION['is']['parent'] = $parent;
+		$_SESSION['is']['timezone_id'] = $timezone;
+		$_SESSION['is']['email_id'] = $email1;
+		$_SESSION['is']['$currency1'] = $currency1;
+		$_SESSION['is']['$modeid'] = $modeid;
+		$session = "1";	
+ header(
+			 		"Location: parents-home?username=". $_POST['username'] 
+		 		   );
+				   }
+	elseif($info['dept_id'] == '3'){
+		session_register('is');
+		$_SESSION['is']['login']    = TRUE;
+		$_SESSION['is']['username'] = $_POST['username'];
+		$_SESSION['is']['course_id'] = $course_id;
+		$_SESSION['is']['course_yrSec'] = $course;
+		$session = "1";	
+ header(
+			 		"Location: Student3/index.php?username=". $_POST['username'] 
+		 		   );
+				     }
+					 elseif($info['dept_id'] == '4'){
+		session_register('is');
+		$_SESSION['is']['login']    = TRUE;
+		$_SESSION['is']['username'] = $_POST['username'];
+		$_SESSION['is']['course_id'] = $course_id;
+		$_SESSION['is']['course_yrSec'] = $course;
+		$session = "1";	
+ header(
+			 		"Location: Student4/index.php?username=". $_POST['username'] 
+		 		   );
+				   }
+	elseif($info['dept_id'] == '5'){
+		session_register('is');
+		$_SESSION['is']['login']    = TRUE;
+		$_SESSION['is']['username'] = $_POST['username'];
+		$_SESSION['is']['course_id'] = $course_id;
+		$_SESSION['is']['course_yrSec'] = $course;
+		$session = "1";	
+ header(
+			 		"Location: Student5/index.php?username=". $_POST['username'] 
+		 		   );
+				     }
+		elseif($info['dept_id'] == '6'){
+		session_register('is');
+		$_SESSION['is']['login']    = TRUE;
+		$_SESSION['is']['username'] = $_POST['username'];
+		$_SESSION['is']['course_id'] = $course_id;
+		$_SESSION['is']['course_yrSec'] = $course;
+		$session = "1";	
+ header(
+			 		"Location: Student6/index.php?username=". $_POST['username'] 
+		 		   );
+				     }
+	elseif($info['dept_id'] == '7'){
+	session_register('is');
+		$_SESSION['is']['login']    = TRUE;
+		$_SESSION['is']['username'] = $_POST['username'];
+		$_SESSION['is']['course_id'] = $course_id;
+		$_SESSION['is']['course_yrSec'] = $course;
+		$session = "1";	
+ header(
+			 		"Location: Student7/index.php?user=". $_POST['user not registered, Click Here to Register'] 
+		 		   );
+}
+elseif($info['dept_id'] == '8'){
+	session_register('is');
+		$_SESSION['is']['login']    = TRUE;
+		$_SESSION['is']['username'] = $_POST['username'];
+		$_SESSION['is']['course_id'] = $course_id;
+		$_SESSION['is']['course_yrSec'] = $course;
+		$session = "1";	
+ header(
+			 		"Location: Student8/index.php?user=". $_POST['user not registered, Click Here to Register'] 
+		 		   );
+}
+}
+}
+} 
+else 
+{	
+}
+// if they are not logged in 
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+
+
+<!-- Mirrored from www.tareequljannah.com/Student by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 Oct 2019 12:40:17 GMT -->
+<!-- Added by HTTrack --><!-- /Added by HTTrack -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Quran Square</title>
+     <link rel="shortcut icon" href="http://test.quransquare.com/resources/newassets/images/icon.png">
+    <link rel="stylesheet" href="resources/newassets/styles/bootstrap.min.css">
+    <link rel="stylesheet" href="../cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.2/css/all.css">
+    <link rel="stylesheet" href="resources/newassets/styles/uikit.css">
+    <link id="pagestyle" rel="stylesheet" href="resources/newassets/styles/style.css">
+    <link rel="stylesheet" href="resources/newassets/styles/global.css">
+    <link rel="stylesheet" href="resources/newassets/styles/materialize.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <script>
+        function swapStyleSheet(sheet) {
+            document.getElementById('pagestyle').setAttribute('href', sheet);
+        }
+    </script>
+
+    <script src="resources/newassets/scripts/uikit.js"></script>
+    <script src="resources/newassets/scripts/uikit-icons.min.js"></script>
+
+    
+</head>
+<!--Start of Tawk.to Script-->
+<script type="text/javascript">
+var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+(function(){
+var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+s1.async=true;
+s1.src='https://embed.tawk.to/5d9f9bd4f82523213dc6ae93/default';
+s1.charset='UTF-8';
+s1.setAttribute('crossorigin','*');
+s0.parentNode.insertBefore(s1,s0);
+})();
+</script>
+<!--End of Tawk.to Script-->
+<body>
+    
+    <header style="z-index: 980;" uk-sticky="bottom: #offset" class="internalMenu uk-active">
+        <div class="row no-gutters">
+            <div class="col-12">
+                <div class="secondHeader">
+                    <div class="logoPart">
+                          <a  href="index.php"> <img src="resources/newassets/images/logo.png" alt=""></a> 
+                    </div>
+                    <div class="headerMenu">
+                        <ul class="frontMenu">
+                            <li><a href="https://quransquare.com">Home</a></li>
+                            <li><a href="https://quransquare.com#WhyUs" >Why Us?</a></li>
+                            <li><a href="https://quransquare.com#AllCourses" >Programmes</a>
+                                <div uk-dropdown="mode: click">
+                                    <!-- <ol class="uk-nav uk-dropdown-nav">
+                                        <li><a href="course.html">Quran Programme</a></li>
+                                        <li><a href="#">Quran Programme for Children</a></li>
+                                        <li><a href="#">Memorisation (Hifz) Programme</a></li>
+                                        <li><a href="#">Tajweed Syllabus</a></li>
+                                        <li><a href="#">Learn the Arabic language</a></li>
+                                        <li><a href="#">Quranic Arabic Programme</a></li>
+                                        <li><a href="#">Convert Programme</a></li>
+                                        <li><a href="#">Free Evaluation Session</a></li>
+                                    </ol>teachers.html-->
+                                </div> 
+                            </li>
+							<li><a href="https://quransquare.com/Teacher.html">Teachers</a></li>
+                            <li><a href="https://quransquare.com#AllVideos" >Videos</a></li>
+                            <li><a href="https://quransquare.com#PackagePrice" >Pricing</a></li>
+                            <li><a href="#contactModal" uk-toggle>Contact Us</a></li>
+                            <li><a href="https://quransquare.com#JoinUs" uk-scroll="offset:60">Jobs</a></li>
+                            <li><a href="#" class="logSign">Login/Signup</a>
+                                <!-- Dropdown Structure -->
+                                <div uk-dropdown="mode: click">
+                                    <ol class="uk-nav uk-dropdown-nav">
+                                        <li><a href="https://quransquare.com/Teacher.html">Teacher Login</a></li>
+                                        <li><a href="https://quransquare.com/RegisterNow.php">Register Now</a></li>
+                                    </ol>
+                                </div>
+                            </li>
+                        </ul>
+                        <a href="#sideNavBar" uk-toggle class="SidemenuIcon"><i class="fa fa-bars"></i></a>
+                    </div>
+                </div>
+                   <a href="https://wa.me/447418397601" id="callnowbutton" target="_blank">
+                         <i class="fa   fa-5x icon-whatsapp-bootom">  
+                            <img name="icon" class="image image-icon-whatsapp" src="https://quransquare.com/resources/newassets/images/whatsapp.png"  class="img-create-Edit" > 
+                         </i>
+                    </a> 
+                <div id="sideNavBar" uk-offcanvas>
+                    <div class="uk-offcanvas-bar">
+
+                        <button class="uk-offcanvas-close" type="button" uk-close></button>
+                          <h3>Menu</h3>
+                        <ul class="sideNavMenu">
+                            <li><a href="index.php" >Home</a></li>
+                            <li><a href="index.php#WhyUs">Why Us?</a></li>
+                            <li class="arrowToggle">
+                            	<a href="index.php#AllCourses" class="sideNavTitle" >Programme </a>
+                            </li>
+							<li><a href="https://quransquare.com/Teacher.html">Teachers</a></li>
+                            <li><a href="https://quransquare.com#AllVideos" >Videos</a></li>
+                            <li><a href="https://quransquare.com#PackagePrice">Pricing</a></li>
+                            <li><a href="#contactModal" >Contact Us</a></li>
+                            <li><a href="https://quransquare.com#JoinUs">Jobs</a></li>
+                            <li class="arrowToggle"><a  uk-toggle="target: #loginmnu; animation: uk-animation-fade" class="sideNavTitle">Login
+                                <button class="uk-button uk-button-default" href="#loginmnu" type="button" uk-toggle="target: #loginmnu; animation: uk-animation-fade"><i class="fa fa-plus-circle"></i></button></a>
+                                <div id="loginmnu" hidden>
+                                    <ul class="offSubMenu">
+                                        <li><a href="https://quransquare.com/Teacher.html">Teacher Login</a></li>
+                                    </ul>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <main>
+        <div class="row no-gutters mb-0">
+            <div id="LoginPage" class="col-12">
+                <div id="StLoginForm" class="PageInternal">
+                    <h2>Student/Family Login</h2>
+                    <div class="row justify-content-md-center mb-0">
+                        <div class="col-12 col-sm-12 col-md-6 col-lg-4">
+                            <div class="headerForm LoginPage">
+                                <h4>Login</h4>
+                             <!-- <?php echo $msg;?>-->
+                                <div id="ActivatedAccount"></div>
+                                <div class="row mb-0">
+                                    <form class="col s12" id="login-Form" action="<?php echo $_SERVER['PHP_SELF']?>" method="post">
+                                        <div class="formInternal">
+                                            <div class="input-field col s12">
+                                                <input id="username" type="text" class="validate" name="username" required>
+                                                <label for="username">Username</label>
+                                                <?php echo $userNEror?'<span style ="color: red;">This user does not exist.</span>':'<br>'; ?>
+                                            </div>
+                                            <div class="input-field col s12">
+                                                <label for="passwd">Password</label>
+                                                <input id="passwd" type="password" class="validate"  name="pass" required>
+                                                   <?php echo $passEror?'<span style ="color: red;">The password is incorrect.</span>':'<br>'; ?>
+                                            </div>
+                                            <div class="col s12 formCheckbx">
+                                                <p>
+                                                    <label>
+                                                        <input id="StudentPolicy" type="checkbox" checked />
+                                                        <span>I agree <a href="#modal-overflow"
+                                                                uk-toggle>Quran Square is Student
+                                                                Policy</a></span>
+                                                    </label>
+                                                </p>
+                                            </div>
+                                        </div>                                        
+                                        <div class="">
+                                            <div class="btnGroup col-12">
+                                                <button class="btn waves-effect waves-light" type="submit" name="submit" >Login</button>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-0 feedbackDiv">
+											<div id="feedback"></div>
+                                        </div>
+                                        <div class="row mb-0 forgotPass">
+                                            <a href="#forgotPasswordModal" uk-toggle>Forgot Password</a>
+
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="orSignup  col-12">
+                                <span class="orIcon">OR</span>
+                                <p>Need an account? click below to</p>
+                                <div class="btnSignLogin">
+                                    <a href="RegisterNow.html">Register Now</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+            
+            <div class="SloganPart">
+                <p>We are leading online Quran & Arabic teaching institute. We are expert in using state of the art technologies to teach online. We have teacher's who are certified by Al-Azhar and also fluently speaks in english and well trained to teach
+                    online.
+                </p>
+            </div>
+        </div>
+        <!-- Modal Structure -->
+		<!-- Button trigger modal-->
+
+        <div id="modal-overflow" uk-modal class="policyPage">
+            <div class="uk-modal-dialog">
+
+                <button class="uk-modal-close-default" type="button" uk-close></button>
+
+                <div class="uk-modal-header">
+                    <h2 class="uk-modal-title">TareequlJannah's Student Policy
+                    </h2>
+                </div>
+
+                <div class="uk-modal-body" uk-overflow-auto>
+                    <h5>This Student Policy is for all the courses offered at TareequlJannah Institute.</h5>
+                    <div class="policyText">
+                        <h6>Be On Time</h6>
+                        <ul>
+                            <li>Student should be in the classroom at least 2 minutes before the class start-time with all materials needed for the lesson.</li>
+                            <li>Teacher will begin the class right at the start time. If student is not present, then teacher will wait for 3 minutes before sending the email reminder and teacher will wait for the first 15 minutes of class. If the student
+                                does not enter the classroom within the first 15 minutes, then it is noted as an unexcused absence for the student and this class will not be re-scheduled.
+                            </li>
+                            <li>If class begins late as a result of the student, class will resume until end of the scheduled class time.</li>
+                            <li>If teacher is not in the classroom, please chat with us instantly to address the issue promptly. Should the teacher miss the class without a substitute filling in for them, a make-up lesson will be scheduled within one week
+                                at the student's convenience for no additional fee.
+                            </li>
+                        </ul>
+                        <h6>Absences</h6>
+                        <ul>
+                            <li>If student needs to miss and reschedule a class due to the reasons below, a 12-hour notice to the mytj247@gmail.com is required. We will re-schedule based on the below listed category of the absence.</li>
+                        </ul>
+                        <h6>Excused Absences</h6>
+                        <ul>
+                            <li>Includes: Illness, Death in Family, Appointment, Work/School Conflict, National Holiday, Technical Issues (Internet, Zoom, Computer issues).
+                                <ul>
+                                    <li>4 hours per month : 1 hour per month excused</li>
+                                    <li>10 hours per month : 1.5 hour per month excused</li>
+                                    <li>20 hours per month : 2 hours per month excused</li>
+                                </ul>
+                            </li>
+                            <li>There are NO refunds for any type of absence.</li>
+                        </ul>
+                        <h6></h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="forgotPasswordModal" uk-modal>
+            <div class="uk-modal-dialog uk-modal-body">
+                <div class="formReg">
+                    <div class="headerForm">
+                        <h4>Forgot Password</h4>
+                        <button class="uk-modal-close-default" type="button" uk-close></button>
+                        <div class="row mb-0">
+                            <form class="col s12" >
+                                <div class="row mb-0">
+                                    <div class="input-field col s12 m6 l6">
+                                        <input id="parentEmailId" type="email" class="validate" onChange="enableSaveButton(true);">
+                                        <label for="parentEmailId">Registered Email Id</label>
+                                    </div>
+                                    <div class="input-field col s12 m6 l6">
+                                        <input id="cellPhone" type="text" class="validate" onChange="enableSaveButton(true);">
+                                        <label for="cellPhone">Registered Cellphone</label>
+                                    </div>
+                                    <div id="forgetfeedback"></div>
+                                </div>
+
+                                <div class="row mb-0">
+                                    <div class="btnGroup">
+                                        <button type="button" class="btn waves-effect waves-light" id="btn-recover" onClick="return sendPassword();" enabled>
+                                        	Recover Password
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        
+        
+        <div id="stuPolicyModal" uk-modal>
+            <div class="uk-modal-dialog uk-modal-body">
+                <div class="formReg">
+                    <div class="headerForm">
+                        <h4>Forgot Password</h4>
+                        <button class="uk-modal-close-default" type="button" uk-close></button>
+                        <div class="row mb-0">
+                            <form class="col s12">
+                                <div class="row mb-0">
+                                    <div class="input-field col s12 m6 l6">
+                                        <input id="for_email" type="email" class="validate">
+                                        <label for="for_email">Registered Email Id</label>
+                                    </div>
+                                    <div class="input-field col s12 m6 l6">
+                                        <input id="for_cellphone" type="text" class="validate">
+                                        <label for="for_cellphone">Registered Cellphone</label>
+                                    </div>
+                                </div>
+
+                                <div class="row mb-0">
+                                    <div class="btnGroup">
+                                        <button class="btn waves-effect waves-light" type="submit" id="btn-recover">
+                                        	Recover Password
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+    <footer>
+        <div class="row no-gutters">
+            <div class="col-12 col-sm-6 col-lg-3 abtus">
+                <div class="footHead">
+                    <h6>About Us</h6>
+                </div>
+                <div class="footCont">
+                    <p>We are leading online Quran & Arabic teaching institute. We are expert in using state of the art
+                        technologies to teach online. We have teacher's who are certified by Al-Ahzar and also fluently
+                        speaks in english and well trained to
+                        teach online.</p>
+                    <ul class="SocIcon">
+                        <li><a href="https://www.facebook.com/quransquare" class="fbIco" target="_blank"><i class="fa fa-facebook"></i></a></li>
+                        <li><a href="https://twitter.com/quransquare" class="twIco" target="_blank"><i class="fa fa-twitter"></i></a></li>
+                        <li><a href="https://www.youtube.com/channel/UCz2rDPNQZ97l0Sld77nv7Ow?view_as=subscriber" class="ytIco" target="_blank"><i class="fa fa-youtube"></i></a></li>
+                        <li><a href="https://www.instagram.com/quransquare" class="lkdIco" target="_blank"><i class="fa fa-instagram"></i></a></li>
+                    </ul>
+                    <div class="appAvailable">
+                        <a href="https://play.google.com/store/apps/details?id=com.tareequljannah.mytj&amp;hl=en" target="_blank"><img src="resources/newassets/images/googleplay.png" alt=""></a>
+                        <a href="https://itunes.apple.com/ca/app/mytj/id1447275870?mt=8" target="_blank"><img src="resources/newassets/images/iosapp.png" alt=""></a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-6 col-lg-3 impLink">
+                <div class="footHead">
+                    <h6>Important Links</h6>
+                    <ul class="ImpLinks">
+                        <li><a href="index.php#AllVideos">Gallery</a></li>
+                        <li><a href="#registerModal" uk-toggle>Request Demo</a></li>
+                        <li><a href="index.php#WhyUs">Why Us</a></li>
+                        <li><a href="index.php#AllCourses">Programmes</a></li>
+                        <li><a href="#contactModal" uk-toggle>Contact Us</a></li>
+                    </ul>
+                </div>
+                <div class="footCont">
+                </div>
+            </div>
+            <div class="col-12 col-sm-6 col-lg-3 contac">
+                <div class="footHead">
+                    <h6>Contact</h6>
+                    <ul class="ContactInfo">
+                        <li>
+                            <div class="addIcon"><i class="fa fa-home"></i></div>
+                            <div class="addContent">
+                                  <p>Old Bath Road Colnbrook, Slough, Berkshire, London, SL3 0NS</p>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="addIcon"><i class="fa fa-envelope"></i></div>
+                            <div class="addContent">
+                                <p><a href="mailto:quransquare@gmail.com?Subject=Dear%20MyTJ" target="_top">quransquare@gmail.com</a></p>
+                                <p><a href="mailto:info@quransqaure.com?Subject=Dear%20MyTJ" target="_top">info@quransqaure.com</a>
+                                </p>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="addIcon"><i class="fa fa-phone"></i></div>
+                            <div class="addContent"><a href="tel:+447418397601">+447418397601</a>
+                                <!--<a  href="tel:+1-888-MYTJCA-1">+1-888-MYTJCA-1</a>-->
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="footCont">
+                </div>
+            </div>
+            <div class="col-12 col-sm-6 col-lg-3 paym">
+                <div class="footHead">
+                    <h6>Payments</h6>
+                </div>
+                <div class="footCon">
+                    <p>Our payments are securely processed by paypal. We gurantee you that we don't store your credit card
+                        info in our database.</p>
+                    <ul class="payCards">
+                        <li>
+                            <a href="#"><img src="resources/newassets/images/visa.jpg" alt=""></a>
+                        </li>
+                        <li>
+                            <a href="#"><img src="resources/newassets/images/discover.jpg" alt=""></a>
+                        </li>
+                        <li>
+                            <a href="#"><img src="resources/newassets/images/mastercard.jpg" alt=""></a>
+                        </li>
+                        <li>
+                            <a href="#"><img src="resources/newassets/images/paypal.jpg" alt=""></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- Contact Modal -->
+        <div id="contactModal" uk-modal>
+            <div class="uk-modal-dialog uk-modal-body">
+                <div class="formReg">
+                    <div class="headerForm">
+                        <h2>Contact Us</h2>
+                        <button class="uk-modal-close-default" type="button" uk-close></button>
+                        <div class="row mb-0">
+                            <form class="col s12" name="contact_us" method="post" name="contactform">
+                                <div class="row mb-0">
+                                    <div class="input-field col s12 m6 l6">
+                                        <input id="name" name="full_name" type="text" class="validate" required>
+                                        <label for="name">Full Name</label>
+                                    </div>
+                                    <div class="input-field col s12 m6 l6">
+                                        <input id="email" name="email" type="email" class="validate" required>
+                                        <label for="email">Email</label>
+                                    </div>
+                                </div>
+                                <div class="row mb-0">
+                                    <div class="input-field col s12 m6 l6">
+                                        <input id="phone" name="phone_number" type="text" class="validate" required>
+                                        <label for="phone">Phone Number</label>
+                                    </div>
+                                    <div class="input-field col s12 m6 l6">
+                                        <input id="subject" name="subject" type="text" class="validate" required>
+                                        <label for="subject">Subject</label>
+                                    </div>
+                                </div>
+                                <div class="row mb-0">
+                                    <div class="input-field col s12 m6 l12">
+                                        <textarea id="your_message" name="message" type="text" class="validate materialize-textarea" required></textarea>
+                                        <label for="your_message">Message</label>
+                                    </div>
+                                </div>
+                                <div class="row mb-0">
+                                    <div class="btnGroup">
+                                        <button id="btn-send" class="btn waves-effect waves-light" type="submit" name="contact_us">Send Message
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> 
+
+    </footer>
+
+
+
+    <script type="text/javascript" src="resources/newassets/scripts/jquery-2.2.3.min.js"></script>
+    <script type="text/javascript" src="resources/newassets/scripts/materialize.min.js"></script>
+    <script type="text/javascript" src="resources/newassets/scripts/common.js"></script>
+    <script type="text/javascript" src="resources/newassets/scripts/bootstrap.min.js"></script>
+
+</body>
+
+</html>

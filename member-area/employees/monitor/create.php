@@ -1,0 +1,72 @@
+<?php
+  require ("../includes/dbconnection.php");  
+  require ("../includes/smsGateway.php");
+<?php
+// Enable error reporting
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+ini_set('log_errors', 1);
+
+if (session_status() !== PHP_SESSION_ACTIVE) {
+    session_start();
+}
+
+require("../includes/dbconnection.php");
+require_once("../includes/mysql-compat.php");
+
+// Check database connection
+if (!isset($conn) || !$conn) {
+    die("Database connection failed. Please contact the administrator.");
+}
+?>
+<?php
+	// sending query
+	mysql_query("TRUNCATE TABLE sched3") or die(mysql_error());
+?>
+<?php
+	// sending query
+	mysql_query("INSERT INTO sched3(uni, course_id, teacher_id, time_s_id, stime_s_id, atime_s_id, day_id, sday_id, aday_id, dept_id, adept_id, parent_id, php_tz)
+	SELECT sched_id, course_id, teacher_id, time_s_id, stime_s_id, atime_s_id, day_id, sday_id, aday_id, dept_id, adept_id, parent_id, php_tz
+	FROM sched") or die(mysql_error());  
+	
+if(mysql_query){
+ $result = mysql_query("SELECT * FROM sms_status WHERE service_id = 4");
+ if (!$result) 
+			{
+			die("Query to show fields from table failed");
+			}
+		$numberOfRows = MYSQL_NUMROWS($result);
+		If ($numberOfRows == 0){
+			echo '';
+			}
+		else if ($numberOfRows > 0) 
+			{
+			$i=0;
+			while ($i<$numberOfRows)
+				{			
+					$ser_id = MYSQL_RESULT($result,$i,"service_id");
+					$ser_name = MYSQL_RESULT($result,$i,"service_name");
+					$ser_status = MYSQL_RESULT($result,$i,"service_status");
+					$ser_number = MYSQL_RESULT($result,$i,"service_number");
+			 if ($ser_status == 1){			
+ $smsGateway = new SmsGateway('fearfarooq@gmail.com', '5506729aaa');
+
+$deviceID = 36449;
+$number = $ser_number;
+$message = 'Weekly Classes has been created successfully.';
+
+$options = [
+'expires_at' => strtotime('+1 hour') // Cancel the message in 1 hour if the message is not yet sent
+];
+
+//Please note options is no required and can be left out
+$result = $smsGateway->sendMessageToNumber($number, $message, $deviceID, $options);
+}
+else {}
+	$i++;	 
+			}
+			}
+}	
+	header("Location: admin-home");
+?>

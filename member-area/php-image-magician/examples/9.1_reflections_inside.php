@@ -1,0 +1,58 @@
+<?php
+
+	require_once('../php_image_magician.php');
+<?php
+// Enable error reporting
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+ini_set('log_errors', 1);
+
+if (session_status() !== PHP_SESSION_ACTIVE) {
+    session_start();
+}
+
+require("../includes/dbconnection.php");
+require_once("../includes/mysql-compat.php");
+
+// Check database connection
+if (!isset($conn) || !$conn) {
+    die("Database connection failed. Please contact the administrator.");
+}
+
+	/*	Purpose: Open image
+     *	Usage:	 resize('filename.type')
+     * 	Params:	 filename.type - the filename to open
+     */
+	$magicianObj = new imageLib('sample_images/paradise.jpg');
+
+
+	/*	Purpose: Create image reflection
+     *	Usage:	 addReflection([reflection_height], [starting_transparency], [inside_image], [background_color], [stretch])
+     * 	Params:	 reflection_height - the height of the reflection
+     *			 starting_transparency - The amount of transparency to start with
+	 *				100 = no transparency.
+     *			 inside_image - if set to 'true' then the reflection will be 
+     *				placed inside the image. I.E., the image will remain the 
+	 *				same size. The top of the image will become cropped. 
+     *				'false' will append the reflect to the bottom of the image
+     *				meaning the image height will increase by the reflection
+     *				height amount.
+     *			background_color - the color the transparency will fade to.
+     *			stretch - If true, this will stretch the transparency mask to
+	 *				cover the whole of the reflection height specified. Set to 
+	 *				False by default as it can cause banding.
+	 *
+     */
+	$magicianObj -> addReflection(75, 30, true, '#000');
+
+
+	/*	Purpose: Save image
+     *	Usage:	 saveImage('[filename.type]', [quality])
+     * 	Params:	 filename.type - the filename and file type to save as
+ 	 * 			 quality - (optional) 0-100 (100 being the highest (default))
+     *				Only applies to jpg & png only
+     */
+	$magicianObj -> saveImage('output_9.1.png', 100);
+
+?>

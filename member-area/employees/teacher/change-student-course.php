@@ -1,0 +1,161 @@
+<?php session_start(); ?>
+<?php
+// Enable error reporting
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+ini_set('log_errors', 1);
+
+if (session_status() !== PHP_SESSION_ACTIVE) {
+    session_start();
+}
+
+require("../includes/dbconnection.php");
+require_once("../includes/mysql-compat.php");
+
+// Check database connection
+if (!isset($conn) || !$conn) {
+    die("Database connection failed. Please contact the administrator.");
+}
+<?php
+  include("../includes/session.php");
+require("../includes/dbconnection.php");
+include("../includes/teacher_rights.php");include("header.php");
+
+    $sid =base64_decode($_GET["student_id"]);
+    $did =base64_decode($_GET["d_id"]);
+    $adid =base64_decode($_GET["ad_id"]);
+    $name =base64_decode($_GET["name"]);
+?>
+<?php
+if (isset($_POST['cmdSubmit'])) 
+  	{ 	
+			$id_student= $_POST['con_id'];
+			$id_dept= $_POST['r_dept'];
+			$id_adept= $_POST['a_dept'];
+
+			mysql_query( "UPDATE course SET dept_id = '$id_dept', adept_id = '$id_adept' where course_id = '$id_student'") or die(mysql_error());
+			mysql_query( "UPDATE sched SET dept_id = '$id_dept', adept_id = '$id_adept' where course_id = '$id_student'") or die(mysql_error());
+			mysql_query( "UPDATE sched3 SET dept_id = '$id_dept', adept_id = '$id_adept' where course_id = '$id_student'") or die(mysql_error());
+							 header("Location: teacher-student-list");
+				}
+?>
+<?php
+date_default_timezone_set("Asia/Karachi");
+$sy = date('Y-m-d');
+?>
+<?php echo $main_header; ?>
+<?php echo $tool_bar; ?>
+<?php echo $start_menu; ?>
+<?php echo $main_menu; ?>
+<!-- BEGIN PAGE CONTAINER -->
+<div class="page-container">
+	<!-- BEGIN PAGE HEAD -->
+	<div class="page-head">
+		<div class="container">
+			<!-- BEGIN PAGE TITLE -->
+			<div class="page-title">
+				<h1>Admin Home<small>Today's Classes</small></h1>
+			</div>
+			<!-- END PAGE TITLE -->
+			<!-- BEGIN PAGE TOOLBAR -->
+			<div class="page-toolbar">
+			</div>
+			<!-- END PAGE TOOLBAR -->
+		</div>
+	</div>
+	<!-- END PAGE HEAD -->
+	<!-- BEGIN PAGE CONTENT -->
+	<div class="page-content">
+		<div class="container">
+
+			<!-- BEGIN PAGE BREADCRUMB -->
+			<ul class="page-breadcrumb breadcrumb">
+				<li>
+					<a href="teacher-home">Home</a><i class="fa fa-circle"></i>
+				</li>
+				<li>
+					<a href="teacher-student-list">list of Student</a><i class="fa fa-circle"></i>
+				</li>
+				<li class="active">
+					 You are editing Student Course
+				</li>
+			</ul>
+			<!-- END PAGE BREADCRUMB -->
+			<!-- BEGIN PAGE CONTENT INNER -->
+			<div class="row">
+				<div class="col-md-12">
+					<div class="tabbable tabbable-custom tabbable-noborder tabbable-reversed">
+						<div class="tab-content">
+								<div class="portlet box green">
+									<div class="portlet-title">
+										<div class="caption">
+											<i class="fa fa-plus"></i>You are Course of <?php echo $name; ?>
+										</div>
+									</div>
+									<div class="portlet-body form">
+										<!-- BEGIN FORM-->
+										<form action="<?php echo $_SERVER['PHP_SELF']?>" method="post" class="form-horizontal form-row-seperated">
+										<div class="form-group">
+															<label class="control-label col-md-3">
+															<strong>Regular Course</strong></label>
+															<div class="col-md-4">
+															<select class="form-control" name="r_dept"  id="r_dept" onchange="javascript: return optionList43_SelectedIndex()">
+                      <?php // source 1: http://www.dmxzone.com/showDetail.asp?NewsId=5102&TypeId=25
+			  	// source 2: http://localhost/phpmyadmin/index.php?db=mydbase&token=651c0063e511c381c9c82ce1fe9b6854
+				$result = mysql_query("SELECT * FROM dept WHERE type_id = 1 ORDER BY dept_id ");			  	
+				do {  ?>
+                      <option value="<?php echo $row['dept_id'];?>"><?php echo $row['department'];?> </option>
+                      <?php } while ($row = mysql_fetch_assoc($result)); ?>
+               </select>
+															</div>
+												</div>
+												<div class="form-group">
+													<label class="col-md-3 control-label"><strong>Additional Course</strong></label>
+													<div class="col-md-4">
+														<select class="form-control" name="a_dept"  id="a_dept" onchange="javascript: return optionList43_SelectedIndex()">
+                      <?php // source 1: http://www.dmxzone.com/showDetail.asp?NewsId=5102&TypeId=25
+			  	// source 2: http://localhost/phpmyadmin/index.php?db=mydbase&token=651c0063e511c381c9c82ce1fe9b6854
+				$result = mysql_query("SELECT * FROM dept WHERE type_id = 3 ORDER BY dept_id ");			  	
+				do {  ?>
+                      <option value="<?php echo $row['dept_id'];?>"><?php echo $row['department'];?> </option>
+                      <?php } while ($row = mysql_fetch_assoc($result)); ?>
+               </select>
+
+													</div>
+												</div>
+												<input type="hidden" value="<?php echo $sid; ?>" name="con_id" id="con_id" class="form-control input-circle">
+											<div class="form-actions">
+												<div class="row">
+													<div class="col-md-offset-3 col-md-9">
+														<button type="submit" name="cmdSubmit" class="btn btn-circle blue">Submit</button>
+														<button type="button" class="btn btn-circle default">Cancel</button>
+													</div>
+												</div>
+											</div>
+										</form>
+										<!-- END FORM-->
+									</div>
+								</div>
+							</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- END PAGE CONTENT INNER -->
+		</div>
+	</div>
+	<!-- END PAGE CONTENT -->
+</div>
+<!-- END PAGE CONTAINER -->
+<?php echo $fot; ?>
+<script language="javascript" >
+	var form = document.forms[0];
+	//purpose?: to retrieve what users last input on the field..
+	form.r_dept.value = ("<?php echo $did; ?>");
+	form.a_dept.value = ("<?php echo $adid; ?>");
+	//alert (form.pCityM.value);				
+</script>

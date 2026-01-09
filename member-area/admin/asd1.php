@@ -1,0 +1,84 @@
+<?php
+  require ("../includes/dbconnection.php");  
+<?php
+// Enable error reporting
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+ini_set('log_errors', 1);
+
+if (session_status() !== PHP_SESSION_ACTIVE) {
+    session_start();
+}
+
+require_once("../includes/mysql-compat.php");
+
+// Check database connection
+if (!isset($conn) || !$conn) {
+    die("Database connection failed. Please contact the administrator.");
+}
+date_default_timezone_set("Africa/Cairo");
+$time_start = date(" g:i:A", time(true));
+$date = date('d/m/Y', time());
+?>
+<?php
+$headers = 'From: TarteeleQuran Accounts <accounts@tarteelequran.com>' . "\r\n" . 
+'Reply-To: accounts@tarteelequran.com' . "\r\n" . 
+'X-Mailer: PHP/' . phpversion();
+$result = mysql_query("SELECT `payment`.*, `currency`.`currency_name` FROM `payment`,`currency` WHERE payment.currency_id=currency.currency_id");
+if(mysql_num_rows($result) > 0) 
+{ 
+$count = 0; 
+while ($row = mysql_fetch_array ($result, MYSQL_ASSOC)) 
+{
+$to = $row['email'] . ', '; 
+$name = $row['parent_name'];
+$user = $row['username'];
+$pass = $row['userpass'];
+$fee = $row['fee'];
+$cur = $row['currency_name'];
+$m =$_REQUEST['month'];
+$due =$_REQUEST['due'];
+$y =$_REQUEST['year'];
+$subject = 'Invoice Request';
+$message="Assalam-o-Aliakum $name!\r\n";
+$message.=" \r\n";
+$message.="This is a request for payment from: TarteeleQuran.Com. \r\n";
+$message.=" \r\n";
+$message.="Billing Details: \r\n";
+$message.="Month: $m-$y \r\n";
+$message.="Amount: $cur $fee \r\n";
+$message.="Due Date: $due \r\n";
+$message.=" \r\n";
+$message.="Kindly use the following credentials to login your account for payments. \r\n";
+$message.="Login Link: www.tarteelequran.com/login.php \r\n";
+$message.="User Name: $user \r\n";
+$message.="User Pass: $pass \r\n";
+$message.=" \r\n";
+$message.="Once you logged in, you will found your invoice under the 'Invoice(s)'. Kindly follow the 'Pay Now' link to fill your order to checkout. \r\n";
+$message.="Your secure order will be processed by 2Checkout.com, Inc.  \r\n";
+$message.="You will have the option to pay in the currency of your choice during checkout.  \r\n";
+$message.="If the payment link does not work properly, please contact accounts@tarteelequran.com  \r\n";
+$message.=" \r\n";
+$message.="Kindly Pay your invoice before/on due date. If you are unable to pay your invoice due to any reason, please inform us telling the date you will pay your invoice at accounts@tarteelequran.com so that your classes remain continue without any inconvenience. \r\n";
+$message.=" \r\n";
+$message.="We sincerely thank you for choosing us to be your online Quran Learning Institute. \r\n";
+$message.=" \r\n";
+$message.="This is a software generated request. If you have already pay your invoice kindly ignore this email. \r\n";
+$message.="TarteeleQuran Accounts \r\n";
+$message.="www.tarteelequran.com \r\n";
+$message.="E-mail:accounts@tarteelequran.com \r\n";
+$message.="Phone: \r\n";
+$message.="US:+1 770 872 7794 \r\n";
+$message.="UK:+44 207 097 1406 \r\n";
+$message.="AU:+61 280 114 377 \r\n";
+mail($to, $subject, $message, $headers); 
+$count++; 
+} 
+echo "myResult=$count Emails Sent. Done."; 
+} 
+else 
+{ 
+echo "myResult=Email Submissions Failed."; 
+}
+?>

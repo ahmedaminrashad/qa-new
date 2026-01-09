@@ -1,0 +1,1422 @@
+<!DOCTYPE html>
+
+<html class="no-js" lang="en-US" prefix="og: https://ogp.me/ns#">
+	<head><meta charset="UTF-8"><script>if(navigator.userAgent.match(/MSIE|Internet Explorer/i)||navigator.userAgent.match(/Trident\/7\..*?rv:11/i)){var href=document.location.href;if(!href.match(/[?&]nowprocket/)){if(href.indexOf("?")==-1){if(href.indexOf("#")==-1){document.location.href=href+"?nowprocket=1"}else{document.location.href=href.replace("#","?nowprocket=1#")}}else{if(href.indexOf("#")==-1){document.location.href=href+"&nowprocket=1"}else{document.location.href=href.replace("#","&nowprocket=1#")}}}}</script><script>class RocketLazyLoadScripts{constructor(){this.v="1.2.3",this.triggerEvents=["keydown","mousedown","mousemove","touchmove","touchstart","touchend","wheel"],this.userEventHandler=this._triggerListener.bind(this),this.touchStartHandler=this._onTouchStart.bind(this),this.touchMoveHandler=this._onTouchMove.bind(this),this.touchEndHandler=this._onTouchEnd.bind(this),this.clickHandler=this._onClick.bind(this),this.interceptedClicks=[],window.addEventListener("pageshow",t=>{this.persisted=t.persisted}),window.addEventListener("DOMContentLoaded",()=>{this._preconnect3rdParties()}),this.delayedScripts={normal:[],async:[],defer:[]},this.trash=[],this.allJQueries=[]}_addUserInteractionListener(t){if(document.hidden){t._triggerListener();return}this.triggerEvents.forEach(e=>window.addEventListener(e,t.userEventHandler,{passive:!0})),window.addEventListener("touchstart",t.touchStartHandler,{passive:!0}),window.addEventListener("mousedown",t.touchStartHandler),document.addEventListener("visibilitychange",t.userEventHandler)}_removeUserInteractionListener(){this.triggerEvents.forEach(t=>window.removeEventListener(t,this.userEventHandler,{passive:!0})),document.removeEventListener("visibilitychange",this.userEventHandler)}_onTouchStart(t){"HTML"!==t.target.tagName&&(window.addEventListener("touchend",this.touchEndHandler),window.addEventListener("mouseup",this.touchEndHandler),window.addEventListener("touchmove",this.touchMoveHandler,{passive:!0}),window.addEventListener("mousemove",this.touchMoveHandler),t.target.addEventListener("click",this.clickHandler),this._renameDOMAttribute(t.target,"onclick","rocket-onclick"),this._pendingClickStarted())}_onTouchMove(t){window.removeEventListener("touchend",this.touchEndHandler),window.removeEventListener("mouseup",this.touchEndHandler),window.removeEventListener("touchmove",this.touchMoveHandler,{passive:!0}),window.removeEventListener("mousemove",this.touchMoveHandler),t.target.removeEventListener("click",this.clickHandler),this._renameDOMAttribute(t.target,"rocket-onclick","onclick"),this._pendingClickFinished()}_onTouchEnd(t){window.removeEventListener("touchend",this.touchEndHandler),window.removeEventListener("mouseup",this.touchEndHandler),window.removeEventListener("touchmove",this.touchMoveHandler,{passive:!0}),window.removeEventListener("mousemove",this.touchMoveHandler)}_onClick(t){t.target.removeEventListener("click",this.clickHandler),this._renameDOMAttribute(t.target,"rocket-onclick","onclick"),this.interceptedClicks.push(t),t.preventDefault(),t.stopPropagation(),t.stopImmediatePropagation(),this._pendingClickFinished()}_replayClicks(){window.removeEventListener("touchstart",this.touchStartHandler,{passive:!0}),window.removeEventListener("mousedown",this.touchStartHandler),this.interceptedClicks.forEach(t=>{t.target.dispatchEvent(new MouseEvent("click",{view:t.view,bubbles:!0,cancelable:!0}))})}_waitForPendingClicks(){return new Promise(t=>{this._isClickPending?this._pendingClickFinished=t:t()})}_pendingClickStarted(){this._isClickPending=!0}_pendingClickFinished(){this._isClickPending=!1}_renameDOMAttribute(t,e,r){t.hasAttribute&&t.hasAttribute(e)&&(event.target.setAttribute(r,event.target.getAttribute(e)),event.target.removeAttribute(e))}_triggerListener(){this._removeUserInteractionListener(this),"loading"===document.readyState?document.addEventListener("DOMContentLoaded",this._loadEverythingNow.bind(this)):this._loadEverythingNow()}_preconnect3rdParties(){let t=[];document.querySelectorAll("script[type=rocketlazyloadscript]").forEach(e=>{if(e.hasAttribute("src")){let r=new URL(e.src).origin;r!==location.origin&&t.push({src:r,crossOrigin:e.crossOrigin||"module"===e.getAttribute("data-rocket-type")})}}),t=[...new Map(t.map(t=>[JSON.stringify(t),t])).values()],this._batchInjectResourceHints(t,"preconnect")}async _loadEverythingNow(){this.lastBreath=Date.now(),this._delayEventListeners(this),this._delayJQueryReady(this),this._handleDocumentWrite(),this._registerAllDelayedScripts(),this._preloadAllScripts(),await this._loadScriptsFromList(this.delayedScripts.normal),await this._loadScriptsFromList(this.delayedScripts.defer),await this._loadScriptsFromList(this.delayedScripts.async);try{await this._triggerDOMContentLoaded(),await this._triggerWindowLoad()}catch(t){console.error(t)}window.dispatchEvent(new Event("rocket-allScriptsLoaded")),this._waitForPendingClicks().then(()=>{this._replayClicks()}),this._emptyTrash()}_registerAllDelayedScripts(){document.querySelectorAll("script[type=rocketlazyloadscript]").forEach(t=>{t.hasAttribute("data-rocket-src")?t.hasAttribute("async")&&!1!==t.async?this.delayedScripts.async.push(t):t.hasAttribute("defer")&&!1!==t.defer||"module"===t.getAttribute("data-rocket-type")?this.delayedScripts.defer.push(t):this.delayedScripts.normal.push(t):this.delayedScripts.normal.push(t)})}async _transformScript(t){return new Promise((await this._littleBreath(),navigator.userAgent.indexOf("Firefox/")>0||""===navigator.vendor)?e=>{let r=document.createElement("script");[...t.attributes].forEach(t=>{let e=t.nodeName;"type"!==e&&("data-rocket-type"===e&&(e="type"),"data-rocket-src"===e&&(e="src"),r.setAttribute(e,t.nodeValue))}),t.text&&(r.text=t.text),r.hasAttribute("src")?(r.addEventListener("load",e),r.addEventListener("error",e)):(r.text=t.text,e());try{t.parentNode.replaceChild(r,t)}catch(i){e()}}:async e=>{function r(){t.setAttribute("data-rocket-status","failed"),e()}try{let i=t.getAttribute("data-rocket-type"),n=t.getAttribute("data-rocket-src");t.text,i?(t.type=i,t.removeAttribute("data-rocket-type")):t.removeAttribute("type"),t.addEventListener("load",function r(){t.setAttribute("data-rocket-status","executed"),e()}),t.addEventListener("error",r),n?(t.removeAttribute("data-rocket-src"),t.src=n):t.src="data:text/javascript;base64,"+window.btoa(unescape(encodeURIComponent(t.text)))}catch(s){r()}})}async _loadScriptsFromList(t){let e=t.shift();return e&&e.isConnected?(await this._transformScript(e),this._loadScriptsFromList(t)):Promise.resolve()}_preloadAllScripts(){this._batchInjectResourceHints([...this.delayedScripts.normal,...this.delayedScripts.defer,...this.delayedScripts.async],"preload")}_batchInjectResourceHints(t,e){var r=document.createDocumentFragment();t.forEach(t=>{let i=t.getAttribute&&t.getAttribute("data-rocket-src")||t.src;if(i){let n=document.createElement("link");n.href=i,n.rel=e,"preconnect"!==e&&(n.as="script"),t.getAttribute&&"module"===t.getAttribute("data-rocket-type")&&(n.crossOrigin=!0),t.crossOrigin&&(n.crossOrigin=t.crossOrigin),t.integrity&&(n.integrity=t.integrity),r.appendChild(n),this.trash.push(n)}}),document.head.appendChild(r)}_delayEventListeners(t){let e={};function r(t,r){!function t(r){!e[r]&&(e[r]={originalFunctions:{add:r.addEventListener,remove:r.removeEventListener},eventsToRewrite:[]},r.addEventListener=function(){arguments[0]=i(arguments[0]),e[r].originalFunctions.add.apply(r,arguments)},r.removeEventListener=function(){arguments[0]=i(arguments[0]),e[r].originalFunctions.remove.apply(r,arguments)});function i(t){return e[r].eventsToRewrite.indexOf(t)>=0?"rocket-"+t:t}}(t),e[t].eventsToRewrite.push(r)}function i(t,e){let r=t[e];Object.defineProperty(t,e,{get:()=>r||function(){},set(i){t["rocket"+e]=r=i}})}r(document,"DOMContentLoaded"),r(window,"DOMContentLoaded"),r(window,"load"),r(window,"pageshow"),r(document,"readystatechange"),i(document,"onreadystatechange"),i(window,"onload"),i(window,"onpageshow")}_delayJQueryReady(t){let e;function r(r){if(r&&r.fn&&!t.allJQueries.includes(r)){r.fn.ready=r.fn.init.prototype.ready=function(e){return t.domReadyFired?e.bind(document)(r):document.addEventListener("rocket-DOMContentLoaded",()=>e.bind(document)(r)),r([])};let i=r.fn.on;r.fn.on=r.fn.init.prototype.on=function(){if(this[0]===window){function t(t){return t.split(" ").map(t=>"load"===t||0===t.indexOf("load.")?"rocket-jquery-load":t).join(" ")}"string"==typeof arguments[0]||arguments[0]instanceof String?arguments[0]=t(arguments[0]):"object"==typeof arguments[0]&&Object.keys(arguments[0]).forEach(e=>{let r=arguments[0][e];delete arguments[0][e],arguments[0][t(e)]=r})}return i.apply(this,arguments),this},t.allJQueries.push(r)}e=r}r(window.jQuery),Object.defineProperty(window,"jQuery",{get:()=>e,set(t){r(t)}})}async _triggerDOMContentLoaded(){this.domReadyFired=!0,await this._littleBreath(),document.dispatchEvent(new Event("rocket-DOMContentLoaded")),await this._littleBreath(),window.dispatchEvent(new Event("rocket-DOMContentLoaded")),await this._littleBreath(),document.dispatchEvent(new Event("rocket-readystatechange")),await this._littleBreath(),document.rocketonreadystatechange&&document.rocketonreadystatechange()}async _triggerWindowLoad(){await this._littleBreath(),window.dispatchEvent(new Event("rocket-load")),await this._littleBreath(),window.rocketonload&&window.rocketonload(),await this._littleBreath(),this.allJQueries.forEach(t=>t(window).trigger("rocket-jquery-load")),await this._littleBreath();let t=new Event("rocket-pageshow");t.persisted=this.persisted,window.dispatchEvent(t),await this._littleBreath(),window.rocketonpageshow&&window.rocketonpageshow({persisted:this.persisted})}_handleDocumentWrite(){let t=new Map;document.write=document.writeln=function(e){let r=document.currentScript;r||console.error("WPRocket unable to document.write this: "+e);let i=document.createRange(),n=r.parentElement,s=t.get(r);void 0===s&&(s=r.nextSibling,t.set(r,s));let a=document.createDocumentFragment();i.setStart(a,0),a.appendChild(i.createContextualFragment(e)),n.insertBefore(a,s)}}async _littleBreath(){Date.now()-this.lastBreath>45&&(await this._requestAnimFrame(),this.lastBreath=Date.now())}async _requestAnimFrame(){return document.hidden?new Promise(t=>setTimeout(t)):new Promise(t=>requestAnimationFrame(t))}_emptyTrash(){this.trash.forEach(t=>t.remove())}static run(){let t=new RocketLazyLoadScripts;t._addUserInteractionListener(t)}}RocketLazyLoadScripts.run();</script>
+		
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" >
+		<meta http-equiv="X-UA-Compatible" content="IE=Edge">		
+		<link rel="profile" href="https://gmpg.org/xfn/11">
+		<meta name="google-site-verification" content="c8cMwx8JTJsAsVJQb46XdZjafdU77rgjCDjJMERpiQ4" />
+		
+		
+<!-- Search Engine Optimization by Rank Math - https://rankmath.com/ -->
+<title>How long to learn Arabic - Ultimate Guide ( 2022 )</title>
+<meta name="description" content="In this article, we explain how long to learn Arabic? , and Factors that affect How long to learn Arabic and How to Learn Arabic Fast , Read it now!"/>
+<meta name="robots" content="follow, index, max-snippet:-1, max-video-preview:-1, max-image-preview:large"/>
+<link rel="canonical" href="https://qarabic.com/how-long-to-learn-arabic/" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="How long to learn Arabic - Ultimate Guide ( 2022 )" />
+<meta property="og:description" content="In this article, we explain how long to learn Arabic? , and Factors that affect How long to learn Arabic and How to Learn Arabic Fast , Read it now!" />
+<meta property="og:url" content="https://qarabic.com/how-long-to-learn-arabic/" />
+<meta property="og:site_name" content="QArabic" />
+<meta property="article:publisher" content="https://www.facebook.com/qarabicacademy/" />
+<meta property="article:section" content="learn Arabic" />
+<meta property="og:updated_time" content="2023-05-30T09:59:10+00:00" />
+<meta property="og:image" content="https://qarabic.com/wp-content/uploads/2021/12/How-long-to-learn-Arabic.webp" />
+<meta property="og:image:secure_url" content="https://qarabic.com/wp-content/uploads/2021/12/How-long-to-learn-Arabic.webp" />
+<meta property="og:image:width" content="1600" />
+<meta property="og:image:height" content="900" />
+<meta property="og:image:alt" content="How long to learn Arabic" />
+<meta property="og:image:type" content="image/webp" />
+<meta property="article:published_time" content="2021-12-28T09:30:26+00:00" />
+<meta property="article:modified_time" content="2023-05-30T09:59:10+00:00" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="How long to learn Arabic - Ultimate Guide ( 2022 )" />
+<meta name="twitter:description" content="In this article, we explain how long to learn Arabic? , and Factors that affect How long to learn Arabic and How to Learn Arabic Fast , Read it now!" />
+<meta name="twitter:image" content="https://qarabic.com/wp-content/uploads/2021/12/How-long-to-learn-Arabic.webp" />
+<meta name="twitter:label1" content="Written by" />
+<meta name="twitter:data1" content="QArabic Academy" />
+<meta name="twitter:label2" content="Time to read" />
+<meta name="twitter:data2" content="18 minutes" />
+<script type="application/ld+json" class="rank-math-schema">{"@context":"https://schema.org","@graph":[{"@type":["EducationalOrganization","Organization"],"@id":"https://qarabic.com/#organization","name":"QArabic","url":"https://qarabic.com","sameAs":["https://www.facebook.com/qarabicacademy/"],"logo":{"@type":"ImageObject","@id":"https://qarabic.com/#logo","url":"https://qarabic.com/wp-content/uploads/2021/04/Asset-3.png","contentUrl":"https://qarabic.com/wp-content/uploads/2021/04/Asset-3.png","caption":"QArabic","inLanguage":"en-US","width":"300","height":"109"}},{"@type":"WebSite","@id":"https://qarabic.com/#website","url":"https://qarabic.com","name":"QArabic","publisher":{"@id":"https://qarabic.com/#organization"},"inLanguage":"en-US"},{"@type":"ImageObject","@id":"https://qarabic.com/wp-content/uploads/2021/12/How-long-to-learn-Arabic.webp","url":"https://qarabic.com/wp-content/uploads/2021/12/How-long-to-learn-Arabic.webp","width":"1600","height":"900","caption":"How long to learn Arabic","inLanguage":"en-US"},{"@type":"BreadcrumbList","@id":"https://qarabic.com/how-long-to-learn-arabic/#breadcrumb","itemListElement":[{"@type":"ListItem","position":"1","item":{"@id":"https://qarabic.com","name":"Home"}},{"@type":"ListItem","position":"2","item":{"@id":"https://qarabic.com/category/learn-arabic/","name":"learn Arabic"}},{"@type":"ListItem","position":"3","item":{"@id":"https://qarabic.com/how-long-to-learn-arabic/","name":"How long to learn Arabic?"}}]},{"@type":"WebPage","@id":"https://qarabic.com/how-long-to-learn-arabic/#webpage","url":"https://qarabic.com/how-long-to-learn-arabic/","name":"How long to learn Arabic - Ultimate Guide ( 2022 )","datePublished":"2021-12-28T09:30:26+00:00","dateModified":"2023-05-30T09:59:10+00:00","isPartOf":{"@id":"https://qarabic.com/#website"},"primaryImageOfPage":{"@id":"https://qarabic.com/wp-content/uploads/2021/12/How-long-to-learn-Arabic.webp"},"inLanguage":"en-US","breadcrumb":{"@id":"https://qarabic.com/how-long-to-learn-arabic/#breadcrumb"}},{"@type":"Person","@id":"https://qarabic.com/how-long-to-learn-arabic/#author","name":"QArabic Academy","image":{"@type":"ImageObject","@id":"https://secure.gravatar.com/avatar/2b045ca9fceace4f646919e260461df7?s=96&amp;d=mm&amp;r=g","url":"https://secure.gravatar.com/avatar/2b045ca9fceace4f646919e260461df7?s=96&amp;d=mm&amp;r=g","caption":"QArabic Academy","inLanguage":"en-US"},"worksFor":{"@id":"https://qarabic.com/#organization"}},{"@type":"Article","headline":"How long to learn Arabic - Ultimate Guide ( 2022 )","keywords":"How long to learn Arabic","datePublished":"2021-12-28T09:30:26+00:00","dateModified":"2023-05-30T09:59:10+00:00","articleSection":"learn Arabic","author":{"@id":"https://qarabic.com/how-long-to-learn-arabic/#author","name":"QArabic Academy"},"publisher":{"@id":"https://qarabic.com/#organization"},"description":"In this article, we explain how long to learn Arabic? , and Factors that affect How long to learn Arabic and How to Learn Arabic Fast , Read it now!","name":"How long to learn Arabic - Ultimate Guide ( 2022 )","@id":"https://qarabic.com/how-long-to-learn-arabic/#richSnippet","isPartOf":{"@id":"https://qarabic.com/how-long-to-learn-arabic/#webpage"},"image":{"@id":"https://qarabic.com/wp-content/uploads/2021/12/How-long-to-learn-Arabic.webp"},"inLanguage":"en-US","mainEntityOfPage":{"@id":"https://qarabic.com/how-long-to-learn-arabic/#webpage"}}]}</script>
+<!-- /Rank Math WordPress SEO plugin -->
+
+<script type="rocketlazyloadscript" data-rocket-type='application/javascript'  id='pys-version-script'>console.log('PixelYourSite Free version 9.6.0');</script>
+<link rel='dns-prefetch' href='//use.fontawesome.com' />
+
+<link rel="alternate" type="application/rss+xml" title="QArabic &raquo; Feed" href="https://qarabic.com/feed/" />
+<link rel="alternate" type="application/rss+xml" title="QArabic &raquo; Comments Feed" href="https://qarabic.com/comments/feed/" />
+<style id='wp-emoji-styles-inline-css'>
+
+	img.wp-smiley, img.emoji {
+		display: inline !important;
+		border: none !important;
+		box-shadow: none !important;
+		height: 1em !important;
+		width: 1em !important;
+		margin: 0 0.07em !important;
+		vertical-align: -0.1em !important;
+		background: none !important;
+		padding: 0 !important;
+	}
+</style>
+<style id='rank-math-toc-block-style-inline-css'>
+.wp-block-rank-math-toc-block nav ol{counter-reset:item}.wp-block-rank-math-toc-block nav ol li{display:block}.wp-block-rank-math-toc-block nav ol li:before{content:counters(item, ".") ". ";counter-increment:item}
+
+</style>
+<style id='classic-theme-styles-inline-css'>
+/*! This file is auto-generated */
+.wp-block-button__link{color:#fff;background-color:#32373c;border-radius:9999px;box-shadow:none;text-decoration:none;padding:calc(.667em + 2px) calc(1.333em + 2px);font-size:1.125em}.wp-block-file__button{background:#32373c;color:#fff;text-decoration:none}
+</style>
+<style id='global-styles-inline-css'>
+body{--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: #abb8c3;--wp--preset--color--white: #ffffff;--wp--preset--color--pale-pink: #f78da7;--wp--preset--color--vivid-red: #cf2e2e;--wp--preset--color--luminous-vivid-orange: #ff6900;--wp--preset--color--luminous-vivid-amber: #fcb900;--wp--preset--color--light-green-cyan: #7bdcb5;--wp--preset--color--vivid-green-cyan: #00d084;--wp--preset--color--pale-cyan-blue: #8ed1fc;--wp--preset--color--vivid-cyan-blue: #0693e3;--wp--preset--color--vivid-purple: #9b51e0;--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple: linear-gradient(135deg,rgba(6,147,227,1) 0%,rgb(155,81,224) 100%);--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan: linear-gradient(135deg,rgb(122,220,180) 0%,rgb(0,208,130) 100%);--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange: linear-gradient(135deg,rgba(252,185,0,1) 0%,rgba(255,105,0,1) 100%);--wp--preset--gradient--luminous-vivid-orange-to-vivid-red: linear-gradient(135deg,rgba(255,105,0,1) 0%,rgb(207,46,46) 100%);--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray: linear-gradient(135deg,rgb(238,238,238) 0%,rgb(169,184,195) 100%);--wp--preset--gradient--cool-to-warm-spectrum: linear-gradient(135deg,rgb(74,234,220) 0%,rgb(151,120,209) 20%,rgb(207,42,186) 40%,rgb(238,44,130) 60%,rgb(251,105,98) 80%,rgb(254,248,76) 100%);--wp--preset--gradient--blush-light-purple: linear-gradient(135deg,rgb(255,206,236) 0%,rgb(152,150,240) 100%);--wp--preset--gradient--blush-bordeaux: linear-gradient(135deg,rgb(254,205,165) 0%,rgb(254,45,45) 50%,rgb(107,0,62) 100%);--wp--preset--gradient--luminous-dusk: linear-gradient(135deg,rgb(255,203,112) 0%,rgb(199,81,192) 50%,rgb(65,88,208) 100%);--wp--preset--gradient--pale-ocean: linear-gradient(135deg,rgb(255,245,203) 0%,rgb(182,227,212) 50%,rgb(51,167,181) 100%);--wp--preset--gradient--electric-grass: linear-gradient(135deg,rgb(202,248,128) 0%,rgb(113,206,126) 100%);--wp--preset--gradient--midnight: linear-gradient(135deg,rgb(2,3,129) 0%,rgb(40,116,252) 100%);--wp--preset--font-size--small: 13px;--wp--preset--font-size--medium: 20px;--wp--preset--font-size--large: 36px;--wp--preset--font-size--x-large: 42px;--wp--preset--spacing--20: 0.44rem;--wp--preset--spacing--30: 0.67rem;--wp--preset--spacing--40: 1rem;--wp--preset--spacing--50: 1.5rem;--wp--preset--spacing--60: 2.25rem;--wp--preset--spacing--70: 3.38rem;--wp--preset--spacing--80: 5.06rem;--wp--preset--shadow--natural: 6px 6px 9px rgba(0, 0, 0, 0.2);--wp--preset--shadow--deep: 12px 12px 50px rgba(0, 0, 0, 0.4);--wp--preset--shadow--sharp: 6px 6px 0px rgba(0, 0, 0, 0.2);--wp--preset--shadow--outlined: 6px 6px 0px -3px rgba(255, 255, 255, 1), 6px 6px rgba(0, 0, 0, 1);--wp--preset--shadow--crisp: 6px 6px 0px rgba(0, 0, 0, 1);}:where(.is-layout-flex){gap: 0.5em;}:where(.is-layout-grid){gap: 0.5em;}body .is-layout-flex{display: flex;}body .is-layout-flex{flex-wrap: wrap;align-items: center;}body .is-layout-flex > *{margin: 0;}body .is-layout-grid{display: grid;}body .is-layout-grid > *{margin: 0;}:where(.wp-block-columns.is-layout-flex){gap: 2em;}:where(.wp-block-columns.is-layout-grid){gap: 2em;}:where(.wp-block-post-template.is-layout-flex){gap: 1.25em;}:where(.wp-block-post-template.is-layout-grid){gap: 1.25em;}.has-black-color{color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-color{color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-color{color: var(--wp--preset--color--white) !important;}.has-pale-pink-color{color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-color{color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-color{color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-color{color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-color{color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-color{color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-color{color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-color{color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-color{color: var(--wp--preset--color--vivid-purple) !important;}.has-black-background-color{background-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-background-color{background-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-background-color{background-color: var(--wp--preset--color--white) !important;}.has-pale-pink-background-color{background-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-background-color{background-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-background-color{background-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-background-color{background-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-background-color{background-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-background-color{background-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-background-color{background-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-background-color{background-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-background-color{background-color: var(--wp--preset--color--vivid-purple) !important;}.has-black-border-color{border-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-border-color{border-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-border-color{border-color: var(--wp--preset--color--white) !important;}.has-pale-pink-border-color{border-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-border-color{border-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-border-color{border-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-border-color{border-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-border-color{border-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-border-color{border-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-border-color{border-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-border-color{border-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-border-color{border-color: var(--wp--preset--color--vivid-purple) !important;}.has-vivid-cyan-blue-to-vivid-purple-gradient-background{background: var(--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple) !important;}.has-light-green-cyan-to-vivid-green-cyan-gradient-background{background: var(--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan) !important;}.has-luminous-vivid-amber-to-luminous-vivid-orange-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange) !important;}.has-luminous-vivid-orange-to-vivid-red-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-orange-to-vivid-red) !important;}.has-very-light-gray-to-cyan-bluish-gray-gradient-background{background: var(--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray) !important;}.has-cool-to-warm-spectrum-gradient-background{background: var(--wp--preset--gradient--cool-to-warm-spectrum) !important;}.has-blush-light-purple-gradient-background{background: var(--wp--preset--gradient--blush-light-purple) !important;}.has-blush-bordeaux-gradient-background{background: var(--wp--preset--gradient--blush-bordeaux) !important;}.has-luminous-dusk-gradient-background{background: var(--wp--preset--gradient--luminous-dusk) !important;}.has-pale-ocean-gradient-background{background: var(--wp--preset--gradient--pale-ocean) !important;}.has-electric-grass-gradient-background{background: var(--wp--preset--gradient--electric-grass) !important;}.has-midnight-gradient-background{background: var(--wp--preset--gradient--midnight) !important;}.has-small-font-size{font-size: var(--wp--preset--font-size--small) !important;}.has-medium-font-size{font-size: var(--wp--preset--font-size--medium) !important;}.has-large-font-size{font-size: var(--wp--preset--font-size--large) !important;}.has-x-large-font-size{font-size: var(--wp--preset--font-size--x-large) !important;}
+.wp-block-navigation a:where(:not(.wp-element-button)){color: inherit;}
+:where(.wp-block-post-template.is-layout-flex){gap: 1.25em;}:where(.wp-block-post-template.is-layout-grid){gap: 1.25em;}
+:where(.wp-block-columns.is-layout-flex){gap: 2em;}:where(.wp-block-columns.is-layout-grid){gap: 2em;}
+.wp-block-pullquote{font-size: 1.5em;line-height: 1.6;}
+</style>
+<link data-minify="1" rel='stylesheet' id='contact-form-7-css' href='https://qarabic.com/wp-content/cache/min/1/wp-content/plugins/contact-form-7/includes/css/styles.css?ver=1715600628' media='all' />
+<link rel='stylesheet' id='nbcpf-intlTelInput-style-css' href='https://qarabic.com/wp-content/plugins/country-phone-field-contact-form-7/assets/css/intlTelInput.min.css?ver=034ed650842b77ac62b92d0acc823a3b' media='all' />
+<link rel='stylesheet' id='nbcpf-countryFlag-style-css' href='https://qarabic.com/wp-content/plugins/country-phone-field-contact-form-7/assets/css/countrySelect.min.css?ver=034ed650842b77ac62b92d0acc823a3b' media='all' />
+<link data-minify="1" rel='stylesheet' id='wp-post-comment-rating-css' href='https://qarabic.com/wp-content/cache/min/1/wp-content/plugins/wp-post-comment-rating/public/css/wp-post-comment-rating-public.css?ver=1715600628' media='all' />
+<link data-minify="1" rel='stylesheet' id='dashicons-css' href='https://qarabic.com/wp-content/cache/min/1/wp-includes/css/dashicons.min.css?ver=1715600628' media='all' />
+<link rel='stylesheet' id='ez-toc-css' href='https://qarabic.com/wp-content/plugins/easy-table-of-contents/assets/css/screen.min.css?ver=2.0.65' media='all' />
+<style id='ez-toc-inline-css'>
+div#ez-toc-container .ez-toc-title {font-size: 120%;}div#ez-toc-container .ez-toc-title {font-weight: 500;}div#ez-toc-container ul li {font-size: 100%;}div#ez-toc-container ul li {font-weight: 500;}div#ez-toc-container nav ul ul li {font-size: 90%;}
+</style>
+<link data-minify="1" rel='stylesheet' id='twentytwenty-style-css' href='https://qarabic.com/wp-content/cache/min/1/wp-content/themes/qarabic/style.css?ver=1715600628' media='all' />
+<link data-minify="1" rel='stylesheet' id='font-awesome-free-css' href='https://qarabic.com/wp-content/cache/min/1/releases/v5.2.0/css/all.css?ver=1715600628' media='all' />
+<link data-minify="1" rel='stylesheet' id='site-reviews-css' href='https://qarabic.com/wp-content/cache/min/1/wp-content/plugins/site-reviews/assets/styles/default.css?ver=1715600628' media='all' />
+<style id='site-reviews-inline-css'>
+.glsr-star-empty,.glsr-star-rating--stars[class*=" s"]>span{background-image:url(https://qarabic.com/wp-content/plugins/site-reviews/assets/images/stars/default/star-empty.svg)!important;-webkit-mask-image:url(https://qarabic.com/wp-content/plugins/site-reviews/assets/images/stars/default/star-empty.svg)!important;mask-image:url(https://qarabic.com/wp-content/plugins/site-reviews/assets/images/stars/default/star-empty.svg)!important}.glsr-field-is-invalid .glsr-star-rating--stars[class*=" s"]>span{background-image:url(https://qarabic.com/wp-content/plugins/site-reviews/assets/images/stars/default/star-error.svg)!important;-webkit-mask-image:url(https://qarabic.com/wp-content/plugins/site-reviews/assets/images/stars/default/star-error.svg)!important;mask-image:url(https://qarabic.com/wp-content/plugins/site-reviews/assets/images/stars/default/star-error.svg)!important}.glsr-star-half{background-image:url(https://qarabic.com/wp-content/plugins/site-reviews/assets/images/stars/default/star-half.svg)!important;-webkit-mask-image:url(https://qarabic.com/wp-content/plugins/site-reviews/assets/images/stars/default/star-half.svg)!important;mask-image:url(https://qarabic.com/wp-content/plugins/site-reviews/assets/images/stars/default/star-half.svg)!important}.glsr-star-full,.glsr-star-rating--stars[class*=" s"]>span.gl-active,.glsr-star-rating--stars[class*=" s"]>span.gl-active.gl-selected{background-image:url(https://qarabic.com/wp-content/plugins/site-reviews/assets/images/stars/default/star-full.svg)!important;-webkit-mask:url(https://qarabic.com/wp-content/plugins/site-reviews/assets/images/stars/default/star-full.svg)!important;mask:url(https://qarabic.com/wp-content/plugins/site-reviews/assets/images/stars/default/star-full.svg)!important}
+
+</style>
+<script type="rocketlazyloadscript" data-rocket-src="https://qarabic.com/wp-includes/js/jquery/jquery.min.js?ver=3.7.1" id="jquery-core-js" defer></script>
+<script type="rocketlazyloadscript" data-rocket-src="https://qarabic.com/wp-includes/js/jquery/jquery-migrate.min.js?ver=3.4.1" id="jquery-migrate-js" defer></script>
+<script type="rocketlazyloadscript" data-minify="1" data-rocket-src="https://qarabic.com/wp-content/cache/min/1/wp-content/plugins/wp-post-comment-rating/public/js/wp-post-comment-rating-public.js?ver=1715600628" id="wp-post-comment-rating-js" defer></script>
+<script type="rocketlazyloadscript" data-rocket-src="https://qarabic.com/wp-content/plugins/pixelyoursite/dist/scripts/jquery.bind-first-0.2.3.min.js?ver=034ed650842b77ac62b92d0acc823a3b" id="jquery-bind-first-js" defer></script>
+<script type="rocketlazyloadscript" data-rocket-src="https://qarabic.com/wp-content/plugins/pixelyoursite/dist/scripts/js.cookie-2.1.3.min.js?ver=2.1.3" id="js-cookie-pys-js" defer></script>
+<script id="pys-js-extra">
+var pysOptions = {"staticEvents":{"facebook":{"init_event":[{"delay":0,"type":"static","name":"PageView","pixelIds":["753543843464649"],"eventID":"bb31a0a0-d566-45b4-bf47-bbe354a77597","params":{"post_category":"learn Arabic","page_title":"How long to learn Arabic?","post_type":"post","post_id":3330,"plugin":"PixelYourSite","user_role":"guest","event_url":"qarabic.com\/how-long-to-learn-arabic\/"},"e_id":"init_event","ids":[],"hasTimeWindow":false,"timeWindow":0,"woo_order":"","edd_order":""}]}},"dynamicEvents":[],"triggerEvents":[],"triggerEventTypes":[],"facebook":{"pixelIds":["753543843464649"],"advancedMatching":{"external_id":"fbbcbfbcaaccdccfcc"},"advancedMatchingEnabled":true,"removeMetadata":false,"contentParams":{"post_type":"post","post_id":3330,"content_name":"How long to learn Arabic?","categories":"learn Arabic","tags":""},"commentEventEnabled":true,"wooVariableAsSimple":false,"downloadEnabled":true,"formEventEnabled":true,"serverApiEnabled":true,"wooCRSendFromServer":false,"send_external_id":null,"fbp":"fb.1.1716812245.5356896124","fbc":""},"ga":{"trackingIds":["G-8PB304KR7Y"],"commentEventEnabled":true,"downloadEnabled":true,"formEventEnabled":true,"crossDomainEnabled":false,"crossDomainAcceptIncoming":false,"crossDomainDomains":[],"isDebugEnabled":[false],"serverContainerUrls":[],"disableAdvertisingFeatures":false,"disableAdvertisingPersonalization":false,"wooVariableAsSimple":true},"debug":"","siteUrl":"https:\/\/qarabic.com","ajaxUrl":"https:\/\/qarabic.com\/wp-admin\/admin-ajax.php","ajax_event":"7574cd1acb","enable_remove_download_url_param":"1","cookie_duration":"7","last_visit_duration":"60","enable_success_send_form":"","ajaxForServerEvent":"1","send_external_id":"1","external_id_expire":"180","google_consent_mode":"1","gdpr":{"ajax_enabled":false,"all_disabled_by_api":false,"facebook_disabled_by_api":false,"analytics_disabled_by_api":false,"google_ads_disabled_by_api":false,"pinterest_disabled_by_api":false,"bing_disabled_by_api":false,"externalID_disabled_by_api":false,"facebook_prior_consent_enabled":true,"analytics_prior_consent_enabled":true,"google_ads_prior_consent_enabled":null,"pinterest_prior_consent_enabled":true,"bing_prior_consent_enabled":true,"cookiebot_integration_enabled":false,"cookiebot_facebook_consent_category":"marketing","cookiebot_analytics_consent_category":"statistics","cookiebot_tiktok_consent_category":"marketing","cookiebot_google_ads_consent_category":null,"cookiebot_pinterest_consent_category":"marketing","cookiebot_bing_consent_category":"marketing","consent_magic_integration_enabled":false,"real_cookie_banner_integration_enabled":false,"cookie_notice_integration_enabled":false,"cookie_law_info_integration_enabled":false,"analytics_storage":{"enabled":true,"value":"granted","filter":false},"ad_storage":{"enabled":true,"value":"granted","filter":false},"ad_user_data":{"enabled":true,"value":"granted","filter":false},"ad_personalization":{"enabled":true,"value":"granted","filter":false}},"cookie":{"disabled_all_cookie":false,"disabled_start_session_cookie":false,"disabled_advanced_form_data_cookie":false,"disabled_landing_page_cookie":false,"disabled_first_visit_cookie":false,"disabled_trafficsource_cookie":false,"disabled_utmTerms_cookie":false,"disabled_utmId_cookie":false},"tracking_analytics":{"TrafficSource":"direct","TrafficLanding":"https:\/\/qarabic.com\/how-long-to-learn-arabic\/","TrafficUtms":[],"TrafficUtmsId":[]},"woo":{"enabled":false},"edd":{"enabled":false}};
+</script>
+<script type="rocketlazyloadscript" data-minify="1" data-rocket-src="https://qarabic.com/wp-content/cache/min/1/wp-content/plugins/pixelyoursite/dist/scripts/public.js?ver=1715600628" id="pys-js" defer></script>
+<link rel="https://api.w.org/" href="https://qarabic.com/wp-json/" /><link rel="alternate" type="application/json" href="https://qarabic.com/wp-json/wp/v2/posts/3330" /><link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://qarabic.com/xmlrpc.php?rsd" />
+
+<link rel='shortlink' href='https://qarabic.com/?p=3330' />
+<link rel="alternate" type="application/json+oembed" href="https://qarabic.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fqarabic.com%2Fhow-long-to-learn-arabic%2F" />
+<link rel="alternate" type="text/xml+oembed" href="https://qarabic.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fqarabic.com%2Fhow-long-to-learn-arabic%2F&#038;format=xml" />
+
+		<!-- GA Google Analytics @ https://m0n.co/ga -->
+		<script type="rocketlazyloadscript" async data-rocket-src="https://www.googletagmanager.com/gtag/js?id=G-8PB304KR7Y"></script>
+		<script type="rocketlazyloadscript">
+			window.dataLayer = window.dataLayer || [];
+			function gtag(){dataLayer.push(arguments);}
+			gtag('js', new Date());
+			gtag('config', 'G-8PB304KR7Y');
+		</script>
+
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+<script type="rocketlazyloadscript" async data-rocket-src="https://www.googletagmanager.com/gtag/js?id=UA-190186557-4"></script>
+<script type="rocketlazyloadscript">
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-190186557-4');
+</script>
+
+<meta name="p:domain_verify" content="2d161644cd0999c170fb27b17b0368be"/>
+
+<!-- Google Tag Manager -->
+<script type="rocketlazyloadscript">(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-T9FJ5CG');</script>
+<!-- End Google Tag Manager -->
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '753543843464649');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=753543843464649&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->		<style type="text/css">
+			fieldset.wppcr_rating > legend{
+				color:			}
+
+			.comment-form-comment, .comment-notes {clear:both;}
+			.wppcr_rating {
+				float:left;display: initial;
+			}
+
+			/* :not(:checked) is a filter, so that browsers that don’t support :checked don’t 
+			   follow these rules. Every browser that supports :checked also supports :not(), so
+			   it doesn’t make the test unnecessarily selective */
+			.wppcr_rating:not(:checked) > input {
+				position:absolute;
+				/*top:-9999px;*/
+				clip:rect(0,0,0,0);
+			}
+
+			.wppcr_rating:not(:checked) > label {
+				float:right;
+				width:1em !important;
+				padding:0;
+				overflow:hidden;
+				white-space:nowrap;
+				cursor:pointer;
+				font-size:22px;
+				line-height:1.2;
+				color:#ddd !important;
+				text-shadow:1px 1px #bbb, 1px 1px #666, .1em .1em .2em rgba(0,0,0,.2);
+			}
+
+			.wppcr_rating:not(:checked) > label:before {
+				content: '★ ';
+			}
+
+			.wppcr_rating > input:checked ~ label {
+				color: #ea0 !important;
+				text-shadow:1px 1px #bbb, 1px 1px #666, .1em .1em .2em rgba(0,0,0,.5);
+			}
+
+			.wppcr_rating:not(:checked) > label:hover,
+			.wppcr_rating:not(:checked) > label:hover ~ label {
+				color: #ffd700 !important;
+				text-shadow:1px 1px #bbb, 1px 1px #666, .1em .1em .2em rgba(0,0,0,.5);
+			}
+
+			.wppcr_rating > input:checked + label:hover,
+			.wppcr_rating > input:checked + label:hover ~ label,
+			.wppcr_rating > input:checked ~ label:hover,
+			.wppcr_rating > input:checked ~ label:hover ~ label,
+			.wppcr_rating > label:hover ~ input:checked ~ label {
+				color: #ea0 !important;
+				text-shadow:1px 1px goldenrod, 1px 1px #B57340, .1em .1em .2em rgba(0,0,0,.5);
+			}
+
+			.wppcr_rating > label:active {
+				position:relative;
+				top:2px;
+				left:2px;
+			}
+			p.logged-in-as {clear:both;}
+			span.wpcr_author_stars, span.wpcr_author_stars span {
+				display: block;
+				background: url(https://qarabic.com/wp-content/plugins/wp-post-comment-rating/public/images/yelstars.png) 0 -16px repeat-x;
+				width: 80px;
+				height: 16px;
+			}
+
+			span.wpcr_author_stars span {
+				background-position: 0 0;
+			}
+			span.wpcr_averageStars, span.wpcr_averageStars span {
+				display: block;
+				background: url(https://qarabic.com/wp-content/plugins/wp-post-comment-rating/public/images/yelstars.png) 0 -16px repeat-x;
+				width: 80px;
+				height: 16px;
+			}
+
+			span.wpcr_averageStars span {
+				background-position: 0 0;
+			}
+
+			/*for tooltip*/
+			.wpcr_tooltip, .wpcr_inline{
+				display: inline;
+				position: relative;
+				width:auto;
+				float:left;
+				font-size: 12px;
+			}
+			a.wpcr_tooltip span.wpcr_stars, .wpcr_inline span.wpcr_stars{float:left;font-size: 14px;}
+			a.wpcr_tooltip span.wpcr_averageStars, a.wpcr_inline span.wpcr_averageStars {float:left; margin:2px 5px 0px 5px;}
+			
+			.wpcr_tooltip:hover:after{
+				background-color: rgba(0,0,0,.8);
+				border-radius: 5px;
+				bottom: 26px;
+				color: #fff;
+				content: attr(title);
+				left: 20%;
+				padding: 5px 10px;
+				position: absolute;
+				z-index: 98;
+				width: 205px;
+				border-radius: 7px;
+				font-size: 13px;
+			}
+			.wpcr_tooltip:hover:before{
+				border: solid;
+				border-color: rgba(0,0,0,.8) transparent;
+				border-width: 6px 6px 0 6px;
+				bottom: 20px;
+				content: "";
+				left: 50%;
+				position: absolute;
+				z-index: 99;
+			}
+			.wpcr_aggregate{float: left;display: inline-block;width: auto;line-height: 20px;}
+			#hide-stars {display:none;}
+			#review_form .wppcr_rating {display:none;}
+			#reviews .wpcr_author_stars {display:none;}
+			.col-2 .aggr_options {
+				margin-bottom: 5px;
+				display: inline-block;
+			}
+			.wpcr_floating_links, .wpcr_ss_links{position: fixed;left: auto;right:0;
+			z-index: 99999;max-width: 3.2%; width: 3.2% !important;}
+			.wpcr_floating_links{top:40%}
+			.wpcr_ss_links{top:56%}
+			.wpcr_floating_links ul, .wpcr_ss_links ul{list-style: none;margin: 0px;padding: 0;}
+			.wpcr_floating_links li:before, .wpcr_ss_links li:before{display:none !important;}
+			.wpcr_floating_links li, .wpcr_ss_links li{
+				padding: 5px 12px;
+				background-color: #fff;
+				box-shadow: 1px 1px 2px 2px #ccc;
+				text-align: center;
+				margin: 0 !important;
+			}
+			
+		</style>
+		<!-- Schema optimized by Schema Pro --><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://qarabic.com/how-long-to-learn-arabic/"},"headline":"How long to learn Arabic?","image":{"@type":"ImageObject","url":"https://qarabic.com/wp-content/uploads/2021/12/How-long-to-learn-Arabic.webp","width":1600,"height":900},"datePublished":"2021-12-28T09:30:26+0000","dateModified":"2022-02-10T13:56:27+0000","author":{"@type":"Person","name":"QArabic Academy","url":"https://qarabic.com/author/"},"publisher":{"@type":"Organization","name":"QArabic","logo":{"@type":"ImageObject","url":"https://qarabic.com/wp-content/uploads/2021/12/How-long-to-learn-Arabic-107x60.webp"}}}</script><!-- / Schema optimized by Schema Pro --><!-- sitelink-search-box Schema optimized by Schema Pro --><script type="application/ld+json">{"@context":"https:\/\/schema.org","@type":"WebSite","name":"QArabic","url":"https:\/\/qarabic.com","potentialAction":[{"@type":"SearchAction","target":"https:\/\/qarabic.com\/?s={search_term_string}","query-input":"required name=search_term_string"}]}</script><!-- / sitelink-search-box Schema optimized by Schema Pro --><!-- breadcrumb Schema optimized by Schema Pro --><script type="application/ld+json">{"@context":"https:\/\/schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https:\/\/qarabic.com\/","name":"Home"}},{"@type":"ListItem","position":2,"item":{"@id":"https:\/\/qarabic.com\/how-long-to-learn-arabic\/","name":"How long to learn Arabic?"}}]}</script><!-- / breadcrumb Schema optimized by Schema Pro -->		<script type="rocketlazyloadscript">
+			( function() {
+				window.onpageshow = function( event ) {
+					// Defined window.wpforms means that a form exists on a page.
+					// If so and back/forward button has been clicked,
+					// force reload a page to prevent the submit button state stuck.
+					if ( typeof window.wpforms !== 'undefined' && event.persisted ) {
+						window.location.reload();
+					}
+				};
+			}() );
+		</script>
+			<script>document.documentElement.className = document.documentElement.className.replace( 'no-js', 'js' );</script>
+	
+<!-- Meta Pixel Code -->
+<script type='text/javascript'>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+document,'script','https://connect.facebook.net/en_US/fbevents.js?v=next');
+</script>
+<!-- End Meta Pixel Code -->
+
+      <script type="rocketlazyloadscript" data-rocket-type='text/javascript'>
+        var url = window.location.origin + '?ob=open-bridge';
+        fbq('set', 'openbridge', '753543843464649', url);
+      </script>
+    <script type="rocketlazyloadscript" data-rocket-type='text/javascript'>fbq('init', '753543843464649', {}, {
+    "agent": "wordpress-6.5.3-3.0.16"
+})</script><script type="rocketlazyloadscript" data-rocket-type='text/javascript'>
+    fbq('track', 'PageView', []);
+  </script>
+<!-- Meta Pixel Code -->
+<noscript>
+<img height="1" width="1" style="display:none" alt="fbpx"
+src="https://www.facebook.com/tr?id=753543843464649&ev=PageView&noscript=1" />
+</noscript>
+<!-- End Meta Pixel Code -->
+			<style id="wpsp-style-frontend"></style>
+			<link rel="icon" href="https://qarabic.com/wp-content/uploads/2022/06/cropped-favicon-32x32.png" sizes="32x32" />
+<link rel="icon" href="https://qarabic.com/wp-content/uploads/2022/06/cropped-favicon-192x192.png" sizes="192x192" />
+<link rel="apple-touch-icon" href="https://qarabic.com/wp-content/uploads/2022/06/cropped-favicon-180x180.png" />
+<meta name="msapplication-TileImage" content="https://qarabic.com/wp-content/uploads/2022/06/cropped-favicon-270x270.png" />
+		<style id="wp-custom-css">
+			.glsr-default button.glsr-button {
+    border: none !important;
+    background: #7a1c1a !important;
+}		</style>
+		<style id="wpforms-css-vars-root">
+				:root {
+					--wpforms-field-border-radius: 3px;
+--wpforms-field-border-style: solid;
+--wpforms-field-border-size: 1px;
+--wpforms-field-background-color: #ffffff;
+--wpforms-field-border-color: rgba( 0, 0, 0, 0.25 );
+--wpforms-field-border-color-spare: rgba( 0, 0, 0, 0.25 );
+--wpforms-field-text-color: rgba( 0, 0, 0, 0.7 );
+--wpforms-field-menu-color: #ffffff;
+--wpforms-label-color: rgba( 0, 0, 0, 0.85 );
+--wpforms-label-sublabel-color: rgba( 0, 0, 0, 0.55 );
+--wpforms-label-error-color: #d63637;
+--wpforms-button-border-radius: 3px;
+--wpforms-button-border-style: none;
+--wpforms-button-border-size: 1px;
+--wpforms-button-background-color: #066aab;
+--wpforms-button-border-color: #066aab;
+--wpforms-button-text-color: #ffffff;
+--wpforms-page-break-color: #066aab;
+--wpforms-background-image: none;
+--wpforms-background-position: center center;
+--wpforms-background-repeat: no-repeat;
+--wpforms-background-size: cover;
+--wpforms-background-width: 100px;
+--wpforms-background-height: 100px;
+--wpforms-background-color: rgba( 0, 0, 0, 0 );
+--wpforms-background-url: none;
+--wpforms-container-padding: 0px;
+--wpforms-container-border-style: none;
+--wpforms-container-border-width: 1px;
+--wpforms-container-border-color: #000000;
+--wpforms-container-border-radius: 3px;
+--wpforms-field-size-input-height: 43px;
+--wpforms-field-size-input-spacing: 15px;
+--wpforms-field-size-font-size: 16px;
+--wpforms-field-size-line-height: 19px;
+--wpforms-field-size-padding-h: 14px;
+--wpforms-field-size-checkbox-size: 16px;
+--wpforms-field-size-sublabel-spacing: 5px;
+--wpforms-field-size-icon-size: 1;
+--wpforms-label-size-font-size: 16px;
+--wpforms-label-size-line-height: 19px;
+--wpforms-label-size-sublabel-font-size: 14px;
+--wpforms-label-size-sublabel-line-height: 17px;
+--wpforms-button-size-font-size: 17px;
+--wpforms-button-size-height: 41px;
+--wpforms-button-size-padding-h: 15px;
+--wpforms-button-size-margin-top: 10px;
+--wpforms-container-shadow-size-box-shadow: none;
+
+				}
+			</style>	</head>
+
+	<body class="post-template-default single single-post postid-3330 single-format-standard wp-embed-responsive wp-schema-pro-2.7.1 singular enable-search-modal has-post-thumbnail has-single-pagination showing-comments show-avatars footer-top-hidden">
+
+		<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-T9FJ5CG"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+    
+<header>
+   <div class="headerbg__blank">
+      <div class="headerbg bg-white headroom headroom--top headroom--not-bottom">
+         <div class="container">
+            <div class="d-flex align-items-center justify-content-between">
+               <a class="d-block header-logo" href="https://qarabic.com/">
+               <img class="headerbg__logo" src="https://qarabic.com/wp-content/uploads/2022/06/qarabic-logo.png" alt="QArabic">
+               </a>
+               <div class="d-flex align-items-center">
+				   <a class="headerbutton px-24 ml-lg-4 ml-md-3 ml-0 font-19 font-w700 d-flex align-items-center" href="https://qarabic.com/">
+					   <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <rect x="0" y="0" width="24" height="24"/>
+        <path d="M3.95709826,8.41510662 L11.47855,3.81866389 C11.7986624,3.62303967 12.2013376,3.62303967 12.52145,3.81866389 L20.0429,8.41510557 C20.6374094,8.77841684 21,9.42493654 21,10.1216692 L21,19.0000642 C21,20.1046337 20.1045695,21.0000642 19,21.0000642 L4.99998155,21.0000673 C3.89541205,21.0000673 2.99998155,20.1046368 2.99998155,19.0000673 L2.99999828,10.1216672 C2.99999935,9.42493561 3.36258984,8.77841732 3.95709826,8.41510662 Z M10,13 C9.44771525,13 9,13.4477153 9,14 L9,17 C9,17.5522847 9.44771525,18 10,18 L14,18 C14.5522847,18 15,17.5522847 15,17 L15,14 C15,13.4477153 14.5522847,13 14,13 L10,13 Z" fill="#000000"/>
+    </g>
+</svg>
+                  <span class="d-none d-lg-inline-block">Home</span>
+                  </a>
+				   
+				   
+                  <a class="blockmenusfull__open headerbutton px-24 ml-lg-4 ml-md-3 ml-0 font-19 font-w700 d-flex align-items-center" href="javascript:void(0)">
+					  <img class="img-h20 mr-1" src="https://qarabic.com/wp-content/themes/qarabic/assets/img/icon01.svg" alt="Menu">
+                  <span class="d-none d-lg-inline-block">Main Menu</span>
+                  </a>
+				   
+				   
+                  <a class="headerbutton px-24 ml-lg-4 ml-md-3 ml-0 font-19 font-w700 d-flex align-items-center" data-toggle="modal" data-target="#modalcontact" href="#modalcontact">
+					  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                        <path d="M17.707,12.293c-0.391-0.391-1.023-0.391-1.414,0l-1.594,1.594c-0.739-0.22-2.118-0.72-2.992-1.594 s-1.374-2.253-1.594-2.992l1.594-1.594c0.391-0.391,0.391-1.023,0-1.414l-4-4c-0.391-0.391-1.023-0.391-1.414,0L3.581,5.005 c-0.38,0.38-0.594,0.902-0.586,1.435c0.023,1.424,0.4,6.37,4.298,10.268s8.844,4.274,10.269,4.298c0.005,0,0.023,0,0.028,0 c0.528,0,1.027-0.208,1.405-0.586l2.712-2.712c0.391-0.391,0.391-1.023,0-1.414L17.707,12.293z M17.58,19.005 c-1.248-0.021-5.518-0.356-8.873-3.712c-3.366-3.366-3.692-7.651-3.712-8.874L7,4.414L9.586,7L8.293,8.293 C8.054,8.531,7.952,8.875,8.021,9.205c0.024,0.115,0.611,2.842,2.271,4.502s4.387,2.247,4.502,2.271 c0.333,0.071,0.674-0.032,0.912-0.271L17,14.414L19.586,17L17.58,19.005z"></path>
+                     </svg>
+                     <span class="d-none d-lg-inline-block">Contact</span>
+                  </a>
+
+				   <a class="headerbutton px-24 ml-lg-4 ml-md-3 ml-0 font-19 font-w700 d-flex align-items-center d-lg-none" href="https://qarabic.com/member-area/accounts/">
+					  <i class="fas fa-sign-in-alt mr-1"></i><span class="d-none d-lg-inline-block">Login</span>
+                  </a>
+				   
+               </div>
+				
+				<div class="d-flex align-items-center">
+					<a class="header-button ml-lg-2 ml-md-2 ml-0 font-17 d-flex align-items-center" href="https://qarabic.com/member-area/accounts/">
+                     <span class="d-none d-lg-inline-block"><i class="fas fa-sign-in-alt mr-1"></i>Students Login</span>
+                  	</a>
+					<a class="header-button ml-lg-2 ml-md-2 ml-0 font-17 d-flex align-items-center" href="https://qarabic.com/free-trial/">
+                     <span class="d-none d-lg-inline-block"><i class="fa fa-user mr-1"></i> Free Trial</span>
+                  	</a>
+				</div>
+				
+            </div>
+         </div>
+      </div>
+   </div>
+   
+	<div class="blockmenusfull bg-primary text-white pt-5 pb-5 py-lg-0">
+				<a class="blockmenusfull__close position-absolute d-block">
+					<img class="img-h20" src="https://qarabic.com/wp-content/themes/qarabic/assets/img/icon23w.svg" alt="Close">
+				</a>
+				<div class="container">
+					<div class="row align-items-center">
+						<div class="col-lg-12">
+							<div class="row">
+								<div class="col-lg-12 col-sm-6 col-md-4 mb-3">
+									<h4 class="font-lg-25 font-25 mb-3 text-secondary">
+										Quick Links
+									</h4>
+									
+									<div class="menu-main-menu-container"><ul id="menu-main-menu" class="blockmenusfull__links2"><li id="menu-item-54" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-home menu-item-54"><a href="https://qarabic.com/">Home</a></li>
+<li id="menu-item-56" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-56"><a href="https://qarabic.com/about-us/">About</a></li>
+<li id="menu-item-59" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-59"><a href="https://qarabic.com/fee-and-plans/">Pricing</a></li>
+<li id="menu-item-4303" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4303"><a href="https://qarabic.com/faq/">FAQ</a></li>
+<li id="menu-item-55" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-55"><a href="https://qarabic.com/blog/">Blog</a></li>
+</ul></div>									
+								</div>
+								
+							</div>
+						</div>
+						
+						<div class="col-lg-12 order-1 order-lg-2 mb-3">
+							<h4 class="font-lg-25 font-25 mb-3 text-secondary">
+								Adult Courses
+							</h4>
+							
+							<div class="menu-adults-courses-container"><ul id="menu-adults-courses" class="blockmenusfull__links mb-2"><li id="menu-item-4592" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4592"><a href="https://qarabic.com/courses/learn-quran-for-adults/">Learn Quran Online</a></li>
+<li id="menu-item-4596" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4596"><a href="https://qarabic.com/courses/learn-arabic-for-adults/">Learn Arabic Online</a></li>
+<li id="menu-item-4595" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4595"><a href="https://qarabic.com/courses/islamic-studies-for-adults/">Islamic Studies Course</a></li>
+<li id="menu-item-4593" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4593"><a href="https://qarabic.com/courses/learn-tafsir-al-quran/">Learn Quran Tafseer</a></li>
+<li id="menu-item-4594" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4594"><a href="https://qarabic.com/courses/new-muslim-course/">New Muslim Course</a></li>
+</ul></div>						</div>
+						
+						<div class="col-lg-12 order-1 order-lg-2">
+							<h4 class="font-lg-25 font-25 mb-3 text-secondary">
+								Kids Courses
+							</h4>
+							
+							<div class="menu-kids-courses-container"><ul id="menu-kids-courses" class="blockmenusfull__links mb-2"><li id="menu-item-4599" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4599"><a href="https://qarabic.com/courses/learn-quran-for-kids/">Online Quran Classes</a></li>
+<li id="menu-item-4598" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4598"><a href="https://qarabic.com/courses/learn-arabic-for-kids/">learn Arabic Online</a></li>
+<li id="menu-item-4600" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4600"><a href="https://qarabic.com/courses/learn-pillars-of-islam/">Pillars Of Islam</a></li>
+<li id="menu-item-4597" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4597"><a href="https://qarabic.com/courses/islamic-studies-for-kids/">Islamic Studies For Kids</a></li>
+<li id="menu-item-4583" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4583"><a href="https://qarabic.com/courses/learn-islamic-supplication-duaa/">Islamic Supplication Dua Course</a></li>
+</ul></div>						</div>
+					</div>
+				</div>
+			</div>
+	
+	
+	
+ 
+</header>
+<aside>
+	<div class="modal fade" id="modalcontact" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg" role="document">
+         <div class="modal-content">
+            <a class="closefafa fa fa-times" data-dismiss="modal" href=""></a>
+            <div class="modal-body">
+               <div class="removelast_mb">
+                  <div class="mb-4">
+                     <h3 class="text-primary mb-2 mt-5 font-30">Contact Info:</h3>
+                     <div class="d-flex flex-wrap removelast_mr">
+                        <a class="font-19 mr-4 mb-2" href="tel:+1 (309) 377-5300">
+                        <i class="fab fa-whatsapp mr-2"></i>
+                        +1 (309) 377-5300                                        </a>
+                        <a class="font-19 mr-4 mb-2" href="https://wa.me/13093775300">
+                        <i class="fa fa-phone mr-2"></i>
+                        +1 (309) 377-5300                                        </a>
+                        <a class="font-19 mr-4 mb-2" href="mailto:info@qarabic.com">
+                        <i class="fa fa-envelope mr-2"></i>
+                        info@qarabic.com                                        </a>
+                     </div>
+                  </div>
+                  <div class="row row-p4 row-cols-1 row-cols-md-2 mb-4 mb-lg-5">
+                     <div class="col">
+                        <a class="btn border-w2 py-4 font-18 btn-call btn-block btn-lg mb-3 mb-md-0" href="#">Call Us</a>
+                     </div>
+                     <div class="col">
+                        <a class="btn border-w2 py-4 font-18 btn-whatsapp btn-block btn-lg mb-3 mb-md-0" href="#">Send a Whatsapp Message</a>
+                     </div>
+                  </div>
+                  <h3 class="font-22 font-w400 mb-4 mb-lg-5 text-center">Or send a message and we will reply within 24 hours.</h3>
+                  
+				   
+<div class="wpcf7 no-js" id="wpcf7-f4122-o1" lang="en-US" dir="ltr">
+<div class="screen-reader-response"><p role="status" aria-live="polite" aria-atomic="true"></p> <ul></ul></div>
+<form action="/how-long-to-learn-arabic/#wpcf7-f4122-o1" method="post" class="wpcf7-form init" aria-label="Contact form" novalidate="novalidate" data-status="init">
+<div style="display: none;">
+<input type="hidden" name="_wpcf7" value="4122" />
+<input type="hidden" name="_wpcf7_version" value="5.9.4" />
+<input type="hidden" name="_wpcf7_locale" value="en_US" />
+<input type="hidden" name="_wpcf7_unit_tag" value="wpcf7-f4122-o1" />
+<input type="hidden" name="_wpcf7_container_post" value="0" />
+<input type="hidden" name="_wpcf7_posted_data_hash" value="" />
+<input type="hidden" name="_wpcf7_recaptcha_response" value="" />
+</div>
+<div class="row row-p8">
+	<div class="col-lg-6">
+		<div class="form-group">
+			<div class="d-block mb-2 font-w400 font-17">
+				<p>Full Name <b class="text-danger">*</b>
+				</p>
+			</div>
+			<p><span class="wpcf7-form-control-wrap" data-name="your-name"><input size="40" class="wpcf7-form-control wpcf7-text wpcf7-validates-as-required form-control form-control-lg" aria-required="true" aria-invalid="false" value="" type="text" name="your-name" /></span>
+			</p>
+		</div>
+	</div>
+	<div class="col-lg-6">
+		<div class="form-group">
+			<div class="d-block mb-2 font-w400 font-17">
+				<p>Email <b class="text-danger">*</b>
+				</p>
+			</div>
+			<p><span class="wpcf7-form-control-wrap" data-name="your-email"><input size="40" class="wpcf7-form-control wpcf7-email wpcf7-validates-as-required wpcf7-text wpcf7-validates-as-email form-control form-control-lg" aria-required="true" aria-invalid="false" value="" type="email" name="your-email" /></span>
+			</p>
+		</div>
+	</div>
+	<div class="col-lg-12">
+		<div class="form-group">
+			<div class="d-block mb-2 font-w400 font-17">
+				<p>Phone <b class="text-danger">*</b>
+				</p>
+			</div>
+			<p><span class="wpcf7-form-control-wrap" data-name="your-phone"><input size="40" class="wpcf7-form-control wpcf7-text wpcf7-validates-as-required form-control form-control-lg" aria-required="true" aria-invalid="false" value="" type="text" name="your-phone" /></span>
+			</p>
+		</div>
+	</div>
+	<div class="col-lg-12">
+		<div class="form-group">
+			<div class="d-block mb-2 font-w400 font-17">
+				<p>Notes
+				</p>
+			</div>
+			<p><span class="wpcf7-form-control-wrap" data-name="your-message"><textarea cols="40" rows="5" class="wpcf7-form-control wpcf7-textarea form-control form-control-lg" aria-invalid="false" name="your-message"></textarea></span>
+			</p>
+		</div>
+	</div>
+	<div class="col-lg-12">
+		<div class="form-group">
+			<div class="d-block mb-2 font-w400 font-17">
+				<p>Preferred method of communication? <b class="text-danger">*</b>
+				</p>
+			</div>
+			<p><span class="wpcf7-form-control-wrap" data-name="checkbox-125"><span class="wpcf7-form-control wpcf7-checkbox"><span class="wpcf7-list-item first"><label><input type="checkbox" name="checkbox-125[]" value="Phone" /><span class="wpcf7-list-item-label">Phone</span></label></span><span class="wpcf7-list-item"><label><input type="checkbox" name="checkbox-125[]" value="Whatsapp" /><span class="wpcf7-list-item-label">Whatsapp</span></label></span><span class="wpcf7-list-item last"><label><input type="checkbox" name="checkbox-125[]" value="Email" /><span class="wpcf7-list-item-label">Email</span></label></span></span></span>
+			</p>
+		</div>
+	</div>
+</div>
+<p><input class="wpcf7-form-control wpcf7-submit has-spinner btn btn-secondary mt-3 py-4 font-20 btn-block btn-lg" type="submit" value="Send Message" />
+</p><div class="wpcf7-response-output" aria-hidden="true"></div>
+</form>
+</div>
+                  
+               </div>
+            </div>
+         </div>
+      </div>
+   </div><div class="bg-primary text-center text-white py-5">
+    <div class="container">
+        <h1 class="font-24 font-lg-30 mb-2 wow fadeInUp">
+			How long to learn Arabic?		</h1>
+		<nav aria-label="breadcrumbs" class="rank-math-breadcrumb"><p><a href="https://qarabic.com">Home</a><span class="separator"> &raquo; </span><a href="https://qarabic.com/category/learn-arabic/">learn Arabic</a><span class="separator"> &raquo; </span><span class="last">How long to learn Arabic?</span></p></nav>    </div>
+</div>
+<div class="bg-white py-5 py-lg-5">
+    <div class="container">
+        <div class="bg-white shadow-sm rounded">
+            <img class="img-wfull img-h280 img-lg-h380 rounded-top" src="https://qarabic.com/wp-content/uploads/2021/12/How-long-to-learn-Arabic.webp" alt="How long to learn Arabic?">
+            <div class="p-4 p-lg-5">
+                <h3 class="font-18 font-lg-24 mb-2">How long to learn Arabic?</h3>
+                <div class="d-flex align-items-center justify-content-between">
+                <div class="d-flex flex-wrap align-items-center removelast_mr">
+                    <p class="font-17 mb-2 mr-3">
+                        <i class="fa fa-calendar-alt mr-2"></i>December 28, 2021					</p>
+                    
+                </div>
+                    <ul class="sharesocial bg-colored mx-0 text-lg-right text-center mb-2">
+                        <li><a class="fb fab fa-facebook-f" target="popup" onclick="window.open('http://www.facebook.com/sharer.php?u=https://qarabic.com/how-long-to-learn-arabic/&amp;amp;t=How long to learn Arabic?','name','width=600,height=400')"></a></li>
+                        <li><a class="tw fab fa-twitter" target="popup" onclick="window.open('http://twitter.com/home/?status=How long to learn Arabic? : https://qarabic.com/how-long-to-learn-arabic/','name','width=600,height=400')"></a></li>
+                        <li><a class="wh fab fa-whatsapp" target="popup" onclick="window.open('https://api.whatsapp.com/send?text=https://qarabic.com/how-long-to-learn-arabic/','name','width=600,height=400')"></a></li>
+                    </ul>
+                </div>
+                
+                <div class="singlecontentbg mt-4">
+					<p><span style="font-size: 120%; color: #000000;">I&#8217;ll attempt to discuss an old-fashioned question I&#8217;m often asked. How long to learn Arabic it&#8217;s needed? Rather than depending on speculation or guesswork, I&#8217;ll base my response on research and studies conducted to this end. This topic is discussed in this article thoroughly to make sure you get everything you&#8217;re looking for about this topic, and you can gain the maximum advantage of all.</span></p>
+<div id="ez-toc-container" class="ez-toc-v2_0_65 counter-flat ez-toc-counter ez-toc-grey ez-toc-container-direction">
+<div class="ez-toc-title-container"><p class="ez-toc-title">Table of Contents</p>
+</div><nav><ul class='ez-toc-list ez-toc-list-level-1 ' ><li class='ez-toc-page-1'><a class="ez-toc-link ez-toc-heading-1" href="#Define_Your_Goals_for_learning_Arabic" title="Define Your Goals for learning Arabic">Define Your Goals for learning Arabic</a></li><li class='ez-toc-page-1'><a class="ez-toc-link ez-toc-heading-2" href="#How_long_to_learn_Arabic" title="How long to learn Arabic">How long to learn Arabic</a></li><li class='ez-toc-page-1'><a class="ez-toc-link ez-toc-heading-3" href="#The_role_of_approach_and_methodology_in_learning" title="The role of approach and methodology in learning ">The role of approach and methodology in learning </a></li><li class='ez-toc-page-1'><a class="ez-toc-link ez-toc-heading-4" href="#Factors_that_affect_How_long_to_learn_Arabic" title="Factors that affect How long to learn Arabic">Factors that affect How long to learn Arabic</a></li><li class='ez-toc-page-1'><a class="ez-toc-link ez-toc-heading-5" href="#Learning_Style_that_affects_How_long_to_learn_Arabic" title="Learning Style that affects How long to learn Arabic">Learning Style that affects How long to learn Arabic</a></li><li class='ez-toc-page-1'><a class="ez-toc-link ez-toc-heading-6" href="#An_approach_that_affects_How_long_to_learn_Arabic" title="An approach that affects How long to learn Arabic">An approach that affects How long to learn Arabic</a></li><li class='ez-toc-page-1'><a class="ez-toc-link ez-toc-heading-7" href="#How_long_to_learn_Arabic_in_Levels_Beginner_Intermediate_and_Advanced_Level" title="How long to learn Arabic in Levels Beginner, Intermediate, and Advanced Level?">How long to learn Arabic in Levels Beginner, Intermediate, and Advanced Level?</a></li><li class='ez-toc-page-1'><a class="ez-toc-link ez-toc-heading-8" href="#Can_I_learn_Arabic_in_6_months" title="Can I learn Arabic in 6 months?">Can I learn Arabic in 6 months?</a></li><li class='ez-toc-page-1'><a class="ez-toc-link ez-toc-heading-9" href="#How_to_Learn_Arabic_Fast" title="How to Learn Arabic Fast">How to Learn Arabic Fast</a></li><li class='ez-toc-page-1'><a class="ez-toc-link ez-toc-heading-10" href="#How_Our_Website_Can_Help" title="How Our Website Can Help">How Our Website Can Help</a></li></ul></nav></div>
+<h2><span class="ez-toc-section" id="Define_Your_Goals_for_learning_Arabic"></span><span style="font-size: 120%; color: #00a859;">Define Your Goals for learning Arabic</span><span class="ez-toc-section-end"></span></h2>
+<p><span style="font-size: 120%; color: #000000;">You may want to learn the Arabic language for one of the following goals, so you should specify it at the beginning before you start studying.</span></p>
+<p><span style="font-size: 120%; color: #000000;">The Arabic major&#8217;s purpose may be to attain advanced language competency in all four language performance areas: </span></p>
+<p><span style="font-size: 120%; color: #000000;">Reading, speaking, listening, and writing.</span></p>
+<p><span style="font-size: 120%; color: #000000;">Even though coursework may be taught in Modern Standard Arabic, it can aid you in learning informal Arabic and improve your proficiency in both registers of the language.</span></p>
+<p><span style="font-size: 120%; color: #000000;">Arabic majors will work in one of two academic disciplines: literature or linguistics, complementing their language study aims. </span></p>
+<p><span style="font-size: 120%; color: #000000;">The aim of combining proficiency in language with an academic specialization is to offer Arabic majors who can converse and intellectual grounding they need to connect meaningfully with the Arab world and appreciate its cultural and intellectual traditions critically.</span></p>
+<p><span style="font-size: 120%; color: #000000;">So many people seek to know how long to learn Arabic to achieve these goals and more.</span></p>
+<p>&nbsp;</p>
+<h2><span class="ez-toc-section" id="How_long_to_learn_Arabic"></span><strong><span style="font-size: 120%; color: #00a859;">How long to learn Arabic</span></strong><span class="ez-toc-section-end"></span></h2>
+<p><span style="font-size: 120%; color: #000000;">If you have limited experience in the Arabic language, then three months is enough to reach a somewhat satisfactory level.</span></p>
+<p><span style="font-size: 120%; color: #000000;">A testing standard is similar to used in Special Operations at one of the Armies. </span></p>
+<p><span style="font-size: 120%; color: #000000;">At one point, the Arabic instruction lasted at least four months, while at another, it lasted six months. </span></p>
+<p><span style="font-size: 120%; color: #000000;">Despite spending 8 hours per day studying, most of the men in the class failed to meet the Intermediate Low threshold. </span></p>
+<p><span style="font-size: 120%; color: #000000;">Unfortunately, the technique and curriculum adopted were the fundamental reasons for so many men&#8217;s failures. </span></p>
+<p><span style="font-size: 120%; color: #000000;">It is, nevertheless, feasible to acquire it well fast; it should not take four years of university study. </span></p>
+<p><span style="font-size: 120%; color: #000000;">I&#8217;m not saying this to discourage you; instead, I&#8217;m trying to be honest and prepare you for what&#8217;s ahead.</span></p>
+<p><span style="font-size: 120%; color: #000000;">From experience, I can tell you that the most damaging element of learning a language is so-called experts assuring you that you can learn a language in 10 days or three months. </span></p>
+<p><span style="font-size: 120%; color: #000000;">After three months, I still couldn&#8217;t figure out anything in the film. </span></p>
+<p><span style="font-size: 120%; color: #000000;">Now, after spending a significant amount of time understanding how to learn a language and learning French, Spanish, Hebrew, and German, I can confidently state that in 3 months and 10 hours per week, I could reach Intermediate Low level in Arabic.</span></p>
+<p class="has-text-align-center has-white-color has-vivid-green-cyan-background-color has-text-color has-background" style="font-size: 20px;"><span style="color: #ffffff;"><strong>”  Book your free trial now from our <a style="color: #ffffff;" href="https://qarabic.com/courses/learn-arabic-for-kids/">Learning Arabic For Kids Course</a></strong>“</span></p>
+<p>&nbsp;</p>
+<h3><span class="ez-toc-section" id="The_role_of_approach_and_methodology_in_learning"></span><strong><span style="font-size: 120%; color: #00a859;">The role of approach and methodology in learning </span></strong><span class="ez-toc-section-end"></span></h3>
+<p><span style="font-size: 120%; color: #000000;">In other words, the approach and curriculum you choose are the most critical elements in deciding how long it will take.</span></p>
+<p><span style="font-size: 120%; color: #000000;">The first thing you should think about while studying the language you&#8217;d like to master is &#8220;How do I gain the necessary skills to be able to speak the language?</span></p>
+<p><span style="font-size: 120%; color: #000000;">Any language will become easier to learn if you have a good:</span></p>
+<ul>
+<li><span style="font-size: 120%; color: #000000;">Approach</span></li>
+<li><span style="font-size: 120%; color: #000000;">Plan</span></li>
+<li><span style="font-size: 120%; color: #000000;">Books in place.</span></li>
+</ul>
+<p><span style="font-size: 120%; color: #000000;">Consider it similar to going to the gym. Anyone may go to a gym and haphazardly experiment with various pieces of equipment. </span></p>
+<p><span style="font-size: 120%; color: #000000;">In the sense of wasting cash each month when they pay for gym memberships.</span></p>
+<p><span style="font-size: 120%; color: #000000;">They might do the same thing for years and come up with nothing. </span></p>
+<p><span style="font-size: 120%; color: #000000;">They would, however, experience massive results if they engaged a personal trainer who would guide them every step of the way and offer them a workout schedule.</span></p>
+<p><span style="font-size: 120%; color: #000000;">Learning a language is the same thing, and know-how long to learn Arabic or any language. </span></p>
+<p><span style="font-size: 120%; color: #000000;">So, first, figure out how you&#8217;re going to achieve it, and then the timeline will become a lot apparent. </span></p>
+<p><span style="font-size: 120%; color: #000000;">The better the approach and curriculum, the faster you learn the language, and the better you will do on the test.</span></p>
+<p>&nbsp;</p>
+<h3><span class="ez-toc-section" id="Factors_that_affect_How_long_to_learn_Arabic"></span><strong><span style="font-size: 120%; color: #00a859;">Factors that affect How long to learn Arabic</span></strong><span class="ez-toc-section-end"></span></h3>
+<p><img fetchpriority="high" decoding="async" class=" wp-image-3335 aligncenter" src="https://qarabic.com/wp-content/uploads/2021/12/Factors-that-affect-How-long-to-learn-Arabic-300x225.webp" alt="How long to learn Arabic" width="893" height="670" title="How long to learn Arabic?" srcset="https://qarabic.com/wp-content/uploads/2021/12/Factors-that-affect-How-long-to-learn-Arabic-300x225.webp 300w, https://qarabic.com/wp-content/uploads/2021/12/Factors-that-affect-How-long-to-learn-Arabic.webp 480w" sizes="(max-width: 893px) 100vw, 893px" /></p>
+<p><span style="font-size: 120%; color: #000000;">It is among the first questions that anyone looking to learn a language is asking for, and there&#8217;s no straightforward solution to this.</span></p>
+<p><span style="font-size: 120%; color: #000000;">Learning a language is a complex process that differs from person to person, depending on various circumstances. </span></p>
+<p><span style="font-size: 120%; color: #000000;">Let&#8217;s have a look at factors that affect How long to learn Arabic and how they impact your ability to learn Arabic quickly:</span></p>
+<p>&nbsp;</p>
+<ul>
+<li>
+<h4><strong><span style="font-size: 120%; color: #f99b1c;">Language Learning Experiences in the Past</span></strong></h4>
+</li>
+</ul>
+<p><span style="color: #000000; font-size: 120%;">You may be able to save time learning Arabic if you already know a foreign language or were raised multilingually. </span></p>
+<p><span style="font-size: 120%; color: #000000;">Various linguistic studies have shown that bilinguals find it simpler to acquire a third language. </span></p>
+<p><span style="font-size: 120%; color: #000000;">It is because they are naturally exposed to a variety of languages.</span></p>
+<p><span style="font-size: 120%; color: #000000;">The ability to speak and understand one language can help with proficiency and fluency in another.</span></p>
+<p><span style="font-size: 120%; color: #000000;">Don&#8217;t fret if you&#8217;re not multilingual or bilingual: maybe the year of Spanish at high school or your travel for business to Beijing was applicable.</span></p>
+<p><span style="font-size: 120%; color: #000000;">In the context of talking about how long to learn Arabic.</span></p>
+<p><span style="font-size: 120%; color: #000000;">Learning a little about what constitutes a language and the distinctive linguistic qualities of the language you wish to learn is one of the first stages in learning a language. </span></p>
+<p><span style="font-size: 120%; color: #000000;">If you&#8217;ve studied foreign grammar, memorized vocabulary, listened to various sounds, and examined multiple letters before, your mind understands what to expect when confronted with a new language. </span></p>
+<p><span style="font-size: 120%; color: #000000;">There are fewer surprises, and learning the language becomes more accessible and faster.</span></p>
+<p><span style="font-size: 120%; color: #000000;">Being exposed to several languages can help you learn a language faster, especially if one of those languages you want to study.</span></p>
+<p class="has-text-align-center has-white-color has-vivid-green-cyan-background-color has-text-color has-background" style="font-size: 18px;"><span style="color: #ffffff;"><strong>” Read also: <a style="color: #ffffff;" href="https://qarabic.com/why-is-arabic-so-hard-to-learn/">why is arabic so hard to learn</a></strong>“</span></p>
+<p>&nbsp;</p>
+<ul>
+<li>
+<h4><strong><span style="font-size: 120%; color: #f99b1c;">The Language You&#8217;re Trying to Learn</span></strong></h4>
+</li>
+</ul>
+<p><span style="font-size: 120%; color: #000000;">Even though Arabic is regarded as one of the most difficult languages for English speakers to master, it does borrow a few terms from the English Language. </span></p>
+<p><span style="font-size: 120%; color: #000000;">When studying the Arabic language, these terms might help you save time.</span></p>
+<p><span style="font-size: 120%; color: #000000;">Let&#8217;s have a look at a few examples:</span></p>
+<ul>
+<li><span style="font-size: 120%; color: #000000;">Kombiouter (كمبيوتر) = Computer</span></li>
+<li><span style="font-size: 120%; color: #000000;">Milyoon (مليون) = million</span></li>
+<li><span style="font-size: 120%; color: #000000;">Mikaniky (ميكانيكي) = Mechanist</span></li>
+<li><span style="font-size: 120%; color: #000000;">Maycrowayf (ميكرويوف) = Microwave</span></li>
+<li><span style="font-size: 120%; color: #000000;">Telefone (تليفون) = telephone</span></li>
+</ul>
+<p><span style="font-size: 120%; color: #000000;">Some terms sound similar to English ones but have different meanings. This resemblance, on the other hand, may make them simpler to remember:</span></p>
+<ul>
+<li><span style="font-size: 120%; color: #000000;">أنا &#8211; sounds like &#8220;Anna&#8221; meaning &#8220;I&#8221; or &#8220;Me.&#8221;</span></li>
+<li><span style="font-size: 120%; color: #000000;">في &#8211; sounds like &#8220;fee,&#8221; meaning &#8220;in.&#8221;</span></li>
+<li><span style="font-size: 120%; color: #000000;">أرض – sounds like &#8220;ard&#8221; meaning &#8220;earth.&#8221;</span></li>
+<li><span style="font-size: 120%; color: #000000;">ألف – sounds like &#8220;elf,&#8221; meaning &#8220;thousand.&#8221;</span></li>
+</ul>
+<p><span style="font-size: 120%; color: #000000;">Did you realize that numerous standard English terms have their origins in Arabic? </span></p>
+<p><span style="font-size: 120%; color: #000000;">Please look at these English terms with Arabic roots that have made their way into other languages.</span></p>
+<p><span style="font-size: 120%; color: #000000;">These terms are unquestionably your friends, and they can help you acquire the Arabic language much more easily and quickly.</span></p>
+<p>&nbsp;</p>
+<ul>
+<li>
+<h4><strong><span style="font-size: 120%; color: #f99b1c;">How Do You Learn?<a href="https://qarabic.com/courses/learn-arabic-for-adults/"><img decoding="async" class="alignright wp-image-3341" src="https://qarabic.com/wp-content/uploads/2021/12/Free-Trail-From-arabic-course.webp" alt="Free Trail From arabic course" width="375" height="563" title="How long to learn Arabic?" srcset="https://qarabic.com/wp-content/uploads/2021/12/Free-Trail-From-arabic-course.webp 500w, https://qarabic.com/wp-content/uploads/2021/12/Free-Trail-From-arabic-course-200x300.webp 200w" sizes="(max-width: 375px) 100vw, 375px" /></a></span></strong></h4>
+</li>
+</ul>
+<p><span style="color: #000000; font-size: 120%;">How long to learn Arabic is also influenced by your study methods. </span></p>
+<p><span style="font-size: 120%; color: #000000;">It will take you a little longer to acquire a language if you learn it in a classroom setting.</span></p>
+<p><span style="font-size: 120%; color: #000000;">If you are exposed to Arabic outside of class, though, you can shorten the time it takes to acquire it. </span></p>
+<p><span style="font-size: 120%; color: #000000;">Reading, listening to the radio or reading eBooks, writing, speaking, watching movies, and visiting Arab-speaking nations can all help you learn faster.</span></p>
+<p>&nbsp;</p>
+<ul>
+<li>
+<h4><strong><span style="font-size: 120%; color: #f99b1c;">Your Mentality</span></strong></h4>
+</li>
+</ul>
+<p><span style="font-size: 120%; color: #000000;">Your mindset has a significant impact on how long to learn Arabic. </span></p>
+<p><span style="font-size: 120%; color: #000000;">You&#8217;ll be more receptive to learning if you approach language study with a positive attitude and see it as a fun and intriguing way to widen your horizons and sound like a native while singing your favorite Arabic song. </span></p>
+<p><span style="font-size: 120%; color: #000000;">You&#8217;ll be more driven to study and learn as much as possible, and the whole process will be more pleasurable and, as a result, go by more quickly.</span></p>
+<p>&nbsp;</p>
+<ul>
+<li>
+<h4><strong><span style="font-size: 120%; color: #f99b1c;">Your Source of Inspiration</span></strong></h4>
+</li>
+</ul>
+<p><span style="font-size: 120%; color: #000000;">It is a given that staying focused is crucial when learning the language of your choice.</span></p>
+<p><span style="font-size: 120%; color: #000000;">Many studies have demonstrated the role of Motivation in language learning. </span></p>
+<p><span style="font-size: 120%; color: #000000;">The number one reason for many people&#8217;s language success, and the number one cause for other people&#8217;s failure, is their ability to stay motivated.</span></p>
+<p><span style="font-size: 120%; color: #000000;">Experience that affects How long to learn Arabic</span><br />
+<span style="font-size: 120%; color: #000000;">One of the most crucial elements determines how long it takes to learn Arabic or any language.</span></p>
+<p>&nbsp;</p>
+<ul>
+<li>
+<h4><strong><span style="font-size: 120%; color: #f99b1c;">The language (s) You Speak</span></strong></h4>
+</li>
+</ul>
+<p><span style="font-size: 120%; color: #000000;">What is your mother tongue? What other languages do you have fluency in?</span></p>
+<p><span style="font-size: 120%; color: #000000;">Yes, this will have an impact on how quickly you learn Arabic. </span></p>
+<p><span style="font-size: 120%; color: #000000;">If you already know Hebrew or Amharic, both Semitic languages like Arabic, you&#8217;ll pick up the language faster than if you&#8217;re a native English speaker. </span></p>
+<p><span style="font-size: 120%; color: #000000;">Learning Arabic dialects that significantly draw from French will also be more straightforward, such as Moroccan Arabic and Algerian Arabic if you know French.</span></p>
+<p><span style="font-size: 120%; color: #000000;">If you&#8217;re a natural speaker of any Indo-European language, though, you&#8217;re out of luck&#8230; Arabic is regarded as one of the most challenging languages to master.</span></p>
+<p><span style="font-size: 120%; color: #000000;">But don&#8217;t be concerned. This isn&#8217;t to say it&#8217;s impossible; instead, it&#8217;s a fun task.</span></p>
+<p><span style="font-size: 120%; color: #000000;">So let&#8217;s get started!</span></p>
+<p class="has-text-align-center has-white-color has-vivid-green-cyan-background-color has-text-color has-background" style="font-size: 18px;"><span style="color: #ffffff;"><strong>” Read also: <a style="color: #ffffff;" href="https://qarabic.com/is-arabic-hard-to-learn-for-english-speakers/">is arabic hard to learn for english speakers</a></strong>“</span></p>
+<p>&nbsp;</p>
+<ul>
+<li>
+<h4><strong><span style="font-size: 120%; color: #f99b1c;">Your Previous Language Learning Experience</span></strong></h4>
+</li>
+</ul>
+<p><span style="font-size: 120%; color: #000000;">Another essential factor to consider when you want to know how long to learn Arabic is your past language learning experience.</span></p>
+<p><span style="font-size: 120%; color: #000000;">Have you ever attempted to learn another language?</span></p>
+<p><span style="font-size: 120%; color: #000000;">It will probably be simpler and faster for you to learn Arabic if you already speak a foreign language fluently or were raised multilingually. </span></p>
+<p><span style="font-size: 120%; color: #000000;">According to several studies, bilinguals have an easier time learning a third language since they are naturally more habituated to being exposed to different languages.</span></p>
+<p><span style="font-size: 120%; color: #000000;">Even if we&#8217;re only talking about high school French, studying and acquiring another language could benefit, even if you&#8217;re not multilingual. </span></p>
+<p><span style="font-size: 120%; color: #000000;">Memorizing words and looking at various characters and symbols is a valuable skill that your language-learning mind will retain.</span></p>
+<p><span style="font-size: 120%; color: #000000;">So, even though the two languages are utterly unrelated, the abilities you build in one will help you attain proficiency in the other!</span></p>
+<p>&nbsp;</p>
+<ul>
+<li>
+<h4><strong><span style="font-size: 120%; color: #f99b1c;">Your Previous Grammar Knowledge</span></strong></h4>
+</li>
+</ul>
+<p><span style="font-size: 120%; color: #000000;">One of the first things you should do is learn the language basics. </span></p>
+<p><span style="font-size: 120%; color: #000000;">This entails becoming familiar with and comprehending its structure and grammar.</span></p>
+<p><span style="font-size: 120%; color: #000000;">It would be easier and faster for you to learn the grammar and syntax of another language if you had prior experience studying syntax and grammar, even if it was simply in your language.</span></p>
+<p><span style="font-size: 120%; color: #000000;">If you want to study Arabic, it&#8217;s always a good idea to brush up on your grammatical basics or any other language.</span></p>
+<p class="has-text-align-center has-white-color has-vivid-green-cyan-background-color has-text-color has-background" style="font-size: 18px;"><span style="color: #ffffff;"><strong>” Read also: <a style="color: #ffffff;" href="https://qarabic.com/how-to-learn-arabic-language-to-understand-quran/">how to learn arabic language to understand quran</a></strong>“</span></p>
+<p>&nbsp;</p>
+<h3><span class="ez-toc-section" id="Learning_Style_that_affects_How_long_to_learn_Arabic"></span><strong><span style="font-size: 120%; color: #00a859;">Learning Style that affects How long to learn Arabic</span></strong><span class="ez-toc-section-end"></span></h3>
+<p><img decoding="async" class=" wp-image-3336 aligncenter" src="https://qarabic.com/wp-content/uploads/2021/12/Learning-Style-that-affects-How-long-to-learn-Arabic-300x241.webp" alt="How long to learn Arabic?" width="854" height="686" title="How long to learn Arabic?" srcset="https://qarabic.com/wp-content/uploads/2021/12/Learning-Style-that-affects-How-long-to-learn-Arabic-300x241.webp 300w, https://qarabic.com/wp-content/uploads/2021/12/Learning-Style-that-affects-How-long-to-learn-Arabic.webp 555w" sizes="(max-width: 854px) 100vw, 854px" /></p>
+<p><span style="font-size: 120%; color: #000000;">Another essential aspect in influencing how long it will take you to become proficient in Arabic is how you learn and study.</span></p>
+<p>&nbsp;</p>
+<ul>
+<li>
+<h4><strong><span style="font-size: 120%; color: #f99b1c;">Your Methods to learning Arabic</span></strong></h4>
+</li>
+</ul>
+<p><span style="font-size: 120%; color: #000000;">Even if you go to class every day, it will take you longer to feel comfortable utilizing your language abilities if you confine your learning and studying to a classroom setting.</span></p>
+<p><span style="font-size: 120%; color: #000000;">If you try to study Arabic outside of the classroom, you&#8217;ll be able to cut your learning time in half!</span></p>
+<p><span style="font-size: 120%; color: #000000;">Try reading Arabic news, viewing Arabic movies and series, or listening to Arabic podcasts on topics you&#8217;re interested in. </span></p>
+<p><span style="font-size: 120%; color: #000000;">Of course, finding a language-exchange partner with whom you can practice your conversation skills would be beneficial and will help you become fluent faster!</span></p>
+<p>&nbsp;</p>
+<ul>
+<li>
+<h4><strong><span style="font-size: 120%; color: #f99b1c;">Your Time</span></strong></h4>
+</li>
+</ul>
+<p><span style="font-size: 120%; color: #000000;">Another factor we haven&#8217;t discussed yet, but it&#8217;s the most crucial in deciding how long it takes to learn Arabic: the amount of time you spend studying it!</span></p>
+<p><span style="font-size: 120%; color: #000000;">It goes without saying that if you want to learn quickly, you&#8217;ll need to devote as much time as possible to study.</span></p>
+<p><span style="font-size: 120%; color: #000000;">Daily practice is ideal, and studies show that learners who devote an hour a day to learning—whether it&#8217;s remembering new words, studying grammatical rules, or watching a Netflix series—learn substantially quicker than those who attend lessons.</span></p>
+<p><span style="font-size: 120%; color: #000000;">Of course, if you have the opportunity, complete immersion is the most excellent option. </span></p>
+<p><span style="font-size: 120%; color: #000000;">It will make a significant impact if you can travel to an Arabic-speaking nation and live there for a short or long period</span><span style="font-size: 120%; color: #000000;">.</span></p>
+<p class="has-text-align-center has-white-color has-vivid-green-cyan-background-color has-text-color has-background" style="font-size: 18px;"><span style="color: #ffffff;"><strong>” Read also: <a style="color: #ffffff;" href="https://qarabic.com/learn-arabic-online-skype/">learn arabic online skype</a></strong>“</span></p>
+<p>&nbsp;</p>
+<h3><span class="ez-toc-section" id="An_approach_that_affects_How_long_to_learn_Arabic"></span><strong><span style="font-size: 120%; color: #00a859;">An approach that affects How long to learn Arabic</span></strong><span class="ez-toc-section-end"></span></h3>
+<p><span style="font-size: 120%; color: #000000;">Your approach is another essential component that will impact t to know how long to learn Arabic. It can make a significant change!</span></p>
+<p>&nbsp;</p>
+<ul>
+<li>
+<h4><span style="color: #f99b1c;"><strong><span style="font-size: 120%;">Your Motivation to learn Arabic</span></strong></span></h4>
+</li>
+</ul>
+<p><span style="font-size: 120%; color: #000000;">It&#8217;s no secret that remaining motivated is crucial while learning new abilities, and this is especially true when it comes to studying a foreign language.</span></p>
+<p><span style="font-size: 120%; color: #000000;">What motivates you to study Arabic?</span></p>
+<p><span style="font-size: 120%; color: #000000;">Try to keep this in mind and make weekly (or even daily) goals to remind you of it for best effectiveness. </span></p>
+<p><span style="font-size: 120%; color: #000000;">This will keep you motivated and prevent your enthusiasm for studying from fading.</span></p>
+<p>&nbsp;</p>
+<ul>
+<li>
+<h4><strong><span style="font-size: 120%; color: #f99b1c;">Your Attitude</span></strong></h4>
+</li>
+</ul>
+<p><span style="font-size: 120%; color: #000000;">Maintaining your Motivation will make you feel as though you&#8217;re learning more easily and rapidly, and it&#8217;ll be necessary for keeping a happy attitude throughout your language learning adventure!</span></p>
+<p><span style="font-size: 120%; color: #000000;">Learning should be viewed as a joyful and engaging activity that you want to undertake, rather than a duty that you are compelled to perform.</span></p>
+<p><span style="font-size: 120%; color: #000000;">Remember that learning a foreign language can broaden your mind and expand your horizons and provide you with a valuable set of abilities that you can apply in your daily life.</span></p>
+<p><span style="font-size: 120%; color: #000000;">When you consider things in this light, the procedure will be much more pleasurable and faster!</span></p>
+<p class="has-text-align-center has-white-color has-vivid-green-cyan-background-color has-text-color has-background" style="font-size: 18px;"><span style="color: #ffffff;"><strong>” Read also: <a style="color: #ffffff;" href="https://qarabic.com/learn-arabic-childrens-books/">learn arabic children&#8217;s books</a></strong>“</span></p>
+<p>&nbsp;</p>
+<h3><span class="ez-toc-section" id="How_long_to_learn_Arabic_in_Levels_Beginner_Intermediate_and_Advanced_Level"></span><strong><span style="font-size: 120%; color: #00a859;">How long to learn Arabic in Levels Beginner, Intermediate, and Advanced Level?</span></strong><span class="ez-toc-section-end"></span></h3>
+<p><img decoding="async" class=" wp-image-3338 aligncenter" src="https://qarabic.com/wp-content/uploads/2021/12/How-long-to-learn-Arabic-in-Levels-Beginner-Intermediate-and-Advanced-Level-300x300.webp" alt="How long to learn Arabic?" width="843" height="843" title="How long to learn Arabic?" srcset="https://qarabic.com/wp-content/uploads/2021/12/How-long-to-learn-Arabic-in-Levels-Beginner-Intermediate-and-Advanced-Level-300x300.webp 300w, https://qarabic.com/wp-content/uploads/2021/12/How-long-to-learn-Arabic-in-Levels-Beginner-Intermediate-and-Advanced-Level-150x150.webp 150w, https://qarabic.com/wp-content/uploads/2021/12/How-long-to-learn-Arabic-in-Levels-Beginner-Intermediate-and-Advanced-Level.webp 486w" sizes="(max-width: 843px) 100vw, 843px" /></p>
+<p><span style="font-size: 120%; color: #000000;">So, let&#8217;s get down to business.</span></p>
+<p><span style="font-size: 120%; color: #000000;">Even while it&#8217;s impossible to say for sure, we&#8217;ve attempted to estimate how long it might take you to attain various levels of Arabic (beginner, intermediate, and advanced).</span></p>
+<p><span style="font-size: 120%; color: #000000;">Arabic is one of the most complex languages to learn for English speakers, making it all the more interesting and gratifying!</span></p>
+<p>&nbsp;</p>
+<ul>
+<li>
+<h4><strong><span style="font-size: 120%; color: #f99b1c;">Beginner</span></strong></h4>
+</li>
+</ul>
+<p><span style="font-size: 120%; color: #000000;">When spoken slowly and deliberately, a novice speaker of a language will identify oneself, grasp simple words, and ask basic inquiries, but it&#8217;s probably making some mistakes along the way.</span></p>
+<p><span style="font-size: 120%; color: #000000;">You can get by with the essential reading and speaking abilities you obtained at this level if you want to greet people and order food.</span></p>
+<p><span style="font-size: 120%; color: #000000;">According to the conclusions of the FSI learning timetable, it will take around 700 hours of study to reach the beginning level in Arabic. </span></p>
+<p><span style="font-size: 120%; color: #000000;">This indicates that if you devote 15-20 hours per week to learning Arabic, you should reach this level in around eight months.</span></p>
+<p>&nbsp;</p>
+<ul>
+<li>
+<h4><strong><span style="font-size: 120%; color: #f99b1c;">Intermediate</span></strong></h4>
+</li>
+</ul>
+<p><span style="font-size: 120%; color: #000000;">You&#8217;ll be able to participate in most common discussions at the intermediate level if spoken slowly and ask questions to ensure you understand. </span></p>
+<p><span style="font-size: 120%; color: #000000;">This level will also allow you to read Arabic news and view Arabic videos without difficulty. </span></p>
+<p><span style="font-size: 120%; color: #000000;">When you&#8217;re on the road, you&#8217;ll be able to converse with locals about familiar topics and ask for and follow instructions.</span></p>
+<p><span style="font-size: 120%; color: #000000;">It is expected that 1000-1200 hours of study time would be required to achieve an intermediate level, including classes, homework, and practice time.</span></p>
+<p><span style="font-size: 120%; color: #000000;">If you&#8217;re committed to learning Arabic quickly and you&#8217;re determined to understand it, you can do it within an entire year if you&#8217;re studying a minimum of 20 hours per week.</span></p>
+<p>&nbsp;</p>
+<ul>
+<li>
+<h4><strong><span style="font-size: 120%; color: #f99b1c;">Advanced</span></strong></h4>
+</li>
+</ul>
+<p><span style="font-size: 120%; color: #000000;">This is what you want to attain if you become fluent and know how long to learn Arabic. </span></p>
+<p><span style="font-size: 120%; color: #000000;">You&#8217;ll be able to negotiate any issue that may happen in your everyday life and has sophisticated conversations with native speakers if you have excellent language abilities.</span></p>
+<p><span style="font-size: 120%; color: #000000;">You&#8217;ll be able to view movies without subtitles and read a wide range of Arabic-language literature. </span></p>
+<p><span style="font-size: 120%; color: #000000;">You&#8217;ll have a good command of the language, even if there will always be something more to learn about this intricate but in beautifully.</span></p>
+<p><span style="font-size: 120%; color: #000000;">According to some estimates, at the very least 200 hours worth of Arabic instruction is required for the English language speaker to speak Arabic efficiently.</span></p>
+<p><span style="font-size: 120%; color: #000000;">This means that if you want to learn Arabic fluently in a year, you&#8217;ll have to devote your entire year to studying it.</span></p>
+<p><span style="font-size: 120%; color: #000000;">If you aren&#8217;t in a hurry, you can acquire the language in around two years if you devote about 20 hours each week to studying and practicing.</span></p>
+<p><span style="font-size: 120%; color: #000000;">However, all of these durations are estimations since one&#8217;s language learning progress is highly dependent on a variety of circumstances.</span></p>
+<p class="has-text-align-center has-white-color has-vivid-green-cyan-background-color has-text-color has-background" style="font-size: 18px;"><span style="color: #ffffff;"><strong>” Read also: <a style="color: #ffffff;" href="https://qarabic.com/learning-to-write-arabic-for-beginners/">learning to write arabic for beginners</a></strong>“</span></p>
+<p>&nbsp;</p>
+<h3><span class="ez-toc-section" id="Can_I_learn_Arabic_in_6_months"></span><strong><span style="font-size: 120%; color: #00a859;">Can I learn Arabic in 6 months?</span></strong><span class="ez-toc-section-end"></span></h3>
+<p><span style="font-size: 120%; color: #000000;">In the context of talking about how long to learn Arabic. It is unrealistic to expect to learn Arabic in six months.</span></p>
+<p><span style="font-size: 120%; color: #000000;">Under normal conditions, a non-native Arabic speaker will not master the language in six months. </span></p>
+<p><span style="font-size: 120%; color: #000000;">That said, you can certainly learn a lot in six months, but you&#8217;ll have to do something similar to what I did. </span></p>
+<p><span style="font-size: 120%; color: #000000;">You&#8217;ll have to do Arabic all day, every day, under near-ideal conditions. </span></p>
+<p><span style="font-size: 120%; color: #000000;">You might become quite proficient at a modest level if you could live in an Arabic-speaking nation or a total-immersion environment and take official lessons as well as use Arabic outside of class. </span></p>
+<p><span style="font-size: 120%; color: #000000;">You could undoubtedly learn quite a deal rapidly if you spent practically little time on the letters or grammar. </span></p>
+<p><span style="font-size: 120%; color: #000000;">It isn&#8217;t all that difficult if you approach Arabic grammar like any other language.</span></p>
+<p><span style="font-size: 120%; color: #000000;">The most challenging thing is getting used to seeing words and sentences written in Arabic. </span></p>
+<p><span style="font-size: 120%; color: #000000;">You&#8217;ve most likely spent your entire life becoming accustomed to seeing words in English that look like this. </span></p>
+<p><span style="font-size: 120%; color: #000000;">Using a distinct set of symbols necessitates learning visual recognition, which is more complex than most people believe. </span></p>
+<p><span style="font-size: 120%; color: #000000;">It&#8217;s feasible to learn the alphabet in a few weeks, but it takes a long time to progress from needing to sound out everything to identify total words.</span></p>
+<p>&nbsp;</p>
+<h3><span class="ez-toc-section" id="How_to_Learn_Arabic_Fast"></span><strong><span style="font-size: 120%; color: #00a859;">How to Learn Arabic Fast</span></strong><span class="ez-toc-section-end"></span></h3>
+<p><img decoding="async" class=" wp-image-3339 aligncenter" src="https://qarabic.com/wp-content/uploads/2021/12/How-to-Learn-Arabic-Fast-300x300.webp" alt="How long to learn Arabic?" width="820" height="819" title="How long to learn Arabic?" srcset="https://qarabic.com/wp-content/uploads/2021/12/How-to-Learn-Arabic-Fast-300x300.webp 300w, https://qarabic.com/wp-content/uploads/2021/12/How-to-Learn-Arabic-Fast-150x150.webp 150w, https://qarabic.com/wp-content/uploads/2021/12/How-to-Learn-Arabic-Fast.webp 720w" sizes="(max-width: 820px) 100vw, 820px" /></p>
+<p><span style="font-size: 120%; color: #000000;">We live in a world of incredible technological advancements designed to save us time, and recent studies have shown that contemporary technology keeps the average individual two weeks each year. </span></p>
+<p><span style="font-size: 120%; color: #000000;">If all of this is true, as study has proven, why do we appear to be busy than ever these days?</span></p>
+<p><span style="font-size: 120%; color: #000000;">When students opt to study Arabic, time appears to be one of the essential elements. </span></p>
+<p><span style="font-size: 120%; color: #000000;">So, they always want to know how long to learn Arabic.</span></p>
+<p><span style="font-size: 120%; color: #000000;">How Wouldn&#8217;t it be wonderful if we had 25 hours in a day and eight days a week to devote to improving our Arabic language skills? </span></p>
+<p><span style="font-size: 120%; color: #000000;">However, like most others, our professional lives and personal obligations appear to conflict with it. </span></p>
+<p><span style="font-size: 120%; color: #000000;">This brings us to one of the most often asked questions. </span></p>
+<p><span style="font-size: 120%; color: #000000;">When it comes to learning Arabic, how long does it take? Sadly, there isn&#8217;t a simple solution to that question.</span></p>
+<p><span style="font-size: 120%; color: #000000;">This paragraph will answer it by explaining why some individuals learn Arabic faster than others.</span></p>
+<p><span style="font-size: 120%; color: #000000;">Like learning any other language, learning Arabic is a lengthy and challenging process. It varies from person to person depending on various factors that influence how quickly or slowly they learn.</span></p>
+<p><span style="font-size: 120%; color: #000000;">To learn Arabic quickly, you must be able to find answer the following points:</span></p>
+<p>&nbsp;</p>
+<ul>
+<li>
+<h4><strong><span style="font-size: 120%; color: #f99b1c;">What other languages have you studied before?</span></strong></h4>
+</li>
+</ul>
+<p><span style="font-size: 120%; color: #000000;">Are you already <a href="https://www.etoninstitute.com/blog/15-ways-to-become-fluent" target="_blank" rel="noopener">fluent</a> in two languages? This can help you learn Arabic faster. </span></p>
+<p><span style="font-size: 120%; color: #000000;">According to research, fluency in one language enhances fluency and competence in another. </span></p>
+<p><span style="font-size: 120%; color: #000000;">Bilinguals find it simpler to acquire a third language since they adapt to diverse languages more effortlessly. </span></p>
+<p><span style="font-size: 120%; color: #000000;">Your mind already has a good idea of what is ahead while learning Arabic by studying its grammar, remembering its vocabulary, and hearing its many sounds. </span></p>
+<p><span style="font-size: 120%; color: #000000;">Knowing what to expect reduces the number of surprises, making language acquisition more accessible and faster.</span></p>
+<p>&nbsp;</p>
+<ul>
+<li>
+<h4><span style="color: #f99b1c;"><strong><span style="font-size: 120%;">What Arabic do you already know?</span></strong></span></h4>
+</li>
+</ul>
+<p><span style="font-size: 120%; color: #000000;">Sure, sure. We&#8217;re sure you&#8217;ve heard the tales and read the lists about how difficult it is to learn Arabic.</span></p>
+<p><span style="font-size: 120%; color: #000000;">When learning fundamental Arabic terms, though, you may discover that you already know some of them because Arabic borrows words from English and <a href="https://www.merriam-webster.com/dictionary/vice%20versa" target="_blank" rel="noopener">vice versa</a>.</span></p>
+<p><span style="font-size: 120%; color: #000000;">This is as we explained to you in detail in the previous lines.</span></p>
+<p><span style="font-size: 120%; color: #000000;">Other factors may help you identify the best ways to learn Arabic faster, and all of them were discussed in the previous lines, such as the following:</span></p>
+<ul>
+<li><span style="font-size: 120%; color: #000000;">Your Learning Methodology</span></li>
+<li><span style="font-size: 120%; color: #000000;">The Time You Dedicate to Learning Arabic</span></li>
+<li><span style="font-size: 120%; color: #000000;">How do you feel about learning Arabic?</span></li>
+<li><span style="font-size: 120%; color: #000000;">What Inspires You</span></li>
+</ul>
+<p><span style="font-size: 120%; color: #000000;">The complex interaction of all of these elements determines how long it will take you to learn Arabic, and knowing this can help you devise techniques to learn Arabic more quickly.</span></p>
+<p>&nbsp;</p>
+<h3><span class="ez-toc-section" id="How_Our_Website_Can_Help"></span><strong><span style="font-size: 120%; color: #00a859;">How Our Website Can Help</span></strong><span class="ez-toc-section-end"></span></h3>
+<p><span style="font-size: 120%; color: #000000;">So, what exactly are you waiting for? Now is the most significant moment to begin learning a new language!</span></p>
+<p><span style="font-size: 120%; color: #000000;">The sooner you begin studying, the sooner you will communicate in Arabic and reach your language objectives!</span></p>
+<p><span style="font-size: 120%; color: #000000;">You&#8217;ll discover all types of language learning resources on us to make your trip as smooth as possible: courses for all levels, vocabulary lists, a dictionary, blog pieces, and so on.</span></p>
+<p><span style="font-size: 120%; color: #000000;">The amount of time it takes to learn Arabic is determined by how much time you are prepared to devote to it.</span></p>
+<p><span style="font-size: 120%; color: #000000;">Our Arabic courses and materials are mainly intended to provide you with all the tools you need to learn the language fast and effortlessly, so you can be sure that you&#8217;re making the most use of your time!</span></p>
+<p>&nbsp;</p>
+<h5><strong><span style="font-size: 120%; color: #00a859;">Conclusion</span></strong></h5>
+<p><span style="font-size: 120%; color: #000000;">This article is provided to help you; how long does it take to learn classical Arabic, and How long does it take to learn basic Arabic conversationally?</span></p>
+<p><span style="font-size: 120%; color: #000000;">And how you study and know the learning strategies you utilize will significantly impact how quickly you pick up Arabic and help you understand how long to learn Arabic. </span></p>
+<p><span style="font-size: 120%; color: #000000;">For example, if you can only study Arabic in a classroom setting, it will probably take you a bit longer to learn, as we told you in the previous paragraphs.</span></p>
+<p><span style="font-size: 120%; color: #000000;">You may, on the other hand, shorten the time it takes to learn Arabic by Get Yourself The Right Tools, such as:</span></p>
+<ul>
+<li><span style="font-size: 120%; color: #000000;">Online courses </span></li>
+<li><span style="font-size: 120%; color: #000000;">Books</span></li>
+<li><span style="font-size: 120%; color: #000000;">Videos and Podcasts</span></li>
+</ul>
+<p><span style="font-size: 120%; color: #000000;">And, if you have the opportunity, go to Arab-speaking countries</span></p>
+<p><span style="font-size: 120%; color: #000000;">Only, It’s up to You When You Decide to Learn the Arabic Language.</span></p>
+<p><a href="https://qarabic.com/free-trial/"><img decoding="async" class="aligncenter wp-image-3191 size-full" src="https://qarabic.com/wp-content/uploads/2021/11/Book-a-free-trial-1.webp" alt="Book a free trial" width="1096" height="407" title="How long to learn Arabic?" srcset="https://qarabic.com/wp-content/uploads/2021/11/Book-a-free-trial-1.webp 1096w, https://qarabic.com/wp-content/uploads/2021/11/Book-a-free-trial-1-300x111.webp 300w, https://qarabic.com/wp-content/uploads/2021/11/Book-a-free-trial-1-1024x380.webp 1024w, https://qarabic.com/wp-content/uploads/2021/11/Book-a-free-trial-1-768x285.webp 768w" sizes="(max-width: 1096px) 100vw, 1096px" /></a></p>
+<p><script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [{
+    "@type": "Question",
+    "name": "How long to learn Arabic?",
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "If you have limited experience in the Arabic language, then three months is enough to reach a somewhat satisfactory level."
+    }
+  },{
+    "@type": "Question",
+    "name": "How to Learn Arabic Fast?",
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "We live in a world of incredible technological advancements designed to save us time, and recent studies have shown that contemporary technology keeps the average individual two weeks each year."
+    }
+  },{
+    "@type": "Question",
+    "name": "Can I learn Arabic in 6 months?",
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "In the context of talking about how long to learn Arabic. It is unrealistic to expect to learn Arabic in six months ,Under normal conditions, a non-native Arabic speaker will not master the language in six months."
+    }
+  }]
+}
+</script></p>
+				</div>
+            </div>
+        </div>
+        <div class="my-5 my-lg-5">
+            <h2 class="font-18 font-lg-28 mb-5 mb-lg-6 title-border secondary title-border-sm">
+                Related Posts
+			</h2>
+
+			<div class="sliderslick shadow color-primary slidermargin10 sliderslick__dotscutsom dots--50" data-slick="{&quot;autoplay&quot;:true,&quot;autoplaySpeed&quot;:4000,&quot;speed&quot;:500,&quot;dots&quot;:true,&quot;infinite&quot;:false,&quot;slidesToShow&quot;:2,&quot;slidesToScroll&quot;:2,&quot;responsive&quot;: [{&quot;breakpoint&quot;:992,&quot;settings&quot;:{&quot;slidesToShow&quot;: 1,&quot;slidesToScroll&quot;:1}},{&quot;breakpoint&quot;:768,&quot;settings&quot;:{&quot;slidesToShow&quot;: 1,&quot;slidesToScroll&quot;:1}},{&quot;breakpoint&quot;:510,&quot;settings&quot;:{&quot;slidesToShow&quot;: 1,&quot;slidesToScroll&quot;:1}}]}">
+
+				
+			
+								
+				<a class="boxpostbox d-block hovertop hoverbg-primary hoverbg-textwhite addeffect-all rounded-xxl shadow-sm wow fadeInUp" href="https://qarabic.com/how-to-learn-arabic-language-to-understand-quran/">
+                        <div class="d-md-flex align-items-center">
+                           <div>
+                              <img class="boxpostbox__thu objectfit-cover" src="https://qarabic.com/wp-content/uploads/2022/01/How-to-learn-Arabic-language-to-understand-Quran.webp" alt="How to learn Arabic language to understand Quran">
+                           </div>
+                           <div class="flex-fill">
+                              <div class="p-5">
+                                 <h3 class="font-22 mb-4 text-primary">How to learn Arabic language to understand Quran</h3>
+                                 <p class="text-light font-16 font-lg-17 overflow-hidden mb-4 line-15">
+                                    How to learn Arabic language to understand Quran &#8211; The Qur’an is a great blessing that God has revealed to us, and one of our duties towards it is to read it constantly, but did you just read it enough? Of course not, we must understand all its meanings, and this comes with our understanding [&hellip;] 
+                                 </p>
+                                 <span class="btn btn-primary btn-lg btn-mw120 rounded-xxl">
+                                 Read More
+                                 </span>
+                              </div>
+                           </div>
+                        </div>
+                     </a>
+				
+				
+				
+				
+				
+				
+							
+										
+				<a class="boxpostbox d-block hovertop hoverbg-primary hoverbg-textwhite addeffect-all rounded-xxl shadow-sm wow fadeInUp" href="https://qarabic.com/learn-arabic-childrens-books/">
+                        <div class="d-md-flex align-items-center">
+                           <div>
+                              <img class="boxpostbox__thu objectfit-cover" src="https://qarabic.com/wp-content/uploads/2022/02/Learn-Arabic-childrens-books.webp" alt="Learn Arabic children&#8217;s books">
+                           </div>
+                           <div class="flex-fill">
+                              <div class="p-5">
+                                 <h3 class="font-22 mb-4 text-primary">Learn Arabic children&#8217;s books</h3>
+                                 <p class="text-light font-16 font-lg-17 overflow-hidden mb-4 line-15">
+                                    The following list some of the most inspirational Learn Arabic children&#8217;s books currently available. See more information about them, and Good luck with your reading! Learn Arabic children&#8217;s books Learn Arabic children&#8217;s books, one of the most valuable presents we can offer to our children.  These books not only expand their Arabic vocabulary – which [&hellip;] 
+                                 </p>
+                                 <span class="btn btn-primary btn-lg btn-mw120 rounded-xxl">
+                                 Read More
+                                 </span>
+                              </div>
+                           </div>
+                        </div>
+                     </a>
+				
+				
+				
+				
+				
+				
+							
+										
+				<a class="boxpostbox d-block hovertop hoverbg-primary hoverbg-textwhite addeffect-all rounded-xxl shadow-sm wow fadeInUp" href="https://qarabic.com/why-is-arabic-so-hard-to-learn/">
+                        <div class="d-md-flex align-items-center">
+                           <div>
+                              <img class="boxpostbox__thu objectfit-cover" src="https://qarabic.com/wp-content/uploads/2021/12/Why-is-Arabic-so-hard-to-learn.webp" alt="Why is Arabic so hard to learn">
+                           </div>
+                           <div class="flex-fill">
+                              <div class="p-5">
+                                 <h3 class="font-22 mb-4 text-primary">Why is Arabic so hard to learn</h3>
+                                 <p class="text-light font-16 font-lg-17 overflow-hidden mb-4 line-15">
+                                    Why is Arabic so hard to learn? &#8211; Arabic has a reputation among English speakers as a difficult language to learn. Nobody talks about learning Arabic via watching cartoons, and nobody provides Arabic lessons in middle school. Is Arabic, however, deserving of such a reputation? Is it difficult to learn Arabic? Is it possible that [&hellip;] 
+                                 </p>
+                                 <span class="btn btn-primary btn-lg btn-mw120 rounded-xxl">
+                                 Read More
+                                 </span>
+                              </div>
+                           </div>
+                        </div>
+                     </a>
+				
+				
+				
+				
+				
+				
+							
+										
+				<a class="boxpostbox d-block hovertop hoverbg-primary hoverbg-textwhite addeffect-all rounded-xxl shadow-sm wow fadeInUp" href="https://qarabic.com/learning-to-write-arabic-for-beginners/">
+                        <div class="d-md-flex align-items-center">
+                           <div>
+                              <img class="boxpostbox__thu objectfit-cover" src="https://qarabic.com/wp-content/uploads/2022/02/Learning-to-write-Arabic-for-beginners.webp" alt="Learning to write Arabic for beginners">
+                           </div>
+                           <div class="flex-fill">
+                              <div class="p-5">
+                                 <h3 class="font-22 mb-4 text-primary">Learning to write Arabic for beginners</h3>
+                                 <p class="text-light font-16 font-lg-17 overflow-hidden mb-4 line-15">
+                                    The Arabic language is one of the most widely used languages in the world, and you learn it in a brave step. The first step to Learning to write Arabic for beginners starts from here, you will learn the most important techniques to learn in an easy way and the important tips that you should [&hellip;] 
+                                 </p>
+                                 <span class="btn btn-primary btn-lg btn-mw120 rounded-xxl">
+                                 Read More
+                                 </span>
+                              </div>
+                           </div>
+                        </div>
+                     </a>
+				
+				
+				
+				
+				
+				
+							
+										
+				<a class="boxpostbox d-block hovertop hoverbg-primary hoverbg-textwhite addeffect-all rounded-xxl shadow-sm wow fadeInUp" href="https://qarabic.com/learn-arabic-online-skype/">
+                        <div class="d-md-flex align-items-center">
+                           <div>
+                              <img class="boxpostbox__thu objectfit-cover" src="https://qarabic.com/wp-content/uploads/2022/01/Learn-Arabic-online-Skype.webp" alt="Learn Arabic online Skype">
+                           </div>
+                           <div class="flex-fill">
+                              <div class="p-5">
+                                 <h3 class="font-22 mb-4 text-primary">Learn Arabic online Skype</h3>
+                                 <p class="text-light font-16 font-lg-17 overflow-hidden mb-4 line-15">
+                                    Learn Arabic online Skype by taking the classes which we offer for you. Expert native-speaking Skype Arabic teachers provide online language sessions. On Skype Arabic Lessons, you may learn Arabic. Give your confidence and fluency a boost and find a better approach to studying Arabic by having real-time conversations with native speakers on Skype. Learn [&hellip;] 
+                                 </p>
+                                 <span class="btn btn-primary btn-lg btn-mw120 rounded-xxl">
+                                 Read More
+                                 </span>
+                              </div>
+                           </div>
+                        </div>
+                     </a>
+				
+				
+				
+				
+				
+				
+							
+										
+				<a class="boxpostbox d-block hovertop hoverbg-primary hoverbg-textwhite addeffect-all rounded-xxl shadow-sm wow fadeInUp" href="https://qarabic.com/tips-to-learn-quran-by-heart/">
+                        <div class="d-md-flex align-items-center">
+                           <div>
+                              <img class="boxpostbox__thu objectfit-cover" src="https://qarabic.com/wp-content/uploads/2022/04/Tips-to-learn-Quran-by-heart.webp" alt="Tips to learn Quran by heart">
+                           </div>
+                           <div class="flex-fill">
+                              <div class="p-5">
+                                 <h3 class="font-22 mb-4 text-primary">Tips to learn Quran by heart</h3>
+                                 <p class="text-light font-16 font-lg-17 overflow-hidden mb-4 line-15">
+                                    Tips to learn Quran by heart &#8211; The Noble Qur’an is the book of God that was downloaded as guidance for all people, so it is necessary to manage its verses to read and memorize, So we will take tips to learn Quran by heart. Tips to learn Quran by heart. The Prophet, may God’s [&hellip;] 
+                                 </p>
+                                 <span class="btn btn-primary btn-lg btn-mw120 rounded-xxl">
+                                 Read More
+                                 </span>
+                              </div>
+                           </div>
+                        </div>
+                     </a>
+				
+				
+				
+				
+				
+				
+							
+						 
+				
+			</div>
+        
+			<!--<div class="my-5 my-lg-5">
+            <h2 class="font-18 font-lg-28 mb-2 title-border secondary title-border-sm">
+                Comments
+            </h2>
+        </div>
+             <div id="respond">
+                
+            </div>
+        -->
+    </div>
+</div>
+</aside>
+
+		
+
+
+<footer>
+   <a class="buttonwhastapp2 d-block position-fixed text-center font-16 rounded px-24 shadow-sm pb-24 pt-2" href="tel:0013093775300"><i class="fa fa-phone mr-2"></i> Call Us</a>
+   <a class="buttonwhastapp d-block position-fixed text-center font-16 rounded px-24 shadow-sm pb-24 pt-2" target="_blank" href="https://api.whatsapp.com/send?phone=13093775300&amp;text=Hello, I have enquiry"><i class="fab fa-whatsapp mr-2"></i> Send a Message</a>
+	
+   
+   <div class="footercenter text-white bg-background bg-size-cover bg-position-centerbottom py-5 py-lg-6" style="background-image: url(https://qarabic.com/wp-content/themes/qarabic/assets/img/footerbg.png);background-color:#7a1c1a">
+      <div class="container">
+         <div class="row justify-content-between">
+            <div class="col-lg-3 mb-2 mb-lg-0">
+				<img width="189" height="54" src="https://qarabic.com/wp-content/uploads/2022/07/qarabic-footer-300x85.png" class="image wp-image-4166  attachment-189x54 size-189x54" alt="qarabic-footer" style="max-width: 100%; height: auto;" decoding="async" loading="lazy" srcset="https://qarabic.com/wp-content/uploads/2022/07/qarabic-footer-300x85.png 300w, https://qarabic.com/wp-content/uploads/2022/07/qarabic-footer-340x97.png 340w, https://qarabic.com/wp-content/uploads/2022/07/qarabic-footer.png 394w" sizes="(max-width: 189px) 100vw, 189px" /><div class="textwidget custom-html-widget">Professional online Quran academy to learn Quran, Arabic Language, and Islamic Studies for kids & adults through one-to-one online classes.</div><h3 class="text-yellow">QArabic Academy</h3><div class="textwidget custom-html-widget"><strong>QArabic Academy</strong> is a professional online Quran academy to learn Quran, Arabic Language, and Islamic Studies for kids &amp; adults through one-to-one online classes.
+
+</div><h3 class="text-yellow">Adults Courses</h3><div class="menu-adults-courses-container"><ul id="menu-adults-courses-1" class="menu"><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4592"><a href="https://qarabic.com/courses/learn-quran-for-adults/">Learn Quran Online</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4596"><a href="https://qarabic.com/courses/learn-arabic-for-adults/">Learn Arabic Online</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4595"><a href="https://qarabic.com/courses/islamic-studies-for-adults/">Islamic Studies Course</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4593"><a href="https://qarabic.com/courses/learn-tafsir-al-quran/">Learn Quran Tafseer</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4594"><a href="https://qarabic.com/courses/new-muslim-course/">New Muslim Course</a></li>
+</ul></div><h3 class="text-yellow">Kids Courses</h3><div class="menu-kids-courses-container"><ul id="menu-kids-courses-1" class="menu"><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4599"><a href="https://qarabic.com/courses/learn-quran-for-kids/">Online Quran Classes</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4598"><a href="https://qarabic.com/courses/learn-arabic-for-kids/">learn Arabic Online</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4600"><a href="https://qarabic.com/courses/learn-pillars-of-islam/">Pillars Of Islam</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4597"><a href="https://qarabic.com/courses/islamic-studies-for-kids/">Islamic Studies For Kids</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4583"><a href="https://qarabic.com/courses/learn-islamic-supplication-duaa/">Islamic Supplication Dua Course</a></li>
+</ul></div><h3 class="text-yellow">Important links</h3><div class="menu-important-links-container"><ul id="menu-important-links" class="menu"><li id="menu-item-2583" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2583"><a href="https://qarabic.com/faq/">FAQ</a></li>
+<li id="menu-item-2525" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2525"><a href="https://qarabic.com/about-us/">About Us</a></li>
+<li id="menu-item-2524" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2524"><a href="https://qarabic.com/blog/">Blog</a></li>
+<li id="menu-item-2527" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2527"><a href="https://qarabic.com/privacy-policy/">Privacy Policy</a></li>
+<li id="menu-item-2503" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2503"><a href="https://qarabic.com/sitemap/">Sitemap</a></li>
+</ul></div>            </div>
+			 
+			 <div class="col-lg-3 list-unstyled m-0 footercenter__links d-flex flex-wrap wow fadeInUp">
+				 <h3 class="text-yellow">Courses for Kids</h3><div class="menu-kids-courses-container"><ul id="menu-kids-courses-2" class="menu"><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4599"><a href="https://qarabic.com/courses/learn-quran-for-kids/">Online Quran Classes</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4598"><a href="https://qarabic.com/courses/learn-arabic-for-kids/">learn Arabic Online</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4600"><a href="https://qarabic.com/courses/learn-pillars-of-islam/">Pillars Of Islam</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4597"><a href="https://qarabic.com/courses/islamic-studies-for-kids/">Islamic Studies For Kids</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4583"><a href="https://qarabic.com/courses/learn-islamic-supplication-duaa/">Islamic Supplication Dua Course</a></li>
+</ul></div>			 </div>
+			<div class="col-lg-3 list-unstyled m-0 footercenter__links d-flex flex-wrap wow fadeInUp">
+				<h3 class="text-yellow">Courses for Adults</h3><div class="menu-adults-courses-container"><ul id="menu-adults-courses-2" class="menu"><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4592"><a href="https://qarabic.com/courses/learn-quran-for-adults/">Learn Quran Online</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4596"><a href="https://qarabic.com/courses/learn-arabic-for-adults/">Learn Arabic Online</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4595"><a href="https://qarabic.com/courses/islamic-studies-for-adults/">Islamic Studies Course</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4593"><a href="https://qarabic.com/courses/learn-tafsir-al-quran/">Learn Quran Tafseer</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4594"><a href="https://qarabic.com/courses/new-muslim-course/">New Muslim Course</a></li>
+</ul></div>			</div>
+				
+			 
+			 <div class="col-lg-3 mb-2 mb-lg-0">
+				<h3 class="text-yellow">Contact Us</h3>
+                 <a class="line-15 d-block font-18 text-white m-0" href="tel:+1 (309) 377-5300">
+					  <i class="fa fa-phone mr-2"></i>+1 (309) 377-5300
+				 </a>
+				 <a class="line-15 d-block font-18 text-white m-0" href="https://wa.me/13093775300">
+					  <i class="fab fa-whatsapp mr-2"></i>+1 (309) 377-5300
+				 </a>
+				 <a class="line-15 d-block font-20 text-white m-0" href="mailto:info@qarabic.com">
+					 <i class="fa fa-envelope mr-2"></i> info@qarabic.com
+				 </a>
+				 <div class="textwidget custom-html-widget"><ul class="sharesocial d-flex flex-wrap my-2 wow fadeInUp">
+				   <li><a href="https://www.facebook.com/qarabicacademy/" class="fb fab fa-facebook-f wow fadeInUp"></a></li>
+				   <li><a href="https://www.instagram.com/qarabicacademy/" class="in fab fa-instagram wow fadeInUp"></a></li>
+				   <li><a href="https://twitter.com/qarabicacademy" class="tw fab fa-twitter wow fadeInUp"></a></li>
+				   <li><a href="https://api.whatsapp.com/send?phone=1%20(309)%20377-5300" class="wh fab fa-whatsapp wow fadeInUp"></a></li>
+				   <li><a href="https://www.youtube.com/channel/UCN95F_XKKYAbQMcpdMJdO5Q?view_as=subscriber" class="sn fab fa-youtube wow fadeInUp"></a></li>
+				</ul></div>            </div>
+			 
+         </div>
+      </div>
+   </div>
+   <div class="footerbottom bg-white py-3">
+      <div class="container">
+         <div class="d-lg-flex align-items-center justify-content-between text-center">
+            <p class="font-16 m-0 line-15 wow fadeInUp">
+               All Rights Reserved for QArabic © 2024. 
+            </p>
+            
+			 <div class="menu-copyrights-menu-container"><ul id="menu-copyrights-menu" class="list-unstyled m-0 p-0 footerbottom__links d-flex flex-wrap justify-content-center wow fadeInUp"><li id="menu-item-4275" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4275"><a href="https://qarabic.com/faq/">FAQs</a></li>
+<li id="menu-item-4272" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4272"><a href="https://qarabic.com/privacy-policy/">Privacy Policy</a></li>
+<li id="menu-item-4273" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4273"><a href="https://qarabic.com/sitemap/">Sitemap</a></li>
+<li id="menu-item-4304" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-4304"><a href="https://qarabic.com/member-area/employees/">Teachers Login</a></li>
+</ul></div>			 
+            
+         </div>
+      </div>
+   </div>
+   
+</footer>
+
+    <!-- Meta Pixel Event Code -->
+    <script type="rocketlazyloadscript" data-rocket-type='text/javascript'>
+        document.addEventListener( 'wpcf7mailsent', function( event ) {
+        if( "fb_pxl_code" in event.detail.apiResponse){
+          eval(event.detail.apiResponse.fb_pxl_code);
+        }
+      }, false );
+    </script>
+    <!-- End Meta Pixel Event Code -->
+    <div id='fb-pxl-ajax-code'></div><noscript><img height="1" width="1" style="display: none;" src="https://www.facebook.com/tr?id=753543843464649&ev=PageView&noscript=1&cd%5Bpost_category%5D=learn+Arabic&cd%5Bpage_title%5D=How+long+to+learn+Arabic%3F&cd%5Bpost_type%5D=post&cd%5Bpost_id%5D=3330&cd%5Bplugin%5D=PixelYourSite&cd%5Buser_role%5D=guest&cd%5Bevent_url%5D=qarabic.com%2Fhow-long-to-learn-arabic%2F" alt=""></noscript>
+<script type="rocketlazyloadscript" data-minify="1" data-rocket-src="https://qarabic.com/wp-content/cache/min/1/wp-content/plugins/contact-form-7/includes/swv/js/index.js?ver=1715600628" id="swv-js" defer></script>
+<script id="contact-form-7-js-extra">
+var wpcf7 = {"api":{"root":"https:\/\/qarabic.com\/wp-json\/","namespace":"contact-form-7\/v1"},"cached":"1"};
+</script>
+<script type="rocketlazyloadscript" data-minify="1" data-rocket-src="https://qarabic.com/wp-content/cache/min/1/wp-content/plugins/contact-form-7/includes/js/index.js?ver=1715600628" id="contact-form-7-js" defer></script>
+<script type="rocketlazyloadscript" data-rocket-src="https://qarabic.com/wp-content/plugins/country-phone-field-contact-form-7/assets/js/intlTelInput.min.js?ver=034ed650842b77ac62b92d0acc823a3b" id="nbcpf-intlTelInput-script-js" defer></script>
+<script id="nbcpf-countryFlag-script-js-extra">
+var nbcpf = {"ajaxurl":"https:\/\/qarabic.com\/wp-admin\/admin-ajax.php"};
+</script>
+<script type="rocketlazyloadscript" data-rocket-src="https://qarabic.com/wp-content/plugins/country-phone-field-contact-form-7/assets/js/countrySelect.min.js?ver=034ed650842b77ac62b92d0acc823a3b" id="nbcpf-countryFlag-script-js" defer></script>
+<script type="rocketlazyloadscript" id="nbcpf-countryFlag-script-js-after">window.addEventListener('DOMContentLoaded', function() {
+		(function($) {
+			$(function() {
+
+				function render_country_flags(){
+
+					$(".wpcf7-countrytext").countrySelect({
+						
+					});
+					$(".wpcf7-phonetext").intlTelInput({
+						autoHideDialCode: false,
+						autoPlaceholder: "off",
+						nationalMode: false,
+						separateDialCode: false,
+						hiddenInput: "full_number",
+							
+					});
+	
+					$(".wpcf7-phonetext").each(function () {
+						var hiddenInput = $(this).attr('name');
+						//console.log(hiddenInput);
+						$("input[name="+hiddenInput+"-country-code]").val($(this).val());
+					});
+					
+					$(".wpcf7-phonetext").on("countrychange", function() {
+						// do something with iti.getSelectedCountryData()
+						//console.log(this.value);
+						var hiddenInput = $(this).attr("name");
+						$("input[name="+hiddenInput+"-country-code]").val(this.value);
+						
+					});$(".wpcf7-phonetext").on("keyup", function() {
+							var dial_code = $(this).siblings(".flag-container").find(".country-list li.active span.dial-code").text();
+							if(dial_code == "")
+							var dial_code = $(this).siblings(".flag-container").find(".country-list li.highlight span.dial-code").text();
+							var value   = $(this).val();
+							console.log(dial_code, value);
+							$(this).val(dial_code + value.substring(dial_code.length));
+						 });$(".wpcf7-countrytext").on("keyup", function() {
+						var country_name = $(this).siblings(".flag-dropdown").find(".country-list li.active span.country-name").text();
+						if(country_name == "")
+						var country_name = $(this).siblings(".flag-dropdown").find(".country-list li.highlight span.country-name").text();
+						
+						var value   = $(this).val();
+						//console.log(country_name, value);
+						$(this).val(country_name + value.substring(country_name.length));
+					});
+				}
+
+				var ip_address = "";
+
+				jQuery.ajax({
+					//url: "https://ipwho.is/",
+					url: "https://reallyfreegeoip.org/json/",
+					success: function(response){
+						
+						//console.log(response);
+						//var location = JSON.parse(response);
+						console.log(response.country_code);
+						if( response.country_code !== undefined){
+							//console.log("here");
+							$(".wpcf7-countrytext").countrySelect({defaultCountry: response.country_code.toLowerCase(),
+							});
+							$(".wpcf7-phonetext").intlTelInput({
+								autoHideDialCode: false,
+								autoPlaceholder: "off",
+								nationalMode: false,
+								separateDialCode: false,
+								hiddenInput: "full_number",initialCountry: response.country_code.toLowerCase(),	
+							});
+							
+							$(".wpcf7-phonetext").each(function () {
+								var hiddenInput = $(this).attr('name');
+								//console.log(hiddenInput);
+								$("input[name="+hiddenInput+"-country-code]").val($(this).val());
+							});
+							
+							$(".wpcf7-phonetext").on("countrychange", function() {
+								// do something with iti.getSelectedCountryData()
+								//console.log(this.value);
+								var hiddenInput = $(this).attr("name");
+								$("input[name="+hiddenInput+"-country-code]").val(this.value);
+								
+							});$(".wpcf7-phonetext").on("keyup", function() {
+									var dial_code = $(this).siblings(".flag-container").find(".country-list li.active span.dial-code").text();
+									if(dial_code == "")
+									var dial_code = $(this).siblings(".flag-container").find(".country-list li.highlight span.dial-code").text();
+									var value   = $(this).val();
+									console.log(dial_code, value);
+									$(this).val(dial_code + value.substring(dial_code.length));
+								});$(".wpcf7-countrytext").on("keyup", function() {
+								var country_name = $(this).siblings(".flag-dropdown").find(".country-list li.active span.country-name").text();
+								if(country_name == "")
+								var country_name = $(this).siblings(".flag-dropdown").find(".country-list li.highlight span.country-name").text();
+								
+								var value   = $(this).val();
+								//console.log(country_name, value);
+								$(this).val(country_name + value.substring(country_name.length));
+							});
+
+						} else {
+
+							render_country_flags();
+
+						}
+
+					},
+					error: function(){
+						render_country_flags();
+					}
+				});
+			});
+		})(jQuery);
+});</script>
+<script type="rocketlazyloadscript" data-minify="1" data-rocket-src="https://qarabic.com/wp-content/cache/min/1/wp-content/themes/qarabic/assets/js/index.js?ver=1715600628" id="index-js-js" defer></script>
+<script type="rocketlazyloadscript" data-rocket-src="https://www.google.com/recaptcha/api.js?render=6LfeSI0lAAAAABsJ3frDj3dlTHnCdtMU6ypTOx4U&amp;ver=3.0" id="google-recaptcha-js"></script>
+<script type="rocketlazyloadscript" data-rocket-src="https://qarabic.com/wp-includes/js/dist/vendor/wp-polyfill-inert.min.js?ver=3.1.2" id="wp-polyfill-inert-js" defer></script>
+<script type="rocketlazyloadscript" data-rocket-src="https://qarabic.com/wp-includes/js/dist/vendor/regenerator-runtime.min.js?ver=0.14.0" id="regenerator-runtime-js" defer></script>
+<script type="rocketlazyloadscript" data-rocket-src="https://qarabic.com/wp-includes/js/dist/vendor/wp-polyfill.min.js?ver=3.15.0" id="wp-polyfill-js"></script>
+<script id="wpcf7-recaptcha-js-extra">
+var wpcf7_recaptcha = {"sitekey":"6LfeSI0lAAAAABsJ3frDj3dlTHnCdtMU6ypTOx4U","actions":{"homepage":"homepage","contactform":"contactform"}};
+</script>
+<script type="rocketlazyloadscript" data-minify="1" data-rocket-src="https://qarabic.com/wp-content/cache/min/1/wp-content/plugins/contact-form-7/modules/recaptcha/index.js?ver=1715600628" id="wpcf7-recaptcha-js" defer></script>
+<script type="rocketlazyloadscript" id="site-reviews-js-before">
+window.hasOwnProperty("GLSR")||(window.GLSR={Event:{on:()=>{}}});GLSR.action="glsr_public_action";GLSR.addons=[];GLSR.ajaxpagination=["#wpadminbar",".site-navigation-fixed"];GLSR.ajaxurl="https://qarabic.com/wp-admin/admin-ajax.php";GLSR.captcha=[];GLSR.nameprefix="site-reviews";GLSR.starsconfig={"clearable":false,"tooltip":false};GLSR.state={"popstate":false};GLSR.text={closemodal:"Close Modal"};GLSR.urlparameter="reviews-page";GLSR.validationconfig={field:"glsr-field",form:"glsr-form","field_error":"glsr-field-is-invalid","field_hidden":"glsr-hidden","field_message":"glsr-field-error","field_required":"glsr-required","field_valid":"glsr-field-is-valid","form_error":"glsr-form-is-invalid","form_message":"glsr-form-message","form_message_failed":"glsr-form-failed","form_message_success":"glsr-form-success","input_error":"glsr-is-invalid","input_valid":"glsr-is-valid"};GLSR.validationstrings={accepted:"This field must be accepted.",between:"This field value must be between %s and %s.",betweenlength:"This field must have between %s and %s characters.",email:"This field requires a valid e-mail address.",errors:"Please fix the submission errors.",max:"Maximum value for this field is %s.",maxfiles:"This field allows a maximum of %s files.",maxlength:"This field allows a maximum of %s characters.",min:"Minimum value for this field is %s.",minfiles:"This field requires a minimum of %s files.",minlength:"This field requires a minimum of %s characters.",number:"This field requires a number.",pattern:"Please match the requested format.",regex:"Please match the requested format.",required:"This field is required.",tel:"This field requires a valid telephone number.",url:"This field requires a valid website URL (make sure it starts with http or https).",unsupported:"The review could not be submitted because this browser is too old. Please try again with a modern browser."};GLSR.version="7.0.10";
+</script>
+<script type="rocketlazyloadscript" data-minify="1" data-rocket-src="https://qarabic.com/wp-content/cache/min/1/wp-content/plugins/site-reviews/assets/scripts/site-reviews.js?ver=1715600628" id="site-reviews-js" defer data-wp-strategy="defer"></script>
+			<script type="rocketlazyloadscript" data-rocket-type="text/javascript" id="wpsp-script-frontend"></script>
+			</body>
+</html>
+
+<!-- This website is like a Rocket, isn't it? Performance optimized by WP Rocket. Learn more: https://wp-rocket.me - Debug: cached@1716812248 -->

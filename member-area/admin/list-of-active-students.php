@@ -1,0 +1,454 @@
+<?php
+// Enable error reporting for debugging
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+ini_set('log_errors', 1);
+
+if (session_status() !== PHP_SESSION_ACTIVE) session_start();
+
+include("../includes/session1.php");
+require("../includes/dbconnection.php");
+require_once("../includes/mysql-compat.php");
+
+if (!isset($conn) || !$conn instanceof mysqli) {
+    die("Database connection not available. Please contact administrator.");
+}
+
+include("header.php");  
+  $link = $_SERVER['REQUEST_URI'];
+if (!function_exists('abc')) {
+function abc($er)
+{
+// sending query - sanitize input
+   $er_escaped = (int)$er; // Ensure integer
+   $result = mysql_query("SELECT * FROM sched Where course_id = $er_escaped");
+if (!$result) 
+	{
+    die("Query to show fields from table failed");
+	}
+$tnumberOfRows = MYSQL_NUMROWS($result);
+If ($tnumberOfRows == 0){
+			echo '<i class="fa fa-exclamation font-red"></i>';
+			}
+		else if ($tnumberOfRows > 0) 
+			{
+			echo '<i class="fa fa-check font-green"></i>';
+			}
+	}
+}
+?>
+<?php
+if (!function_exists('abc1')) {
+function abc1($r, $mon, $yyy)
+{
+// sending query - sanitize inputs and validate
+   $r_escaped = (int)$r; // Ensure integer
+   $mon_escaped = (int)$mon; // Ensure integer
+   $yyy_escaped = !empty($yyy) ? (int)$yyy : 0; // Ensure integer, default to 0 if empty
+   
+   if ($yyy_escaped == 0) {
+       // If year is not set, don't run query
+       echo '<span class="label label-sm label-warning">Nil</span>';
+       return;
+   }
+   
+   $result = mysql_query("SELECT * FROM test_results Where course_id = $r_escaped and m_id = $mon_escaped and y_id = $yyy_escaped");
+if (!$result) 
+	{
+    die("Query to show fields from table failed");
+	}
+$tnumberOfRows = MYSQL_NUMROWS($result);
+If ($tnumberOfRows == 0){
+			echo '<span class="label label-sm label-warning">Nil</span>';
+			}
+		else if ($tnumberOfRows > 0) 
+			{
+			echo '<span class="label label-sm label-info">Created</span>';
+			}
+	}
+}
+if (!function_exists('abc2')) {
+function abc2($r, $mon, $yyy)
+{
+// sending query - sanitize inputs and validate
+   $r_escaped = (int)$r; // Ensure integer
+   $mon_escaped = (int)$mon; // Ensure integer
+   $yyy_escaped = !empty($yyy) ? (int)$yyy : 0; // Ensure integer, default to 0 if empty
+   
+   if ($yyy_escaped == 0) {
+       // If year is not set, don't run query
+       echo '';
+       return;
+   }
+   
+   $result = mysql_query("SELECT * FROM test_results Where course_id = $r_escaped and m_id = $mon_escaped and y_id = $yyy_escaped and status_id = 2");
+if (!$result) 
+	{
+    die("Query to show fields from table failed");
+	}
+$tnumberOfRows = MYSQL_NUMROWS($result);
+If ($tnumberOfRows == 0){
+			echo '';
+			}
+		else if ($tnumberOfRows > 0) 
+			{
+			echo '<i class="fa fa-check font-green"></i>';
+			}
+	}
+}
+?>
+<?php
+date_default_timezone_set("Africa/Cairo");
+$mon = date('F');
+$m = 1; // Default value
+if($mon== "January") 
+        {
+            $m = 1;
+        }
+    elseif($mon== "February")
+        {
+            $m = 2;
+        } 
+    elseif($mon== "March") 
+        {
+            $m = 3;
+        } 
+    elseif($mon== "April")
+        {
+            $m = 4;
+        } 
+    elseif($mon== "May")
+        {
+            $m = 5;
+        } 
+    elseif($mon== "June") 
+        {
+            $m = 6;
+        } 
+    elseif($mon== "July")
+        {
+            $m = 7;
+        } 
+    elseif($mon== "August") 
+        {
+            $m = 8;
+        } 
+    elseif($mon== "September")
+        {
+            $m = 9;
+        } 
+    elseif($mon== "October")
+        {
+            $m = 10;
+        } 
+    elseif($mon== "November") 
+        {
+            $m = 11;
+        }
+    else 
+        {
+    // Since it is not any of the days above it must be Saturday
+            $m = 12;
+        }
+?>
+<?php
+date_default_timezone_set("Africa/Cairo");
+$sy = (int)date('Y');
+$y = 1; // Default value
+if($sy == 2014) 
+        {
+            $y = 1;
+        }
+    elseif($sy == 2015)
+        {
+           $y = 2;
+        } 
+    elseif($sy == 2016) 
+        {
+            $y = 3;
+        }
+    elseif($sy == 2017) 
+        {
+            $y = 4;
+        }
+    elseif($sy == 2018) 
+        {
+            $y = 5;
+        }
+    elseif($sy == 2019) 
+        {
+            $y = 6;
+        }
+    elseif($sy == 2020) 
+        {
+            $y = 7;
+        }
+    elseif($sy >= 2021) 
+        {
+            // For years 2021 and beyond, calculate dynamically
+            $y = $sy - 2013; // This gives 8 for 2021, 9 for 2022, etc.
+        }
+?>
+<?php
+date_default_timezone_set("Africa/Cairo");
+$sy = date('Y-m-d');
+$mm_id = date('m');
+$yy_id = date('Y');
+?>
+<?php echo $main_header; ?>
+<?php echo $tool_bar; ?>
+<?php echo $start_menu; ?>
+<?php echo $search_bar; ?>
+<?php echo $main_menu; ?>
+<!-- BEGIN PAGE CONTAINER -->
+<div class="page-container">
+	<!-- BEGIN PAGE HEAD -->
+	<div class="page-head">
+		<div class="container">
+			<!-- BEGIN PAGE TITLE -->
+			<div class="page-title">
+				<h1>Students<small> In-Active</small></h1>
+
+			</div>
+			<!-- END PAGE TITLE -->
+			<!-- BEGIN PAGE TOOLBAR -->
+			<div class="page-toolbar">
+			</div>
+			<!-- END PAGE TOOLBAR -->
+		</div>
+	</div>
+	<!-- END PAGE HEAD -->
+	<!-- BEGIN PAGE CONTENT -->
+	<div class="page-content">
+		<div class="container">
+
+			<!-- BEGIN PAGE BREADCRUMB -->
+			<ul class="page-breadcrumb breadcrumb">
+				<li>
+					<a href="admin-home">Home</a><i class="fa fa-circle"></i>
+				</li>
+				<li class="active">
+					 List of Active Students
+				</li>
+			</ul>
+			<!-- END PAGE BREADCRUMB -->
+			<!-- BEGIN PAGE CONTENT INNER -->
+			<div class="row">
+				<div class="col-md-12">
+					<?php 
+// sending query
+$result = mysql_query("SELECT * FROM trial WHERE mnt_id = 1");
+if (!$result) 
+	{
+    die("Query to show fields from table failed");
+	}
+$numberOfRows = MYSQL_NUMROWS($result);
+If ($numberOfRows == 0) 
+	{
+	echo '';
+	}
+else if ($numberOfRows > 0)
+				{
+					echo "<div class='alert alert-info'>
+						<p>
+							 You have requests waiting for your <strong>responce...</strong>
+						</p>
+					</div>";
+				}
+
+?>
+					<!-- BEGIN SAMPLE TABLE PORTLET-->
+					<div class="portlet light">
+					<h4><?php 
+$result = mysql_query("SELECT * FROM course WHERE nature = 1");
+$counter = 0;
+if (!$result) 
+	{
+    die("Query to show fields from table failed");
+	}
+$numberOfRows = MYSQL_NUMROWS($result);
+echo "Total Number of Active Students: $numberOfRows"; ?></h4>
+						<div class="portlet-title">
+
+															<a href="list-of-active-students" class="btn blue"><i class="fa fa-user"></i> Active Students <b>(No. <?php 
+$result = mysql_query("SELECT * FROM course WHERE nature = 1");
+$counter = 0;
+if (!$result) 
+	{
+    die("Query to show fields from table failed");
+	}
+$numberOfRows = MYSQL_NUMROWS($result);
+echo $numberOfRows; ?>)</b></a>
+															<a href="list-of-inactive-students" class="btn red"><i class="fa fa-user-times"></i> In-active Students <b>(No. <?php 
+$result = mysql_query("SELECT * FROM course WHERE nature = 2");
+$counter = 0;
+if (!$result) 
+	{
+    die("Query to show fields from table failed");
+	}
+$numberOfRows = MYSQL_NUMROWS($result);
+echo $numberOfRows; ?>)</b></a>
+						</div>
+
+						<div class="portlet-body">
+							<div id="mytable" class="table-responsive">
+								<table class="table table-hover">
+								<thead>
+								<tr>
+								<th>
+									 Sr.No
+								</th>
+								<th>
+									 Student Name
+								</th>
+								<th>
+									 Parent
+								</th>
+								<th>
+									 Country
+								</th>
+								<th>
+									 T-zone
+								</th>
+								<th>
+									 Language
+								</th>
+
+								<th>
+									 Gender
+								</th>
+								<th>
+									 Course
+								</th>
+								<th>
+									 History
+								</th>
+								<th>
+									 Teacher
+								</th>
+								<th>
+									 Test
+								</th>
+
+								<?php 
+// sending query
+$result = mysql_query("SELECT `course`.*, `dept`.`department`, `Gender`.`gender`, `profile`.`teacher_name`, `country`.`c_name`, `account`.`parent_name`, `lan`.`lan_name` FROM
+  			`course`,`dept`,`Gender`,`profile`,`country`,`account`,`lan` WHERE course.dept_id=dept.dept_id and course.g_id=Gender.g_id and course.Teacher=profile.teacher_id and course.c_id=country.c_id and course.parent_id=account.parent_id and course.lan_id=lan.lan_id and nature = 1 ORDER BY course_id ASC;");
+$counter = 0;
+if (!$result) 
+	{
+    $error_msg = isset($conn) && $conn instanceof mysqli ? $conn->error : 'Unknown error';
+    die("Query to show fields from table failed: " . htmlspecialchars($error_msg));
+	}
+$numberOfRows = MYSQL_NUMROWS($result);
+
+// Debug: Show number of rows found
+if (ini_get('display_errors')) {
+    error_log("Query returned $numberOfRows rows");
+}
+If ($numberOfRows == 0) 
+	{
+	echo 'Sorry No Record Found!';
+	}
+else if ($numberOfRows > 0) 
+	{
+	$i=0;
+	while ($i<$numberOfRows)
+		{		
+			if(($i%2)==0) 
+				{
+					$bgcolor ='#FFFFFF';
+				}
+			else
+				{
+					$bgcolor ='#F7F7FF';
+				}		
+			$Course_ID = MYSQL_RESULT($result,$i,"course_id");
+			$course_yrSec = MYSQL_RESULT($result,$i,"course_yrSec");
+			$doj = MYSQL_RESULT($result,$i,"Date_Of_Joining");
+			$skype = MYSQL_RESULT($result,$i,"Skype_ID");
+			$con = MYSQL_RESULT($result,$i,"c_name");
+			$age = MYSQL_RESULT($result,$i,"Age");
+			$gender = MYSQL_RESULT($result,$i,"gender");
+			$cour = MYSQL_RESULT($result,$i,"department");
+			$status = MYSQL_RESULT($result,$i,"Status");
+			$nod = MYSQL_RESULT($result,$i,"Number_of_Days");
+			$fee = MYSQL_RESULT($result,$i,"Fee");
+			$teacher = MYSQL_RESULT($result,$i,"teacher_name");
+			$trial = MYSQL_RESULT($result,$i,"Trial_Class");
+			$pCourse = MYSQL_RESULT($result,$i,"course_id");
+			$ptea = MYSQL_RESULT($result,$i,"Teacher");
+			$pdt = MYSQL_RESULT($result,$i,"dept_id");
+			$dept_id = MYSQL_RESULT($result,$i,"dept_id");
+			$teacher_id = MYSQL_RESULT($result,$i,"Teacher");
+			$pn = MYSQL_RESULT($result,$i,"parent_name");
+			$plan = MYSQL_RESULT($result,$i,"lan_name");
+			$ptime = MYSQL_RESULT($result,$i,"timezone");
+			$ppid = MYSQL_RESULT($result,$i,"parent_id");
+?>
+							</tr>
+								</thead>
+								<tbody>
+								<tr bgcolor="<?php echo $bgcolor; ?>">
+								<td>
+									 <?php echo ++$counter; ?>
+								</td>
+								<td>
+									 <?php echo abc("$Course_ID"); ?> <a href="student-schedule?pT=<?php echo base64_encode($pCourse); ?>"><?php echo $course_yrSec; ?> (<?php echo $Course_ID; ?>)</a>
+								</td>
+								<td>
+									 <a href="parent-accounts-profile?parent_id=<?php echo base64_encode($ppid); ?>"><?php echo $pn; ?></a>
+								</td>
+								<td>
+									 <?php echo $con; ?>
+								</td>
+								<td>
+									 <?php echo $ptime; ?>
+								</td>
+								<td>
+									 <?php echo $plan; ?>
+								</td>
+
+								<td>
+									 <?php echo $gender; ?>
+								</td>
+								<td>
+									 <?php echo $cour; ?>
+								</td>
+								<td>
+									 <a href="history_course?Course_ID=<?php echo base64_encode($Course_ID); ?>">Daily Progress</a>
+								</td>
+								<td>
+									 <a href="teacher-schedule?pT=<?php echo $ptea; ?>"><?php echo $teacher; ?></a>
+								</td>
+								<td>
+								<a href="student_results?Course_ID=<?php echo base64_encode($Course_ID); ?>&link=<?php echo 'parent-accounts-profile?parent_id='.base64_encode($ppid).''; ?>&name=<?php echo base64_encode($pn); ?>"><?php 
+								// Ensure $y is defined before using
+								if (!isset($y) || empty($y)) {
+								    $y = 1; // Default value
+								}
+								abc1("$Course_ID","$m","$y"); 
+								abc2("$Course_ID","$m","$y"); 
+								?></a>
+								</td>
+							</tr>
+							<?php 	
+		$i++;		
+		}
+	}	
+?>
+								</tbody>
+								</table>
+							</div>
+						</div>
+						</div>
+						</div>
+						</div>
+						</div>
+						</div>
+
+
+			<!-- END PAGE CONTENT INNER -->
+<!-- END PAGE CONTAINER -->
+<?php echo $fot; ?>

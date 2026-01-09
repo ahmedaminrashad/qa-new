@@ -1,0 +1,291 @@
+<?php session_start(); ?>
+<?php
+// Enable error reporting
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+ini_set('log_errors', 1);
+
+if (session_status() !== PHP_SESSION_ACTIVE) {
+    session_start();
+}
+
+require("../includes/dbconnection.php");
+require_once("../includes/mysql-compat.php");
+
+// Check database connection
+if (!isset($conn) || !$conn) {
+    die("Database connection failed. Please contact the administrator.");
+}
+<?php
+  include("../includes/session.php");
+  include("../includes/s_manager_rights.php");
+  require ("../includes/dbconnection.php");
+include("header.php");
+$link =base64_decode($_GET["link"]);
+    $pnid =base64_decode($_GET["pT"]);
+	$result = mysql_query("SELECT * FROM invoice where py_id = '$pnid'");
+	if (!$result) 
+		{
+		die("Query to show fields from table failed");
+		}
+			$numberOfRows = MYSQL_NUMROWS($result);
+			If ($numberOfRows == 0) 
+				{
+			//echo 'Sorry No Record Found!';
+				}
+			else if ($numberOfRows > 0) 
+				{
+				$i=0;
+			$invoive_id = MYSQL_RESULT($result,$i,"py_id");
+			$invoive_pid = MYSQL_RESULT($result,$i,"parent_id");
+			$invoive_pname = MYSQL_RESULT($result,$i,"parent_name");
+			$invoive_issue = MYSQL_RESULT($result,$i,"issue");
+			$invoive_due = MYSQL_RESULT($result,$i,"due");
+			$invoive_submit = MYSQL_RESULT($result,$i,"submit");
+			$invoive_fee = MYSQL_RESULT($result,$i,"fee");
+			$invoive_status = MYSQL_RESULT($result,$i,"status");
+			$invoive_month = MYSQL_RESULT($result,$i,"mon_id");
+			$invoive_year = MYSQL_RESULT($result,$i,"y_id");
+			$invoive_cid = MYSQL_RESULT($result,$i,"currency_id");
+
+			}
+?>
+<?php
+if (isset($_POST['cmdSubmit'])) 
+  	{ 	
+$adue= $_POST['dued'];
+$afee= $_POST['fee'];
+$astu= $_POST['psus'];
+$anid= $_POST['nid'];
+			mysql_query( "UPDATE invoice SET due = '$adue', fee = '$afee', status = '$astu' WHERE py_id = '$anid'") or die(mysql_error()); 
+							 header("Location: $link");
+				}
+?>
+<?php
+date_default_timezone_set("Africa/Cairo");
+$sy = date('Y-m-d');
+?>
+<?php echo $main_header; ?>
+<?php echo $tool_bar; ?>
+<?php echo $start_menu; ?>
+<?php echo $main_menu; ?>
+<!-- BEGIN PAGE CONTAINER -->
+<div class="page-container">
+	<!-- BEGIN PAGE HEAD -->
+	<div class="page-head">
+		<div class="container">
+			<!-- BEGIN PAGE TITLE -->
+			<div class="page-title">
+				<h1>Edit<small> Invoice</small></h1>
+			</div>
+			<!-- END PAGE TITLE -->
+			<!-- BEGIN PAGE TOOLBAR -->
+			<div class="page-toolbar">
+			</div>
+			<!-- END PAGE TOOLBAR -->
+		</div>
+	</div>
+	<!-- END PAGE HEAD -->
+	<!-- BEGIN PAGE CONTENT -->
+	<div class="page-content">
+		<div class="container">
+			<!-- BEGIN PAGE BREADCRUMB -->
+			<ul class="page-breadcrumb breadcrumb">
+				<li>
+					<a href="admin-home">Home</a><i class="fa fa-circle"></i>
+				</li>
+				<li>
+					<a href="invoice-details">Invoice Details</a><i class="fa fa-circle"></i>
+				</li>
+				<li class="active">
+					 Edit Invoice
+				</li>
+			</ul>
+			<!-- END PAGE BREADCRUMB -->
+			<!-- BEGIN PAGE CONTENT INNER -->
+			<div class="row">
+				<div class="col-md-12">
+					<div class="tabbable tabbable-custom tabbable-noborder tabbable-reversed">
+						<div class="tab-content">
+								<div class="portlet box green">
+									<div class="portlet-title">
+										<div class="caption">
+											<i class="fa fa-plus"></i>Edit 
+											Invoice
+										</div>
+										<div class="tools">
+											<a href="javascript:;" class="collapse">
+											</a>
+											<a href="#portlet-config" data-toggle="modal" class="config">
+											</a>
+											<a href="javascript:;" class="reload">
+											</a>
+											<a href="javascript:;" class="remove">
+											</a>
+										</div>
+									</div>
+									<div class="portlet-body form">
+										<!-- BEGIN FORM-->
+										<form method="post" class="form-horizontal">
+											<div class="form-body">
+												<h3 class="form-section">Invoice Details for Invoive Number
+												<font color="#44B6AE"> <b> <?php echo $invoive_id; ?></b></font></h3>
+												<div class="row">
+													<div class="col-md-6">
+														<div class="form-group">
+															<label class="control-label col-md-3">
+															Parent Name</label>
+															<div class="col-md-9">
+																<input type="text" class="form-control" value="<?php echo $invoive_pname; ?>" name="pname" id="pname" readonly>
+															</div>
+														</div>
+													</div>
+													<!--/span-->
+													<div class="col-md-6">
+														<div class="form-group">
+															<label class="control-label col-md-3">
+															Issue Date</label>
+															<div class="col-md-9">
+																<input type="text" class="form-control" value="<?php echo $invoive_issue; ?>" name="pemail" id="pemail" readonly>
+															</div>
+														</div>
+													</div>
+													<!--/span-->
+												</div>
+												<div class="row">
+													<div class="col-md-6">
+														<div class="form-group">
+															<label class="control-label col-md-3">
+															Due Date</label>
+															<div class="col-md-9">
+																<input type="text" class="form-control" value="<?php echo $invoive_due; ?>" name="dued" id="dued">
+															</div>
+														</div>
+													</div>
+													<!--/span-->
+													<div class="col-md-6">
+														<div class="form-group">
+															<label class="control-label col-md-3">
+															Submit Date</label>
+															<div class="col-md-9">
+																<input type="text" class="form-control" value="<?php echo $invoive_submit; ?>" name="pname2" id="pname2" readonly>
+															</div>
+														</div>
+													</div>
+													<!--/span-->
+												</div>
+												<div class="row">
+													<div class="col-md-6">
+														<div class="form-group">
+															<label class="control-label col-md-3">
+															Fee in <?php $result = mysql_query("SELECT * FROM currency WHERE currency_id = $invoive_cid");
+if (!$result) 
+	{
+    die("Query to show fields from table failed");
+	}
+$numberOfRows = MYSQL_NUMROWS($result);
+$pidm = MYSQL_RESULT($result,$i,"currency_name");
+echo $pidm; ?></label>
+															<div class="col-md-9">
+																<input type="text" class="form-control" value="<?php echo $invoive_fee; ?>" name="fee" id="fee">
+															</div>
+														</div>
+													</div>
+													<!--/span-->
+													<div class="col-md-6">
+														<div class="form-group">
+															<label class="control-label col-md-3">
+															Month/Year</label>
+															<div class="col-md-9">
+																<input type="text" class="form-control" value="<?php $result = mysql_query("SELECT * FROM month WHERE month_id = $invoive_month");
+if (!$result) 
+	{
+    die("Query to show fields from table failed");
+	}
+$numberOfRows = MYSQL_NUMROWS($result);
+$pidm = MYSQL_RESULT($result,$i,"month_name");
+echo $pidm; ?> - 
+<?php $result = mysql_query("SELECT * FROM school_yr WHERE year_id = $invoive_year");
+if (!$result) 
+	{
+    die("Query to show fields from table failed");
+	}
+$numberOfRows = MYSQL_NUMROWS($result);
+$pidm = MYSQL_RESULT($result,$i,"school_year");
+echo $pidm;?>" name="pfee" id="ppass0"  readonly>
+															</div>
+														</div>
+													</div>
+													<!--/span-->
+													<input type="hidden" class="form-control" value="<?php echo $invoive_id; ?>" name="nid" id="nid">
+												</div>
+												<!--/row-->
+												<div class="row">
+													<div class="col-md-6">
+														<div class="form-group">
+															<label class="control-label col-md-3">
+															Status</label>
+															<div class="col-md-9">
+															<select class="form-control" name="psus"  id="psus" onchange="javascript: return optionList41119_SelectedIndex()">
+              												<?php // source 1: http://www.dmxzone.com/showDetail.asp?NewsId=5102&TypeId=25
+			  	// source 2: http://localhost/phpmyadmin/index.php?db=mydbase&token=651c0063e511c381c9c82ce1fe9b6854
+				$result = mysql_query("SELECT * FROM statusp ORDER BY s_id ");			  	
+				do {  ?>
+  <option value="<?php echo $row['s_id'];?>"><?php echo $row['name'];?> </option>
+  <?php } while ($row = mysql_fetch_assoc($result)); ?>
+</select>
+															</div>
+														</div>
+													</div>
+													</div>
+											</div>
+											<div class="form-actions">
+												<div class="row">
+													<div class="col-md-6">
+														<div class="row">
+															<div class="col-md-offset-3 col-md-9">
+																<button type="submit" name="cmdSubmit" class="btn green">
+																Submit</button>
+																<button type="button" class="btn default">
+																Cancel</button>
+															</div>
+														</div>
+													</div>
+													<div class="col-md-6">
+													</div>
+												</div>
+											</div>
+										</form>
+										<!-- END FORM-->
+									</div>
+								</div>
+													<div class="col-md-6">
+													</div>
+												</div>
+											</div>
+										</form>
+										<!-- END FORM-->
+									</div>
+								</div>
+							</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- END PAGE CONTENT INNER -->
+		</div>
+	</div>
+	<!-- END PAGE CONTENT -->
+</div>
+<!-- END PAGE CONTAINER -->
+<?php echo $fot; ?>
+<script language="javascript" >
+	var form = document.forms[0];
+	//purpose?: to retrieve what users last input on the field..
+	form.psus.value = ("<?php echo $invoive_status; ?>");
+	//alert (form.pCityM.value);				
+</script>

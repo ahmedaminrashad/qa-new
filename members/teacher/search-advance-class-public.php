@@ -1,0 +1,42 @@
+<?php
+  require ("../includes/dbconnection.php");
+  date_default_timezone_set("Asia/Karachi");
+//$date = date('Y-m-d', time());
+//$day = date('N', time());
+$teacher =$_REQUEST['teacher'];
+  $date =$_REQUEST['date'];
+  $day =$_REQUEST['day'];
+$sql = "DELETE FROM class_history WHERE status < 18 AND monitor_id = 1 AND date_admin = '$date'";
+if ($conn->query($sql) === TRUE) {
+echo '';
+}
+    $sql = "SELECT * FROM sched WHERE aday_id = '$day'";
+    $result = mysqli_query($conn, $sql);
+$numberOfRows = mysqli_num_rows($result);
+		if ($numberOfRows == 0){
+			echo '';
+			}
+		elseif ($numberOfRows > 0) 
+			{
+			while ($row = mysqli_fetch_assoc($result)){
+		$id = $row['sched_id'];
+		$dif=$row['day_id']-$row['aday_id'];
+		if($dif == 6){$a1 = -1;}
+		elseif($dif == -6){$a1 = 1;}
+		else {$a1 = $dif;}
+		$difs=$row['sday_id']-$row['aday_id'];
+		if($difs == 6){$a2 = -1;}
+		elseif($difs == -6){$a2 = 1;}
+		else {$a2 = $difs;}
+		$teacher_day = date('Y-m-d',strtotime("".$date." ".$a1." days"));
+		$student_day = date('Y-m-d',strtotime("".$date." ".$a2." days"));
+		$sql = "UPDATE sched SET create_date_admin = '$date', create_date_teacher = '$teacher_day', create_date_student = '$student_day' WHERE sched_id = '$id'";
+		}
+	}
+	$sql = "INSERT INTO class_history(uni, parent_id, course_id, teacher_id, atime_s_id, stime_s_id, time_s_id, dept_id, adept_id, status, date_admin, date_student, date_teacher)
+	SELECT sched_id, parent_id, course_id, teacher_id, atime_s_id, stime_s_id, time_s_id, dept_id, adept_id, status, create_date_admin, create_date_student, create_date_teacher
+	FROM sched WHERE aday_id = $day AND NOT EXISTS  (SELECT * FROM class_history WHERE class_history.date_admin = sched.create_date_admin AND class_history.uni = sched.sched_id);";
+  		if ($conn->query($sql) === TRUE) {
+  		header('Location: mark-public-page?teacher='.base64_encode($teacher).'&date='.base64_encode($date).'');
+  		}
+?>

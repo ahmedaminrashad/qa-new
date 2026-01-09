@@ -1,0 +1,8 @@
+<?php
+  require ("../includes/dbconnection.php");  
+?>
+<?php
+$history_id =$_REQUEST['history_id'];
+	mysql_query("UPDATE class_history SET monitor_id = '9' WHERE history_id = '$history_id'") or die(mysql_error());
+	header('Location: ' . $_SERVER['HTTP_REFERER']);
+?>

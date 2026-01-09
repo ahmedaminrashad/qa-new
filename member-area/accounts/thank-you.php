@@ -1,0 +1,162 @@
+<?php session_start(); ?>
+<?php
+// Enable error reporting
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+ini_set('log_errors', 1);
+
+if (session_status() !== PHP_SESSION_ACTIVE) {
+    session_start();
+}
+
+require("../includes/dbconnection.php");
+require_once("../includes/mysql-compat.php");
+
+// Check database connection
+if (!isset($conn) || !$conn) {
+    die("Database connection failed. Please contact the administrator.");
+}
+<?php
+   include("../includes/session.php");
+   include("header.php");
+  $tt = $_SESSION['is']['parent_id'];
+?>
+<head>
+<style type="text/css">
+.auto-style1 {
+	text-align: center;
+}
+.auto-style2 {
+	text-align: center;
+	color: #C31414;
+}
+</style>
+</head>
+<?php echo $main_header; ?>
+<!-- BEGIN TOP NAVIGATION MENU -->
+			<div class="top-menu">
+				<ul class="nav navbar-nav pull-right">
+					<!-- BEGIN NOTIFICATION DROPDOWN -->
+					<li class="dropdown dropdown-extended dropdown-dark dropdown-notification" id="header_notification_bar">
+						<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+						<i class="icon-bell"></i>
+						<?php 
+$result = mysql_query("SELECT * FROM invoice WHERE status = 1 and parent_id =$tt");
+$counter = 0;
+if (!$result) 
+	{
+    die("Query to show fields from table failed");
+	}
+$numberOfRowsot = MYSQL_NUMROWS($result);
+If ($numberOfRowsot == 0) 
+	{
+	echo '';
+	}
+else if ($numberOfRowsot > 0) 
+	{
+	echo '<span class="badge badge-default">'.$numberOfRowsot.'</span>';
+	}
+ ?>
+						</a>
+						<ul class="dropdown-menu">
+							<li class="external">
+								<h3>You have <strong><?php 
+$result = mysql_query("SELECT * FROM invoice WHERE status = 1 and parent_id =$tt");
+$counter = 0;
+if (!$result) 
+	{
+    die("Query to show fields from table failed");
+	}
+$numberOfRowsot1 = MYSQL_NUMROWS($result);
+If ($numberOfRowsot == 0) 
+	{
+	echo '0';
+	}
+else if ($numberOfRowsot1 > 0) 
+	{
+	echo $numberOfRowsot1;
+	}
+ ?> Invoice(s)</strong> unpaid</h3>
+								<a href="ind_details">view all</a>
+							</li>
+							<li>
+							</li>
+						</ul>
+					</li>
+					<!-- END NOTIFICATION DROPDOWN -->
+					<li class="droddown dropdown-separator">
+						<span class="separator"></span>
+					</li>
+					<!-- BEGIN USER LOGIN DROPDOWN -->
+					<li class="dropdown dropdown-user dropdown-dark">
+						<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+						<img alt="" class="img-circle" src="../assets/admin/layout3/img/user-alt-128.png">
+						<span class="username username-hide-mobile"><?php echo $_SESSION['is']['parent']; ?></span>
+						</a>
+						<ul class="dropdown-menu dropdown-menu-default">
+							<li>
+								<a href="logout">
+								<i class="icon-key"></i> Log Out </a>
+							</li>
+						</ul>
+					</li>
+					<!-- END USER LOGIN DROPDOWN -->
+				</ul>
+			</div>
+			<!-- END TOP NAVIGATION MENU -->
+			</div>
+	</div>
+<?php echo $start_menu; ?>
+<?php echo $main_menu; ?>
+<div class="page-container">
+	<!-- BEGIN PAGE HEAD -->
+	<div class="page-head">
+		<div class="container">
+			<!-- BEGIN PAGE TITLE -->
+			<div class="page-title">
+				<h1>Message<small> Submitted</small></h1>
+			</div>
+			<!-- END PAGE TITLE -->
+			<!-- BEGIN PAGE TOOLBAR -->
+			<div class="page-toolbar">
+			</div>
+			<!-- END PAGE TOOLBAR -->
+		</div>
+	</div>
+	<!-- END PAGE HEAD -->
+	<!-- BEGIN PAGE CONTENT -->
+	<div class="page-content">
+		<div class="container">
+			<!-- BEGIN PAGE BREADCRUMB -->
+			<ul class="page-breadcrumb breadcrumb">
+				<li>
+					<a href="parents-home">Home</a><i class="fa fa-circle"></i>
+				</li>
+				<li class="active">
+					 Message Submitted
+				</li>
+			</ul>
+			<!-- END PAGE BREADCRUMB -->
+			<!-- BEGIN PAGE CONTENT INNER -->
+			<div class="row">
+				<div class="col-md-12">
+					<!-- BEGIN SAMPLE TABLE PORTLET-->
+					<div class="portlet light">
+					<h4 class="auto-style1">You message has been sent successfully<br></h4>
+					<h3 class="auto-style2">We just recived your complaint. Please give us 24hs time to produce feedback.</h3>
+						<div class="auto-style1">
+
+															<a href="parents-home" class="btn blue"><i class="fa fa-home"></i> Go to Home</a>
+						</div>
+					</div>
+					<!-- END SAMPLE TABLE PORTLET-->
+				</div>
+			</div>
+			<!-- END PAGE CONTENT INNER -->
+		</div>
+	</div>
+	<!-- END PAGE CONTENT -->
+</div>
+<!-- END PAGE CONTAINER -->
+<?php echo $fot; ?>

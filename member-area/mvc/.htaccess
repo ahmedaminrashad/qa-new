@@ -1,0 +1,11 @@
+# Enable URL rewriting for MVC
+RewriteEngine On
+RewriteBase /quraan-new/member-area/mvc/
+
+# Don't rewrite if file exists
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Route everything to index.php
+RewriteRule ^(.*)$ index.php [QSA,L]
+

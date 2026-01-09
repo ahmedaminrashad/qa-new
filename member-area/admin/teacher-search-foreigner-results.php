@@ -1,0 +1,374 @@
+<?php session_start(); ?>
+<?php
+// Enable error reporting
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+ini_set('log_errors', 1);
+
+if (session_status() !== PHP_SESSION_ACTIVE) {
+    session_start();
+}
+
+require("../includes/dbconnection.php");
+require_once("../includes/mysql-compat.php");
+
+// Check database connection
+if (!isset($conn) || !$conn) {
+    die("Database connection failed. Please contact the administrator.");
+}
+  <?php
+  include("../includes/session1.php");
+  require ("../includes/dbconnection.php");
+  include("header.php");
+?>
+<?php
+  $ty = $_POST["pstime"];
+  $tzy1 = $_POST["timetech"];
+  $tzy2 = $_POST["timestud"];
+$result3 = mysql_query("SELECT * FROM time_zone WHERE tz_id = $tzy1");
+if (!$result3) 
+		{
+		die("Quedfbdfiled");
+		}
+			$numberOfRows = MYSQL_NUMROWS($result3);
+			If ($numberOfRows == 0) 
+				{
+				echo '';
+				}
+			else if ($numberOfRows > 0) 
+				{
+				$i=0;
+			$tzy_tech = MYSQL_RESULT($result3,$i,"timezone_diff");
+			$tzname_tech = MYSQL_RESULT($result3,$i,"timezone_name");
+				}
+?>
+<?php
+  $ty = $_POST["pstime"];
+  $tzy1 = $_POST["timetech"];
+  $tzy2 = $_POST["timestud"];
+$result4 = mysql_query("SELECT * FROM time_zone WHERE tz_id = $tzy2");
+if (!$result4) 
+		{
+		die("Query to show fields from table failed");
+		}
+			$numberOfRows = MYSQL_NUMROWS($result4);
+			If ($numberOfRows == 0) 
+				{
+				echo '';
+				}
+			else if ($numberOfRows > 0) 
+				{
+				$i=0;
+			$tzy_stud = MYSQL_RESULT($result4,$i,"timezone_diff");
+			$tzname_stud = MYSQL_RESULT($result4,$i,"timezone_name");
+				}
+?>
+<?php
+$z = 48;
+$tzt = $tzy_tech+$tzy_tech;
+$tzs = $tzy_stud+$tzy_stud;
+$x = $ty-$tzs+$tzt;		
+if ($x < 0){
+		$y = $z+$x;
+		}
+elseif ($x > 0 and $x < $z){
+		$y = $x;
+		}
+else {
+		$y = $x-$z;
+	}
+	$t=$y;
+?>
+<?php
+function abc($d, $pTw, $yu)
+  {
+			$t = $y;
+			$result = mysql_query("SELECT `sched`.*,`course`.`course_yrSec` FROM `sched`,`course` WHERE sched.course_id=course.course_id HAVING day_id= '$d' AND teacher_id='$pTw' AND time_s_id= '$yu'");
+			//HAVING course_id='$pCourse'
+		if (!$result) 
+			{
+			die("Query to show fields from table failed");
+			}
+		$numberOfRows = MYSQL_NUMROWS($result);
+		If ($numberOfRows == 0){
+			echo '';
+			}
+		else if ($numberOfRows > 0) 
+			{
+			$i=0;
+			while ($i<$numberOfRows)
+				{			
+					$hidden_pcourse = MYSQL_RESULT($result,$i,"course_yrSec");
+					$hidden_pday = MYSQL_RESULT($result,$i,"day_id");
+					$hidden_pstime = MYSQL_RESULT($result,$i,"time_s_id");
+			 if ($hidden_pday == $d && $hidden_pstime == $yu){	
+			  		echo $hidden_pcourse;
+						}	
+			else {
+			 	echo "No";
+			 	}		
+	$i++;	 
+			}
+			}
+	}
+function color($d, $pTw, $yu){
+$t = $y;
+			$result = mysql_query("SELECT * FROM sched HAVING day_id = $d and teacher_id = $pTw and time_s_id = $yu
+  			");
+			//HAVING course_id='$pCourse'
+		if (!$result) 
+			{
+			die("Query to show fields from table failed");
+			}
+		$numberOfRows = MYSQL_NUMROWS($result);
+		If ($numberOfRows == 0){
+			echo '#CECE0F';
+			}
+		else if ($numberOfRows > 0) 
+			{
+			echo '#989800';
+			 }
+		}
+?>
+<?php
+date_default_timezone_set("Africa/Cairo");
+$sy = date('Y-m-d');
+?>
+<?php echo $main_header; ?>
+<?php echo $tool_bar; ?>
+<?php echo $start_menu; ?>
+<?php echo $search_bar; ?>
+<?php echo $main_menu; ?>
+<!-- BEGIN PAGE CONTAINER -->
+<div class="page-container">
+	<!-- BEGIN PAGE HEAD -->
+	<div class="page-head">
+		<div class="container">
+			<!-- BEGIN PAGE TITLE -->
+			<div class="page-title">
+				<h1>Search Teacher<small> on timezone results</small></h1>
+			</div>
+			<!-- END PAGE TITLE -->
+			<!-- BEGIN PAGE TOOLBAR -->
+			<div class="page-toolbar">
+			</div>
+			<!-- END PAGE TOOLBAR -->
+		</div>
+	</div>
+	<!-- END PAGE HEAD -->
+	<!-- BEGIN PAGE CONTENT -->
+	<div class="page-content">
+		<div class="container">
+
+			<!-- BEGIN PAGE BREADCRUMB -->
+			<ul class="page-breadcrumb breadcrumb">
+				<li>
+					<a href="admin-home">Home</a><i class="fa fa-circle"></i>
+				</li>
+				<li class="active">
+					 List of Available Teachers
+				</li>
+			</ul>
+			<!-- END PAGE BREADCRUMB -->
+			<!-- BEGIN PAGE CONTENT INNER -->
+			<div class="row">
+				<div class="col-md-12">
+					<?php 
+// sending query
+$result = mysql_query("SELECT * FROM trial WHERE mnt_id = 1");
+if (!$result) 
+	{
+    die("Query to show fields from table failed");
+	}
+$numberOfRows = MYSQL_NUMROWS($result);
+If ($numberOfRows == 0) 
+	{
+	echo '';
+	}
+else if ($numberOfRows > 0)
+				{
+					echo "<div class='alert alert-info'>
+						<p>
+							 You have requests waiting for your <strong>responce...</strong>
+						</p>
+					</div>";
+				}
+
+?>
+					<!-- BEGIN SAMPLE TABLE PORTLET-->
+					<div class="portlet light">
+					<h5>Avaiabliblty of Class at <br>
+					<?php
+$t = $y;
+$result1 = mysql_query("SELECT * FROM timestart WHERE time_s_id = $t");
+if (!$result1) 
+		{
+		die("Query to show fields from table failed");
+		}
+			$numberOfRows = MYSQL_NUMROWS($result1);
+			If ($numberOfRows == 0) 
+				{
+				echo '';
+				}
+			else if ($numberOfRows > 0) 
+				{
+				$i=0;
+			$teacher = MYSQL_RESULT($result1,$i,"time_s");
+				}			
+		echo "Teacher Time: <font color='#44B6AE'> <b>$teacher ($tzname_tech)</b></font> <br>"; ?>
+
+					<?php 
+$ty = $_POST["pstime"];
+$result2 = mysql_query("SELECT * FROM timestart WHERE time_s_id = $ty");
+if (!$result1) 
+		{
+		die("Query to sailed");
+		}
+			$numberOfRows = MYSQL_NUMROWS($result2);
+			If ($numberOfRows == 0) 
+				{
+				echo '';
+				}
+			else if ($numberOfRows > 0) 
+				{
+				$i=0;
+			$teacher1 = MYSQL_RESULT($result2,$i,"time_s");
+				}
+			echo "Studnet Time: <font color='#44B6AE'> <b>$teacher1 ($tzname_stud)</b></font> <br>";
+?>
+</h5>
+						<div class="portlet-body">
+							<div id="mytable" class="table-responsive">
+								<table class="table table-striped table-bordered table-hover">
+								<thead>
+								<tr>
+								<th>
+									 Sr.No
+								</th>
+								<th>
+									 Teacher Name
+								</th>
+								<th>
+									 MONDAY
+								</th>
+								<th>
+									 TUESDAY
+								</th>
+								<th>
+									 WEDNESDAY
+								</th>
+								<th>
+									 THURSDAY
+								</th>
+								<th>
+									 FRIDAY
+								</th>
+								<th>
+									 SATURDAY
+								</th>
+								<th>
+									 SUNDAY
+								</th>
+								<?php 
+// sending query
+$t = $y;
+$gd = $_POST["pgender"];
+$result = mysql_query("SELECT * FROM profile WHERE (st1 <= $t AND et1 >= $t) OR (st2 <= $t AND et2 >= $t) OR (st3 <= $t AND et3 >= $t) HAVING (cat_id = 8 or teacher_rights = 1) and active =1 AND schedule_status = 1 AND training = 1 AND timezone_dif = $tzy_tech");
+$counter = 0;
+if (!$result) 
+	{
+    die("Query to show fields from table failed");
+	}
+$numberOfRows = MYSQL_NUMROWS($result);
+If ($numberOfRows == 0) 
+	{
+	echo 'Sorry No Record Found!';
+	}
+else if ($numberOfRows > 0) 
+	{
+	$i=0;
+	while ($i<$numberOfRows)
+		{		
+			if(($i%2)==0) 
+				{
+					$bgcolor ='#FFFFFF';
+				}
+			else
+				{
+					$bgcolor ='#F7F7FF';
+				}		
+				$profile_no = MYSQL_RESULT($result,$i,"teacher_id");
+			$tname = MYSQL_RESULT($result,$i,"teacher_name");		
+			$pT = MYSQL_RESULT($result,$i,"teacher_id");
+			$rg_level = MYSQL_RESULT($result,$i,"level");
+?>
+							</tr>
+								</thead>
+								<tbody>
+								<tr>
+								<td>
+									 <a class="notes" href="#notes-d" data-toggle="modal" data-target="#notes-d" data-id="<?php echo $profile_no; ?>"><?php if ($rg_level == 1){echo '<span class="label label-sm label-danger">A</span>';} elseif ($rg_level == 2){echo '<span class="label label-sm label-warning">B</span>';} else {echo '<span class="label label-sm label-success">C</span>';} ?></a>
+								</td>
+								<td>
+									 <a href="teacher-schedule?pT=<?php echo $profile_no; ?>"><?php echo $tname; ?></a>
+								</td>
+								<td bgcolor="<?php echo color('1',"$pT","$t"); ?>">
+									 <font color="#FFFFFF"><?php echo abc('1',"$pT","$t"); ?></font>
+								</td>
+								<td bgcolor="<?php echo color('2',"$pT","$t"); ?>">
+									 <font color="#FFFFFF"><?php echo abc('2',"$pT","$t"); ?></font>
+								</td>
+								<td bgcolor="<?php echo color('3',"$pT","$t"); ?>">
+									 <font color="#FFFFFF"><?php echo abc('3',"$pT","$t"); ?></font>
+								</td>
+								<td bgcolor="<?php echo color('4',"$pT","$t"); ?>">
+									 <font color="#FFFFFF"><?php echo abc('4',"$pT","$t"); ?></font>
+								</td>
+								<td bgcolor="<?php echo color('5',"$pT","$t"); ?>">
+									 <font color="#FFFFFF"><?php echo abc('5',"$pT","$t"); ?></font>
+								</td>
+								<td bgcolor="<?php echo color('6',"$pT","$t"); ?>">
+									 <font color="#FFFFFF"><?php echo abc('6',"$pT","$t"); ?></font>
+								</td>
+								<td bgcolor="<?php echo color('7',"$pT","$t"); ?>">
+									 <font color="#FFFFFF"><?php echo abc('7',"$pT","$t"); ?></font>
+								</td>
+							</tr>
+							<?php 	
+		$i++;		
+		}
+	}	
+?>
+								</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+					<!-- END SAMPLE TABLE PORTLET-->
+					<div class="modal fade bs-modal-lg" id="notes-d" tabindex="-1" role="dialog" aria-hidden="true">
+								<div class="modal-dialog modal-lg">
+									<div class="modal-content">
+
+
+        </div>
+    </div>
+</div>
+				</div>
+			</div>
+			<!-- END PAGE CONTENT INNER -->
+		</div>
+	</div>
+	<!-- END PAGE CONTENT -->
+</div>
+<!-- END PAGE CONTAINER -->
+<?php echo $fot; ?>
+<script>
+$('.notes').click(function(){
+    var famID=$(this).attr('data-id');
+
+    $.ajax({url:"teacher-note-details.php?famID="+famID,cache:false,success:function(result){
+        $(".modal-content").html(result);
+    }});
+});
+</script>

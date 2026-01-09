@@ -1,0 +1,161 @@
+<?php
+require ("../../includes/dbconnection.php");
+<?php
+// Enable error reporting
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+ini_set('log_errors', 1);
+
+if (session_status() !== PHP_SESSION_ACTIVE) {
+    session_start();
+}
+
+require("../includes/dbconnection.php");
+require_once("../includes/mysql-compat.php");
+
+// Check database connection
+if (!isset($conn) || !$conn) {
+    die("Database connection failed. Please contact the administrator.");
+}
+date_default_timezone_set("Africa/Cairo");
+$y =$_REQUEST['year_id'];
+// Connect to MySQL
+$link = mysql_connect( $server_db, $username_db, $userpass_db );
+if ( !$link ) {
+  die( 'Could not connect: ' . mysql_error() );
+}
+
+// Select the data base
+$db = mysql_select_db( $name_db, $link );
+if ( !$db ) {
+  die ( 'Error selecting database \'test\' : ' . mysql_error() );
+}
+
+// Fetch the data
+function all_requests($m)
+{
+$y =$_REQUEST['year_id'];
+$result = mysql_query("SELECT * FROM new_request Where MONTH(date) = $m AND YEAR(date) = $y");
+
+if (!$result) 
+			{
+			die("Query to show fields from table failed");
+			}
+		$numberOfRows = MYSQL_NUMROWS($result);
+		If ($numberOfRows == 0){
+			echo '0';
+			}
+		else if ($numberOfRows > 0) 
+			{
+			echo $numberOfRows;
+			 }
+		}
+function requests($m)
+{
+$y =$_REQUEST['year_id'];
+$result = mysql_query("SELECT * FROM new_request Where status != 10 AND MONTH(date) = $m AND YEAR(date) = $y");
+
+if (!$result) 
+			{
+			die("Query to show fields from table failed");
+			}
+		$numberOfRows = MYSQL_NUMROWS($result);
+		If ($numberOfRows == 0){
+			echo '0';
+			}
+		else if ($numberOfRows > 0) 
+			{
+			echo $numberOfRows;
+			 }
+		}
+function trials($m)
+{
+$y =$_REQUEST['year_id'];
+$result = mysql_query("SELECT * FROM account Where MONTH(trial_date) = $m AND YEAR(trial_date) = $y");
+
+if (!$result) 
+			{
+			die("Query to show fields from table failed");
+			}
+		$numberOfRows = MYSQL_NUMROWS($result);
+		If ($numberOfRows == 0){
+			echo '0';
+			}
+		else if ($numberOfRows > 0) 
+			{
+			echo $numberOfRows;
+			 }
+		}
+function regulars($m)
+{
+$y =$_REQUEST['year_id'];
+$result = mysql_query("SELECT * FROM account Where MONTH(regular_date) = $m AND YEAR(regular_date) = $y");
+
+if (!$result) 
+			{
+			die("Query to show fields from table failed");
+			}
+		$numberOfRows = MYSQL_NUMROWS($result);
+		If ($numberOfRows == 0){
+			echo '0';
+			}
+		else if ($numberOfRows > 0) 
+			{
+			echo $numberOfRows;
+			 }
+		}
+function lefts($m)
+{
+$y =$_REQUEST['year_id'];
+$result = mysql_query("SELECT * FROM account WHERE MONTH(deactivation_date) = $m AND YEAR(deactivation_date) = $y AND dateDiff(deactivation_date,regular_date) > 30");
+
+if (!$result) 
+			{
+			die("Query to show fields from table failed");
+			}
+		$numberOfRows = MYSQL_NUMROWS($result);
+		If ($numberOfRows == 0){
+			$var1 = 0;
+			}
+		else if ($numberOfRows > 0) 
+			{
+			$var1 = $numberOfRows;
+			 }
+			 echo $var1;
+		}
+$query = "SELECT * FROM month ORDER BY month_id ASC";
+$result = mysql_query( $query );
+
+// All good?
+if ( !$result ) {
+  // Nope
+  $message  = 'Invalid query: ' . mysql_error() . "\n";
+  $message .= 'Whole query: ' . $query;
+  die( $message );
+}
+
+// Print out rows
+$prefix = '';
+echo "[\n";
+while ( $row = mysql_fetch_assoc( $result ) ) {
+  echo $prefix . " {\n";
+  echo '  "month": "' . $row['short_name'] . '",' . "\n";
+  echo '  "all_request": ' . "\n";
+  echo '  ' . all_requests($row['num']) . ',' . "\n";
+  echo '  "request": ' . "\n";
+  echo '  ' . requests($row['num']) . ',' . "\n";
+  echo '  "trial": ' . "\n";
+  echo '  ' . trials($row['num']) . ',' . "\n";
+  echo '  "regular": ' . "\n";
+  echo '  ' . regulars($row['num']) . ',' . "\n";
+  echo '  "left": ' . "\n";
+  echo '  ' . lefts($row['num']) . '' . "\n";
+  echo " }";
+  $prefix = ",\n";
+}
+echo "\n]";
+
+// Close the connection
+mysql_close($link);
+?>

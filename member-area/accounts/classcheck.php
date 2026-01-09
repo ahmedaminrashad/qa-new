@@ -1,0 +1,104 @@
+<?php session_start(); ?>
+<?php
+// Enable error reporting
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+ini_set('log_errors', 1);
+
+if (session_status() !== PHP_SESSION_ACTIVE) {
+    session_start();
+}
+
+require("../includes/dbconnection.php");
+require_once("../includes/mysql-compat.php");
+
+// Check database connection
+if (!isset($conn) || !$conn) {
+    die("Database connection failed. Please contact the administrator.");
+}
+<?php
+  include("../includes/session.php");
+  require_once("../includes/db-helpers.php");
+  include("../includes/main-var.php");
+  include("header.php");
+  $tt = $_SESSION['is']['parent_id'] ?? null;
+date_default_timezone_set($TimeZoneCustome);
+$time_start = date('Y-m-d H:i:s');
+// Sanitize and validate GET parameters
+$history = sanitize_int($_GET['famID'] ?? 0);
+$teacher = sanitize_int($_GET['famAmu'] ?? 0);
+
+// Validate inputs
+if (!$history || !$teacher) {
+    die("Invalid parameters.");
+}
+?>
+<div class="modal-header">
+										</div>
+										<div class="modal-body">
+										<div class="portlet box green">
+									<div class="portlet-title">
+										<div class="caption">
+											<i class="fa fa-plus"></i>Message From <?php echo $site_nameC; ?> 
+										</div>
+										<div class="tools">
+											<a href="javascript:;" class="collapse">
+											</a>
+										</div>
+									</div>
+<div class="portlet-body">
+<div class="timeline">
+						<div class="timeline-item">
+							<div class="timeline-body">
+								<div class="timeline-body-arrow">
+								</div>
+								<div class="timeline-body-head">
+								<div class="timeline-body-content">
+									<span class="font-grey-cascade">
+<?php
+require_once(__DIR__ . '/../includes/db-helpers.php');
+
+// Use prepared statement to prevent SQL injection
+$history_data = db_fetch_one("SELECT * FROM `class_history` WHERE history_id = ?", [$history], 'i');
+
+if (!$history_data) {
+    // No record found
+    echo '<div class="alert alert-info">Sorry, no record found!</div>';
+} else {
+    // Verify that this history belongs to the logged-in parent
+    if ($tt && $history_data['parent_id'] != $tt) {
+        die("Unauthorized access.");
+    }
+    
+    $monitor_id = $history_data['monitor_id'] ?? 0;
+    
+    if ($monitor_id == 1) {
+        echo '<div class="alert alert-danger">Teacher is not in the class room. 
+        If this is your class time, please wait one or two minutes and click on Take Class button again. May be teacher is preparing class room for you.
+        <br><br><b>Note: If you have waited for more then 5 minutes, please contact Admin HelpDesk via your whatsApp group.</b></div>';
+    } elseif ($monitor_id == 2 || $monitor_id == 3) {
+        // Update using prepared statement
+        $stmt = $conn->prepare("UPDATE class_history SET monitor_id = '3', start_time = ?, end_time = ? WHERE history_id = ?");
+        if ($stmt) {
+            $stmt->bind_param("ssi", $time_start, $time_start, $history);
+            $stmt->execute();
+            $stmt->close();
+        }
+        
+        echo '<div class="alert alert-success">Teacher is in the class waiting for you. Please click to join the class room.<br><br>
+        <a target="_blank" href="classroom?tid=' . htmlspecialchars(base64_encode($teacher), ENT_QUOTES, 'UTF-8') . '&time=' . time() . '"><button type="button" style="width: 25%" class="btn green btn-xs">Join Class Now</button></a></div>';
+    } else {
+        header("Location: https://www." . $site_nameS . "/member-area/accounts/parents-home");
+        exit;
+    }
+}
+?>
+						</span>
+						<div class="modal-footer">
+											<button value="Refresh Page" onClick="window.location.reload()">Close</button>
+										</div>
+								</div>
+							</div>
+						</div>
+										</div></div>

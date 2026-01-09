@@ -1,0 +1,61 @@
+<?php
+  require ("../includes/dbconnection.php");
+<?php
+// Enable error reporting
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+ini_set('log_errors', 1);
+
+if (session_status() !== PHP_SESSION_ACTIVE) {
+    session_start();
+}
+
+require("../includes/dbconnection.php");
+require_once("../includes/mysql-compat.php");
+
+// Check database connection
+if (!isset($conn) || !$conn) {
+    die("Database connection failed. Please contact the administrator.");
+}
+  date_default_timezone_set("Africa/Cairo");
+//$date = date('Y-m-d', time());
+//$day = date('N', time());
+$teacher =$_REQUEST['teacher'];
+  $date =$_REQUEST['date'];
+  $day =$_REQUEST['day'];
+  $des =$_REQUEST['msg'];
+mysql_query("DELETE FROM class_history WHERE status < 19 AND monitor_id = 1 AND date_admin = '$date' AND teacher_id IN ($teacher)") or die(mysql_error());
+    $result = mysql_query("SELECT * FROM sched WHERE aday_id = '$day' AND teacher_id IN ($teacher)") or die(mysql_error());
+    if (!$result) 
+	{
+    die("Query to show fields from table failed");
+	}
+$numberOfRows = MYSQL_NUMROWS($result);
+If ($numberOfRows == 0) 
+	{
+	echo '';
+	}
+else if ($numberOfRows > 0) 
+	{
+	while($row = mysql_fetch_assoc($result))
+		{
+		$id = $row['sched_id'];
+		$dif=$row['day_id']-$row['aday_id'];
+		if($dif == 6){$a1 = -1;}
+		elseif($dif == -6){$a1 = 1;}
+		else {$a1 = $dif;}
+		$difs=$row['sday_id']-$row['aday_id'];
+		if($dif == 6){$a1 = -1;}
+		elseif($dif == -6){$a1 = 1;}
+		else {$a1 = $dif;}
+		$teacher_day = date('Y-m-d',strtotime("".$date." ".$a1." days"));
+		$student_day = date('Y-m-d',strtotime("".$date." ".$a2." days"));
+		mysql_query("UPDATE sched SET create_date_admin = '$date', create_date_teacher = '$teacher_day', create_date_student = '$student_day', des_public = '$des' WHERE sched_id = '$id'") or die(mysql_error());
+		}
+	}
+	mysql_query("INSERT INTO class_history(uni, parent_id, course_id, teacher_id, atime_s_id, stime_s_id, time_s_id, dept_id, adept_id, date_admin, date_student, date_teacher, status, monitor_id, lesson_discription)
+	SELECT sched_id, parent_id, course_id, teacher_id, atime_s_id, stime_s_id, time_s_id, dept_id, adept_id, create_date_admin, create_date_student, create_date_teacher, status, public_holiday, des_public
+	FROM sched WHERE aday_id = $day AND NOT EXISTS  (SELECT * FROM class_history WHERE class_history.date_admin = sched.create_date_admin AND class_history.uni = sched.sched_id);") or die(mysql_error());
+	header('Location: admin-home');
+?>

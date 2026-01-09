@@ -1,0 +1,15 @@
+<?php
+  require ("../includes/dbconnection.php");  
+?>
+<?php
+	$Course_ID =$_REQUEST['Course_ID'];
+	mysql_query("INSERT INTO del_student (student_id, s_name)
+	SELECT course_id, course_yrSec
+	FROM course WHERE course_id = '$Course_ID';") or die(mysql_error());
+	mysql_query("DELETE FROM course WHERE course_id = '$Course_ID'") or die(mysql_error());  	
+?>
+<?php
+	$Course_ID =$_REQUEST['Course_ID'];
+	mysql_query("DELETE FROM sched WHERE course_id = '$Course_ID'") or die(mysql_error());  	
+	header('Location: ' . $_SERVER['HTTP_REFERER']);
+?>

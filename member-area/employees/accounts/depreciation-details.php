@@ -1,0 +1,260 @@
+<?php session_start(); ?>
+<?php
+// Enable error reporting
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+ini_set('log_errors', 1);
+
+if (session_status() !== PHP_SESSION_ACTIVE) {
+    session_start();
+}
+
+require("../includes/dbconnection.php");
+require_once("../includes/mysql-compat.php");
+
+// Check database connection
+if (!isset($conn) || !$conn) {
+    die("Database connection failed. Please contact the administrator.");
+}
+  <?php
+  include("../includes/session.php");
+  include("../includes/accounts_rights.php");
+  require ("../includes/dbconnection.php");
+  include("header.php");
+  $link = $_SERVER['REQUEST_URI'];
+  $enid =$_REQUEST['en_id'];
+  $result = mysql_query("SELECT `account_entry`.*, `accounts_head`.`account_head_name`, `vendor`.`vendor_name` FROM `account_entry`,`accounts_head`, `vendor` WHERE account_entry.account_head=accounts_head.account_head_id and account_entry.vendor_id=vendor.vendor_id HAVING entry_id = '$enid'");
+	if (!$result) 
+	{
+    die("There is an issue in data");
+	}
+$numberOfRows = MYSQL_NUMROWS($result);
+If ($numberOfRows == 0) 
+	{
+	echo 'No Entry Found';
+	}
+else if ($numberOfRows > 0) 
+	{
+	$i=0;
+	while ($i<$numberOfRows)
+		{		
+			$en_id = MYSQL_RESULT($result,$i,"entry_id");
+			$vdate = MYSQL_RESULT($result,$i,"date");
+			$vdes = MYSQL_RESULT($result,$i,"description");
+			$vname = MYSQL_RESULT($result,$i,"vendor_name");
+			$vmod = MYSQL_RESULT($result,$i,"ac_cat_id");
+			$vamu = MYSQL_RESULT($result,$i,"amount");
+			$vhead = MYSQL_RESULT($result,$i,"account_head_name");
+			$en_head = MYSQL_RESULT($result,$i,"account_head");
+	
+		$i++;		
+		}
+	}
+function dep_amu($var1, $var2, $var3){
+$sql = "select sum(ad_amount) from adjusment_account where entry_id = $var1 AND date <= '$var2'";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+$second = $row[0];
+$total = $var3-$second;
+echo number_format($total, 2);
+}
+?>
+<?php
+date_default_timezone_set("Asia/Karachi");
+$sy = date('Y-m-d');
+?>
+<?php echo $main_header; ?>
+<head>
+<link href="../../assets/admin/pages/css/timeline.css" rel="stylesheet" type="text/css"/>
+</head>
+<?php echo $tool_bar; ?>
+<?php echo $start_menu; ?>
+<?php echo $search_bar; ?>
+<?php echo $main_menu; ?>
+<!-- BEGIN PAGE CONTAINER -->
+<div class="page-container">
+	<!-- BEGIN PAGE HEAD -->
+	<div class="page-head">
+		<div class="container">
+			<!-- BEGIN PAGE TITLE -->
+			<div class="page-title">
+				<h1>D &amp; A <small>Details</small></h1>
+
+			</div>
+			<!-- END PAGE TITLE -->
+			<!-- BEGIN PAGE TOOLBAR -->
+			<div class="page-toolbar">
+			</div>
+			<!-- END PAGE TOOLBAR -->
+		</div>
+	</div>
+	<!-- END PAGE HEAD -->
+	<!-- BEGIN PAGE CONTENT -->
+	<div class="page-content">
+		<div class="container">
+
+			<!-- BEGIN PAGE BREADCRUMB -->
+			<ul class="page-breadcrumb breadcrumb">
+				<li>
+					<a href="admin-home">Home</a><i class="fa fa-circle"></i>
+				</li>
+				<li class="active">
+					 D &amp; A Details
+				</li>
+			</ul>
+			<!-- END PAGE BREADCRUMB -->
+			<!-- BEGIN PAGE CONTENT INNER -->
+			<div class="row">
+				<div class="col-md-12">
+					<!-- BEGIN SAMPLE TABLE PORTLET-->
+					<div class="portlet light">
+						<div class="portlet-body">
+							<div id="mytable" class="table-responsive">
+								<table class="table table-hover">
+								<thead>
+								<tr>
+								<th>
+									 Purchase Date
+								</th>
+								<th>
+									 Head
+								</th>
+								<th>
+									 Vender
+								</th>
+								<th>
+									 Depreciation
+								</th>
+								<th>
+									 Value
+								</th>
+								<th></th>
+								</tr>
+								</thead>
+								<tbody>
+								<tr bgcolor="<?php echo $bgcolor; ?>">
+								<td>
+									 <?php $date1=date_create("$vdate"); echo date_format($date1,"d/m/Y"); ?>
+								</td>
+								<td>
+									 <?php echo $vhead; ?>
+								</td>
+								<td>
+									 <?php echo $vname; ?>
+								</td>
+								<td>
+									 <?php echo $vdes; ?>
+								</td>
+								<td>
+									 Rs. <?php echo number_format($vamu, 0); ?>
+								</td>
+								<td><a href="add-adjustment-entry?en_id=<?php echo $en_id; ?>&ac_c_id=<?php echo $vmod; ?>&link=<?php echo $link; ?>"><button type="button" class="btn blue btn-xs"><i class="fa fa-plus"></i></button></a></td>
+							</tr>
+</tbody>
+								</table>
+							</div>
+							<div id="mytable" class="table-responsive">
+								<table class="table table-hover">
+								<thead>
+								<tr>
+								<th>
+									 Date
+								</th>
+								<th>
+									 Depreciation
+								</th>
+								<th>
+									 Residual Value
+								</th>
+								</tr>
+								</thead>
+								<tbody>
+								<?php 
+// sending query
+$result = mysql_query("SELECT * FROM adjusment_account where entry_id = $enid ORDER BY date DESC;");
+$counter = 0;
+if (!$result) 
+	{
+    die("Query to show fields from table failed");
+	}
+$numberOfRows = MYSQL_NUMROWS($result);
+If ($numberOfRows == 0) 
+	{
+	echo 'There is no pending request...';
+	}
+else if ($numberOfRows > 0) 
+	{
+	$i=0;
+	while ($i<$numberOfRows)
+		{		
+			$a_id = MYSQL_RESULT($result,$i,"add_id");
+			$aen_id = MYSQL_RESULT($result,$i,"entry_id");
+			$aamu = MYSQL_RESULT($result,$i,"ad_amount");
+			$atype = MYSQL_RESULT($result,$i,"ac_cat_id");
+			$adate = MYSQL_RESULT($result,$i,"date");
+?>
+								<tr bgcolor="<?php echo $bgcolor; ?>">
+								<td>
+									 As at <?php $date1=date_create("$adate"); echo date_format($date1,"d-m-Y"); ?>
+								</td>
+								<td>
+									 <?php echo $aamu; ?>
+								</td>
+								<td>
+									<?php echo dep_amu("$enid","$adate","$vamu"); ?>
+								</td>
+							</tr>
+							<?php 	
+		$i++;		
+		}
+	}	
+?>
+</tbody>
+								</table>
+							</div>
+					</div>
+					<!-- END SAMPLE TABLE PORTLET-->
+        <div class="modal fade bs-modal-lg" id="notes-d" tabindex="-1" role="dialog" aria-hidden="true">
+								<div class="modal-dialog modal-lg">
+									<div class="modal-content">
+
+
+        </div>
+    </div>
+</div>
+<div class="modal fade bs-modal-lg" id="allocation-c" tabindex="-1" role="dialog" aria-hidden="true">
+								<div class="modal-dialog modal-lg">
+									<div class="modal-content">
+
+
+        </div>
+    </div>
+</div>
+				</div>
+			</div>
+			<!-- END PAGE CONTENT INNER -->
+		</div>
+	</div>
+	<!-- END PAGE CONTENT -->
+</div>
+<!-- END PAGE CONTAINER -->
+<?php echo $fot; ?>
+<script>
+$('.notes').click(function(){
+    var famID=$(this).attr('data-id');
+    var famName=$(this).attr('data-name');
+
+    $.ajax({url:"note-details.php?famID="+famID+"&famName="+famName,cache:false,success:function(result){
+        $(".modal-content").html(result);
+    }});
+});
+$('.allocation').click(function(){
+    var famID=$(this).attr('data-id');
+    var famName=$(this).attr('data-name');
+
+    $.ajax({url:"allocate-csr.php?famID="+famID+"&famName="+famName,cache:false,success:function(result){
+        $(".modal-content").html(result);
+    }});
+});
+</script>

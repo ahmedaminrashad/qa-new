@@ -1,0 +1,74 @@
+<?php
+// Enable error reporting
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+ini_set('log_errors', 1);
+
+if (session_status() !== PHP_SESSION_ACTIVE) {
+    session_start();
+}
+
+require("../includes/dbconnection.php");
+require_once("../includes/mysql-compat.php");
+
+// Check database connection
+if (!isset($conn) || !$conn) {
+    die("Database connection failed. Please contact the administrator.");
+}
+
+date_default_timezone_set($TimeZoneCustome);
+
+$username_db='fcuivmmy_system';
+
+$userpass_db='fcuivmmy_system';
+
+$name_db='fcuivmmy_system';
+
+$server_db='localhost';
+
+$port = '587';
+
+
+
+//Create info email account varaibles for SMTP mail server
+
+$email_server_info='mail.qarabic.com';
+
+$email_info='info@qarabic.com';
+
+$email_pass_info='0G?!~ge?nAo&';
+
+$company_name_info='Admin Qarabic';
+
+$subject_info='Account Login Details at www.qarabic.com';
+
+
+
+//Create accounts email account varaibles for SMTP mail server
+
+$email_server_accounts='mail.qarabic.com';
+
+$email_accounts='info@qarabic.com';
+
+$email_pass_accounts='0G?!~ge?nAo&';
+
+$company_name_accounts='Accounts at qarabic';
+
+$subject_accounts='Invoice Request';
+
+
+
+//Create info email account varaibles for SMTP mail server
+
+$email_server_sched='mail.qarabic.com';
+
+$email_sched='info@qarabic.com';
+
+$email_pass_sched='0G?!~ge?nAo&';
+
+$company_name_sched='Admin qarabic';
+
+$subject_sched='Online Arabic Classes';
+
+?>

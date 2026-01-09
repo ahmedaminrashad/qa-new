@@ -1,0 +1,268 @@
+<?php session_start(); ?>
+<?php
+// Enable error reporting
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+ini_set('log_errors', 1);
+
+if (session_status() !== PHP_SESSION_ACTIVE) {
+    session_start();
+}
+
+require("../includes/dbconnection.php");
+require_once("../includes/mysql-compat.php");
+
+// Check database connection
+if (!isset($conn) || !$conn) {
+    die("Database connection failed. Please contact the administrator.");
+}
+<?php
+  include("../includes/session.php");
+require("../includes/dbconnection.php");
+include("../includes/teacher_rights.php"); include("header.php");
+date_default_timezone_set("Africa/Cairo");
+$end_start = date('Y-m-d H:i:s');
+$history =$_REQUEST['history_id'];
+$dept =$_REQUEST['dept_id'];
+$adept =$_REQUEST['adept_id'];
+$Sid = $_REQUEST['Sid'];
+$Tid = $_REQUEST['Tid'];
+$Pid = $_REQUEST['Pid'];
+?>
+<?php
+if (isset($_POST['cmdSubmit'])) 
+  	{
+  	    $Sid =$_POST['Sid'];
+  	    $Tid =$_POST['Tid'];
+  	    $Pid =$_POST['Pid'];
+  	    
+  	    $tremarks =$_POST['remark'];
+  	    $result = mysql_query("SELECT * FROM remaks WHERE remk_id = '$tremarks'");	
+  	    $remakName = MYSQL_RESULT($result, $i, "remak");
+  	
+  		$hid=$_POST['history'];
+  		$end_time=$_POST['endid'];
+  		$lessondis =$_POST['description'];
+  		
+  		$lessonid ='1';//$_POST['lesson'];
+  		$addlid ='1';//$_POST['aalesson'];
+  		$adddes =$_POST['adddescription'];
+			mysql_query("UPDATE class_history SET lesson_id = '$lessonid', lesson_discription = '" . mysql_real_escape_string($lessondis) . "', teacher_remarks = '$tremarks', end_time = '$end_start', alesson_id = '$addlid', additional_des = '" . mysql_real_escape_string($adddes) . "', monitor_id = '9' WHERE history_id = '$hid'") or die(mysql_error());
+					//header("Location: teacher-home");
+				   //header("Location: notification?Mid=3&history_id=$hid&Sid=$Sid&Tid=$Tid&Pid=$Pid&remark=$remakName&disc=$lessondis&homework=$adddes");
+				   
+$genderS = '';
+$genderT = '';
+$result1 = mysql_query("SELECT * FROM course Where course_id = '$Sid'");
+if (!$result1) {
+    die("Query to show");
+}
+$student = MYSQL_RESULT($result1, $i, "course_yrSec");
+$genderSId = MYSQL_RESULT($result1, $i, "g_id");
+if($genderSId==1){
+    $genderS = 'Brother';
+} elseif($genderSId==2){
+    $genderS = 'Sister';
+}
+
+$result2 = mysql_query("SELECT * FROM profile Where teacher_id = '$Tid'");
+if (!$result2) {
+    die("Query to show fields from table failed");
+}
+$teacherName = MYSQL_RESULT($result2, $i, "teacher_name");
+$zoomLink = MYSQL_RESULT($result2, $i, "link");
+$meetingId = str_replace('https://zoom.us/j/', '', $zoomLink); 
+$genderTId = MYSQL_RESULT($result2, $i, "g_id");
+if($genderTId==1){
+    $genderT = 'Shaikh';
+} elseif($genderSId==2){
+    $genderT = 'Sister';
+}
+$result3 = mysql_query("SELECT * FROM account Where parent_id = '$Pid'");
+if (!$result3) {
+    die("Query to show fields from table failed");
+}
+$group = MYSQL_RESULT($result3, $i, "group_id");
+$mobile = MYSQL_RESULT($result3, $i, "mobile");
+$parentName = MYSQL_RESULT($result3, $i, "parent_name");
+$Location = '';
+$history = $_REQUEST['history_id'];
+        
+        $remark =$_REQUEST['remark'];
+  	    $disc =$_REQUEST['disc'];
+  	    $homework =$_REQUEST['homework'];
+        
+        $message = '*Borthet/Sister :* '.$parentName . '
+        
+*'.$genderT. ' ' . $teacherName . '* Made a Report About today\'s Class
+            
+*Lesson Description :* ' . $lessondis . '
+
+*Remarks :* ' . $remakName . '
+
+*HomeWork :* ' . $adddes . '
+
+Jazakom Allah khaira
+*Qarabic Family*';
+       // $Location = "classroom"; //"file-activate?history_id=" . $history;
+        
+$INSTANCE_ID = '43';  // TODO: Replace it with your gateway instance ID here
+$CLIENT_ID = "qarabicacademy@gmail.com";  // TODO: Replace it with your Forever Green client ID here
+$CLIENT_SECRET = "5d4aac71c6af4c8c80cbd57d4e38f45d";   // TODO: Replace it with your Forever Green client secret here
+$postData = array(
+  'group_admin' => "+447418397601",//'+201012230774',//'+201112292690',  // TODO: Specify the WhatsApp number of the group creator, including the country code
+  'group_name' => $group,    // TODO: Specify the name of the group
+  'message' => $message,  // TODO: Specify the content of your message
+);
+$headers = array(
+  'Content-Type: application/json',
+  'X-WM-CLIENT-ID: '.$CLIENT_ID,
+  'X-WM-CLIENT-SECRET: '.$CLIENT_SECRET
+);
+$url = 'http://api.whatsmate.net/v3/whatsapp/group/text/message/' . $INSTANCE_ID;
+$ch = curl_init($url);
+
+curl_setopt($ch, CURLOPT_POST, 1);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($postData));
+
+$response = curl_exec($ch);
+//echo "Response: ".$group.' - '.$response;
+//header("Location: " . $Location);
+	header("Location: teacher-home");
+curl_close($ch);
+
+		
+			}
+			
+?>
+<?php echo $main_header; ?>
+<?php echo $tool_bar; ?>
+<?php echo $start_menu; ?>
+<?php echo $main_menu; ?>
+<script>
+function goBack() {
+  window.history.back();
+}
+</script>
+<!-- BEGIN PAGE CONTAINER -->
+<div class="page-container">
+	<!-- BEGIN PAGE HEAD -->
+	<div class="page-head">
+		<div class="container">
+			<!-- BEGIN PAGE TITLE -->
+			<div class="page-title">
+				<h1>Add<small> Lesson History</small></h1>			</div>
+			<!-- END PAGE TITLE -->
+			<!-- BEGIN PAGE TOOLBAR -->
+			<div class="page-toolbar">
+			</div>
+			<!-- END PAGE TOOLBAR -->
+		</div>
+	</div>
+	<!-- END PAGE HEAD -->
+	<!-- BEGIN PAGE CONTENT -->
+	<div class="page-content">
+		<div class="container">
+
+			<!-- BEGIN PAGE BREADCRUMB -->
+			<ul class="page-breadcrumb breadcrumb">
+				<li>
+					<a href="teacher-home">Home</a><i class="fa fa-circle"></i>
+				</li>
+				<li class="active">
+					 Add Lesson History
+				</li>
+			</ul>
+			<!-- END PAGE BREADCRUMB -->
+			<!-- BEGIN PAGE CONTENT INNER -->
+			<div class="row">
+				<div class="col-md-12">
+					<div class="tabbable tabbable-custom tabbable-noborder tabbable-reversed">
+						<div class="tab-content">
+								<div class="portlet box green">
+									<div class="portlet-title">
+										<div class="caption">
+											<i class="fa fa-plus"></i>You are 
+											adding lesson history
+										</div>
+									</div>
+									<div class="portlet-body form">
+										<!-- BEGIN FORM-->
+										<form action="<?php echo $_SERVER['PHP_SELF']?>" method="post" class="form-horizontal form-row-seperated">
+									
+													<div class="form-group">
+															<label class="control-label col-md-3">
+															<strong>Remarks</strong></label>
+															<div class="col-md-9">
+															<select required class="form-control" name="remark"  id="remark" onchange="javascript: return optionList9_SelectedIndex()">
+                                                                <?php 
+				                                                   $result = mysql_query("SELECT * FROM remaks ORDER BY remk_id");			  	
+			                                                    	do {  ?>
+                                                                           <option value="<?php echo $row['remk_id'];?>"><?php echo $row['remak'];?> </option>
+                                                                           
+                                                                 <?php } while ($row = mysql_fetch_assoc($result)); ?>
+                                                             </select>															
+                                                     </div>
+												</div>
+												<div class="form-group">
+													<label class="col-md-3 control-label"><strong>
+													Lesson Description</strong></label>
+													<div class="col-md-9">
+														<!--<input type="text" class="form-control" placeholder="Enter Detailed Lesson Description" name="description" id="description">-->
+														 <textarea rows = "5" cols = "30" style="height: 105px;" name ="description" id="description" type="text" placeholder="Enter Lesson Description..." required></textarea><br>
+													</div>
+												</div>
+												<div class="form-group">
+													<label class="col-md-3 control-label"><strong>
+													Home Work</strong></label>
+													<div class="col-md-9">
+													<!--	<input type="text" class="form-control" value="N-A" name="adddescription" id="adddescription">-->
+														 <textarea rows = "5" cols = "30" style="height: 105px;" name ="adddescription" id="adddescription" type="text" placeholder="Enter Home Work..." required></textarea><br>
+													</div>
+												</div>
+									
+												<input type="hidden" value="<?php echo $history; ?>" class="form-control" name="history" id="history">
+												<input type="hidden" value="<?php echo $Sid; ?>" class="form-control" name="Sid" id="Sid">
+												<input type="hidden" value="<?php echo $Tid; ?>" class="form-control" name="Tid" id="Tid">
+												<input type="hidden" value="<?php echo $Pid; ?>" class="form-control" name="Pid" id="Pid">
+												
+                                                
+                                                
+											<div class="form-actions">
+												<div class="row">
+													<div class="col-md-offset-3 col-md-9">
+														<button type="submit" name="cmdSubmit" class="btn btn-circle blue">
+														Submit</button>
+														<button type="button" class="btn btn-circle default" onclick="goBack()">
+														Cancel</button>
+													</div>
+												</div>
+											</div>
+										</form>
+										<!-- END FORM-->
+									</div>
+								</div>
+							</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- END PAGE CONTENT INNER -->
+		</div>
+	</div>
+	<!-- END PAGE CONTENT -->
+</div>
+<!-- END PAGE CONTAINER -->
+<?php echo $fot; ?>
+<script language="javascript" >
+	var form = document.forms[0];
+	//purpose?: to retrieve what users last input on the field..
+	form.aalesson.value = ("<?php echo 100; ?>");
+	//alert (form.pCityM.value);				
+</script>

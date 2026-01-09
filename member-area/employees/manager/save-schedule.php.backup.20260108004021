@@ -1,0 +1,58 @@
+<?php
+  require ('../includes/dbconnection.php');
+		$t_id =$_REQUEST['teacher'];
+		$s_id =$_REQUEST['student'];
+		$t_timee =$_REQUEST['t_time'];
+		$s_timee =$_REQUEST['s_time'];
+		$wtday1 =$_REQUEST['td1'];
+		$wtday2 =$_REQUEST['td2'];
+		$wtday3 =$_REQUEST['td3'];
+		$wtday4 =$_REQUEST['td4'];
+		$wtday5 =$_REQUEST['td5'];
+		$wtday6 =$_REQUEST['td6'];
+		$wtday7 =$_REQUEST['td7'];
+		$wsday1 =$_REQUEST['sd1'];
+		$wsday2 =$_REQUEST['sd2'];
+		$wsday3 =$_REQUEST['sd3'];
+		$wsday4 =$_REQUEST['sd4'];
+		$wsday5 =$_REQUEST['sd5'];
+		$wsday6 =$_REQUEST['sd6'];
+		$wsday7 =$_REQUEST['sd7'];
+		$p_id =$_REQUEST['parent_id'];
+		$d_id =$_REQUEST['dept_id'];
+		$ad_id =$_REQUEST['adept_id'];
+		$php_id =$_REQUEST['time_php'];
+		$active1 =$_REQUEST['active'];
+
+		
+if ($wsday1 == 1){
+			mysql_query ("INSERT INTO sched(course_id, teacher_id, room_id, day_id, sday_id, time_s_id, stime_s_id, aday_id, atime_s_id, parent_id, dept_id, adept_id, php_tz, status)
+					VALUES('$s_id','$t_id','1','$wtday1','$wsday1','$t_timee','$s_timee','$wtday1','$t_timee', '$p_id', '$d_id', '$ad_id', '$php_id', '$active1')") or die(mysql_error()); 
+			}
+if ($wsday2 == 2){
+			mysql_query ("INSERT INTO sched(course_id, teacher_id, room_id, day_id, sday_id, time_s_id, stime_s_id, aday_id, atime_s_id, parent_id, dept_id, adept_id, php_tz, status)
+					VALUES('$s_id','$t_id','1','$wtday2','$wsday2','$t_timee','$s_timee','$wtday2','$t_timee', '$p_id', '$d_id', '$ad_id', '$php_id', '$active1')") or die(mysql_error()); 
+			}
+if ($wsday3 == 3){
+			mysql_query ("INSERT INTO sched(course_id, teacher_id, room_id, day_id, sday_id, time_s_id, stime_s_id, aday_id, atime_s_id, parent_id, dept_id, adept_id, php_tz, status)
+					VALUES('$s_id','$t_id','1','$wtday3','$wsday3','$t_timee','$s_timee','$wtday3','$t_timee', '$p_id', '$d_id', '$ad_id', '$php_id', '$active1')") or die(mysql_error()); 
+			}
+if ($wsday4 == 4){
+			mysql_query ("INSERT INTO sched(course_id, teacher_id, room_id, day_id, sday_id, time_s_id, stime_s_id, aday_id, atime_s_id, parent_id, dept_id, adept_id, php_tz, status)
+					VALUES('$s_id','$t_id','1','$wtday4','$wsday4','$t_timee','$s_timee','$wtday4','$t_timee', '$p_id', '$d_id', '$ad_id', '$php_id', '$active1')") or die(mysql_error()); 
+			}
+if ($wsday5 == 5){
+			mysql_query ("INSERT INTO sched(course_id, teacher_id, room_id, day_id, sday_id, time_s_id, stime_s_id, aday_id, atime_s_id, parent_id, dept_id, adept_id, php_tz, status)
+					VALUES('$s_id','$t_id','1','$wtday5','$wsday5','$t_timee','$s_timee','$wtday5','$t_timee', '$p_id', '$d_id', '$ad_id', '$php_id', '$active1')") or die(mysql_error()); 
+			}
+if ($wsday6 == 6){
+			mysql_query ("INSERT INTO sched(course_id, teacher_id, room_id, day_id, sday_id, time_s_id, stime_s_id, aday_id, atime_s_id, parent_id, dept_id, adept_id, php_tz, status)
+					VALUES('$s_id','$t_id','1','$wtday6','$wsday6','$t_timee','$s_timee','$wtday6','$t_timee', '$p_id', '$d_id', '$ad_id', '$php_id', '$active1')") or die(mysql_error()); 
+			}
+if ($wsday7 == 7){
+			mysql_query ("INSERT INTO sched(course_id, teacher_id, room_id, day_id, sday_id, time_s_id, stime_s_id, aday_id, atime_s_id, parent_id, dept_id, adept_id, php_tz, status)
+					VALUES('$s_id','$t_id','1','$wtday7','$wsday7','$t_timee','$s_timee','$wtday7','$t_timee', '$p_id', '$d_id', '$ad_id', '$php_id', '$active1')") or die(mysql_error()); 
+			}
+			header("Location: send-schedule-sms?tech=$t_id&stu=$s_id&ttime=$t_timee&td1=$wtday1&td2=$wtday2&td3=$wtday3&td4=$wtday4&td5=$wtday5&td6=$wtday6&td7=$wtday7");
+
+?>

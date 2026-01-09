@@ -1,0 +1,14 @@
+<?php
+
+  require ("../includes/dbconnection.php");  
+?>
+<?php
+	$pid =$_REQUEST['n_id'];
+	date_default_timezone_set("Asia/Karachi");
+$sy11 = date('Y-m-d');
+$date11 = date('h:i a', time());
+
+	mysql_query("UPDATE note_student SET status = '2', read_date = '$sy11', read_time = '$date11' WHERE note_id = '$pid'") or die(mysql_error());  	
+
+	header("Location: make-regular-parent?ppid=$pid&ddid=$did&frr=$frs");
+?>

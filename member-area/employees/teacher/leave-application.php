@@ -1,0 +1,168 @@
+<?php session_start(); ?>
+<?php
+// Enable error reporting
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+ini_set('log_errors', 1);
+
+if (session_status() !== PHP_SESSION_ACTIVE) {
+    session_start();
+}
+
+require("../includes/dbconnection.php");
+require_once("../includes/mysql-compat.php");
+
+// Check database connection
+if (!isset($conn) || !$conn) {
+    die("Database connection failed. Please contact the administrator.");
+}
+<?php
+  include("../includes/session.php");
+require("../includes/dbconnection.php");
+include("../includes/teacher_rights.php"); include("header.php");
+ date_default_timezone_set("Asia/Karachi");
+$end_start = date('Y-m-d H:i:s');
+$tt = $_SESSION['is']['teacher_id'];
+$result =  mysql_query("SELECT * FROM `profile`,`employee_catagory` WHERE profile.cat_id=employee_catagory.cat_id HAVING teacher_id = $tt");
+if (!$result) 
+		{
+		die("Query to show fields from table failed");
+		}
+			$numberOfRows = MYSQL_NUMROWS($result);
+			If ($numberOfRows == 0) 
+				{
+			//echo 'Sorry No Record Found!';
+				}
+			else if ($numberOfRows > 0) 
+				{
+				$i=0;
+				}
+		    $this_profile_no = MYSQL_RESULT($result,$i,"teacher_id");
+			$tname = MYSQL_RESULT($result,$i,"teacher_name");
+			$man_id = MYSQL_RESULT($result,$i,"manager_id");
+			$category = MYSQL_RESULT($result,$i,"cat_name");
+if (isset($_POST['cmdSubmit'])) 
+  	{ 		
+		 	$teacher= $_POST['teacher'];
+		 	$s_time= $_POST['start'];
+		 	$e_time= $_POST['end'];
+		 	$dis= $_POST['leaveBody'];
+		 	$manager= $_POST['manager'];
+		 	$name= $_POST['teacher_name'];
+		 	$cat= $_POST['teacher_cat'];
+		 	$end_start = date('Y-m-d H:i:s');
+			mysql_query ("INSERT INTO leave_app (teacher_id, teacher_name, teacher_cat, from_date,	to_date, discription, date, manager_id)
+					VALUES('$teacher', '$name', '$cat', '$s_time', '$e_time', '" . mysql_real_escape_string($dis) . "', '$end_start', '$manager')") or die(mysql_error()); 
+					 header(
+			 	"Location: leave-status");
+				}
+?>
+<?php echo $main_header; ?>
+<?php echo $tool_bar; ?>
+<?php echo $start_menu; ?>
+<?php echo $main_menu; ?>
+<!-- BEGIN PAGE CONTAINER -->
+<div class="page-container">
+	<!-- BEGIN PAGE HEAD -->
+	<div class="page-head">
+		<div class="container">
+			<!-- BEGIN PAGE TITLE -->
+			<div class="page-title">
+				<h1>Leave<small> Application Form</small></h1>			</div>
+			<!-- END PAGE TITLE -->
+			<!-- BEGIN PAGE TOOLBAR -->
+			<div class="page-toolbar">
+			</div>
+			<!-- END PAGE TOOLBAR -->
+		</div>
+	</div>
+	<!-- END PAGE HEAD -->
+	<!-- BEGIN PAGE CONTENT -->
+	<div class="page-content">
+		<div class="container">
+
+			<!-- BEGIN PAGE BREADCRUMB -->
+			<ul class="page-breadcrumb breadcrumb">
+				<li>
+					<a href="teacher-home">Home</a><i class="fa fa-circle"></i>
+				</li>
+				<li class="active">
+					 Leave Application Form
+				</li>
+			</ul>
+			<!-- END PAGE BREADCRUMB -->
+			<!-- BEGIN PAGE CONTENT INNER -->
+			<div class="row">
+				<div class="col-md-12">
+					<div class="tabbable tabbable-custom tabbable-noborder tabbable-reversed">
+						<div class="tab-content">
+								<div class="portlet box green">
+									<div class="portlet-title">
+										<div class="caption">
+											<i class="fa fa-plus"></i>Leave Application Form
+										</div>
+									</div>
+									<div class="portlet-body form">
+										<!-- BEGIN FORM-->
+										<form action="<?php echo $_SERVER['PHP_SELF']?>" method="post" class="form-horizontal form-row-seperated">
+												<div class="form-group">
+													<label class="col-md-3 control-label"><strong>
+													From</strong></label>
+													<div class="col-md-4">
+														<input type="date" class="form-control" placeholder="dd-mm-yy" name="start" id="start" required>
+													</div>
+												</div>
+												<div class="form-group">
+													<label class="col-md-3 control-label"><strong>
+													To</strong></label>
+													<div class="col-md-4">
+														<input type="date" class="form-control" placeholder="dd-mm-yy" name="end" id="end" required>
+													</div>
+												</div>
+												<div class="form-group">
+													<label class="col-md-3 control-label"><strong>
+													Leave Discription</strong></label>
+													<div class="col-md-9">
+														<textarea required class="form-control" placeholder="Enter reasons" name="leaveBody" id="leaveBody"></textarea>
+													</div>
+												</div>
+												<input type="hidden" value="<?php echo $this_profile_no; ?>" class="form-control" name="teacher" id="teacher">
+												<input type="hidden" value="<?php echo $man_id; ?>" class="form-control" name="manager" id="manager">
+												<input type="hidden" value="<?php echo $tname; ?>" class="form-control" name="teacher_name" id="teacher_name">
+												<input type="hidden" value="<?php echo $category; ?>" class="form-control" name="teacher_cat" id="teacher_cat">
+											<div class="form-actions">
+												<div class="row">
+													<div class="col-md-offset-3 col-md-9">
+														<button type="submit" name="cmdSubmit" class="btn btn-circle blue">
+														Submit</button>
+														<button type="button" class="btn btn-circle default">
+														Cancel</button>
+													</div>
+												</div>
+											</div>
+										</form>
+										<!-- END FORM-->
+									</div>
+								</div>
+							</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- END PAGE CONTENT INNER -->
+		</div>
+	</div>
+	<!-- END PAGE CONTENT -->
+</div>
+<!-- END PAGE CONTAINER -->
+<?php echo $fot; ?>
+<script language="javascript" >
+	var form = document.forms[0];
+	//purpose?: to retrieve what users last input on the field..
+	form.aalesson.value = ("<?php echo 100; ?>");
+	//alert (form.pCityM.value);				
+</script>

@@ -1,0 +1,13 @@
+<?php
+
+  require ("../includes/dbconnection.php"); 
+  
+$tcid =$_REQUEST['cid']; 
+$tdid =$_REQUEST['did'];
+$link =$_REQUEST['link'];
+
+mysql_query("UPDATE sched SET dept_id = '$tdid' WHERE course_id = '$tcid'") or die(mysql_error());  	
+
+	header("Location: $link");
+
+?>

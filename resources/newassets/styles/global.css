@@ -1,0 +1,508 @@
+           /* ------------------------Color Theme Switcher----------------- */
+
+           .colorTheme button.gearButton {
+               position                 : fixed;
+               z-index                  : 99;
+               right                    : 0;
+               bottom                   : 20px;
+               border                   : none;
+               padding                  : 10px;
+               color                    : white;
+               border-top-left-radius   : 4px;
+               border-bottom-left-radius: 4px;
+               box-shadow               : 1px 0px 7px rgba(0, 0, 0, 0.32941176470588235);
+           }
+
+           #colorSwipe .uk-offcanvas-bar {
+               width                    : 294px;
+               padding                  : 40px 40px;
+               height                   : 200px;
+               top                      : 50%;
+               border-top-left-radius   : 10px;
+               transform                : translateY(-50%);
+               border-bottom-left-radius: 10px;
+               background               : white;
+               box-shadow               : -3px 1px 14px rgba(0, 0, 0, 0.25098039215686274);
+           }
+
+           #colorSwipe.uk-offcanvas-overlay::before {
+               background: transparent;
+           }
+
+           #colorSwipe h3 {
+               font-size     : 18px;
+               color         : #454545;
+               border-bottom : 1px dashed #d3d3d3;
+               padding-bottom: 5px;
+           }
+
+           div.themeColors {
+               display        : flex;
+               align-items    : center;
+               justify-content: space-around;
+           }
+
+           div.themeColors button {
+               width        : 30px;
+               height       : 30px;
+               border-radius: 4px;
+               border       : none;
+           }
+
+           .greenT,
+           .greenT:focus {
+               background: #0e1a34
+           }
+
+           .blueT,
+           .blueT:focus {
+               background: #3f51b5
+           }
+
+           .orangeT,
+           .orangeT:focus {
+               background: #FF5722;
+           }
+
+           #colorSwipe .uk-close {
+               color: #454545;
+           }
+
+           /* -------------------Responsive------------------- */
+
+           @media (min-width:50px) and (max-width: 426px) {
+               #PackagePrice p.tagLine {
+                   color        : rgba(0, 0, 0, 0.82);
+                   padding-left : 20px;
+                   padding-right: 20px;
+               }
+
+               .jobCard .input-field.fileInpt {
+                   flex      : 100%;
+                   margin-top: 15px;
+               }
+
+               .jobCard .btnGroup {
+                   margin-top     : 15px;
+                   display        : flex;
+                   align-items    : center;
+                   justify-content: center;
+               }
+
+               .row {
+                   margin-bottom: 0 !important;
+               }
+
+               #JoinUs .MainSection .allCourses img {
+                   max-width: 53%;
+               }
+
+               #registerModal .headerForm .input-field {
+                   flex: 100%;
+               }
+
+               .tchrContent h4 span {
+                   display: block
+               }
+
+               .tchrBoxRow {
+                   flex-direction : column;
+                   align-items    : center;
+                   justify-content: center;
+               }
+
+               .tchrIcon::after {
+                   display: none;
+               }
+
+               .tchrContent {
+                   margin    : 0;
+                   margin-top: 10px;
+               }
+
+               .tchrIcon {
+                   width: 20%;
+               }
+
+               .tchrContent h4 {
+                   text-align: center;
+               }
+
+               header.internalMenu .logoPart img,
+               .logoPart img {
+                   width: 80% !important;
+               }
+
+               .PageInternal {
+                   padding: 20px;
+               }
+
+               body .logoPart {
+                   width: 38%;
+               }
+
+               #StRegForm .headerForm .input-field {
+                   flex: 100%;
+               }
+
+               .dashContent {
+                   flex-direction: column;
+               }
+
+               .dashContent ul.uk-subnav {
+                   width: 100%;
+               }
+
+               .Dashboard .dashContent .uk-switcher {
+                   width: 100%;
+               }
+
+               #Home video {
+                   display: none !important;
+               }
+
+               #Home {
+                   background     : #0e1a34;
+                   background-size: cover;
+               }
+           }
+
+           @media (max-width: 768px) {
+               .headerMenu ul.frontMenu {
+                   display: none;
+               }
+
+               #Home video {
+                   width: 100% !important;
+               }
+
+               .mainLanding h1 {
+                   font-size: 36px;
+               }
+
+               .regButton {
+                   display: block;
+               }
+
+               .formRes {
+                   display: none;
+               }
+
+               .welcome {
+                   max-width      : 100%;
+                   flex           : 100%;
+                   justify-content: center;
+                   align-items    : center;
+               }
+
+               .welcome p {
+                   text-align: center
+               }
+
+               .cardWhy .iconWhy {
+                   width: 64%;
+               }
+
+               #AllCourses .allCourses .col-12 {
+                   margin-bottom: 30px;
+               }
+
+               .meetTecher .col-12 {
+                   margin-bottom: 30px;
+               }
+
+               .plans30 ul,
+               .plans60 ul {
+                   flex-wrap      : wrap;
+                   justify-content: center;
+               }
+
+               .plans30.plans60 ul li,
+               .plans30 ul li {
+                   margin-bottom: 30px;
+               }
+
+               .payCards {
+                   flex-wrap: wrap;
+               }
+
+               .payCards li {
+                   margin-bottom: 3px;
+               }
+
+               #JoinUs .allCourses img {
+                   max-width: 26%;
+                   margin   : 0 auto;
+                   display  : block;
+               }
+
+               .jobCard h4 {
+                   text-align: center
+               }
+
+               .jobCard p {
+                   text-align: center;
+               }
+
+               .adNote p {
+                   margin-bottom: 20px;
+               }
+           }
+
+           @media (min-width: 769px) {
+               .SidemenuIcon {
+                   display: none;
+               }
+
+               .regButton {
+                   display: none;
+               }
+           }
+
+           @media(min-width: 1024px) {
+               body .logoPart {
+                   width: 20%;
+               }
+           }
+
+           .plans30 ul {
+               display        : flex;
+               flex-wrap      : wrap;
+               justify-content: center;
+           }
+
+           .plans30 ul li {
+               margin       : 0 15px;
+               transition   : 0.2s all;
+               opacity      : 0.9;
+               margin-bottom: 20px;
+           }
+
+           .plans30.plans60 ul li {
+               margin       : 0 10px;
+               margin-bottom: 20px;
+           }
+
+           .logoPart {
+               width: 27%;
+           }
+
+           header.internalMenu .logoPart img {
+               padding   : 0;
+               box-shadow: none;
+               transition: 0.5s all;
+               width     : 44%;
+               border-bottom-left-radius  : 0px;
+               border-bottom-right-radius : 0px;
+           }
+
+           .logoPart img {
+                  width: 60%;
+                  background: white;
+                  padding: 10px;
+                  border-bottom-left-radius: 20px;
+                  border-bottom-right-radius: 20px;
+                  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.58);
+                  transition: 0.5s all;
+           }
+
+           header.uk-active .logoPart img {
+               padding                    : 0;
+               box-shadow                 : none;
+               transition                 : 0.5s all;
+               border-bottom-left-radius  : 0px;
+               border-bottom-right-radius : 0px;
+               width                      : 44%;
+           }
+
+           #forgotPasswordModal .headerForm {
+               position: relative;
+           }
+
+           #forgotPasswordModal .headerForm {
+               position: relative;
+               width   : 100%;
+           }
+
+           #forgotPasswordModal .uk-modal-dialog {
+               background: transparent;
+           }
+
+           #forgotPasswordModal .formReg {
+               justify-content: center;
+           }
+
+           #forgotPasswordModal h4 {
+               font-size    : 19px;
+               margin       : 0;
+               margin-bottom: 10px;
+               text-align   : center;
+           }
+
+           .dashContent .uk-switcher {
+               box-shadow: 0px 1px 9px rgba(0, 0, 0, 0.2196078431372549);
+               padding   : 20px;
+               width     : 80%;
+               margin-top: 0;
+           }
+
+           .dashContent {
+               padding    : 20px;
+               padding-top: 0;
+               display    : flex;
+               align-items: flex-start;
+           }
+
+           .dashContent ul.uk-subnav {
+               flex-direction: column;
+               margin-right  : 30px;
+           }
+
+           .dashContent .uk-switcher>li {
+               min-height: 250px;
+               overflow  : hidden;
+           }
+
+           .dashContent ul.uk-subnav li.uk-active a::after {
+               top      : 50%;
+               opacity  : 1;
+               transform: translateY(-50%);
+           }
+
+           .dashContent ul.uk-subnav li a::after {
+               width     : 0;
+               height    : 0;
+               display   : block;
+               position  : absolute;
+               top       : 0;
+               opacity   : 0;
+               transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+               left      : 100%;
+           }
+
+           .dashContent ul.uk-subnav li a {
+               padding        : 10px 20px;
+               font-size      : 15px;
+               text-transform : capitalize;
+               transition     : 0.3s all;
+               display        : flex;
+               align-items    : center;
+               justify-content: flex-start;
+               margin-bottom  : 20px;
+           }
+
+           .uk-switcher li .uk-subnav.subTabs {
+               display       : flex;
+               flex-direction: row;
+               margin        : 0;
+               padding       : 0;
+               box-shadow    : 0px 1px 7px rgba(0, 0, 0, 0.5098039215686274);
+           }
+
+           .uk-switcher li .uk-subnav.subTabs li a::after {
+               content   : '';
+               width     : 0;
+               height    : 0;
+               display   : block;
+               position  : absolute;
+               top       : 0;
+               opacity   : 0;
+               left      : auto;
+               transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+           }
+
+           .uk-switcher li .uk-subnav.subTabs li a::after {
+               content      : '';
+               border-left  : 10px solid transparent;
+               border-right : 10px solid transparent;
+               border-top   : 10px solid #0e1a34;
+               border-bottom: 10px solid transparent;
+           }
+
+           .uk-switcher li .uk-subnav.subTabs li.uk-active a::after {
+               top      : 100%;
+               opacity  : 1;
+               transform: translateY(0);
+           }
+
+           .uk-switcher li .uk-switcher.subTabsSwitch {
+               box-shadow: none;
+               border    : none;
+               width     : 100%;
+           }
+
+           .uk-switcher li .uk-subnav.subTabs li a {
+               padding        : 13px 10px;
+               border-radius  : 0;
+               font-size      : 13px;
+               border-bottom  : none;
+               border         : none;
+               margin-bottom  : 0;
+               justify-content: center;
+           }
+
+           .uk-switcher li .uk-subnav.subTabs li {
+               margin-left : -1px;
+               padding-left: 0;
+           }
+
+           .ManagementPortal .dashContent>ul.uk-subnav li a {
+               margin-bottom  : 10px;
+               text-align     : left;
+               justify-content: left;
+           }
+
+           .ManagementPortal .dashContent>ul.uk-subnav {
+               width: 25%
+           }
+
+           .ManagementPortal .dashContent>.uk-switcher {
+               width  : 100%;
+               padding: 0;
+               margin : 0;
+           }
+
+           .appAvailable {
+               display        : flex;
+               align-items    : center;
+               justify-content: flex-start;
+               margin-top     : 20px;
+           }
+
+           .appAvailable a {
+               width       : 30%;
+               margin-right: 10px;
+           }
+
+           /* ----------------------Register Popup-------------------- */
+
+           #registerModal .headerForm,
+           #contactModal .headerForm {
+               position: relative;
+               width   : 100%;
+           }
+
+           #registerModal .uk-modal-dialog,
+           #contactModal .uk-modal-dialog {
+               background: transparent;
+           }
+
+           #registerModal .formReg {
+               justify-content: center;
+           }
+
+           .regButton a {
+               padding        : 10px 20px;
+               background     : transparent;
+               border-radius  : 5px;
+               box-shadow     : none;
+               margin         : 0;
+               transition     : 0.2s all;
+               display        : block;
+               margin-top     : 20px;
+               text-decoration: none;
+           }
+
+           textarea.materialize-textarea {
+            padding-left: 20px !important;
+           }

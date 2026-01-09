@@ -1,0 +1,329 @@
+<?php session_start(); ?>
+<?php
+// Enable error reporting
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+ini_set('log_errors', 1);
+
+if (session_status() !== PHP_SESSION_ACTIVE) {
+    session_start();
+}
+
+require("../includes/dbconnection.php");
+require_once("../includes/mysql-compat.php");
+
+// Check database connection
+if (!isset($conn) || !$conn) {
+    die("Database connection failed. Please contact the administrator.");
+}
+<?php
+include("../includes/session1.php");
+require ("../includes/dbconnection.php");
+include("header.php");
+$link =base64_decode($_REQUEST["link"]);
+    $pnid =base64_decode($_REQUEST["parent_id"]);
+	$result = mysql_query("SELECT * FROM `account` WHERE parent_id = '$pnid'");
+	if (!$result) 
+		{
+		die("Query to show fields from table failed");
+		}
+			$numberOfRows = MYSQL_NUMROWS($result);
+			If ($numberOfRows == 0) 
+				{
+			echo 'Sorry No Record Found!';
+				}
+			else if ($numberOfRows > 0) 
+				{
+				$i=0;
+			$pid = MYSQL_RESULT($result,$i,"parent_id");
+			$pname = MYSQL_RESULT($result,$i,"parent_name");
+			$pemail = MYSQL_RESULT($result,$i,"email");
+			$puser = MYSQL_RESULT($result,$i,"username");
+			$ppass = MYSQL_RESULT($result,$i,"userpass");
+			$pc11 = MYSQL_RESULT($result,$i,"c_id");
+			$pt = MYSQL_RESULT($result,$i,"telephone");
+			$pm = MYSQL_RESULT($result,$i,"mobile");
+			$ps = MYSQL_RESULT($result,$i,"skype");
+			$pfe = MYSQL_RESULT($result,$i,"fee");
+			$pcity = MYSQL_RESULT($result,$i,"city");
+			$pman = MYSQL_RESULT($result,$i,"m_id");
+			$pcur = MYSQL_RESULT($result,$i,"currency_id");
+			$pdate = MYSQL_RESULT($result,$i,"date");
+			$ppayment = MYSQL_RESULT($result,$i,"mode_id");
+			$pbelong = MYSQL_RESULT($result,$i,"belong");
+			$ptz = MYSQL_RESULT($result,$i,"timezone");
+			$active_s = MYSQL_RESULT($result,$i,"active");
+			$pcname = MYSQL_RESULT($result,$i,"c_a");
+			$ptname = MYSQL_RESULT($result,$i,"timezone_name");
+			$pmname = MYSQL_RESULT($result,$i,"username");
+			$cu = MYSQL_RESULT($result,$i,"currency_name");
+			$t_date = MYSQL_RESULT($result,$i,"trial_date");
+			$t_group = MYSQL_RESULT($result,$i,"group_id");
+			}
+?>
+<?php
+if (isset($_POST['cmdSubmit'])) 
+  	{ 	
+$aname= $_POST['parent_name'];
+$aissue= $_POST['issue'];
+$adue= $_POST['due'];
+$apaid= $_POST['paid'];
+$amonth= $_POST['month'];
+$ayear= $_POST['year'];
+$afee= $_POST['pfe2'];
+$astatus= $_POST['psus'];
+$apid= $_POST['piid'];
+$aemail= $_POST['piemail'];
+$atele= $_POST['tcon'];
+$amob= $_POST['mcon'];
+$askype= $_POST['piskype'];
+$acid= $_POST['picid'];
+$amanid= $_POST['pimid'];
+$acur= $_POST['picur'];
+$amode= $_POST['pimode'];		
+mysql_query ("INSERT INTO invoice (parent_id, parent_name, fee, issue, due, submit, status, mon_id, y_id, email, telephone, mobile, skype, c_id, currency_id, mode_id, m_id, group_id)
+					VALUES('$apid', '$aname', '$afee', '$aissue', '$adue', '$apaid', '$astatus', '$amonth', '$ayear', '$aemail', '$atele', '$amob', '$askype', '$acid', '$acur', '$amode', '$amanid', '$t_group')") or die(mysql_error()); 
+					 header(
+			 	"Location: $link");
+				}
+?>
+<?php
+date_default_timezone_set("Africa/Cairo");
+$sy = date('Y-m-d');
+?>
+<?php echo $main_header; ?>
+<?php echo $tool_bar; ?>
+<?php echo $start_menu; ?>
+<?php echo $main_menu; ?>
+<!-- BEGIN PAGE CONTAINER -->
+<div class="page-container">
+	<!-- BEGIN PAGE HEAD -->
+	<div class="page-head">
+		<div class="container">
+			<!-- BEGIN PAGE TITLE -->
+			<div class="page-title">
+				<h1>Edit<small> Invoice</small></h1>
+			</div>
+			<!-- END PAGE TITLE -->
+			<!-- BEGIN PAGE TOOLBAR -->
+			<div class="page-toolbar">
+			</div>
+			<!-- END PAGE TOOLBAR -->
+		</div>
+	</div>
+	<!-- END PAGE HEAD -->
+	<!-- BEGIN PAGE CONTENT -->
+	<div class="page-content">
+		<div class="container">
+			<!-- BEGIN PAGE BREADCRUMB -->
+			<ul class="page-breadcrumb breadcrumb">
+				<li>
+					<a href="admin-home">Home</a><i class="fa fa-circle"></i>
+				</li>
+				<li>
+					<a href="parent-accounts">List of Parent Accounts</a><i class="fa fa-circle"></i>
+				</li>
+				<li>
+					<a href="<?php echo $link; ?>">Profile of <?php echo $pname; ?></a><i class="fa fa-circle"></i>
+				</li>
+				<li class="active">
+					 Add Manual Invoice
+				</li>
+			</ul>
+			<!-- END PAGE BREADCRUMB -->
+			<!-- BEGIN PAGE CONTENT INNER -->
+			<div class="row">
+				<div class="col-md-12">
+					<div class="tabbable tabbable-custom tabbable-noborder tabbable-reversed">
+						<div class="tab-content">
+								<div class="portlet box green">
+									<div class="portlet-title">
+										<div class="caption">
+											<i class="fa fa-plus"></i>Add Manual Invoice
+										</div>
+										<div class="tools">
+											<a href="javascript:;" class="collapse">
+											</a>
+											<a href="#portlet-config" data-toggle="modal" class="config">
+											</a>
+											<a href="javascript:;" class="reload">
+											</a>
+											<a href="javascript:;" class="remove">
+											</a>
+										</div>
+									</div>
+									<div class="portlet-body form">
+										<!-- BEGIN FORM-->
+										<form method="post" class="form-horizontal">
+											<div class="form-body">
+												<h3 class="form-section">Add details of invoice for <?php echo $pname; ?></h3>
+												<div class="row">
+													<div class="col-md-6">
+														<div class="form-group">
+															<label class="control-label col-md-3">
+															Parent Name</label>
+															<div class="col-md-9">
+																<input type="text" class="form-control" value="<?php echo $pname; ?>" name="parent_name" id="parent_name" readonly>
+															</div>
+														</div>
+													</div>
+													<!--/span-->
+													<div class="col-md-6">
+														<div class="form-group">
+															<label class="control-label col-md-3">
+															Issue Date</label>
+															<div class="col-md-9">
+																<input type="text" class="form-control" value = "2018-06-25" name="issue" id="issue" required>
+															</div>
+														</div>
+													</div>
+													<!--/span-->
+												</div>
+												<div class="row">
+													<div class="col-md-6">
+														<div class="form-group">
+															<label class="control-label col-md-3">
+															Due Date</label>
+															<div class="col-md-9">
+																<input type="text" class="form-control" value = "2018-06-30" name="due" id="due" required>
+															</div>
+														</div>
+													</div>
+													<!--/span-->
+													<div class="col-md-6">
+														<div class="form-group">
+															<label class="control-label col-md-3">
+															Paid Date</label>
+															<div class="col-md-9">
+																<input type="text" class="form-control" value = "0000-00-00" name="paid" id="paid">
+															</div>
+														</div>
+													</div>
+													<!--/span-->
+												</div>
+												<div class="row">
+													<div class="col-md-6">
+														<div class="form-group">
+															<label class="control-label col-md-3">
+															Month</label>
+															<div class="col-md-9">
+																<select required class="form-control" name="month"  id="month" onchange="javascript: return optionList9_SelectedIndex()">
+                    <?php // source 1: http://www.dmxzone.com/showDetail.asp?NewsId=5102&TypeId=25
+			  	// source 2: http://localhost/phpmyadmin/index.php?db=mydbase&token=651c0063e511c381c9c82ce1fe9b6854
+				$result = mysql_query("SELECT * FROM month ORDER BY month_id ");			  	
+				do {  ?>
+  <option value="<?php echo $row['month_id'];?>"><?php echo $row['month_name'];?> </option>
+  <?php } while ($row = mysql_fetch_assoc($result)); ?>
+</select>
+															</div>
+														</div>
+													</div>
+													<!--/span-->
+													<div class="col-md-6">
+														<div class="form-group">
+															<label class="control-label col-md-3">
+															Year</label>
+															<div class="col-md-9">
+																<select required class="form-control" name="year"  id="year" onchange="javascript: return optionList9_SelectedIndex()">
+                    <?php // source 1: http://www.dmxzone.com/showDetail.asp?NewsId=5102&TypeId=25
+			  	// source 2: http://localhost/phpmyadmin/index.php?db=mydbase&token=651c0063e511c381c9c82ce1fe9b6854
+				$result = mysql_query("SELECT * FROM school_yr ORDER BY year_id ");			  	
+				do {  ?>
+  <option value="<?php echo $row['year_id'];?>"><?php echo $row['school_year'];?> </option>
+  <?php } while ($row = mysql_fetch_assoc($result)); ?>
+</select>															</div>
+														</div>
+													</div>
+													<!--/span-->
+												</div>
+												<div class="row">
+													<div class="col-md-6">
+														<div class="form-group">
+															<label class="control-label col-md-3">
+															Fee in <?php echo $cu; ?></label>
+															<div class="col-md-9">
+																<input type="text" class="form-control" value="<?php echo $pfe; ?>" name="pfe2" id="pfe2">
+															</div>
+														</div>
+													</div>
+													<!--/span-->
+													<div class="col-md-6">
+														<div class="form-group">
+															<label class="control-label col-md-3">
+															Status</label>
+															<div class="col-md-9">
+															<select required class="form-control" name="psus"  id="psus" onchange="javascript: return optionList41119_SelectedIndex()">
+              												<?php // source 1: http://www.dmxzone.com/showDetail.asp?NewsId=5102&TypeId=25
+			  	// source 2: http://localhost/phpmyadmin/index.php?db=mydbase&token=651c0063e511c381c9c82ce1fe9b6854
+				$result = mysql_query("SELECT * FROM statusp ORDER BY s_id ");			  	
+				do {  ?>
+  <option value="<?php echo $row['s_id'];?>"><?php echo $row['name'];?> </option>
+  <?php } while ($row = mysql_fetch_assoc($result)); ?>
+</select>
+															</div>
+														</div>
+													</div>
+													<!--/span-->
+												</div>
+											</div>
+											<input type="hidden" class="form-control" value="<?php echo $pid; ?>" name="piid" id="piid">
+											<input type="hidden" class="form-control" value="<?php echo $pemail; ?>" name="piemail" id="piemail">
+											<input type="hidden" class="form-control" value="<?php echo $pt; ?>" name="tcon" id="tcon">
+											<input type="hidden" class="form-control" value="<?php echo $pm; ?>" name="mcon" id="mcon">
+											<input type="hidden" class="form-control" value="<?php echo $ps; ?>" name="piskype" id="piskype">
+											<input type="hidden" class="form-control" value="<?php echo $pc11; ?>" name="picid" id="picid">
+											<input type="hidden" class="form-control" value="<?php echo $pman; ?>" name="pimid" id="pimid">
+											<input type="hidden" class="form-control" value="<?php echo $pcur; ?>" name="picur" id="picur">
+											<input type="hidden" class="form-control" value="<?php echo $ppayment; ?>" name="pimode" id="pimode">
+											<div class="form-actions">
+												<div class="row">
+													<div class="col-md-6">
+														<div class="row">
+															<div class="col-md-offset-3 col-md-9">
+																<button type="submit" name="cmdSubmit" class="btn green">
+																Submit</button>
+																<button type="button" class="btn default">
+																Cancel</button>
+															</div>
+														</div>
+													</div>
+													<div class="col-md-6">
+													</div>
+												</div>
+											</div>
+										</form>
+										<!-- END FORM-->
+									</div>
+								</div>
+													<div class="col-md-6">
+													</div>
+												</div>
+											</div>
+										</form>
+										<!-- END FORM-->
+									</div>
+								</div>
+							</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- END PAGE CONTENT INNER -->
+		</div>
+	</div>
+	<!-- END PAGE CONTENT -->
+</div>
+<!-- END PAGE CONTAINER -->
+<?php echo $fot; ?>
+<script language="javascript" >
+	var form = document.forms[0];
+	//purpose?: to retrieve what users last input on the field..
+	form.psus.value = ("1");
+	form.year.value = ("5");
+	form.month.value = ("7");
+	//alert (form.pCityM.value);				
+</script>

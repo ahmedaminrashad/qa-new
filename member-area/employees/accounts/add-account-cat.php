@@ -1,0 +1,139 @@
+<?php session_start(); ?>
+<?php
+// Enable error reporting
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+ini_set('log_errors', 1);
+
+if (session_status() !== PHP_SESSION_ACTIVE) {
+    session_start();
+}
+
+require("../includes/dbconnection.php");
+require_once("../includes/mysql-compat.php");
+
+// Check database connection
+if (!isset($conn) || !$conn) {
+    die("Database connection failed. Please contact the administrator.");
+}
+<?php
+include("../includes/session.php");
+  include("../includes/accounts_rights.php");
+  require ("../includes/dbconnection.php");
+  include("header.php");
+    if (isset($_POST['cmdSubmit'])) 
+  	{ 		
+		 	$cn= $_POST['cat_name'];
+		 	$cs= $_POST['cat_status'];
+			mysql_query ("INSERT INTO accounts_cat (accounts_cat_name, status)
+					VALUES('" . mysql_real_escape_string($cn) . "','$cs')") or die(mysql_error()); 
+					 header(
+			 	"Location: list-of-account-head");
+				}
+?>
+<?php
+date_default_timezone_set("Asia/Karachi");
+$sy = date('Y-m-d');
+?>
+<?php echo $main_header; ?>
+<?php echo $tool_bar; ?>
+<?php echo $start_menu; ?>
+<?php echo $search_bar; ?>
+<?php echo $main_menu; ?>
+<!-- BEGIN PAGE CONTAINER -->
+<div class="page-container">
+	<!-- BEGIN PAGE HEAD -->
+	<div class="page-head">
+		<div class="container">
+			<!-- BEGIN PAGE TITLE -->
+			<div class="page-title">
+				<h1>Add <small>New Account Head</small></h1>
+			</div>
+			<!-- END PAGE TITLE -->
+			<!-- BEGIN PAGE TOOLBAR -->
+			<div class="page-toolbar">
+			</div>
+			<!-- END PAGE TOOLBAR -->
+		</div>
+	</div>
+	<!-- END PAGE HEAD -->
+	<!-- BEGIN PAGE CONTENT -->
+	<div class="page-content">
+		<div class="container">
+			<!-- BEGIN PAGE BREADCRUMB -->
+			<ul class="page-breadcrumb breadcrumb">
+				<li>
+					<a href="admin-home">Home</a><i class="fa fa-circle"></i>
+				</li>
+				<li class="active">
+					 You are adding new account head
+				</li>
+			</ul>
+			<!-- END PAGE BREADCRUMB -->
+			<!-- BEGIN PAGE CONTENT INNER -->
+			<div class="row">
+				<div class="col-md-12">
+					<div class="tabbable tabbable-custom tabbable-noborder tabbable-reversed">
+						<div class="tab-content">
+								<div class="portlet box green">
+									<div class="portlet-title">
+										<div class="caption">
+											<i class="fa fa-plus"></i>You are adding new account category
+										</div>
+									</div>
+									<div class="portlet-body form">
+										<!-- BEGIN FORM-->
+										<form action="<?php echo $_SERVER['PHP_SELF']?>" method="post" class="form-horizontal form-row-seperated">
+										<div class="form-group">
+															<label class="control-label col-md-3">
+															<strong>Category Name</strong></label>
+															<div class="col-md-4">
+															<select required class="form-control" name="cat_name"  id="cat_name">
+                      							<option value="1">Furniture etc</option>
+              									</select>															
+              									</div>
+												</div>
+										<div class="form-group">
+															<label class="control-label col-md-3">
+															<strong>Category Status</strong></label>
+															<div class="col-md-4">
+															<select required class="form-control" name="vou_type"  id="vou_type">
+												<option value="2">Fixed Asset</option>
+												<option value="1">Current Asset</option>
+              									</select>
+															</div>
+												</div>
+												<div class="form-group">
+													<label class="col-md-3 control-label"><strong>Details (If any)</strong></label>
+													<div class="col-md-4">
+														<textarea class="form-control" placeholder="Enter Note (if any)" name="head_note" id="head_note"></textarea>
+													</div>
+												</div>
+											<div class="form-actions">
+												<div class="row">
+													<div class="col-md-offset-3 col-md-9">
+														<button type="submit" name="cmdSubmit" class="btn btn-circle blue">Submit</button>
+														<button type="button" class="btn btn-circle default">Cancel</button>
+													</div>
+												</div>
+											</div>
+										</form>
+										<!-- END FORM-->
+									</div>
+								</div>
+							</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- END PAGE CONTENT INNER -->
+		</div>
+	</div>
+	<!-- END PAGE CONTENT -->
+</div>
+<!-- END PAGE CONTAINER -->
+<?php echo $fot; ?>

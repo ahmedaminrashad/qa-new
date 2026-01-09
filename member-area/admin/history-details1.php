@@ -1,0 +1,304 @@
+<?php if (empty($session)) { session_start(); } 
+<?php
+// Enable error reporting
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+ini_set('log_errors', 1);
+
+if (session_status() !== PHP_SESSION_ACTIVE) {
+    session_start();
+}
+
+require("../includes/dbconnection.php");
+require_once("../includes/mysql-compat.php");
+
+// Check database connection
+if (!isset($conn) || !$conn) {
+    die("Database connection failed. Please contact the administrator.");
+}
+?>
+<?php
+  include("../includes/session1.php");
+  require ("../includes/dbconnection.php");
+include("header.php");
+  $link = $_SERVER['REQUEST_URI'];
+function lesson($er)
+{
+// sending query
+   $result = mysql_query("SELECT * FROM lesson_pages Where lesson_id = $er");
+if (!$result) 
+	{
+    die("Query to show fields from table failed");
+	}
+$tnumberOfRows = MYSQL_NUMROWS($result);
+If ($tnumberOfRows == 0){
+			echo '';
+			}
+		else if ($tnumberOfRows > 0) 
+			{
+			$i=0;
+			while ($i<$tnumberOfRows)
+				{			
+					$l_name = MYSQL_RESULT($result,$i,"lesson_name");
+			  		echo $l_name;
+	$i++;	 
+			}
+			}
+	}
+	
+function course($er)
+{
+// sending query
+   $result = mysql_query("SELECT * FROM dept Where dept_id = $er");
+if (!$result) 
+	{
+    die("Query to show fields from table failed");
+	}
+$tnumberOfRows = MYSQL_NUMROWS($result);
+If ($tnumberOfRows == 0){
+			echo '';
+			}
+		else if ($tnumberOfRows > 0) 
+			{
+			$i=0;
+			while ($i<$tnumberOfRows)
+				{			
+					$c_name = MYSQL_RESULT($result,$i,"department");
+			  		echo $c_name;
+	$i++;	 
+			}
+			}
+	}
+  
+?>
+<?php echo $main_header; ?>
+<?php echo $tool_bar; ?>
+<?php echo $start_menu; ?>
+<?php echo $search_bar; ?>
+<?php echo $main_menu; ?>
+<!-- BEGIN PAGE CONTAINER -->
+<div class="page-container">
+	<!-- BEGIN PAGE HEAD -->
+	<div class="page-head">
+		<div class="container">
+			<!-- BEGIN PAGE TITLE -->
+			<div class="page-title">
+				<h1>History<small> Details</small></h1>
+			</div>
+			<!-- END PAGE TITLE -->
+			<!-- BEGIN PAGE TOOLBAR -->
+			<div class="page-toolbar">
+			</div>
+			<!-- END PAGE TOOLBAR -->
+		</div>
+	</div>
+	<!-- END PAGE HEAD -->
+	<!-- BEGIN PAGE CONTENT -->
+	<div class="page-content">
+		<div class="container">
+			<!-- BEGIN PAGE BREADCRUMB -->
+			<ul class="page-breadcrumb breadcrumb">
+				<li>
+					<a href="admin-home">Home</a><i class="fa fa-circle"></i>
+				</li>
+				<li class="active">
+					 History Detail of <?php echo $student; ?>
+				</li>
+			</ul>
+			<!-- END PAGE BREADCRUMB -->
+			<!-- BEGIN PAGE CONTENT INNER -->
+					<?php
+					$ccc =$_REQUEST['cour'];
+					$ddd =$_REQUEST['adate'];
+$result = mysql_query("SELECT `class_history`.*,`course`.`course_yrSec`,`monitor`.`mnt_name`,`remaks`.`remak`,`profile`.`teacher_name` FROM `class_history`,`course`,`monitor`,`remaks`,`profile` WHERE class_history.course_id=course.course_id and class_history.monitor_id=monitor.mnt_id and class_history.teacher_remarks=remaks.remk_id and class_history.teacher_id=profile.teacher_id HAVING course_id = '$ccc' AND date_admin = '$ddd'") or die(mysql_error());
+	if (!$result) 
+		{
+		die("Query to etyeriled");
+		}
+			$numberOfRows = MYSQL_NUMROWS($result);
+			If ($numberOfRows == 0) 
+				{
+			//echo 'Sorry No Record Found!';
+				}
+			else if ($numberOfRows > 0) 
+	{
+	$i=0;
+	while ($i<$numberOfRows)
+		{		
+			$hid = MYSQL_RESULT($result,$i,"history_id");
+			$student = MYSQL_RESULT($result,$i,"course_yrSec");
+			$remarkst = MYSQL_RESULT($result,$i,"remak");
+			$teacher = MYSQL_RESULT($result,$i,"teacher_name");
+			$a_date = MYSQL_RESULT($result,$i,"date_admin");
+			$re_a_date = MYSQL_RESULT($result,$i,"re_date_admin");
+			$le_a_date = MYSQL_RESULT($result,$i,"le_date_admin");
+			$tech_id = MYSQL_RESULT($result,$i,"teacher_id");
+			$stur_course_id = MYSQL_RESULT($result,$i,"course_id");
+			$st = MYSQL_RESULT($result,$i,"start_time");
+			$et = MYSQL_RESULT($result,$i,"end_time");
+			$sabuq = MYSQL_RESULT($result,$i,"sabaq");
+			$sabuqi = MYSQL_RESULT($result,$i,"sabaqi");
+			$manz = MYSQL_RESULT($result,$i,"manzil");
+			$r_course_id = MYSQL_RESULT($result,$i,"dept_id");
+			$r_lesson_id = MYSQL_RESULT($result,$i,"lesson_id");
+			$r_lesson_des = MYSQL_RESULT($result,$i,"lesson_discription");
+			$a_course_id = MYSQL_RESULT($result,$i,"adept_id");
+			$a_lesson_id = MYSQL_RESULT($result,$i,"alesson_id");
+			$a_lesson_des = MYSQL_RESULT($result,$i,"additional_des");
+			$monitor = MYSQL_RESULT($result,$i,"mnt_name");
+			$restatus = MYSQL_RESULT($result,$i,"re_status");
+			$typid = MYSQL_RESULT($result,$i,"type_id");
+			$status = MYSQL_RESULT($result,$i,"status");
+			$t_date = MYSQL_RESULT($result,$i,"date_teacher");
+			$s_date = MYSQL_RESULT($result,$i,"date_student");
+			$mnp_id = MYSQL_RESULT($result,$i,"monitor_id");
+			$parent_id = MYSQL_RESULT($result,$i,"parent_id");
+			
+?>
+									<div class="row">
+					<div class="col-md-6">
+					<div class="portlet light">
+									<h4>
+									<font color="#44B6AE"> <b>Class Actions:  
+		                        	<?php if ($restatus == 1) { 
+		                        	 if($mnp_id==1){
+		                        		echo '<a href="history-running?history_id='.$hid.'"><button type="button" class="btn yellow btn-xs">Running</button></a>';
+		                        	   }
+		                        	if($mnp_id==3){
+		                        		echo '<a href="history-taken?history_id='.$hid.'"><button type="button" class="btn green btn-xs">Taken</button></a>';
+		                        	}
+		                        	echo '
+		                        	<a href="history-delete?history_id='.$hid.'"><button type="button" class="btn red btn-xs">Delete</button></a> 
+		                        	<a class="allocation1" href="#allocation-c" data-toggle="modal" data-target="#allocation-c" data-id="'.$hid.'"><button type="button" class="btn blue btn-xs" title="Add Schedule">Re-Schedule</button></a>
+		                        	<a href="leave_absent_mark?history_id='.$hid.'&attend=5"><button type="button" style="width: 75px" class="btn yellow btn-xs">Leave</button></a>'; 
+		                        
+		                        	} 
+		                        	?></b></font>
+									</h4>
+									<div id="mytable" class="table-responsive">
+								<table class="table table-hover">
+								<tbody>
+								<tr>
+								<td>Student:</td>
+								<td> <b><a href="parent-accounts-profile?parent_id=<?php echo base64_encode($parent_id); ?>"><?php echo $student; ?></a></b></td>
+								</tr>
+								<tr>
+								<td>Teacher:</td>
+								<td> <b><a href="teacher-accounts-profile?profile_no=<?php echo base64_encode($tech_id); ?>"><?php echo $teacher; ?></a></b></td>
+								</tr>
+								<tr>
+								<td>Date:</td>
+								<td> <b><?php echo $a_date; ?></b></td>
+								</tr>
+								<tr>
+								<td>Start:</td>
+								<td> <b><?php $date1=date_create("$st"); echo date_format($date1,"h:i:s a"); ?></b></td>
+								</tr>
+								<tr>
+								<td>End:</td>
+								<td> <b><?php $date1=date_create("$et"); echo date_format($date1,"h:i:s a"); ?></b></td>
+								</tr>
+								<tr>
+								<td>Duration:</td>
+								<td> <b><?php $start_date = new DateTime("$st");
+    $end_date = new DateTime("$et");
+    $interval = $start_date->diff($end_date);
+    echo "" . $interval->h. " hours, " . $interval->i." mins, ".$interval->s." sec "; ?></b></td>
+								</tr>
+								<tr>
+								<td>Class Status:</td>
+								<td><b><?php if ($status == 11){ echo '<span class="label label-sm label-warning">On Trial</span>'; } 
+								elseif ($status == 17){ echo '<span class="label label-sm label-danger">Suspended</span>'; } 
+								elseif ($status == 18){ echo '<span class="label label-sm label-danger">Shifted</span>'; }
+								elseif ($status == 19){ echo '<span class="label label-sm label-danger">Advance for ('.$le_a_date.')</span>'; } 
+								elseif ($status == 20){ echo '<span class="label label-sm label-danger">Re-Scheduled for ('.$le_a_date.')</span>'; } 
+								else { echo '<span class="label label-sm label-success">Regular</span>'; } ?> 
+								<span class="label label-sm label-success"><?php if ($mnp_id != 8){ echo $monitor; } else { echo '{Scheduled Advance on ('.$re_a_date.')}';} ?></span> 
+								<span class="label label-sm label-danger"><?php if ($restatus == 2){echo '{Re-Scheduled on ('.$re_a_date.')}';} else {echo '';} ?></span>
+								</b> </td>
+								</tr>
+								<tr>
+								</tr>
+								<tr>
+								<td>Remarks:</td>
+								<td> <b><?php echo $remarkst; ?></b></td>
+								</tr>
+								</tbody>
+								</table>
+								<h4>
+									<font color="#44B6AE"> <b>Regular Lesson Details:</b></font>
+									</h4>
+								<table class="table table-hover">
+								<tbody>
+								<tr>
+								<td>Course:</td>
+								<td><b><?php echo course("$r_course_id"); ?></b></td>
+								</tr>
+								<tr>
+								<td>Lesson Page:</td>
+								<td><b><?php echo lesson("$r_lesson_id"); ?></b>&nbsp;&nbsp;<a href="lesson-page?c_id=<?php echo $r_lesson_id; ?>&did=<?php echo $r_course_id; ?>"><?php if ($r_lesson_id == 100){echo '';} else{ echo '<button type="button" class="btn green btn-xs">See Lesson</button>'; } ?></a></td>
+								</tr>
+								<tr>
+								<td>Discription:</td>
+								<td>
+								<?php if ($r_course_id != 3){ echo '<b>'.$r_lesson_des.'</b>'; } elseif ($r_course_id == 3){ echo 'Sabaq:  <b>'.$sabuq.'</b><br> Sabaqi:  <b>'.$sabuqi.'</b><br>Manzil:   <b>'.$manz.'</b>'; }?>
+								</td>
+								</tr>
+								</tbody>
+								</table>
+								<h4>
+									<font color="#44B6AE"> <b>Additional Lesson Details:</b></font>
+									</h4>
+								<table class="table table-hover">
+								<tbody>
+								<tr>
+								<td>Course:</td>
+								<td><b><?php echo course("$a_course_id"); ?></b></td>
+								</tr>
+								<tr>
+								<td>Lesson Page:</td>
+								<td><b><?php echo lesson("$a_lesson_id"); ?></b>&nbsp;&nbsp;<a href="lesson-page?c_id=<?php echo $a_lesson_id; ?>&did=<?php echo $a_course_id; ?>"><?php if ($a_lesson_id == 100 OR $a_lesson_id == 0){echo '';} else{ echo '<button type="button" class="btn green btn-xs">See Lesson</button>'; } ?></a></td>
+								</tr>
+								<tr>
+								<td>Discription:</td>
+								<td>
+								<b><?php echo $a_lesson_des; ?></b>
+								</td>
+								</tr>
+								</tbody>
+								</table>
+								</div>
+					<!-- END SAMPLE TABLE PORTLET-->
+			</div>
+			</div>
+				<?php 	
+		$i++;		
+		}
+	}	
+?>
+</div>
+			<!-- END PAGE CONTENT INNER -->
+			<div class="modal fade bs-modal-lg" id="allocation-c" tabindex="-1" role="dialog" aria-hidden="true">
+								<div class="modal-dialog modal-lg">
+									<div class="modal-content">
+
+
+        </div>
+    </div>
+</div>
+		</div>
+	</div>
+	<!-- END PAGE CONTENT -->
+</div>
+<!-- END PAGE CONTAINER -->
+<?php echo $fot; ?>
+<script>
+$('.allocation1').click(function(){
+    var famID=$(this).attr('data-id');
+    
+    $.ajax({url:"re-schedule-class.php?famID="+famID,cache:false,success:function(result){
+        $(".modal-content").html(result);
+    }});
+});
+</script>

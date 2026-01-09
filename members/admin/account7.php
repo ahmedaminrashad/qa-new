@@ -1,0 +1,18 @@
+<?php
+
+  require ("../includes/dbconnection.php");  
+date_default_timezone_set("Africa/Cairo");
+$time_start = date("h:i:s A", time(true));
+?>
+<?php
+	$pid =$_REQUEST['ppt'];
+	$sid =$_REQUEST['Course_ID'];
+
+	$sql = "UPDATE account SET active = '1', dept_id = '1002' WHERE parent_id = '$pid'";  	
+
+	if ($conn->query($sql) === TRUE) {
+        header("Location: student_inactive2?Course_ID=$sid");
+    } else {
+        echo 'error';
+    }
+?>

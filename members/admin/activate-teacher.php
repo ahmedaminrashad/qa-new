@@ -1,0 +1,13 @@
+<?php
+  require ("../includes/dbconnection.php");  
+date_default_timezone_set("Africa/Cairo");
+$time_start = date(" g:i:A", time(true));
+?>
+<?php
+	$pid =$_REQUEST['pteacher'];
+	$date = date('d-m-Y', time());
+	$sql = "UPDATE profile SET active = '1', dept_id = '1001' WHERE teacher_id = '$pid'"; 
+	if ($conn->query($sql) === TRUE) {
+					header('Location: ' . $_SERVER['HTTP_REFERER']);
+					} 		
+?>

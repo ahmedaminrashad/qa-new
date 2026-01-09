@@ -1,0 +1,412 @@
+<?php session_start(); ?>
+  <?php
+  include("../includes/session1.php");
+  require ("../includes/dbconnection.php");
+  include("header.php");
+  function req_note($er)
+{
+// sending query
+   $result = mysql_query("SELECT * FROM new_request_comments Where request_id = $er");
+if (!$result) 
+	{
+    die("Query to show fields from table failed");
+	}
+$tnumberOfRows = MYSQL_NUMROWS($result);
+if ($tnumberOfRows > 0){
+echo $tnumberOfRows;
+}
+else { echo 0; }
+}
+function csr($t)
+  {
+			$result = mysql_query("SELECT * FROM profile Where teacher_id = '$t'");
+			//HAVING course_id='$pCourse'
+		if (!$result) 
+			{
+			die("Query to show fields from table failed");
+			}
+		$numberOfRows = MYSQL_NUMROWS($result);
+		If ($numberOfRows == 0){
+			echo 'Not Alocated';
+			}
+		else if ($numberOfRows > 0) 
+			{
+			$i=0;
+			while ($i<$numberOfRows)
+				{			
+					$acat_id = MYSQL_RESULT($result,$i,"teacher_id");
+					$acat_name = MYSQL_RESULT($result,$i,"teacher_name");
+					echo $acat_name;
+		
+	$i++;	 
+			}
+			}
+	}
+?>
+<?php
+date_default_timezone_set("Asia/Karachi");
+$sy = date('Y-m-d');
+?>
+<?php echo $main_header; ?>
+<head>
+<link href="../assets/admin/pages/css/timeline.css" rel="stylesheet" type="text/css"/>
+</head>
+<!-- BEGIN TOP NAVIGATION MENU -->
+			<div class="top-menu">
+				<ul class="nav navbar-nav pull-right">
+					<!-- BEGIN NOTIFICATION DROPDOWN -->
+					<li class="dropdown dropdown-extended dropdown-dark dropdown-notification" id="header_notification_bar">
+						<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+						<i class="icon-envelope-open"></i>
+						<?php echo newrequest(); ?></a>
+						<ul class="dropdown-menu">
+							<li class="external">
+								<h3>You have <strong><?php echo newrequest(); ?> New Requests</strong>awaiting.</h3>
+								<a href="list-of-new-request">view all</a>
+							</li>
+							<li>
+							</li>
+						</ul>
+					</li>
+					<!-- END NOTIFICATION DROPDOWN -->
+					<!-- BEGIN NOTIFICATION DROPDOWN -->
+					<li class="dropdown dropdown-extended dropdown-dark dropdown-notification" id="header_notification_bar">
+						<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+						<i class="icon-bell"></i>
+						<?php echo trial("$sy"); ?></a>
+						<ul class="dropdown-menu">
+							<li class="external">
+								<h3>You have <strong><?php echo trial2(); ?> families</strong> on trial</h3>
+								<a href="parent-accounts-on-trial">view all</a>
+							</li>
+							<li>
+							</li>
+						</ul>
+					</li>
+					<!-- END NOTIFICATION DROPDOWN -->
+					<!-- BEGIN NOTIFICATION DROPDOWN -->
+					<li class="dropdown dropdown-extended dropdown-dark dropdown-notification" id="header_notification_bar">
+						<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+						<i class="icon-bubbles"></i>
+						<?php echo note(); ?>
+						</a>
+						<ul class="dropdown-menu">
+							<li class="external">
+								<h3>You have <strong><?php echo note2(); ?> </strong>unread comments</h3>
+								<a href="comment-timeline-all">view all</a>
+							</li>
+							<li>
+							</li>
+						</ul>
+					</li>
+					<!-- END NOTIFICATION DROPDOWN -->
+					<!-- BEGIN NOTIFICATION DROPDOWN -->
+					<li class="dropdown dropdown-extended dropdown-dark dropdown-notification" id="header_notification_bar">
+						<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+						<i class="icon-calendar"></i>
+						<?php echo leave($sy); ?>
+						</a>
+						<ul class="dropdown-menu">
+							<li class="external">
+								<h3>You have <strong><?php echo leave2(); ?> families</strong> on leave</h3>
+								<a href="parent-accounts-on-leave">view all</a>
+							</li>
+							<li>
+							</li>
+						</ul>
+					</li>
+					<!-- END NOTIFICATION DROPDOWN -->
+					<li class="droddown dropdown-separator">
+						<span class="separator"></span>
+					</li>
+					<!-- BEGIN INBOX DROPDOWN -->
+					<li class="dropdown dropdown-extended dropdown-dark dropdown-inbox" id="header_inbox_bar">
+						<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+						<?php echo task() ?>
+						</a>
+						<ul class="dropdown-menu">
+							<li class="external">
+								<h3>You have <strong><?php echo task() ?> New</strong> Tasks</h3>
+								<a href="pending-task">view all</a>
+							</li>
+							<li>
+							</li>
+						</ul>
+					</li>
+					<!-- END INBOX DROPDOWN -->
+					<!-- BEGIN USER LOGIN DROPDOWN -->
+					<li class="dropdown dropdown-user dropdown-dark">
+						<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+						<img alt="" class="img-circle" src="../assets/admin/layout3/img/avatar9.jpg">
+						<span class="username username-hide-mobile"><?php echo $head_name; ?></span>
+						</a>
+						<ul class="dropdown-menu dropdown-menu-default">
+							<li>
+								<a href="logout">
+								<i class="icon-key"></i> Log Out </a>
+							</li>
+						</ul>
+					</li>
+					<!-- END USER LOGIN DROPDOWN -->
+				</ul>
+			</div>
+			<!-- END TOP NAVIGATION MENU -->
+			</div>
+	</div>
+<?php echo $start_menu; ?>
+<?php echo $search_bar; ?>
+<?php echo $main_menu; ?>
+<!-- BEGIN PAGE CONTAINER -->
+<div class="page-container">
+	<!-- BEGIN PAGE HEAD -->
+	<div class="page-head">
+		<div class="container">
+			<!-- BEGIN PAGE TITLE -->
+			<div class="page-title">
+				<h1>New<small> Requests</small></h1>
+
+			</div>
+			<!-- END PAGE TITLE -->
+			<!-- BEGIN PAGE TOOLBAR -->
+			<div class="page-toolbar">
+			</div>
+			<!-- END PAGE TOOLBAR -->
+		</div>
+	</div>
+	<!-- END PAGE HEAD -->
+	<!-- BEGIN PAGE CONTENT -->
+	<div class="page-content">
+		<div class="container">
+
+			<!-- BEGIN PAGE BREADCRUMB -->
+			<ul class="page-breadcrumb breadcrumb">
+				<li>
+					<a href="admin-home">Home</a><i class="fa fa-circle"></i>
+				</li>
+				<li class="active">
+					 List of New Requests
+				</li>
+			</ul>
+			<!-- END PAGE BREADCRUMB -->
+			<!-- BEGIN PAGE CONTENT INNER -->
+			<div class="row">
+				<div class="col-md-12">
+					<!-- BEGIN SAMPLE TABLE PORTLET-->
+					<div class="portlet light">
+					<h4><a href="list-of-new-request" class="btn green"><i class="fa fa-user"></i> Active Requests <b>(No. <?php 
+$result = mysql_query("SELECT * FROM new_request WHERE status = 1");
+$counter = 0;
+if (!$result) 
+	{
+    die("Query to show fields from table failed");
+	}
+$numberOfRows = MYSQL_NUMROWS($result);
+echo $numberOfRows; ?>)</b></a>
+						<a href="list-of-new-request-teaching" class="btn yellow"><i class="fa fa-user"></i> Active Teaching Requests <b>(No. <?php 
+$result = mysql_query("SELECT * FROM new_request WHERE status = 3");
+$counter = 0;
+if (!$result) 
+	{
+    die("Query to show fields from table failed");
+	}
+$numberOfRows = MYSQL_NUMROWS($result);
+echo $numberOfRows; ?>)</b></a>
+						<a href="list-of-new-request-removed" class="btn red"><i class="fa fa-user"></i> See Removed</a></h4>
+						<div class="portlet-body">
+							<div class="timeline">
+						<!-- TIMELINE ITEM -->
+						<?php 
+// sending query
+$result = mysql_query("SELECT * FROM new_request WHERE status = 7 ORDER BY request_id DESC;");
+$counter = 0;
+if (!$result) 
+	{
+    die("Query to show fields from table failed");
+	}
+$numberOfRows = MYSQL_NUMROWS($result);
+If ($numberOfRows == 0) 
+	{
+	echo 'There is no pending request...';
+	}
+else if ($numberOfRows > 0) 
+	{
+	$i=0;
+	while ($i<$numberOfRows)
+		{		
+			$arequest_id = MYSQL_RESULT($result,$i,"request_id");
+			$aname = MYSQL_RESULT($result,$i,"name");
+			$aemail = MYSQL_RESULT($result,$i,"email");
+			$aphone = MYSQL_RESULT($result,$i,"phone");
+			$askype = MYSQL_RESULT($result,$i,"skype");
+			$acountry = MYSQL_RESULT($result,$i,"country");
+			$acity = MYSQL_RESULT($result,$i,"city");
+			$amessage = MYSQL_RESULT($result,$i,"message");
+			$adate = MYSQL_RESULT($result,$i,"date");
+			$atime = MYSQL_RESULT($result,$i,"time");
+			$aupdate = MYSQL_RESULT($result,$i,"time_update");
+			$asent = MYSQL_RESULT($result,$i,"sent");
+			$acsr_id = MYSQL_RESULT($result,$i,"csr_id");
+			$from_id = MYSQL_RESULT($result,$i,"time_from");
+			$to_id = MYSQL_RESULT($result,$i,"time_to");
+?>
+						<div class="timeline-item">
+							<div class="timeline-body">
+								<div class="timeline-body-arrow">
+								</div>
+								<div class="timeline-body-head">
+									<div class="timeline-body-head-caption">
+										<a href="javascript:;" class="timeline-body-title font-blue-madison"><?php echo $aname; ?></a>
+										<span class="timeline-body-time font-grey-cascade"><?php echo $adate; ?> (<?php echo $atime; ?>)</span>
+									</div>
+									<div class="timeline-body-head-actions">
+										<div class="btn-group">
+											<button class="btn btn-circle green-haze btn-sm dropdown-toggle" type="button" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+											Actions <i class="fa fa-angle-down"></i>
+											</button>
+											<ul class="dropdown-menu pull-right" role="menu">
+												<li>
+													<a href="add-new-request-note?req=<?php echo $arequest_id; ?>&name=<?php echo $aname; ?>">Add Note </a>
+												</li>
+												<li>
+													<a href="welcome-email?request=<?php echo $arequest_id; ?>">Send Email </a>
+												</li>
+												<li>
+													<a class="allocation" href="#allocation-c" data-toggle="modal" data-target="#allocation-c" data-id="<?php echo $arequest_id; ?>" data-name="<?php echo $aname; ?>">Allocate CSR </a>
+												</li>
+												<li>
+													<a href="add-parent-account?req=<?php echo $arequest_id; ?>&name=<?php echo $aname; ?>&email=<?php echo $aemail; ?>&phone=<?php echo $aphone; ?>&skype=<?php echo $askype; ?>&city=<?php echo $acity; ?>">Create Account </a>
+												</li>
+												<li>
+													<a href="teaching-request?req=<?php echo $arequest_id; ?>">Teaching </a>
+												</li>
+												<li>
+													<a href="remove-request?req=<?php echo $arequest_id; ?>">Archive </a>
+												</li>
+												<li>
+													<a href="delete-request?req=<?php echo $arequest_id; ?>">Delete </a>
+												</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+								<div class="timeline-body-content">
+									<span class="font-grey-cascade">
+									<div id="mytable" class="table-responsive">
+								<table class="table table-hover">
+								<thead>
+								<tr>
+								<th>
+									 Email
+								</th>
+								<th>
+									 Phone
+								</th>
+								<th>
+									 Skype
+								</th>
+								<th>
+									 Country
+								</th>
+								<th>
+									 City
+								</th>
+								</tr>
+								</thead>
+								<tbody>
+								<tr bgcolor="<?php echo $bgcolor; ?>">
+								<td>
+									 <?php echo $aemail; ?>
+								</td>
+								<td>
+									 <?php echo $aphone; ?>
+								</td>
+								<td>
+									 <?php echo $askype; ?>
+								</td>
+								<td>
+									 <?php echo $acountry; ?>
+								</td>
+								<td>
+										<?php echo $acity; ?>
+								</td>
+							</tr>
+							<tr>
+								<td>
+								<strong>Best Time to Contact:</strong>
+								</td>
+								<td colspan="4">
+									From: <strong><?php echo $from_id; ?></strong> To <strong><?php echo $to_id; ?></strong> 
+								</td>
+							</tr>
+							<tr>
+								<td>
+								<strong>Message:</strong>
+								</td>
+								<td colspan="4">
+									<?php echo $amessage; ?>
+								</td>
+							</tr>
+							<tr>
+								<td colspan="5">
+								<span class="label label-sm label-warning" title="Email Status"><i class="fa fa-envelope"> <?php if ($asent == 2){ echo '<font color="green">Sent</font>';} else { echo '<font color="red">Not Sent</font>';} ?></i></span>
+								<a class="notes" href="#notes-d" data-toggle="modal" data-target="#notes-d" data-id="<?php echo $arequest_id; ?>" data-name="<?php echo $aname; ?>"><span class="label label-sm label-success" title="Note Details"><i class="fa fa-comments-o"> <?php echo req_note("$arequest_id"); ?></i></span></a>
+								<?php if ($acsr_id == 0){ echo '<span class="label label-sm label-danger" title="Allocation"> Not Allocated</span>'; } else { echo '<span class="label label-sm label-info" title="Allocation"><i class="fa fa-mail-forward"></i></span> '.csr("$acsr_id").''; }?>
+								</td>
+							</tr>
+							</tbody>
+								</table>
+								</div>
+								</span>
+								</div>
+							</div>
+						</div>
+						<?php 	
+		$i++;		
+		}
+	}	
+?>							</div>
+					</div>
+					<!-- END SAMPLE TABLE PORTLET-->
+        <div class="modal fade bs-modal-lg" id="notes-d" tabindex="-1" role="dialog" aria-hidden="true">
+								<div class="modal-dialog modal-lg">
+									<div class="modal-content">
+
+
+        </div>
+    </div>
+</div>
+<div class="modal fade bs-modal-lg" id="allocation-c" tabindex="-1" role="dialog" aria-hidden="true">
+								<div class="modal-dialog modal-lg">
+									<div class="modal-content">
+
+
+        </div>
+    </div>
+</div>
+				</div>
+			</div>
+			<!-- END PAGE CONTENT INNER -->
+		</div>
+	</div>
+	<!-- END PAGE CONTENT -->
+</div>
+<!-- END PAGE CONTAINER -->
+<?php echo $fot; ?>
+<script>
+$('.notes').click(function(){
+    var famID=$(this).attr('data-id');
+    var famName=$(this).attr('data-name');
+
+    $.ajax({url:"note-details.php?famID="+famID+"&famName="+famName,cache:false,success:function(result){
+        $(".modal-content").html(result);
+    }});
+});
+$('.allocation').click(function(){
+    var famID=$(this).attr('data-id');
+    var famName=$(this).attr('data-name');
+
+    $.ajax({url:"allocate-csr.php?famID="+famID+"&famName="+famName,cache:false,success:function(result){
+        $(".modal-content").html(result);
+    }});
+});
+</script>

@@ -1,0 +1,293 @@
+<?php
+require ("../../includes/dbconnection.php");
+function taskall()
+{
+// sending query
+   $result = mysql_query("SELECT * FROM task");
+if (!$result) 
+	{
+    die("Query to show fields from table failed");
+	}
+$tnumberOfRows = MYSQL_NUMROWS($result);
+echo $tnumberOfRows;
+}
+function newrequest()
+{
+// sending query
+   $result = mysql_query("SELECT * FROM new_request WHERE status = 1");
+if (!$result) 
+	{
+    die("Query to show fields from table failed");
+	}
+$tnumberOfRows = MYSQL_NUMROWS($result);
+echo '<span class="badge badge-default">'.$tnumberOfRows.'</span>';
+}
+function taskcom()
+{
+// sending query
+   $result = mysql_query("SELECT * FROM task Where status = 2");
+if (!$result) 
+	{
+    die("Query to show fields from table failed");
+	}
+$tnumberOfRows = MYSQL_NUMROWS($result);
+echo $tnumberOfRows;
+}
+function taskpen()
+{
+// sending query
+   $result = mysql_query("SELECT * FROM task Where status = 1");
+if (!$result) 
+	{
+    die("Query to show fields from table failed");
+	}
+$tnumberOfRows = MYSQL_NUMROWS($result);
+echo $tnumberOfRows;
+}
+function trial($sy)
+{
+$result = mysql_query("SELECT * FROM account WHERE active = 11 and trial_date < '$sy'");
+$counter = 0;
+if (!$result) 
+	{
+    die("Query to show fields from table failed");
+	}
+$numberOfRowsot = MYSQL_NUMROWS($result);
+If ($numberOfRowsot == 0) 
+	{
+	echo '';
+	}
+else if ($numberOfRowsot > 0) 
+	{
+	echo '<span class="badge badge-default">'.$numberOfRowsot.'</span>';
+	}
+}
+function trial2()
+{
+$result = mysql_query("SELECT * FROM account WHERE active = 11");
+$counter = 0;
+if (!$result) 
+	{
+    die("Query to show fields from table failed");
+	}
+$numberOfRowsot = MYSQL_NUMROWS($result);
+If ($numberOfRowsot == 0) 
+	{
+	echo '';
+	}
+else if ($numberOfRowsot > 0) 
+	{
+	echo $numberOfRowsot;
+	}
+}
+function note()
+{
+$result = mysql_query("SELECT * FROM note_student WHERE status = 1");
+$counter = 0;
+if (!$result) 
+	{
+    die("Query to show fields from table failed");
+	}
+$numberOfRowsot = MYSQL_NUMROWS($result);
+If ($numberOfRowsot == 0) 
+	{
+	echo '';
+	}
+else if ($numberOfRowsot > 0) 
+	{
+	echo '<span class="badge badge-default">'.$numberOfRowsot.'</span>';
+	}
+}
+function note2()
+{
+$result = mysql_query("SELECT * FROM note_student WHERE status = 1");
+$counter = 0;
+if (!$result) 
+	{
+    die("Query to show fields from table failed");
+	}
+$numberOfRowsot = MYSQL_NUMROWS($result);
+If ($numberOfRowsot == 0) 
+	{
+	echo '';
+	}
+else if ($numberOfRowsot > 0) 
+	{
+	echo $numberOfRowsot;
+	}
+}
+function leave($sy)
+{
+$result = mysql_query("SELECT * FROM account WHERE active = '7' and leave_date < '$sy'");
+$counter = 0;
+if (!$result) 
+	{
+    die("Query to show fields from table failed");
+	}
+$numberOfRowsot = MYSQL_NUMROWS($result);
+If ($numberOfRowsot == 0) 
+	{
+	echo '';
+	}
+else if ($numberOfRowsot > 0) 
+	{
+	echo '<span class="badge badge-default">'.$numberOfRowsot.'</span>';
+	}
+}
+function leave2()
+{
+$result = mysql_query("SELECT * FROM account WHERE active = '7'");
+$counter = 0;
+if (!$result) 
+	{
+    die("Query to show fields from table failed");
+	}
+$numberOfRowsot = MYSQL_NUMROWS($result);
+If ($numberOfRowsot == 0) 
+	{
+	echo '';
+	}
+else if ($numberOfRowsot > 0) 
+	{
+	echo $numberOfRowsot;
+	}
+}
+function task()
+{
+$result = mysql_query("SELECT * FROM task WHERE status = 1 and type_id = 1");
+$counter = 0;
+if (!$result) 
+	{
+    die("Query to show fields from table failed");
+	}
+$numberOfRowsot = MYSQL_NUMROWS($result);
+if ($numberOfRowsot > 0) 
+	{
+	echo '<span id="pulsate-regular" style="padding:5px;" class="circle">'.$numberOfRowsot.'</span><span class="corner"></span>';
+	}
+else if ($numberOfRowsot == 0) 
+	{
+	$result = mysql_query("SELECT * FROM task WHERE status = 1");
+$counter = 0;
+if (!$result) 
+	{
+    die("Query to show fields from table failed");
+	}
+$numberOfRowsot = MYSQL_NUMROWS($result);
+if ($numberOfRowsot > 0) 
+	{
+	echo '<span class="circle">'.$numberOfRowsot.'</span><span class="corner"></span>';
+	}
+else if ($numberOfRowsot == 0) 
+	{
+	echo '';
+	}
+	}
+}
+?>
+<?php
+date_default_timezone_set("Africa/Cairo");
+$sy = date('Y-m-d');
+$mm_id = date('m');
+$yy_id = date('Y');
+?>
+<!-- BEGIN TOP NAVIGATION MENU -->
+			<div class="top-menu">
+				<ul class="nav navbar-nav pull-right">
+				<!-- BEGIN NOTIFICATION DROPDOWN -->
+					<li class="dropdown dropdown-extended dropdown-dark dropdown-notification" id="header_notification_bar">
+						<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+						<i class="icon-envelope-open"></i>
+						<?php echo newrequest(); ?></a>
+						<ul class="dropdown-menu">
+							<li class="external">
+								<h3>You have <strong><?php echo newrequest(); ?> New Requests</strong>awaiting.</h3>
+								<a href="list-of-new-request">view all</a>
+							</li>
+							<li>
+							</li>
+						</ul>
+					</li>
+					<!-- END NOTIFICATION DROPDOWN -->
+					<!-- BEGIN NOTIFICATION DROPDOWN -->
+					<li class="dropdown dropdown-extended dropdown-dark dropdown-notification" id="header_notification_bar">
+						<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+						<i class="icon-bell"></i>
+						<?php echo trial("$sy"); ?></a>
+						<ul class="dropdown-menu">
+							<li class="external">
+								<h3>You have <strong><?php echo trial2(); ?> families</strong> on trial</h3>
+								<a href="parent-accounts-on-trial">view all</a>
+							</li>
+							<li>
+							</li>
+						</ul>
+					</li>
+					<!-- END NOTIFICATION DROPDOWN -->
+					<!-- BEGIN NOTIFICATION DROPDOWN -->
+					<li class="dropdown dropdown-extended dropdown-dark dropdown-notification" id="header_notification_bar">
+						<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+						<i class="icon-bubbles"></i>
+						<?php echo note(); ?>
+						</a>
+						<ul class="dropdown-menu">
+							<li class="external">
+								<h3>You have <strong><?php echo note2(); ?> </strong>unread comments</h3>
+								<a href="comment-timeline-all">view all</a>
+							</li>
+							<li>
+							</li>
+						</ul>
+					</li>
+					<!-- END NOTIFICATION DROPDOWN -->
+					<!-- BEGIN NOTIFICATION DROPDOWN -->
+					<li class="dropdown dropdown-extended dropdown-dark dropdown-notification" id="header_notification_bar">
+						<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+						<i class="icon-calendar"></i>
+						<?php echo leave($sy); ?>
+						</a>
+						<ul class="dropdown-menu">
+							<li class="external">
+								<h3>You have <strong><?php echo leave2(); ?> families</strong> on leave</h3>
+								<a href="parent-accounts-on-leave">view all</a>
+							</li>
+							<li>
+							</li>
+						</ul>
+					</li>
+					<!-- END NOTIFICATION DROPDOWN -->
+					<li class="droddown dropdown-separator">
+						<span class="separator"></span>
+					</li>
+					<!-- BEGIN INBOX DROPDOWN -->
+					<li class="dropdown dropdown-extended dropdown-dark dropdown-inbox" id="header_inbox_bar">
+						<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+						<?php echo task() ?>
+						</a>
+						<ul class="dropdown-menu">
+							<li class="external">
+								<h3>You have <strong><?php echo task() ?> New</strong> Tasks</h3>
+								<a href="pending-task">view all</a>
+							</li>
+							<li>
+							</li>
+						</ul>
+					</li>
+					<!-- END INBOX DROPDOWN -->
+					<!-- BEGIN USER LOGIN DROPDOWN -->
+					<li class="dropdown dropdown-user dropdown-dark">
+						<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+						<img alt="" class="img-circle" src="../assets/admin/layout3/img/avatar9.jpg">
+						<span class="username username-hide-mobile"><?php echo $head_name; ?></span>
+						</a>
+						<ul class="dropdown-menu dropdown-menu-default">
+							<li>
+								<a href="logout">
+								<i class="icon-key"></i> Log Out </a>
+							</li>
+						</ul>
+					</li>
+					<!-- END USER LOGIN DROPDOWN -->
+				</ul>
+			</div>
+			<!-- END TOP NAVIGATION MENU -->

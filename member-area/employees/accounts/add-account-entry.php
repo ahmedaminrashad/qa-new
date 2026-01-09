@@ -1,0 +1,453 @@
+<?php session_start(); ?>
+<?php
+// Enable error reporting
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+ini_set('log_errors', 1);
+
+if (session_status() !== PHP_SESSION_ACTIVE) {
+    session_start();
+}
+
+require("../includes/dbconnection.php");
+require_once("../includes/mysql-compat.php");
+
+// Check database connection
+if (!isset($conn) || !$conn) {
+    die("Database connection failed. Please contact the administrator.");
+}
+<?php
+include("../includes/session.php");
+  include("../includes/accounts_rights.php");
+  require ("../includes/dbconnection.php");
+  include("header.php");
+$link = $_SERVER['REQUEST_URI'];
+$vouid =$_REQUEST['vou_id'];
+$voun =$_REQUEST['vou_n'];
+$voub =$_REQUEST['vou_bank'];
+$voubna =$_REQUEST['vou_bankna'];
+$voudate =$_REQUEST['vou_date'];
+   if (isset($_POST['cmdSubmit'])) 
+{
+		 	$entry = $_POST['avou_id'];
+			$head = $_POST['cat_id'];
+			$ven = $_POST['ven_id'];
+			$mod = $_POST['head_id'];
+			$amu = $_POST['amu'];
+			$dat = $_POST['edate'];
+			$des = $_POST['edes'];
+			$bank = $_POST['ebank'];
+			$office = $_POST['eoffice'];
+			$pot = $_POST['taxp'];
+
+			mysql_query ("INSERT INTO account_entry(date, voucher_id, description, amount, vendor_id, ac_cat_id, account_head, bank_id, office_id, tax)
+					VALUES('$dat','$entry','" . mysql_real_escape_string($des) . "','$amu','$ven','$head','$mod','$bank','$office','$pot')") or die(mysql_error()); 					
+ 		$note = "<div class='alert alert-info'>
+						<p>
+							 Succrssfully added <strong>".$des."</strong>
+						</p>
+					</div>";
+				}
+?>
+<?php
+date_default_timezone_set("Asia/Karachi");
+$sy = date('Y-m-d');
+?>
+<?php
+$db = new mysqli($server_db,$username_db,$userpass_db,$name_db);
+  $query = "SELECT * FROM accounts_cat";
+  $result = $db->query($query);
+
+  while($row = $result->fetch_assoc()){
+    $categories[] = array("id" => $row['accounts_cat_id'], "val" => $row['accounts_cat_name']);
+  }
+
+  $query = "SELECT * FROM accounts_head";
+  $result = $db->query($query);
+
+  while($row = $result->fetch_assoc()){
+    $subcats[$row['account_cat_id']][] = array("id" => $row['account_head_id'], "val" => $row['account_head_name']);
+  }
+
+  $jsonCats = json_encode($categories);
+  $jsonSubCats = json_encode($subcats);
+?>
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8 no-js"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9 no-js"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en">
+<!--<![endif]-->
+<!-- BEGIN HEAD -->
+<head>
+<meta charset="utf-8"/>
+<title><?php echo $head_title; ?></title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+<meta content="" name="description"/>
+<meta content="" name="author"/>
+<!-- BEGIN GLOBAL MANDATORY STYLES -->
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet" type="text/css">
+<link href="../../assets/global/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+<link href="../../assets/global/plugins/simple-line-icons/simple-line-icons.min.css" rel="stylesheet" type="text/css">
+<link href="../../assets/global/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+<link href="../../assets/global/plugins/uniform/css/uniform.default.css" rel="stylesheet" type="text/css">
+<!-- END GLOBAL MANDATORY STYLES -->
+<!-- BEGIN THEME STYLES -->
+<link href="../../assets/global/css/components-rounded.css" id="style_components" rel="stylesheet" type="text/css">
+<link href="../../assets/global/css/plugins.css" rel="stylesheet" type="text/css">
+<link href="../../assets/admin/layout3/css/layout.css" rel="stylesheet" type="text/css">
+<link href="../../assets/admin/layout3/css/themes/default.css" rel="stylesheet" type="text/css" id="style_color">
+<link href="../../assets/admin/layout3/css/custom.css" rel="stylesheet" type="text/css">
+<!-- END THEME STYLES -->
+<link rel="shortcut icon" href="favicon.ico"/>
+<style>
+#country-list{float:left;list-style:none;margin-top:-3px;padding:0;width:190px;position: absolute;}
+#country-list li{padding: 10px; background: #f0f0f0; border-bottom: #bbb9b9 1px solid;}
+#country-list li:hover{background:#ece3d2;cursor: pointer;}
+</style>
+<script type='text/javascript'>
+      <?php
+        echo "var categories = $jsonCats; \n";
+        echo "var subcats = $jsonSubCats; \n";
+      ?>
+      function loadCategories(){
+        var select = document.getElementById("categoriesSelect");
+        select.onchange = updateSubCats;
+        for(var i = 0; i < categories.length; i++){
+          select.options[i] = new Option(categories[i].val,categories[i].id);          
+        }
+      }
+      function updateSubCats(){
+        var catSelect = this;
+        var account_cat_id = this.value;
+        var subcatSelect = document.getElementById("subcatsSelect");
+        subcatSelect.options.length = 0; //delete all options if any present
+        for(var i = 0; i < subcats[account_cat_id].length; i++){
+          subcatSelect.options[i] = new Option(subcats[account_cat_id][i].val,subcats[account_cat_id][i].id);
+        }
+      }
+    </script>
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js" type="text/javascript"></script>
+<script>
+$(document).ready(function(){
+	$("#search-box").keyup(function(){
+		$.ajax({
+		type: "POST",
+		url: "readCountry.php",
+		data:'keyword='+$(this).val(),
+		beforeSend: function(){
+			$("#search-box").css("background","#FFF url(LoaderIcon.gif) no-repeat 165px");
+		},
+		success: function(data){
+			$("#suggesstion-box").show();
+			$("#suggesstion-box").html(data);
+			$("#search-box").css("background","#FFF");
+		}
+		});
+	});
+});
+
+function selectCountry(val) {
+$("#search-box").val(val);
+$("#suggesstion-box").hide();
+}
+</script>
+</head>
+<!-- END HEAD -->
+<!-- BEGIN BODY -->
+<!-- DOC: Apply "page-header-menu-fixed" class to set the mega menu fixed  -->
+<!-- DOC: Apply "page-header-top-fixed" class to set the top menu fixed  -->
+<body onload='loadCategories()'>
+<!-- BEGIN HEADER -->
+<div class="page-header">
+	<!-- BEGIN HEADER TOP -->
+	<div class="page-header-top">
+		<div class="container">
+			<!-- BEGIN LOGO -->
+			<div class="page-logo">
+				<a href="index.html"><img src="../../assets/admin/layout3/img/logo-default.png" alt="logo" class="logo-default"></a>
+			</div>
+			<!-- END LOGO -->
+			<!-- BEGIN RESPONSIVE MENU TOGGLER -->
+			<a href="javascript:;" class="menu-toggler"></a>
+			<!-- END RESPONSIVE MENU TOGGLER -->
+
+<?php echo $tool_bar; ?>
+<?php echo $start_menu; ?>
+<?php echo $main_menu; ?>
+<!-- BEGIN PAGE CONTAINER -->
+<div class="page-container">
+	<!-- BEGIN PAGE HEAD -->
+	<div class="page-head">
+		<div class="container">
+			<!-- BEGIN PAGE TITLE -->
+			<div class="page-title">
+				<h1>Add <small>New Entry</small></h1>
+			</div>
+			<!-- END PAGE TITLE -->
+			<!-- BEGIN PAGE TOOLBAR -->
+			<div class="page-toolbar">
+			</div>
+			<!-- END PAGE TOOLBAR -->
+		</div>
+	</div>
+	<!-- END PAGE HEAD -->
+	<!-- BEGIN PAGE CONTENT -->
+	<div class="page-content">
+		<div class="container">
+			<!-- BEGIN PAGE BREADCRUMB -->
+			<ul class="page-breadcrumb breadcrumb">
+				<li>
+					<a href="admin-home">Home</a><i class="fa fa-circle"></i>
+				</li>
+				<li>
+					<a href="parent-accounts">List of Vouchers</a><i class="fa fa-circle"></i>
+				</li>
+				<li class="active">
+					 Add New Entry in Voucher number: <strong><?php echo $voun; ?> 
+					 (Rs. <?php echo $voua; ?>)</strong>
+				</li>
+			</ul>
+			<!-- END PAGE BREADCRUMB -->
+			<?php echo $note; ?>
+			<!-- BEGIN PAGE CONTENT INNER -->
+			<div class="row">
+				<div class="col-md-12">
+					<div class="tabbable tabbable-custom tabbable-noborder tabbable-reversed">
+						<div class="tab-content">
+						<div id="mytable" class="table-responsive">
+								<table class="table table-hover">
+								<tbody>
+								<?php 
+// sending query
+$result = mysql_query("SELECT `account_entry`.*, `accounts_head`.`account_head_name`, `vendor`.`vendor_name` FROM `account_entry`,`accounts_head`, `vendor` WHERE account_entry.account_head=accounts_head.account_head_id and account_entry.vendor_id=vendor.vendor_id HAVING voucher_id = $vouid");
+	if (!$result) 
+	{
+    die("There is an issue in data");
+	}
+$numberOfRows = MYSQL_NUMROWS($result);
+If ($numberOfRows == 0) 
+	{
+	echo '';
+	}
+else if ($numberOfRows > 0) 
+	{
+	$i=0;
+	while ($i<$numberOfRows)
+		{		
+			$vid = MYSQL_RESULT($result,$i,"entry_id");
+			$vdate = MYSQL_RESULT($result,$i,"date");
+			$vdes = MYSQL_RESULT($result,$i,"description");
+			$vname = MYSQL_RESULT($result,$i,"vendor_name");
+			$vmod = MYSQL_RESULT($result,$i,"ac_cat_id");
+			$vamu = MYSQL_RESULT($result,$i,"amount");
+			$vhead = MYSQL_RESULT($result,$i,"account_head_name");
+?>
+								<tr bgcolor="<?php echo $bgcolor; ?>">
+								<td>
+									 <?php echo $vdate; ?>
+								</td>
+								<td>
+									 <?php echo $vhead; ?>
+								</td>
+								<td>
+									 <?php echo $vdes; ?>
+								</td>
+								<td>
+									 <?php echo $vname; ?>
+								</td>
+								<td>
+									 Rs. <?php echo $vamu; ?>
+								</td>
+								<td>
+									 <a href="delete-entry?cid=<?php echo $vid; ?>"><button type="button" class="btn red btn-xs" title="Delete Entry"><i class="fa fa-close"></i></button></a>
+								</td>
+							</tr>
+						<?php 	
+		$i++;		
+		}
+	}	
+?>
+</tbody>
+								</table>
+								</div>
+								<div class="portlet box green">
+									<div class="portlet-title">
+										<div class="caption">
+											<i class="fa fa-plus"></i>Add 
+											details of voucher Number <?php 
+echo $voun;	
+?>
+										</div>
+									</div>
+									<div class="portlet-body form">
+										<!-- BEGIN FORM-->
+										<form action="<?php echo $link; ?>" method="post" class="form-horizontal">
+											<div class="form-body">
+												<h3 class="form-section"><font color="#44B6AE">
+												Entry Details</font></h3>
+												<div class="row">
+													<div class="col-md-6">
+														<div class="form-group">
+															<label class="control-label col-md-3"><strong>
+															Voucher</strong></label>
+															<div class="col-md-9">
+																<input type="text" class="form-control" value="<?php echo $voun; ?>" readonly>															</div>
+														</div>
+													</div>
+													<!--/span-->
+													<div class="col-md-6">
+														<div class="form-group">
+															<label class="control-label col-md-3"><strong>
+															Category</strong></label>
+															<div class="col-md-9">
+																<select class="form-control" name="cat_id" id="categoriesSelect"></select>															</div>
+														</div>
+													</div>
+													<!--/span-->
+												</div>
+												<div class="row">
+													<div class="col-md-6">
+														<div class="form-group">
+															<label class="control-label col-md-3"><strong>
+															Vendor</strong></label>
+															<div class="col-md-9">
+																<select required class="form-control" name="ven_id"  id="ven_id" onchange="javascript: return optionList43_SelectedIndex()">
+                      <?php // source 1: http://www.dmxzone.com/showDetail.asp?NewsId=5102&TypeId=25
+			  	// source 2: http://localhost/phpmyadmin/index.php?db=mydbase&token=651c0063e511c381c9c82ce1fe9b6854
+				$result = mysql_query("SELECT * FROM vendor ORDER BY vendor_id ");			  	
+				do {  ?>
+                      <option value="<?php echo $row['vendor_id'];?>"><?php echo $row['vendor_name'];?> </option>
+                      <?php } while ($row = mysql_fetch_assoc($result)); ?>
+               </select>															</div>
+														</div>
+													</div>
+													<!--/span-->
+													<div class="col-md-6">
+														<div class="form-group">
+															<label class="control-label col-md-3"><strong>
+															Head</strong></label>
+																<div class="col-md-9">
+															<select class="form-control" name="head_id" id="subcatsSelect"></select>
+															</div>
+														</div>
+													</div>
+													<!--/span-->
+												</div>
+												<div class="row">
+													<div class="col-md-6">
+														<div class="form-group">
+															<label class="control-label col-md-3"><strong>
+															Amount</strong></label>
+																<div class="col-md-9">
+															<input type="text" class="form-control" name="amu" id="amu">
+															</div>
+														</div>
+													</div>
+													<div class="col-md-6">
+														<div class="form-group">
+															<label class="control-label col-md-3"><strong>
+															Date</strong></label>
+															<div class="col-md-9">
+																<input type="text" class="form-control" value="<?php echo $voudate; ?>" name="edate" id="edate">
+															</div>
+														</div>
+													</div>
+												<!--/span-->
+												</div>
+												<div class="row">
+													<div class="col-md-6">
+														<div class="form-group">
+													<label class="col-md-3 control-label"><strong>
+															Bank Account</strong></label>
+													<div class="col-md-9">
+														<input type="text" class="form-control" value="<?php echo $voubna; ?>" readonly>
+													</div>
+														</div>
+													</div>
+													<div class="col-md-6">
+														<div class="form-group">
+													<label class="col-md-3 control-label"><strong>
+															Office</strong></label>
+													<div class="col-md-9">
+														<select required class="form-control" name="eoffice"  id="eoffice" onchange="javascript: return optionList43_SelectedIndex()">
+                      <?php // source 1: http://www.dmxzone.com/showDetail.asp?NewsId=5102&TypeId=25
+			  	// source 2: http://localhost/phpmyadmin/index.php?db=mydbase&token=651c0063e511c381c9c82ce1fe9b6854
+				$result = mysql_query("SELECT * FROM branch_office ORDER BY office_id ");			  	
+				do {  ?>
+                      <option value="<?php echo $row['office_id'];?>"><?php echo $row['office_name'];?> </option>
+                      <?php } while ($row = mysql_fetch_assoc($result)); ?>
+               </select>
+													</div>
+														</div>
+													</div>
+												<!--/span-->
+												</div>
+												<div class="row">
+													<div class="col-md-6">
+														<div class="form-group">
+															<label class="control-label col-md-3"><strong>
+															Tax Provision</strong></label>
+																<div class="col-md-9">
+															<input type="text" class="form-control" value="0" name="taxp" id="taxp">
+															</div>
+														</div>
+													</div>
+													<div class="col-md-6">
+														<div class="form-group">
+													<label class="col-md-3 control-label"><strong>
+															Description</strong></label>
+													<div class="col-md-9">
+														<input type="text" class="form-control" name="edes" id="search-box">
+														<div id="suggesstion-box"></div>
+													</div>
+														</div>
+													</div>
+												<!--/span-->
+												</div>
+												<input type="hidden" class="form-control" value="<?php echo $vouid; ?>" name="avou_id" id="avou_id">
+												<input type="hidden" class="form-control" value="<?php echo $voub; ?>" name="ebank" id="ebank">
+											<div class="form-actions">
+												<div class="row">
+													<div class="col-md-6">
+														<div class="row">
+															<div class="col-md-offset-3 col-md-9">
+																<button type="submit" name="cmdSubmit" class="btn green">
+																Submit</button>
+																<a href="list-of-voucher"><button type="button" class="btn default">
+																Go Back</button></a>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</form>
+										<!-- END FORM-->
+									</div>
+								</div>
+							</div><br><br><br><br><br><br>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- END PAGE CONTENT INNER -->
+		</div>
+	</div>
+	<!-- END PAGE CONTENT -->
+</div>
+<!-- END PAGE CONTAINER -->
+<?php echo $fot; ?>
+<script language="javascript" >
+	var form = document.forms[0];
+	//purpose?: to retrieve what users last input on the field..
+	form.head_id.value = ("<?php echo 1; ?>");
+	form.ven_id.value = ("<?php echo 1; ?>");
+	form.eoffice.value = ("<?php echo 1; ?>");
+	//alert (form.pCityM.value);				
+</script>

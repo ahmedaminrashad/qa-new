@@ -1,0 +1,47 @@
+<?
+$famID=$_GET['famID'];
+$famAmu=$_GET['famAmu'];
+$famAcc=$_GET['famAcc'];
+
+?>
+<div class="modal-header">
+											<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+											<h4 class="modal-title">Direct Payment Links </h4>
+										</div>
+										<div class="modal-body">
+										<div class="portlet box green">
+									<div class="portlet-title">
+										<div class="caption">
+											<i class="fa fa-plus"></i>Direct Payment Links 
+										</div>
+										<div class="tools">
+											<a href="javascript:;" class="collapse">
+											</a>
+										</div>
+									</div>
+<div class="portlet-body">
+<div class="timeline">
+						<div class="timeline-item">
+							<div class="timeline-body">
+								<div class="timeline-body-arrow">
+								</div>
+								<div class="timeline-body-head">
+								<div class="timeline-body-content">
+									<span class="font-grey-cascade">
+									<div id="mytable" class="table-responsive">
+								<table class="table table-hover">
+								<tbody>
+								<tr>
+								<td>Monthly Link: <b><?php echo 'https://www.2checkout.com/checkout/purchase?sid='.$famAcc.'&total='.$famAmu.'&cart_order_id=Direct-Payment-link&c_prod=5&id_type=2&lang=en&mode=new&fixed=Y&py_id='.$famID.''; ?></b></td>
+								</tr>
+								<tr>
+								<td>Recurring Link: <b><?php echo 'https://www.2checkout.com/2co/buyer/purchase?sid='.$famAcc.'&mode=2CO&li_1_price='.$famAmu.'&li_1_name=Recurring payment&li_1_type=product&li_1_recurrence=1 Month&li_1_duration=Forever&merchant_order_id='.$prid1.'&py_id='.$famID.''; ?></b></td>
+							</tr>
+</tbody>
+								</table>
+								</div>
+								</span>
+								</div>
+							</div>
+						</div>
+										</div></div>

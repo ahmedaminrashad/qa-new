@@ -1,0 +1,16 @@
+<?php
+
+  require ("../includes/dbconnection.php");  
+?>
+<?php
+	$pid =$_REQUEST['t_id1'];
+	$link =$_REQUEST['link'];
+
+	mysql_query("UPDATE course SET nature = '2', Teacher = '0' WHERE course_id = '$pid'") or die(mysql_error());  	
+if(mysql_query){
+ 	
+mysql_query("DELETE FROM sched WHERE course_id = '$pid'") or die(mysql_error());
+	header('Location: ' . $_SERVER['HTTP_REFERER']);
+
+}
+?>

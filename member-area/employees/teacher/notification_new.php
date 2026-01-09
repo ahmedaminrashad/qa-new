@@ -1,0 +1,161 @@
+<?php
+require("../includes/dbconnection.php");
+include("../includes/01-var.php");
+<?php
+// Enable error reporting
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+ini_set('log_errors', 1);
+
+if (session_status() !== PHP_SESSION_ACTIVE) {
+    session_start();
+}
+
+require("../includes/dbconnection.php");
+require_once("../includes/mysql-compat.php");
+
+// Check database connection
+if (!isset($conn) || !$conn) {
+    die("Database connection failed. Please contact the administrator.");
+}
+date_default_timezone_set("Africa/Cairo");
+$Sid = $_REQUEST['Sid'];
+$Tid = $_REQUEST['Tid'];
+$Pid = $_REQUEST['Pid'];
+$Mid = $_REQUEST['Mid'];
+$time_start = date(" g:i:A", time(true));
+$time_start1 = date('Y-m-d H:i:s');
+$history = $_REQUEST['history_id'];
+$genderS = '';
+$genderT = '';
+$result1 = mysql_query("SELECT * FROM course Where course_id = '$Sid'");
+if (!$result1) {
+    die("Query to show");
+}
+$student = MYSQL_RESULT($result1, $i, "course_yrSec");
+$genderSId = MYSQL_RESULT($result1, $i, "g_id");
+if($genderSId==1){
+    $genderS = 'Brother';
+} elseif($genderSId==2){
+    $genderS = 'Sister';
+}
+
+$result2 = mysql_query("SELECT * FROM profile Where teacher_id = '$Tid'");
+if (!$result2) {
+    die("Query to show fields from table failed");
+}
+$teacherName = MYSQL_RESULT($result2, $i, "teacher_name");
+$zoomLink = MYSQL_RESULT($result2, $i, "link");
+//$meetingId = str_replace('https://zoom.us/j/', '', $zoomLink); 
+
+$meetingId = str_replace('https://us04web.zoom.us/j/', '', $zoomLink); 
+$meetingId = str_replace('?pwd=a2dvY1dad3JaaFR4d1BiZjRDUW9hQT09', '', $meetingId); 
+$genderTId = MYSQL_RESULT($result2, $i, "g_id");
+if($genderTId==1){
+    $genderT = 'Shaikh';
+} elseif($genderSId==2){
+    $genderT = 'Sister';
+}
+$result3 = mysql_query("SELECT * FROM account Where parent_id = '$Pid'");
+if (!$result3) {
+    die("Query to show fields from table failed");
+}
+$group = MYSQL_RESULT($result3, $i, "group_id");
+$mobile = MYSQL_RESULT($result3, $i, "mobile");
+$parentName = MYSQL_RESULT($result3, $i, "parent_name");
+$Location = '';
+$history = $_REQUEST['history_id'];
+
+
+
+switch ($Mid) {
+    case 1:  // Active
+  mysql_query("UPDATE class_history SET active_msg = '1' WHERE history_id = '$history'") or die(mysql_error());
+        $message =
+            'Assalamu alikum warahmatullah wa barakatuh 
+
+Student *'. $student . '*
+
+Your teacher *' . $teacherName . '* is waiting for you 
+
+*Class Room :* ' . $zoomLink . '
+
+Jazakom Allah khaira
+*Qarabic Family*';
+        $Location = $_SERVER['HTTP_REFERER'];
+        break;
+    case 2: // Notification
+        //mysql_query("UPDATE class_history SET notification = '1' WHERE history_id = '$history'") or die(mysql_error());
+        $message =
+           'Student *'. $student . '*
+
+Just a reminder that your teacher *'.$teacherName .'* is Still Waiting for you ! 
+
+*Class Room :* ' . $zoomLink . '
+
+Jazakom Allah khaira
+*Qarabic Family*';
+        $Location = $_SERVER['HTTP_REFERER'];//'teacher-home';
+        break;
+    case 3: //End
+        $remark =$_REQUEST['remark'];
+  	    $disc =$_REQUEST['disc'];
+  	    $homework =$_REQUEST['homework'];
+        $message = '*Student :* '.$parentName . '
+        
+*'.$genderT. ' ' . $teacherName . '* Made a Report About today\'s Class
+            
+*Lesson Description :* 
+' . $disc . '
+
+*Remarks :* ' . $remark . '
+
+*Home Work :* 
+' . $homework . '
+
+Jazakom Allah khaira
+*Qarabic Family*';
+ $Location = "teacher-home";
+        break;
+    case 4: // absent
+        $message ='Student *' . $student . '*
+            
+We are really Sorry about that
+But your class has been recorded as an *absent !*
+
+
+Jazakom Allah khaira
+*Qarabic Family*';
+        $Location = 'leave_absent_mark?attend=4&history_id='.$history;
+        break;
+}
+$group ='Qarabic Ahmed Family';
+$INSTANCE_ID = '43';  // TODO: Replace it with your gateway instance ID here
+$CLIENT_ID = "qarabicacademy@gmail.com";  // TODO: Replace it with your Forever Green client ID here
+$CLIENT_SECRET = "5d4aac71c6af4c8c80cbd57d4e38f45d";   // TODO: Replace it with your Forever Green client secret here
+$postData = array(
+  'group_admin' => "+201003875047",//"+447418397601" // TODO: Specify the WhatsApp number of the group creator, including the country code
+  'group_name' => $group,    // TODO: Specify the name of the group
+  'message' => $message,  // TODO: Specify the content of your message
+);
+$headers = array(
+  'Content-Type: application/json',
+  'X-WM-CLIENT-ID: '.$CLIENT_ID,
+  'X-WM-CLIENT-SECRET: '.$CLIENT_SECRET
+);
+$url = 'http://api.whatsmate.net/v3/whatsapp/group/text/message/' . $INSTANCE_ID;
+$ch = curl_init($url);
+
+curl_setopt($ch, CURLOPT_POST, 1);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($postData));
+
+$response = curl_exec($ch);
+//echo "Response: ".$group.' - '.$response;
+curl_close($ch);
+
+header("Location: " . $Location);
+
+

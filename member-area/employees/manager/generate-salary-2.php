@@ -1,0 +1,265 @@
+<?php session_start(); ?>
+<?php
+// Enable error reporting
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+ini_set('log_errors', 1);
+
+if (session_status() !== PHP_SESSION_ACTIVE) {
+    session_start();
+}
+
+require("../includes/dbconnection.php");
+require_once("../includes/mysql-compat.php");
+
+// Check database connection
+if (!isset($conn) || !$conn) {
+    die("Database connection failed. Please contact the administrator.");
+}
+<?php
+include("../includes/session.php");
+  include("../includes/manager_rights.php");
+  require ("../includes/dbconnection.php");
+include("header.php");
+$tid =$_REQUEST['ft_id'];
+$t_link =$_REQUEST['ft_link'];
+$month =$_REQUEST['fmon'];
+$year =$_REQUEST['fyyy'];
+$tname =$_REQUEST['ft_name'];
+$tsalary =$_REQUEST['ft_salary'];
+$trent =$_REQUEST['ft_rent'];
+$ttax =$_REQUEST['ft_tax'];
+$tclasses =$_REQUEST['classes'];
+$ddd = ''.$year.'-'.$month.'-01';
+$last_date = date("Y-m-t", strtotime($ddd));
+$ddd = ''.$year.'-'.$month.'-01';
+$last_date = date("Y-m-t", strtotime($ddd));
+function fine($t, $m, $y, $ty)
+  {
+  $sql = "select sum(amount) from teacher_fine WHERE teacher_id = $t AND MONTH(date) = $m AND YEAR(date) = $y AND type = $ty";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if ($row[0] > 0){ echo $row[0]; } else { echo 0; }
+	}
+function leave_duc($t, $m, $y, $ty, $sal)
+  {
+  $result = mysql_query("SELECT * FROM teacher_attendance WHERE teacher_id = $t AND MONTH(date) = $m AND YEAR(date) = $y AND status = $ty");
+if (!$result) 
+	{
+    die("Query to show fields from table failed");
+	}
+$tnumberOfRows = MYSQL_NUMROWS($result);
+If ($tnumberOfRows == 0){
+			echo '0';
+			}
+		else if ($tnumberOfRows > 0) 
+			{$sum = ($sal/30)*$tnumberOfRows;
+			echo $sum;
+			}
+	}
+?>
+<?php
+if (isset($_POST['genSubmit'])) 
+  	{ 		
+		 	$tech_id= $_POST['tech_id'];
+		 	$returns= $_POST['teacher_returns'];
+		 	$bouns= $_POST['teacher_bouns'];
+		 	$rent= $_POST['teacher_rent'];
+		 	$fine= $_POST['teacher_fine'];
+		 	$fine_reduc= $_POST['teacher_reduc'];
+		 	$leave= $_POST['teacher_leave'];
+		 	$advance= $_POST['teacher_advance'];
+		 	$tax= $_POST['teacher_tax'];
+		 	$add_date= $_POST['date'];
+		 	$rate= $_POST['teacher_rate'];
+		 	$num= $_POST['teacher_num'];
+		 	$salary= $_POST['teacher_salary'];
+		 	$link= $_POST['link_id'];
+			mysql_query ("INSERT INTO teacher_salary (teacher_id, date, monthly_salary, company_returns, performance, residence_all, fine, leave_duc, advance_duc, tax, type, fine_reduc, class_rate, num_student)
+					VALUES('$tech_id', '$add_date', '$salary', '$returns', '$bouns', '$rent', '$fine', '$leave', '$advance', '$tax', '2', '$fine_reduc', '$rate', '$num')") or die(mysql_error()); 
+			 	header('Location: '.$link.'');
+				}
+?>
+<?php
+date_default_timezone_set("Asia/Karachi");
+$sy = date('Y-m-d');
+?>
+<?php echo $main_header; ?>
+<?php echo $tool_bar; ?>
+<?php echo $start_menu; ?>
+<?php echo $search_bar; ?>
+<?php echo $main_menu; ?>
+<!-- BEGIN PAGE CONTAINER -->
+<div class="page-container">
+	<!-- BEGIN PAGE HEAD -->
+	<div class="page-head">
+		<div class="container">
+			<!-- BEGIN PAGE TITLE -->
+			<div class="page-title">
+				<h1>Generate <small>Salary</small></h1>
+			</div>
+			<!-- END PAGE TITLE -->
+			<!-- BEGIN PAGE TOOLBAR -->
+			<div class="page-toolbar">
+			</div>
+			<!-- END PAGE TOOLBAR -->
+		</div>
+	</div>
+	<!-- END PAGE HEAD -->
+	<!-- BEGIN PAGE CONTENT -->
+	<div class="page-content">
+		<div class="container">
+			<!-- BEGIN PAGE BREADCRUMB -->
+			<ul class="page-breadcrumb breadcrumb">
+				<li>
+					<a href="admin-home">Home</a><i class="fa fa-circle"></i>
+				</li>
+				<li>
+					<a href="<?php echo $t_link; ?>"><?php echo $tname; ?></a><i class="fa fa-circle"></i>
+				</li>
+				<li class="active">
+					 Generate Salary for (<?php echo $ddd; ?> - <?php echo $last_date; ?>)
+				</li>
+			</ul>
+			<!-- END PAGE BREADCRUMB -->
+			<!-- BEGIN PAGE CONTENT INNER -->
+			<div class="row">
+				<div class="col-md-12">
+					<div class="tabbable tabbable-custom tabbable-noborder tabbable-reversed">
+						<div class="tab-content">
+								<div class="portlet box green">
+									<div class="portlet-title">
+										<div class="caption">
+											<i class="fa fa-plus"></i>You are generating salary for <?php echo $tname; ?>
+										</div> 
+									</div>
+									<div class="portlet-body form">
+										<!-- BEGIN FORM-->
+										<form action="<?php echo $_SERVER['PHP_SELF']?>" method="post" class="form-horizontal form-row-seperated">
+										<div class="form-group">
+															<label class="control-label col-md-3">
+															<strong>Teacher Name</strong></label>
+															<div class="col-md-4">
+															<input type="text" value="<?php echo $tname; ?>" name="teacher_name" id="teacher_name" class="form-control input-circle" readonly>															</div>
+												</div>
+												<div class="form-group">
+													<label class="col-md-3 control-label"><strong>Per Class Rate</strong></label>
+													<div class="col-md-4">
+														<input type="text" value="350" name="teacher_rate" id="teacher_rate" class="form-control input-circle" readonly>
+													</div>
+												</div>
+												<div class="form-group">
+													<label class="col-md-3 control-label"><strong>Number of Classes</strong></label>
+													<div class="col-md-4">
+														<input type="text" value="<?php echo $tclasses; ?>" name="teacher_num" id="teacher_num" class="form-control input-circle" readonly>
+													</div>
+												</div>
+												<div class="form-group">
+													<label class="col-md-3 control-label"><strong>Total Salary</strong></label>
+													<div class="col-md-4">
+														<input type="text" value="<?php echo $tsalary; ?>" name="teacher_salary" id="teacher_num" class="form-control input-circle" readonly>
+													</div>
+												</div>
+												<div class="form-group">
+													<label class="col-md-3 control-label"><strong>Company Returns</strong></label>
+													<div class="col-md-4">
+														<input type="text" value="<?php echo fine("$tid", "$month", "$year", "4"); ?>" name="teacher_returns" id="teacher_returns" class="form-control input-circle">
+													</div>
+												</div>
+												<div class="form-group">
+													<label class="col-md-3 control-label"><strong>Performance Bonus</strong></label>
+													<div class="col-md-4">
+														<input type="text" value="<?php echo fine("$tid", "$month", "$year", "2"); ?>" name="teacher_bouns" id="teacher_bouns" class="form-control input-circle">
+													</div>
+												</div>
+												<div class="form-group">
+													<label class="col-md-3 control-label"><strong>Residence Allowance</strong></label>
+													<div class="col-md-4">
+														<input type="text" value="<?php echo $trent; ?>" name="teacher_rent" id="teacher_rent" class="form-control input-circle" readonly>
+													</div>
+												</div>
+												<div class="form-group">
+													<label class="col-md-3 control-label"><strong>Fine</strong></label>
+													<div class="col-md-4">
+														<input type="text" value="<?php echo fine("$tid", "$month", "$year", "1"); ?>" name="teacher_fine" id="teacher_fine" class="form-control input-circle">
+													</div>
+												</div>
+												<div class="form-group">
+													<label class="col-md-3 control-label"><strong>Reduction in Fine</strong></label>
+													<div class="col-md-4">
+														<input type="text" value="<?php echo fine("$tid", "$month", "$year", "5"); ?>" name="teacher_reduc" id="teacher_reduc" class="form-control input-circle">
+													</div>
+												</div>
+												<div class="form-group">
+													<label class="col-md-3 control-label"><strong>Leave Deduction</strong></label>
+													<div class="col-md-4">
+														<input type="text" value="<?php echo leave_duc("$tid", "$month", "$year", "2", "$tsalary"); ?>" name="teacher_leave" id="teacher_leave" class="form-control input-circle">
+													</div>
+												</div>
+												<div class="form-group">
+													<label class="col-md-3 control-label"><strong>Advance Deduction</strong></label>
+													<div class="col-md-4">
+														<input type="text" value="<?php echo fine("$tid", "$month", "$year", "3"); ?>" name="teacher_advance" id="teacher_advance" class="form-control input-circle">
+													</div>
+												</div>
+												<div class="form-group">
+													<label class="col-md-3 control-label"><strong>Tax</strong></label>
+													<div class="col-md-4">
+														<input type="text" value="<?php echo $ttax; ?>" name="teacher_tax" id="teacher_tax" class="form-control input-circle">
+													</div>
+												</div>
+												<div class="form-group">
+													<label class="col-md-3 control-label"><strong>Salary Date</strong></label>
+													<div class="col-md-4">
+														<input type="date" value="<?php echo $last_date; ?>" name="date" id="date" class="form-control input-circle" readonly>
+													</div>
+												</div>
+												<input type="hidden" value="<?php echo $tid; ?>" name="tech_id" id="tech_id" class="form-control input-circle">
+												<input type="hidden" value="<?php echo $t_link; ?>" name="link_id" id="link_id" class="form-control input-circle">
+												<?php
+	$result = mysql_query("SELECT * FROM teacher_salary where teacher_id = '$tid' and date = '$last_date'");
+	if (!$result) 
+		{
+		die("Query to show fields from table failed");
+		}
+			$numberOfRows = MYSQL_NUMROWS($result);
+			If ($numberOfRows == 0) 
+				{
+			echo '<div class="form-actions">
+												<div class="row">
+													<div class="col-md-offset-3 col-md-9">
+														<button type="submit" name="genSubmit" class="btn btn-circle blue">Submit</button>
+														<a href="'.$t_link.'"><button type="button" class="btn btn-circle default">
+														Cancel</button></a>
+
+													</div>
+												</div>
+											</div>';
+				}
+			else if ($numberOfRows > 0) 
+				{
+				echo '<span class="label label-sm label-success">Already Generated</span>';
+			}
+?>
+
+											
+										</form>
+										<!-- END FORM-->
+									</div>
+								</div>
+							</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- END PAGE CONTENT INNER -->
+		</div>
+	</div>
+	<!-- END PAGE CONTENT -->
+</div>
+<!-- END PAGE CONTAINER -->
+<?php echo $fot; ?>

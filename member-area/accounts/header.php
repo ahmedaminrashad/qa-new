@@ -1,0 +1,420 @@
+<?php
+include("../includes/main-var.php");
+<?php
+// Enable error reporting
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+ini_set('log_errors', 1);
+
+if (session_status() !== PHP_SESSION_ACTIVE) {
+    session_start();
+}
+
+require("../includes/dbconnection.php");
+require_once("../includes/mysql-compat.php");
+
+// Check database connection
+if (!isset($conn) || !$conn) {
+    die("Database connection failed. Please contact the administrator.");
+}
+date_default_timezone_set($TimeZoneCustome);
+$syw = date('Y');
+?>
+<?php
+$main_header = '<!DOCTYPE html>
+<!-- 
+Author: Muhammad Farooq
+Website: https://www.tarteeltechnologies.net/
+Contact: info@tarteeltechnologies.net
+-->
+<!--[if IE 8]> <html lang="en" class="ie8 no-js"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9 no-js"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en">
+<!--<![endif]-->
+<!-- BEGIN HEAD -->
+<head>
+<meta charset="utf-8"/>
+<title>'.$title.'</title>
+<meta https-equiv="X-UA-Compatible" content="IE=edge">
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta https-equiv="Content-type" content="text/html; charset=utf-8">
+<meta content="" name="description"/>
+<meta content="" name="author"/>
+<!-- BEGIN GLOBAL MANDATORY STYLES -->
+
+
+
+    <link rel="stylesheet" href="https://qarabic.com/resources/newassets/styles/uikit.css">
+    <link id="pagestyle" rel="stylesheet" href="https://qarabic.com/resources/newassets/styles/style.css">
+    <link rel="stylesheet" href="https://qarabic.com/resources/newassets/styles/global.css">
+    <link rel="stylesheet" href="https://qarabic.com/resources/newassets/styles/materialize2.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://qarabic.com/resources/newassets/scripts/uikit.js"></script>
+    <script src="https://qarabic.com/resources/newassets/scripts/uikit-icons.min.js"></script>
+
+<link href="https://fonts.googleapis.net/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet" type="text/css">
+<link href="../assets/global/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+<link href="../assets/global/plugins/simple-line-icons/simple-line-icons.min.css" rel="stylesheet" type="text/css">
+<link href="../assets/global/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+<link href="../assets/global/plugins/uniform/css/uniform.default.css" rel="stylesheet" type="text/css">
+<!-- END GLOBAL MANDATORY STYLES -->
+<!-- BEGIN THEME STYLES -->
+<link href="../assets/global/css/components-rounded.css" id="style_components" rel="stylesheet" type="text/css">
+<link href="../assets/global/css/plugins.css" rel="stylesheet" type="text/css">
+<link href="../assets/admin/layout3/css/layout.css" rel="stylesheet" type="text/css">
+<link href="../assets/admin/layout3/css/themes/default.css" rel="stylesheet" type="text/css" id="style_color">
+<link href="../assets/admin/layout3/css/custom.css" rel="stylesheet" type="text/css">
+   <link rel="shortcut icon" href="https://qarabic.com/vendor/local/imgs/icons/meta/android-icon-192x192.png">
+<!-- END THEME STYLES -->
+<script>
+    function Reload()   {
+        document.getElementById("mytable").innerHTML;
+    }
+    </script>
+</head>
+<!-- END HEAD -->
+<!-- BEGIN BODY -->
+<!-- DOC: Apply "page-header-menu-fixed" class to set the mega menu fixed  -->
+<!-- DOC: Apply "page-header-top-fixed" class to set the top menu fixed  -->
+<body>
+<!-- BEGIN HEADER -->
+<div class="page-header">
+	<!-- BEGIN HEADER TOP -->
+	<div class="page-header-top">
+		<div class="container">
+			<!-- BEGIN LOGO -->
+			<div class="page-logo">
+				<a href="'.$site.'"><img src="../assets/admin/layout3/img/logo-default.png" alt="logo" class="logo-default"></a>
+			</div>
+			<!-- END LOGO -->
+			<!-- BEGIN RESPONSIVE MENU TOGGLER -->
+			<a href="javascript:;" class="menu-toggler"></a>
+			<!-- END RESPONSIVE MENU TOGGLER -->'
+?>
+<?php
+$start_menu='<!-- END HEADER TOP -->
+	<!-- BEGIN HEADER MENU -->
+	<div class="page-header-menu">
+		<div class="container">'
+?>
+<?php
+$search_bar='<!-- BEGIN HEADER SEARCH BOX -->
+			<form class="search-form" action="search" method="GET">
+				<div class="input-group">
+					<input type="text" class="form-control" placeholder="Search" name="query">
+					<span class="input-group-btn">
+					<a href="javascript:;" class="btn submit"><i class="icon-magnifier"></i></a>
+					</span>
+				</div>
+			</form>
+			<!-- END HEADER SEARCH BOX -->'
+?>
+<?php
+
+$ccc = '  <header style="z-index: 980;" uk-sticky="bottom: #offset" class="internalMenu uk-active">
+        <div class="row no-gutters">
+            <div class="col-12">
+                <div class="secondHeader">
+                    <div class="logoPart">
+                          <a  href="https://qarabic.com"> <img src="https://qarabic.com/resources/newassets/images/logo.png" alt=""></a> 
+                    </div>
+                    <div class="headerMenu">
+                        <ul class="frontMenu">
+                            <li><a href="https://qarabic.com/index.html">Home</a></li>
+                            <li><a href="https://qarabic.com/index.html#WhyUs">Why Us?</a></li>
+                            <li><a href="https://qarabic.com/index.html#AllCourses">Programmes</a>
+                                <div uk-dropdown="mode: click">
+                                </div>
+                            </li>
+                            <li><a href="https://qarabic.com/blog" >Blog</a></li>
+                            <li><a href="https://qarabic.com/index.html#MeetTeacher">Teachers</a></li>
+                            <li><a href="https://qarabic.com/index.html#AllVideos">Videos</a></li>
+                            <li><a href="https://qarabic.com/index.html#PackagePrice">Pricing</a></li>
+                            <li><a href="#contactModal" uk-toggle>Contact Us</a></li>
+
+                            <li><a href="https://qarabic.com/index.html#JoinUs" >Jobs</a></li>
+                            <li><a href="#" class="logSign">Login/Signup</a>
+                                <div uk-dropdown="mode: click">
+                                    <ol class="uk-nav uk-dropdown-nav">
+                                        <li><a href="https://qarabic.com/member-area/employees/">Teacher Login</a></li>
+                                        <li><a href="https://qarabic.com/member-area/admin/">Employee Login</a></li>
+                                        <li><a href="https://qarabic.com/RegisterNow.html">Register Now</a></li>
+                                    </ol>
+                                </div>
+                            </li>
+                        </ul>
+                        <a href="#sideNavBar" uk-toggle class="SidemenuIcon"><i class="fa fa-bars"></i></a>
+                    </div>
+                </div>
+                   <a href="https://wa.me/+201099892521" id="callnowbutton" target="_blank">
+                         <i class="fa   fa-5x icon-whatsapp-bootom">  
+                            <img name="icon" class="image image-icon-whatsapp" src="https://qarabic.com/resources/newassets/images/whatsapp.png" > 
+                         </i>
+                    </a> 
+                <div id="sideNavBar" uk-offcanvas>
+                    <div class="uk-offcanvas-bar">
+
+                        <button class="uk-offcanvas-close" type="button" uk-close></button>
+
+                        <h3>Menu</h3>
+                        <ul class="sideNavMenu">
+                            <li><a href="https://qarabic.com/index.html#Home" uk-scroll="offset:60">Home</a></li>
+                            <li><a href="https://qarabic.com/index.html#WhyUs" uk-scroll="offset:60">Why Us?</a></li>
+                            <li><a href="https://qarabic.com/index.html#AllCourses" uk-scroll="offset:60">Programme</a></li>
+                            <li><a href="https://qarabic.com/blog" >Blog</a></li>
+                            <li><a href="https://qarabic.com/index.html#MeetTeacher" uk-scroll="offset:60">Teachers</a></li>
+                            <li><a href="https://qarabic.com/index.html#AllVideos"  uk-scroll="offset:60">Videos</a></li>
+                            <li><a href="https://qarabic.com/index.html#PackagePrice" e uk-scroll="offset:60">Pricing</a></li>
+                            <li><a href="#contactModal" uk-toggle>Contact Us</a></li>
+
+                            <li><a href="index.html#JoinUs" uk-toggle  uk-scroll="offset:60">Jobs</a></li>
+                            <li class="arrowToggle"><a uk-toggle="target: #loginmnu; animation: uk-animation-fade" class="sideNavTitle">Login
+                                    <button class="uk-button uk-button-default" href="#loginmnu" type="button"
+                                        uk-toggle="target: #loginmnu; animation: uk-animation-fade"><i
+                                            class="fa fa-plus-circle"></i></button></a>
+                                <div id="loginmnu" hidden>
+                                    <ul class="offSubMenu">
+                                        <li><a href="https://qarabic.com/member-area/employees/">Teacher Login</a></li>
+                                        <li><a href="https://qarabic.com/member-area/admin/">Employee Login</a></li>
+                                        <li><a href="https://qarabic.com/RegisterNow.html">Register Now</a></li>
+                                    </ul>
+                                </div>
+                            </li>
+                        </ul>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>';
+$main_menu='<!-- BEGIN MEGA MENU -->
+			<!-- DOC: Apply "hor-menu-light" class after the "hor-menu" class below to have a horizontal menu with white background -->
+			<!-- DOC: Remove data-hover="dropdown" and data-close-others="true" attributes below to disable the dropdown opening on mouse hover -->
+			<div class="hor-menu ">
+				<ul class="nav navbar-nav">
+					<li>
+						<a href="parents-home">Home</a>
+					</li>
+					<li>
+						<a href="list-of-students">List of Students</a>
+					</li>
+					<li>
+						<a href="course-material">Course Material</a>
+					</li>
+					<li class="menu-dropdown classic-menu-dropdown">
+						<a data-hover="megamenu-dropdown" data-close-others="true" data-toggle="dropdown" href="javascript:;">
+						Complaints <i class="fa fa-angle-down"></i>
+						</a>
+						<ul class="dropdown-menu pull-left">
+							<li>
+								<a href="complaint">Regarding Teacher</a>
+							</li>
+							<li>
+								<a href="new_complaint-other">Regarding Other Issue</a>
+							</li>
+							<li>
+								<a href="complaint-pending">Complaint Record</a>
+							</li>
+						</ul>
+					</li>
+					<li>
+						<a href="ind_details">Invoice(s)</a>
+					</li>
+					<li>
+						<a href="refer-a-friend">Refer A Friend <span class="badge badge badge-warning">NEW</span></a>
+					</li>
+					<li>
+						<a href="'.$blog_url.'" target="_blank">Blog <span class="badge badge badge-warning">NEW</span></a>
+					</li>
+					<li>
+						<a href="logout">Logout</a>
+					</li>
+					</ul>
+			</div>
+			<!-- END MEGA MENU -->
+		</div>
+	</div>
+	<!-- END HEADER MENU -->
+</div>
+<!-- END HEADER -->'
+?>
+<?php
+$fot = '<!-- BEGIN PRE-FOOTER -->
+ <footer>
+        <div class="row no-gutters">
+            <div class="col-12 col-sm-6 col-lg-3 abtus">
+                <div class="footHead">
+                    <h6>About Us</h6>
+                </div>
+                <div class="footCont">
+                    <p>We are leading online Quran & Arabic teaching institute. We are expert in using state of the art
+                        technologies to teach online. We have teacher is who are certified by Al-Ahzar and also fluently
+                        speaks in english and well trained to
+                        teach online.</p>
+                    <ul class="SocIcon">
+                        <li><a href="https://www.facebook.com/qarabicacademy" class="fbIco" target="_blank"><i class="fa fa-facebook"></i></a></li>
+                        <li><a href="https://twitter.com/qarabic4" class="twIco" target="_blank"><i class="fa fa-twitter"></i></a></li>
+                        <li><a href="https://www.youtube.com/channel/UCicMjmAeOv5759JKJuJJIzA?view_as=subscriber" class="ytIco" target="_blank"><i class="fa fa-youtube"></i></a></li>
+                        <li><a href="https://www.instagram.com/qarabicacademy/" class="lkdIco" target="_blank"><i class="fa fa-instagram"></i></a></li>
+                    </ul>
+                    <!--  <div class="appAvailable">
+                        <a href="https://play.google.com/store/apps/details?id=com.Quran Square.mytj&amp;hl=en" target="_blank"><img src="resources/newassets/images/googleplay.png" alt=""></a>
+                        <a href="https://itunes.apple.com/ca/app/mytj/id1447275870?mt=8" target="_blank"><img src="resources/newassets/images/iosapp.png" alt=""></a>
+                    </div>-->
+                </div>
+            </div>
+           
+            <div class="col-12 col-sm-6 col-lg-3 contac">
+                <div class="footHead">
+                    <h6>Contact</h6>
+                    <ul class="ContactInfo">
+                        <li>
+                            <div class="addIcon"><i class="fa fa-home"></i></div>
+                            <div class="addContent">
+                                 <p>Old Bath Road Colnbrook, Slough, Berkshire, London,<br> SL3 0NS</p>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="addIcon"><i class="fa fa-envelope"></i></div>
+                            <div class="addContent">
+                                <p><a href="mailto:'.$email1.'" target="_top">'.$email1.'</a>
+                                <p><a href="mailto:'.$email2.'" target="_top">'.$email2.'</a>
+                                </p>
+                            </div>
+                        </li>
+                        <li>
+                          <div class="addIcon"><i class="fa fa-phone"></i></div>
+                            <div class="addContent">
+                                <a href="tel:'.$phone1.'">'.$phone1.'</a>
+                                <a href="tel:'.$phone12.'">'.$phone2.'</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="footCont">
+                </div>
+            </div>
+            <div class="col-12 col-sm-6 col-lg-3 paym">
+                <div class="footHead">
+                    <h6>Payments</h6>
+                </div>
+                <div class="footCon">
+                    <p>Our payments are securely processed by paypal. We gurantee you that we do not store your credit card
+                        info in our database.</p>
+                    <ul class="payCards">
+                        <li>
+                            <a ><img src="https://qarabic.com/resources/newassets/images/visa.jpg" alt=""></a>
+                        </li>
+                        <li>
+                            <a ><img src="https://qarabic.com/resources/newassets/images/discover.jpg" alt=""></a>
+                        </li>
+                        <li>
+                            <a ><img src="https://qarabic.com/resources/newassets/images/mastercard.jpg" alt=""></a>
+                        </li>
+                        <li>
+                            <a ><img src="https://qarabic.com/resources/newassets/images/paypal.jpg" alt=""></a>
+                        </li>
+                        <li>
+                            <a><img src="https://qarabic.com/resources/newassets/images/western.png" alt=""></a>
+                        </li>
+                    </ul>
+                    
+                </div>
+            </div>
+        </div>
+            
+<!--Start of Tawk.to Script-->
+<script type="text/javascript">
+var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+(function(){
+var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+s1.async=true;
+s1.src="https://embed.tawk.to/5eae8b29203e206707f91425/default";
+s1.charset="UTF-8";
+s1.setAttribute("crossorigin","*");
+s0.parentNode.insertBefore(s1,s0);
+})();
+</script>
+<!--End of Tawk.to Script-->
+
+              <a href="https://wa.me/+201099892521" id="callnowbutton" target="_blank">
+                    <i class="fa   fa-5x icon-whatsapp-bootom">
+                        <img name="icon" class="image image-icon-whatsapp"
+                            src="https://qarabic.com/resources/newassets/images/whatsapp.png">
+                    </i>
+                </a>
+    </footer>
+       
+<!-- END PRE-FOOTER -->
+
+<div class="scroll-to-top">
+	<i class="icon-arrow-up"></i>
+</div>
+<!-- END FOOTER -->
+<!-- BEGIN JAVASCRIPTS(Load javascripts at bottom, this will reduce page load time) -->
+<!-- BEGIN CORE PLUGINS -->
+<!--[if lt IE 9]>
+<script src="../assets/global/plugins/respond.min.js"></script>
+<script src="../assets/global/plugins/excanvas.min.js"></script> 
+<![endif]-->
+<script src="../assets/global/plugins/jquery.min.js" type="text/javascript"></script>
+<script src="../assets/global/plugins/jquery-migrate.min.js" type="text/javascript"></script>
+<!-- IMPORTANT! Load jquery-ui.min.js before bootstrap.min.js to fix bootstrap tooltip conflict with jquery ui tooltip -->
+<script src="../assets/global/plugins/jquery-ui/jquery-ui.min.js" type="text/javascript"></script>
+<script src="../assets/global/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="../assets/global/plugins/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js" type="text/javascript"></script>
+<script src="../assets/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js" type="text/javascript"></script>
+<script src="../assets/global/plugins/jquery.blockui.min.js" type="text/javascript"></script>
+<script src="../assets/global/plugins/jquery.cokie.min.js" type="text/javascript"></script>
+<script src="../assets/global/plugins/uniform/jquery.uniform.min.js" type="text/javascript"></script>
+<!-- END CORE PLUGINS -->
+<script src="../assets/global/scripts/metronic.js" type="text/javascript"></script>
+<script src="../assets/admin/layout3/scripts/layout.js" type="text/javascript"></script>
+<script src="../assets/admin/layout3/scripts/demo.js" type="text/javascript"></script>
+<script>
+jQuery(document).ready(function() {       
+   // initiate layout and plugins
+   Metronic.init(); // init metronic core components
+   Layout.init(); // init current layout
+   Demo.init(); // init demo features
+   
+   // Initialize Bootstrap dropdowns explicitly (works with both .dropdown and .menu-dropdown classes)
+   jQuery('[data-toggle="dropdown"]').on('click', function(e) {
+       e.preventDefault();
+       e.stopPropagation();
+       var $this = jQuery(this);
+       var $parent = $this.closest('.dropdown, .menu-dropdown');
+       
+       // Close other dropdowns
+       jQuery('.dropdown, .menu-dropdown').not($parent).removeClass('open');
+       
+       // Toggle current dropdown
+       $parent.toggleClass('open');
+   });
+   
+   // Close dropdowns when clicking outside
+   jQuery(document).on('click', function(e) {
+       if (!jQuery(e.target).closest('.dropdown, .menu-dropdown').length) {
+           jQuery('.dropdown, .menu-dropdown').removeClass('open');
+       }
+   });
+   
+   // Initialize hover dropdowns if bootstrap-hover-dropdown is loaded
+   try {
+       var hoverDropdown = jQuery.fn.bootstrapHoverDropdown;
+       if (hoverDropdown) {
+           jQuery('[data-hover="dropdown"]').bootstrapHoverDropdown();
+       }
+   } catch(e) {
+       // Plugin not loaded, ignore
+   }
+});
+</script>
+</body>
+<!-- END BODY -->
+</html>'
+?>
+<?php $head_title = $title;
+?>

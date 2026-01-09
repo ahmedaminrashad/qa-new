@@ -1,0 +1,388 @@
+<?php session_start(); ?>
+<?php
+// Enable error reporting
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+ini_set('log_errors', 1);
+
+if (session_status() !== PHP_SESSION_ACTIVE) {
+    session_start();
+}
+
+require("../includes/dbconnection.php");
+require_once("../includes/mysql-compat.php");
+
+// Check database connection
+if (!isset($conn) || !$conn) {
+    die("Database connection failed. Please contact the administrator.");
+}
+  <?php
+  include("../includes/session.php");
+  include("../includes/csr_rights.php");
+  require ("../includes/dbconnection.php");
+include("header.php");
+  $time1 =$_REQUEST['time1'];
+  $time2 =$_REQUEST['time2'];
+  function table($tech){
+      $time1 =$_REQUEST['time1'];
+  $time2 =$_REQUEST['time2'];
+      $result = mysql_query("SELECT * FROM TimeTable WHERE (TimeID >= '$time1' AND TimeID <= '$time2') OR (TimeID >= '$time1' AND TimeID <= '$time2') OR (TimeID >= '$time1' AND TimeID <= '$time2')");
+$counter = 0;
+if (!$result) 
+	{
+    die("Query to show fields from table failed");
+	}
+$numberOfRows = MYSQL_NUMROWS($result);
+If ($numberOfRows == 0) 
+	{
+	echo 'Sorry No Record Found!';
+	}
+else if ($numberOfRows > 0) 
+	{
+	$i=0;
+	while($row = mysql_fetch_array($result))
+		{		
+				$ID = MYSQL_RESULT($result,$i,"TimeID");
+			$name = MYSQL_RESULT($result,$i,"TimeName");
+			$list = MYSQL_RESULT($result,$i,"TimeList");
+			echo '<tr><td>'.$list.'</td>';
+			$result1 = mysql_query("SELECT `sched`.*,`course`.`course_yrSec`,`profile`.`teacher_name` FROM `sched`,`course`,`profile` WHERE sched.course_id=course.course_id and sched.teacher_id=profile.teacher_id
+ HAVING teacher_id='$tech' and day_id = '1' and time_start <= '$name' and time_end > '$name'
+  			");
+			//HAVING course_id='$pCourse'
+		if (!$result1) 
+			{
+			die("Query to show fields from table failed");
+			}
+		$numberOfRows1 = MYSQL_NUMROWS($result1);
+		If ($numberOfRows1 == 0){
+			echo '<td bgcolor="#CECE0F"><a class="add" href="#invoice" data-toggle="modal" data-target="#invoice" teacher-id="'.$tech.'" time-id="'.$name.'" day-id="1"><font color="#FFFFFF">--</font></a></td>';
+			}
+		else if ($numberOfRows1 > 0) 
+			{
+					$sched = MYSQL_RESULT($result1,$i,"sched_id");
+					$TID = MYSQL_RESULT($result1,$i,"teacher_id");
+					$SID = MYSQL_RESULT($result1,$i,"course_id");
+					$hidden_pcourse = MYSQL_RESULT($result1,$i,"course_yrSec");
+					$hidden_pt = MYSQL_RESULT($result1,$i,"teacher_name");
+					$hidden_pday = MYSQL_RESULT($result1,$i,"day_id");
+					$tt1 = MYSQL_RESULT($result1,$i,"time_start");
+					$tt2 = MYSQL_RESULT($result1,$i,"time_end");
+					$trial = MYSQL_RESULT($result1,$i,"status");
+			  		echo '<td bgcolor="#989800"><a class="edit" href="#invoice" data-toggle="modal" data-target="#invoice" data-id="'.$sched.'" tech-id="'.$TID.'" sut-id="'.$SID.'"><font color="#FFFFFF">'.$hidden_pcourse.'</font></a></td>';
+
+			}
+			$result1 = mysql_query("SELECT `sched`.*,`course`.`course_yrSec`,`profile`.`teacher_name` FROM `sched`,`course`,`profile` WHERE sched.course_id=course.course_id and sched.teacher_id=profile.teacher_id
+ HAVING teacher_id='$tech' and day_id = '2' and time_start <= '$name' and time_end > '$name'
+  			");
+			//HAVING course_id='$pCourse'
+		if (!$result1) 
+			{
+			die("Query to show fields from table failed");
+			}
+		$numberOfRows1 = MYSQL_NUMROWS($result1);
+		If ($numberOfRows1 == 0){
+			echo '<td bgcolor="#CECE0F"><a class="add" href="#invoice" data-toggle="modal" data-target="#invoice" teacher-id="'.$tech.'" time-id="'.$name.'" day-id="2"><font color="#FFFFFF">--</font></a></td>';
+			}
+		else if ($numberOfRows1 > 0) 
+			{
+					$sched = MYSQL_RESULT($result1,$i,"sched_id");
+					$TID = MYSQL_RESULT($result1,$i,"teacher_id");
+					$SID = MYSQL_RESULT($result1,$i,"course_id");
+					$hidden_pcourse = MYSQL_RESULT($result1,$i,"course_yrSec");
+					$hidden_pt = MYSQL_RESULT($result1,$i,"teacher_name");
+					$hidden_pday = MYSQL_RESULT($result1,$i,"day_id");
+					$tt1 = MYSQL_RESULT($result1,$i,"time_start");
+					$tt2 = MYSQL_RESULT($result1,$i,"time_end");
+					$trial = MYSQL_RESULT($result1,$i,"status");
+			  		echo '<td bgcolor="#989800"><a class="edit" href="#invoice" data-toggle="modal" data-target="#invoice" data-id="'.$sched.'" tech-id="'.$TID.'" sut-id="'.$SID.'"><font color="#FFFFFF">'.$hidden_pcourse.'</font></a></td>';
+
+			}
+				$result1 = mysql_query("SELECT `sched`.*,`course`.`course_yrSec`,`profile`.`teacher_name` FROM `sched`,`course`,`profile` WHERE sched.course_id=course.course_id and sched.teacher_id=profile.teacher_id
+ HAVING teacher_id='$tech' and day_id = '3' and time_start <= '$name' and time_end > '$name'
+  			");
+			//HAVING course_id='$pCourse'
+		if (!$result1) 
+			{
+			die("Query to show fields from table failed");
+			}
+		$numberOfRows1 = MYSQL_NUMROWS($result1);
+		If ($numberOfRows1 == 0){
+			echo '<td bgcolor="#CECE0F"><a class="add" href="#invoice" data-toggle="modal" data-target="#invoice" teacher-id="'.$tech.'" time-id="'.$name.'" day-id="3"><font color="#FFFFFF">--</font></a></td>';
+			}
+		else if ($numberOfRows1 > 0) 
+			{
+					$sched = MYSQL_RESULT($result1,$i,"sched_id");
+					$TID = MYSQL_RESULT($result1,$i,"teacher_id");
+					$SID = MYSQL_RESULT($result1,$i,"course_id");
+					$hidden_pcourse = MYSQL_RESULT($result1,$i,"course_yrSec");
+					$hidden_pt = MYSQL_RESULT($result1,$i,"teacher_name");
+					$hidden_pday = MYSQL_RESULT($result1,$i,"day_id");
+					$tt1 = MYSQL_RESULT($result1,$i,"time_start");
+					$tt2 = MYSQL_RESULT($result1,$i,"time_end");
+					$trial = MYSQL_RESULT($result1,$i,"status");
+			  		echo '<td bgcolor="#989800"><a class="edit" href="#invoice" data-toggle="modal" data-target="#invoice" data-id="'.$sched.'" tech-id="'.$TID.'" sut-id="'.$SID.'"><font color="#FFFFFF">'.$hidden_pcourse.'</font></a></td>';
+
+			}
+				$result1 = mysql_query("SELECT `sched`.*,`course`.`course_yrSec`,`profile`.`teacher_name` FROM `sched`,`course`,`profile` WHERE sched.course_id=course.course_id and sched.teacher_id=profile.teacher_id
+ HAVING teacher_id='$tech' and day_id = '4' and time_start <= '$name' and time_end > '$name'
+  			");
+			//HAVING course_id='$pCourse'
+		if (!$result1) 
+			{
+			die("Query to show fields from table failed");
+			}
+		$numberOfRows1 = MYSQL_NUMROWS($result1);
+		If ($numberOfRows1 == 0){
+			echo '<td bgcolor="#CECE0F"><a class="add" href="#invoice" data-toggle="modal" data-target="#invoice" teacher-id="'.$tech.'" time-id="'.$name.'" day-id="4"><font color="#FFFFFF">--</font></a></td>';
+			}
+		else if ($numberOfRows1 > 0) 
+			{
+					$sched = MYSQL_RESULT($result1,$i,"sched_id");
+					$TID = MYSQL_RESULT($result1,$i,"teacher_id");
+					$SID = MYSQL_RESULT($result1,$i,"course_id");
+					$hidden_pcourse = MYSQL_RESULT($result1,$i,"course_yrSec");
+					$hidden_pt = MYSQL_RESULT($result1,$i,"teacher_name");
+					$hidden_pday = MYSQL_RESULT($result1,$i,"day_id");
+					$tt1 = MYSQL_RESULT($result1,$i,"time_start");
+					$tt2 = MYSQL_RESULT($result1,$i,"time_end");
+					$trial = MYSQL_RESULT($result1,$i,"status");
+			  		echo '<td bgcolor="#989800"><a class="edit" href="#invoice" data-toggle="modal" data-target="#invoice" data-id="'.$sched.'" tech-id="'.$TID.'" sut-id="'.$SID.'"><font color="#FFFFFF">'.$hidden_pcourse.'</font></a></td>';
+
+			}
+				$result1 = mysql_query("SELECT `sched`.*,`course`.`course_yrSec`,`profile`.`teacher_name` FROM `sched`,`course`,`profile` WHERE sched.course_id=course.course_id and sched.teacher_id=profile.teacher_id
+ HAVING teacher_id='$tech' and day_id = '5' and time_start <= '$name' and time_end > '$name'
+  			");
+			//HAVING course_id='$pCourse'
+		if (!$result1) 
+			{
+			die("Query to show fields from table failed");
+			}
+		$numberOfRows1 = MYSQL_NUMROWS($result1);
+		If ($numberOfRows1 == 0){
+			echo '<td bgcolor="#CECE0F"><a class="add" href="#invoice" data-toggle="modal" data-target="#invoice" teacher-id="'.$tech.'" time-id="'.$name.'" day-id="5"><font color="#FFFFFF">--</font></a></td>';
+			}
+		else if ($numberOfRows1 > 0) 
+			{
+					$sched = MYSQL_RESULT($result1,$i,"sched_id");
+					$TID = MYSQL_RESULT($result1,$i,"teacher_id");
+					$SID = MYSQL_RESULT($result1,$i,"course_id");
+					$hidden_pcourse = MYSQL_RESULT($result1,$i,"course_yrSec");
+					$hidden_pt = MYSQL_RESULT($result1,$i,"teacher_name");
+					$hidden_pday = MYSQL_RESULT($result1,$i,"day_id");
+					$tt1 = MYSQL_RESULT($result1,$i,"time_start");
+					$tt2 = MYSQL_RESULT($result1,$i,"time_end");
+					$trial = MYSQL_RESULT($result1,$i,"status");
+			  		echo '<td bgcolor="#989800"><a class="edit" href="#invoice" data-toggle="modal" data-target="#invoice" data-id="'.$sched.'" tech-id="'.$TID.'" sut-id="'.$SID.'"><font color="#FFFFFF">'.$hidden_pcourse.'</font></a></td>';
+
+			}
+				$result1 = mysql_query("SELECT `sched`.*,`course`.`course_yrSec`,`profile`.`teacher_name` FROM `sched`,`course`,`profile` WHERE sched.course_id=course.course_id and sched.teacher_id=profile.teacher_id
+ HAVING teacher_id='$tech' and day_id = '6' and time_start <= '$name' and time_end > '$name'
+  			");
+			//HAVING course_id='$pCourse'
+		if (!$result1) 
+			{
+			die("Query to show fields from table failed");
+			}
+		$numberOfRows1 = MYSQL_NUMROWS($result1);
+		If ($numberOfRows1 == 0){
+			echo '<td bgcolor="#CECE0F"><a class="add" href="#invoice" data-toggle="modal" data-target="#invoice" teacher-id="'.$tech.'" time-id="'.$name.'" day-id="6"><font color="#FFFFFF">--</font></a></td>';
+			}
+		else if ($numberOfRows1 > 0) 
+			{
+					$sched = MYSQL_RESULT($result1,$i,"sched_id");
+					$TID = MYSQL_RESULT($result1,$i,"teacher_id");
+					$SID = MYSQL_RESULT($result1,$i,"course_id");
+					$hidden_pcourse = MYSQL_RESULT($result1,$i,"course_yrSec");
+					$hidden_pt = MYSQL_RESULT($result1,$i,"teacher_name");
+					$hidden_pday = MYSQL_RESULT($result1,$i,"day_id");
+					$tt1 = MYSQL_RESULT($result1,$i,"time_start");
+					$tt2 = MYSQL_RESULT($result1,$i,"time_end");
+					$trial = MYSQL_RESULT($result1,$i,"status");
+			  		echo '<td bgcolor="#989800"><a class="edit" href="#invoice" data-toggle="modal" data-target="#invoice" data-id="'.$sched.'" tech-id="'.$TID.'" sut-id="'.$SID.'"><font color="#FFFFFF">'.$hidden_pcourse.'</font></a></td>';
+
+			}
+				$result1 = mysql_query("SELECT `sched`.*,`course`.`course_yrSec`,`profile`.`teacher_name` FROM `sched`,`course`,`profile` WHERE sched.course_id=course.course_id and sched.teacher_id=profile.teacher_id
+ HAVING teacher_id='$tech' and day_id = '7' and time_start <= '$name' and time_end > '$name'
+  			");
+			//HAVING course_id='$pCourse'
+		if (!$result1) 
+			{
+			die("Query to show fields from table failed");
+			}
+		$numberOfRows1 = MYSQL_NUMROWS($result1);
+		If ($numberOfRows1 == 0){
+			echo '<td bgcolor="#CECE0F"><a class="add" href="#invoice" data-toggle="modal" data-target="#invoice" teacher-id="'.$tech.'" time-id="'.$name.'" day-id="7"><font color="#FFFFFF">--</font></a></td>';
+			}
+		else if ($numberOfRows1 > 0) 
+			{
+					$sched = MYSQL_RESULT($result1,$i,"sched_id");
+					$TID = MYSQL_RESULT($result1,$i,"teacher_id");
+					$SID = MYSQL_RESULT($result1,$i,"course_id");
+					$hidden_pcourse = MYSQL_RESULT($result1,$i,"course_yrSec");
+					$hidden_pt = MYSQL_RESULT($result1,$i,"teacher_name");
+					$hidden_pday = MYSQL_RESULT($result1,$i,"day_id");
+					$tt1 = MYSQL_RESULT($result1,$i,"time_start");
+					$tt2 = MYSQL_RESULT($result1,$i,"time_end");
+					$trial = MYSQL_RESULT($result1,$i,"status");
+			  		echo '<td bgcolor="#989800"><a class="edit" href="#invoice" data-toggle="modal" data-target="#invoice" data-id="'.$sched.'" tech-id="'.$TID.'" sut-id="'.$SID.'"><font color="#FFFFFF">'.$hidden_pcourse.'</font></a></td>';
+
+			}
+		$i++;		
+		}
+	}
+  }
+?>
+<?php
+date_default_timezone_set("Asia/Karachi");
+$sy = date('Y-m-d');
+?>
+<?php echo $main_header; ?>
+<?php echo $tool_bar; ?>
+<?php echo $start_menu; ?>
+<?php echo $search_bar; ?>
+<?php echo $main_menu; ?>
+<!-- BEGIN PAGE CONTAINER -->
+<div class="page-container">
+	<!-- BEGIN PAGE HEAD -->
+	<div class="page-head">
+		<div class="container">
+			<!-- BEGIN PAGE TITLE -->
+			<div class="page-title">
+				<h1>Search Teacher<small> at local time results</small></h1>
+			</div>
+			<!-- END PAGE TITLE -->
+			<!-- BEGIN PAGE TOOLBAR -->
+			<div class="page-toolbar">
+			</div>
+			<!-- END PAGE TOOLBAR -->
+		</div>
+	</div>
+	<!-- END PAGE HEAD -->
+	<!-- BEGIN PAGE CONTENT -->
+	<div class="page-content">
+		<div class="container">
+
+			<!-- BEGIN PAGE BREADCRUMB -->
+			<ul class="page-breadcrumb breadcrumb">
+				<li>
+					<a href="admin-home">Home</a><i class="fa fa-circle"></i>
+				</li>
+				<li class="active">
+					 List of Available Teachers
+				</li>
+			</ul>
+			<!-- END PAGE BREADCRUMB -->
+			<!-- BEGIN PAGE CONTENT INNER -->
+			<div class="row">
+				<div class="col-md-12">
+					<!-- BEGIN SAMPLE TABLE PORTLET-->
+					<div class="portlet light">
+					
+						<div class="portlet-body">
+							<div id="mytable" class="table-responsive">
+								<?php 
+// sending query
+$time1 =$_REQUEST['time1'];
+  $time2 =$_REQUEST['time2'];
+$gd = $_POST["pgender"];
+$ld = $_POST["plocal"];
+$result = mysql_query("SELECT * FROM profile WHERE (st1 <= '$time1' AND et1 >= '$time2') OR (st2 <= '$time1' AND et2 >= '$time2') OR (st3 <= '$time1' AND et3 >= '$time2') HAVING (cat_id = 8 or teacher_rights = 1) and inout_id = '$ld' AND active =1 AND schedule_status = 1 AND training = 1 AND g_id = '$gd'");
+$counter = 0;
+if (!$result) 
+	{
+    die("Query to show fields from table failed");
+	}
+$numberOfRows = MYSQL_NUMROWS($result);
+If ($numberOfRows == 0) 
+	{
+	echo 'Sorry No Record Found!';
+	}
+else if ($numberOfRows > 0) 
+	{
+	$i=0;
+	while ($i<$numberOfRows)
+		{		
+			if(($i%2)==0) 
+				{
+					$bgcolor ='#FFFFFF';
+				}
+			else
+				{
+					$bgcolor ='#F7F7FF';
+				}		
+				$profile_no = MYSQL_RESULT($result,$i,"teacher_id");
+			$tname = MYSQL_RESULT($result,$i,"teacher_name");		
+			$pT = MYSQL_RESULT($result,$i,"teacher_id");
+			$rg_level = MYSQL_RESULT($result,$i,"level");
+?>
+							<table class="table table-striped table-bordered table-hover">
+								<thead>
+								<tr>
+									<th col width="150"><?php echo $tname; ?></th>
+									<th>MONDAY</th>
+									<th>TUESDAY</th>
+									<th>WEDNESDAY</th>
+									<th>THURSDAY</th>
+									<th>FRIDAY</th>
+									<th>SATURDAY</th>
+									<th>SUNDAY</th>
+								</tr>
+								</thead>
+<tbody>
+<?php 
+echo table("$profile_no");
+	
+?>
+</tbody>
+
+							</table>
+							<?php 	
+		$i++;		
+		}
+	}	
+?>
+							</div>
+						</div>
+					</div>
+					<!-- END SAMPLE TABLE PORTLET-->
+					<div class="modal fade bs-modal-lg" id="invoice" tabindex="-1" role="dialog" aria-hidden="true">
+								<div class="modal-dialog modal-lg">
+									<div class="modal-content">
+
+
+        </div>
+    </div>
+</div>
+				</div>
+			</div>
+			<!-- END PAGE CONTENT INNER -->
+		</div>
+	</div>
+	<!-- END PAGE CONTENT -->
+</div>
+<!-- END PAGE CONTAINER -->
+<?php echo $fot; ?>
+<script>
+$('.add').click(function(){
+    var TeacherID=$(this).attr('teacher-id');
+     var TimeID=$(this).attr('time-id');
+     var DayID=$(this).attr('day-id');
+
+    $.ajax({url:"01-add-schedule.php?TeacherID="+TeacherID+"&TimeID="+TimeID+"&DayID="+DayID,cache:false,success:function(result){
+        $(".modal-content").html(result);
+    }});
+});
+</script>
+<script>
+$('.edit').click(function(){
+    var famID=$(this).attr('data-id');
+     var TechID=$(this).attr('tech-id');
+     var SutID=$(this).attr('sut-id');
+
+    $.ajax({url:"01-edit-schedule.php?famID="+famID+"&TechID="+TechID+"&SutID="+SutID,cache:false,success:function(result){
+        $(".modal-content").html(result);
+    }});
+});
+</script>

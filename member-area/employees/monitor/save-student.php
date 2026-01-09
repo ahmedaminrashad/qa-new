@@ -1,0 +1,52 @@
+<?php session_start(); ?>
+<?php
+// Enable error reporting
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+ini_set('log_errors', 1);
+
+if (session_status() !== PHP_SESSION_ACTIVE) {
+    session_start();
+}
+
+require("../includes/dbconnection.php");
+require_once("../includes/mysql-compat.php");
+
+// Check database connection
+if (!isset($conn) || !$conn) {
+    die("Database connection failed. Please contact the administrator.");
+}
+<?php
+include("../includes/session.php");
+  include("../includes/s_manager_rights.php");
+  require ("../includes/dbconnection.php");
+include("header.php");
+$g =$_REQUEST['t_id'];
+$cv =$_REQUEST['cp_id'];
+$mang =$_REQUEST['man_id'];
+$trial =$_REQUEST['trial_id'];
+$tz11 =$_REQUEST['time_id'];
+$csr1 =$_REQUEST['csr_id'];
+
+$result = mysql_query("SELECT * FROM time_zone WHERE tz_id = $tz11");
+if (!$result) 
+		{
+		die("Quedfbdfiled");
+		}
+			$numberOfRows = MYSQL_NUMROWS($result);
+			If ($numberOfRows == 0) 
+				{
+				echo '';
+				}
+			else if ($numberOfRows > 0) 
+				{
+				$i=0;
+			$tzy_parent = MYSQL_RESULT($result,$i,"timezone_diff");
+			$tzname_tech = MYSQL_RESULT($result,$i,"timezone_name");
+			$tzy_id = MYSQL_RESULT($result,$i,"tz_id");
+			$tzy_php = MYSQL_RESULT($result,$i,"php_tz");
+				}
+header(
+			 	"Location: add-student-account?par_id=$g&con_id=$cv&man_id=$mang&trial_id=$trial&time_id=$tz11&time_name=$tzname_tech&time_dif=$tzy_parent&time_php=$tzy_php&csr=$csr1");
+?>

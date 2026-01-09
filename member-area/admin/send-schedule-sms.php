@@ -1,0 +1,142 @@
+<?php
+
+  require ('../includes/dbconnection.php');
+  require ("../includes/smsGateway.php");
+<?php
+// Enable error reporting
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+ini_set('log_errors', 1);
+
+if (session_status() !== PHP_SESSION_ACTIVE) {
+    session_start();
+}
+
+require("../includes/dbconnection.php");
+require_once("../includes/mysql-compat.php");
+
+// Check database connection
+if (!isset($conn) || !$conn) {
+    die("Database connection failed. Please contact the administrator.");
+}
+		$t_id =$_REQUEST['tech'];
+		$s_id =$_REQUEST['stu'];
+		$t_timee =$_REQUEST['ttime'];
+		$wtday1 =$_REQUEST['td1'];
+		$wtday2 =$_REQUEST['td2'];
+		$wtday3 =$_REQUEST['td3'];
+		$wtday4 =$_REQUEST['td4'];
+		$wtday5 =$_REQUEST['td5'];
+		$wtday6 =$_REQUEST['td6'];
+		$wtday7 =$_REQUEST['td7'];
+		
+		if ($wtday1 == 1){
+			$day1 = "Monday"; 
+			}
+		if ($wtday2 == 2){
+			$day2 = 'Tuseday'; 
+			}
+		if ($wtday3 == 3){
+			$day3 = 'Wednesday'; 
+			}
+		if ($wtday4 == 4){
+			$day4 = 'Thusday'; 
+			}
+		if ($wtday5 == 5){
+			$day5 = 'Friday'; 
+			}
+		if ($wtday6 == 6){
+			$day6 = 'Saturday'; 
+			}
+		if ($wtday7 == 7){
+			$day7 = 'Sunday'; 
+			}
+		$result1 = mysql_query("SELECT * FROM profile HAVING teacher_id='$t_id'");
+if (!$result1) 
+		{
+		die("Query to show fields from table failed");
+		}
+			$numberOfRows = MYSQL_NUMROWS($result1);
+			If ($numberOfRows == 0) 
+				{
+				echo '';
+				}
+			else if ($numberOfRows > 0) 
+				{
+				$i=0;
+			$t_name = MYSQL_RESULT($result1,$i,"teacher_name");
+			$mobile = MYSQL_RESULT($result1,$i,"Mobile");
+				}	
+		$result1 = mysql_query("SELECT * FROM course HAVING course_id='$s_id'");
+if (!$result1) 
+		{
+		die("Query to show fields from table failed");
+		}
+			$numberOfRows = MYSQL_NUMROWS($result1);
+			If ($numberOfRows == 0) 
+				{
+				echo '';
+				}
+			else if ($numberOfRows > 0) 
+				{
+				$i=0;
+			$s_name = MYSQL_RESULT($result1,$i,"course_yrSec");
+				}	
+		$result1 = mysql_query("SELECT * FROM timestart HAVING time_s_id='$t_timee'");
+if (!$result1) 
+		{
+		die("Query to show fields from table failed");
+		}
+			$numberOfRows = MYSQL_NUMROWS($result1);
+			If ($numberOfRows == 0) 
+				{
+				echo '';
+				}
+			else if ($numberOfRows > 0) 
+				{
+				$i=0;
+			$time_name = MYSQL_RESULT($result1,$i,"time_s");
+				}	
+				
+				$result = mysql_query("SELECT * FROM sms_status WHERE service_id = 5");
+ if (!$result) 
+			{
+			die("Query to show fields from table failed");
+			}
+		$numberOfRows = MYSQL_NUMROWS($result);
+		If ($numberOfRows == 0){
+			echo '';
+			}
+		else if ($numberOfRows > 0) 
+			{
+			$i=0;
+			while ($i<$numberOfRows)
+				{			
+					$ser_id = MYSQL_RESULT($result,$i,"service_id");
+					$ser_name = MYSQL_RESULT($result,$i,"service_name");
+					$ser_status = MYSQL_RESULT($result,$i,"service_status");
+					$ser_number = MYSQL_RESULT($result,$i,"service_number");
+					$ser_device = MYSQL_RESULT($result,$i,"device_id");
+					$ser_user = MYSQL_RESULT($result,$i,"sms_user");
+					$ser_pass = MYSQL_RESULT($result,$i,"sms_pass");
+			 if ($ser_status == 1){			
+ $smsGateway = new SmsGateway($ser_user, $ser_pass);
+
+$deviceID = $ser_device;
+$number = $mobile;
+$message = ''.$ser_name.' STUDENT: '.$s_name.' DAYS: '.$day1.' '.$day2.' '.$day3.' '.$day4.' '.$day5.' '.$day6.' '.$day7.' at '.$time_name.'';
+
+$options = [
+'expires_at' => strtotime('+1 hour') // Cancel the message in 1 hour if the message is not yet sent
+];
+
+//Please note options is no required and can be left out
+$result = $smsGateway->sendMessageToNumber($number, $message, $deviceID, $options);
+}
+else {}
+	$i++;	 
+			}
+			}
+				header("Location: teacher-schedule?pT=$t_id");
+?>

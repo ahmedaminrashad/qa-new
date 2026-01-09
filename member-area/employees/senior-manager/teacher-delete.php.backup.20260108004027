@@ -1,0 +1,9 @@
+<?php
+  require ("../includes/dbconnection.php");  
+?>
+<?php
+	$profile_no =$_REQUEST['pteacher'];
+
+	mysql_query("DELETE FROM profile WHERE teacher_id = '$profile_no'") or die(mysql_error());
+	header("Location: facultylist-a.php");
+?>

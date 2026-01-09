@@ -1,0 +1,21 @@
+<?php
+
+  require ("../includes/dbconnection.php");  
+?>
+<?php
+	$pid =$_REQUEST['t_id'];
+	$did =$_REQUEST['d_id'];
+	$frs =$_REQUEST['frr'];
+	$curs =$_REQUEST['cur'];
+	$link =$_REQUEST['link'];
+
+	mysql_query("UPDATE account SET active = '1', regular_date = '$did' WHERE parent_id = '$pid'") or die(mysql_error());
+	
+	mysql_query("UPDATE course SET active = '1', regular_date = '$did' WHERE parent_id = $pid") or die(mysql_error());
+	
+	mysql_query("UPDATE sched SET status = '1' WHERE parent_id = '$pid'") or die(mysql_error());
+	
+	mysql_query("UPDATE class_history SET status = '1' WHERE parent_id = '$pid'") or die(mysql_error());
+
+	header("Location: create-monthly-invoice-ins?pids=$pid&frr=$frs&cur=$curs&link=$link");
+?>

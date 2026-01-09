@@ -1,0 +1,108 @@
+<?php
+require ("../../includes/dbconnection.php");
+<?php
+// Enable error reporting
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+ini_set('log_errors', 1);
+
+if (session_status() !== PHP_SESSION_ACTIVE) {
+    session_start();
+}
+
+require("../includes/dbconnection.php");
+require_once("../includes/mysql-compat.php");
+
+// Check database connection
+if (!isset($conn) || !$conn) {
+    die("Database connection failed. Please contact the administrator.");
+}
+date_default_timezone_set("Africa/Cairo");
+$y =$_REQUEST['year_id'];
+// Connect to MySQL
+$link = mysql_connect( $server_db, $username_db, $userpass_db );
+if ( !$link ) {
+  die( 'Could not connect: ' . mysql_error() );
+}
+
+// Select the data base
+$db = mysql_select_db( $name_db, $link );
+if ( !$db ) {
+  die ( 'Error selecting database \'test\' : ' . mysql_error() );
+}
+
+// Fetch the data
+function poffice1($m){
+$y =$_REQUEST['year_id'];
+  $sql = "select sum(amount) from account_entry where (account_head = 3 Or account_head = 5 Or account_head = 13 Or account_head = 15 Or account_head = 16 Or account_head = 17 Or account_head = 18 Or account_head = 19 Or account_head = 22 Or account_head = 23 Or account_head = 42 Or account_head = 44) AND MONTH(date) = $m AND YEAR(date) = $y AND office_id = 1";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo $row[0];
+        }
+    else
+        {
+            echo '0';
+        }
+}
+function poffice2($m){
+$y =$_REQUEST['year_id'];
+  $sql = "select sum(amount) from account_entry where (account_head = 3 Or account_head = 5 Or account_head = 13 Or account_head = 15 Or account_head = 16 Or account_head = 17 Or account_head = 18 Or account_head = 19 Or account_head = 22 Or account_head = 23 Or account_head = 42 Or account_head = 44) AND MONTH(date) = $m AND YEAR(date) = $y AND office_id = 2";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo $row[0];
+        }
+    else
+        {
+            echo '0';
+        }
+}
+function poffice3($m){
+$y =$_REQUEST['year_id'];
+  $sql = "select sum(amount) from account_entry where (account_head = 3 Or account_head = 5 Or account_head = 13 Or account_head = 15 Or account_head = 16 Or account_head = 17 Or account_head = 18 Or account_head = 19 Or account_head = 22 Or account_head = 23 Or account_head = 42 Or account_head = 44) AND MONTH(date) = $m AND YEAR(date) = $y AND office_id = 3";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo $row[0];
+        }
+    else
+        {
+            echo '0';
+        }
+}
+$query = "SELECT * FROM month ORDER BY month_id ASC";
+$result = mysql_query( $query );
+
+// All good?
+if ( !$result ) {
+  // Nope
+  $message  = 'Invalid query: ' . mysql_error() . "\n";
+  $message .= 'Whole query: ' . $query;
+  die( $message );
+}
+
+// Print out rows
+$prefix = '';
+echo "[\n";
+while ( $row = mysql_fetch_assoc( $result ) ) {
+  echo $prefix . " {\n";
+  echo '  "month": "' . $row['month_name'] . '",' . "\n";
+  echo '  "Office_1": ' . "\n";
+  echo '  ' . poffice1($row['num']) . ',' . "\n";
+  echo '  "Office_2": ' . "\n";
+  echo '  ' . poffice2($row['num']) . ',' . "\n";
+  echo '  "Office_3": ' . "\n";
+  echo '  ' . poffice3($row['num']) . '' . "\n";
+  echo " }";
+  $prefix = ",\n";
+}
+echo "\n]";
+
+// Close the connection
+mysql_close($link);
+?>

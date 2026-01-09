@@ -1,0 +1,13 @@
+<?php
+
+  require ("../includes/dbconnection.php");  
+?>
+<?php
+	$pid =$_REQUEST['pids'];
+	$tsu =$_REQUEST['ats'];
+
+	mysql_query("UPDATE sched3 SET status = $tsu WHERE course_id = $pid") or die(mysql_error());  	
+
+	header("Location: list-of-active-students");
+
+?>

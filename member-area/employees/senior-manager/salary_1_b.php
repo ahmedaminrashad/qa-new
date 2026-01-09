@@ -1,0 +1,231 @@
+<?php session_start(); ?>
+<?php
+// Enable error reporting
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+ini_set('log_errors', 1);
+
+if (session_status() !== PHP_SESSION_ACTIVE) {
+    session_start();
+}
+
+require("../includes/dbconnection.php");
+require_once("../includes/mysql-compat.php");
+
+// Check database connection
+if (!isset($conn) || !$conn) {
+    die("Database connection failed. Please contact the administrator.");
+}
+<?php
+include("../includes/session.php");
+  include("../includes/s_manager_rights.php");
+  require ("../includes/dbconnection.php");
+include("header.php");
+  $sy =$_REQUEST['pdept'];
+  $tt =$_REQUEST["pti"];
+  $t_name =$_REQUEST["pti_name"];
+  $link =$_REQUEST['pti_link'];
+?>
+<?php
+date_default_timezone_set("Africa/Cairo");
+$sy1 = date('Y-m-d');
+?>
+<?php echo $main_header; ?>
+<?php echo $tool_bar; ?>
+<?php echo $start_menu; ?>
+<?php echo $main_menu; ?>
+<!-- BEGIN PAGE CONTAINER -->
+<div class="page-container">
+	<!-- BEGIN PAGE HEAD -->
+	<div class="page-head">
+		<div class="container">
+			<!-- BEGIN PAGE TITLE -->
+			<div class="page-title">
+				<h1>Salary Details<small> <?php echo $t_name; ?></small></h1>
+			</div>
+			<!-- END PAGE TITLE -->
+			<!-- BEGIN PAGE TOOLBAR -->
+			<div class="page-toolbar">
+			</div>
+			<!-- END PAGE TOOLBAR -->
+		</div>
+	</div>
+	<!-- END PAGE HEAD -->
+	<!-- BEGIN PAGE CONTENT -->
+	<div class="page-content">
+		<div class="container">
+			<!-- BEGIN SAMPLE PORTLET CONFIGURATION MODAL FORM-->
+			<div class="modal fade" id="portlet-config" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+							<h4 class="modal-title">Modal title</h4>
+						</div>
+						<div class="modal-body">
+							 Widget settings form goes here
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn blue">Save changes</button>
+							<button type="button" class="btn default" data-dismiss="modal">
+							Close</button>
+						</div>
+					</div>
+					<!-- /.modal-content -->
+				</div>
+				<!-- /.modal-dialog -->
+			</div>
+			<!-- /.modal -->
+			<!-- END SAMPLE PORTLET CONFIGURATION MODAL FORM-->
+			<!-- BEGIN PAGE BREADCRUMB -->
+			<ul class="page-breadcrumb breadcrumb">
+				<li>
+					<a href="admin-home">Home</a><i class="fa fa-circle"></i>
+				</li>
+				<li>
+					<a href="<?php echo $link; ?>">Go Back</a><i class="fa fa-circle"></i>
+				</li>
+				<li class="active">
+					 Salary Details	of <a href="<?php echo $link; ?>"><?php echo $t_name; ?></a>
+				</li>
+			</ul>
+			<!-- END PAGE BREADCRUMB -->
+			<!-- BEGIN PAGE CONTENT INNER -->
+			<div class="row">
+				<div class="col-md-12">
+					<!-- BEGIN SAMPLE TABLE PORTLET-->
+					<div class="portlet light">
+					<h3>For the Year: <span class="caption-subject font-green-sharp bold uppercase"><?php echo $sy; ?></span></h3>
+						<form action="salary_1_b?pti=<?php echo $tt; ?>" method="GET" class="form-horizontal form-row-sepe">
+										<label class="control-label">Select Year</label>
+											<select class="form-control input-small select2me" data-placeholder="Select..." name="pdept"  id="pdept" onchange="this.form.submit()">
+												<?php // source 1: http://www.dmxzone.com/showDetail.asp?NewsId=5102&TypeId=25
+			  	// source 2: http://localhost/phpmyadmin/index.php?db=mydbase&token=651c0063e511c381c9c82ce1fe9b6854
+				$result = mysql_query("SELECT * FROM school_yr ORDER BY year_id ");			  	
+				do {  ?>
+  <option value="<?php echo $row['school_year'];?>"><?php echo $row['school_year'];?> </option>
+  <?php } while ($row = mysql_fetch_assoc($result)); ?>
+</select>	
+										</form>
+						<div class="portlet-body">
+							<div id="mytable" class="table-responsive">
+								<table class="table table-hover">
+								<thead>
+								<tr>
+								<th>
+									 Month-Year
+								</th>
+								<th>
+									 Monthly Salary
+								</th>
+								<th>
+									 Total Inclusions
+								</th>
+								<th>
+									 Total Deduction
+								</th>
+								<th>
+									 Fine Reduction
+								</th>
+								<th>
+									 Total Paid
+								</th>
+								<th>
+									 
+								</th>
+								<?php 
+// sending query
+$result = mysql_query("SELECT * FROM teacher_salary WHERE teacher_id = $tt AND YEAR(date) = $sy");
+$counter = 0;
+if (!$result) 
+	{
+    die("There is problem in records please contact IT department");
+	}
+$numberOfRows = MYSQL_NUMROWS($result);
+If ($numberOfRows == 0) 
+	{
+	echo 'Sorry No Record Found!';
+	}
+else if ($numberOfRows > 0) 
+	{
+	$i=0;
+	while ($i<$numberOfRows)
+		{		
+			if(($i%2)==0) 
+				{
+					$bgcolor ='#FFFFFF';
+				}
+			else
+				{
+					$bgcolor ='#F7F7FF';
+				}		
+			$sal_id = MYSQL_RESULT($result,$i,"salary_id");
+			$ttt_id = MYSQL_RESULT($result,$i,"teacher_id");
+			$t_date = MYSQL_RESULT($result,$i,"date");
+			$t_salary = MYSQL_RESULT($result,$i,"monthly_salary");
+			$t_returns = MYSQL_RESULT($result,$i,"company_returns");
+			$t_bouns = MYSQL_RESULT($result,$i,"performance");
+			$t_rent = MYSQL_RESULT($result,$i,"residence_all");
+			$t_fine = MYSQL_RESULT($result,$i,"fine");
+			$t_leave = MYSQL_RESULT($result,$i,"leave_duc");
+			$t_advance = MYSQL_RESULT($result,$i,"advance_duc");
+			$t_tax = MYSQL_RESULT($result,$i,"tax");
+			$t_type = MYSQL_RESULT($result,$i,"type");
+			$t_reduc = MYSQL_RESULT($result,$i,"fine_reduc");
+			$total_add = $t_returns + $t_bouns + $t_rent;
+			$total_sub = $t_fine + $t_leave + $t_advance + $t_tax;
+			$paid = $t_salary + $total_add + $t_reduc - $total_sub;
+?>
+							</tr>
+								</thead>YEAR(date)
+								<tbody>
+								<tr bgcolor="<?php echo $bgcolor; ?>">
+								<td>
+									 <?php echo date('m-Y',strtotime($t_date)); ?>
+								</td>
+								<td>
+									<b>Rs. <?php echo $t_salary; ?> /-</b>
+								</td>
+								<td>
+									Rs. <?php echo $total_add; ?> /-
+								</td>
+								<td>
+									Rs. <?php echo $total_sub; ?> /-
+								</td>
+								<td>
+									Rs. <?php echo $t_reduc; ?> /-
+								</td>
+								<td>
+									<b>Rs. <?php echo $paid; ?> /-</b>
+								</td>
+								<td>
+									<a href="salary-details_<?php echo $tt_type; ?>?sal_id=<?php echo $sal_id; ?>&teacher_n=<?php echo $t_name; ?>"><button type="button" class="btn green btn-xs">See Details</button></a>
+								</td>
+							</tr>
+							<?php 	
+		$i++;		
+		}
+	}	
+?>
+								</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+					<!-- END SAMPLE TABLE PORTLET-->
+				</div>
+			</div>
+			<!-- END PAGE CONTENT INNER -->
+		</div>
+	</div>
+	<!-- END PAGE CONTENT -->
+</div>
+<!-- END PAGE CONTAINER -->
+<?php echo $fot; ?>
+<script language="javascript" >
+	var form = document.forms[0];
+	//purpose?: to retrieve what users last input on the field..
+	form.pdept.value = ("<?php echo $sy; ?>");
+	//alert (form.pCityM.value);				
+</script>

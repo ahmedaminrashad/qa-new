@@ -1,0 +1,277 @@
+<?php session_start(); ?>
+<?php
+  include("../includes/session.php");
+require("../includes/dbconnection.php");
+include("../includes/teacher_rights.php");include("header.php");
+?>
+<?php
+
+    if (isset($_POST['cmdSubmit'])) 
+  	{ 		
+		 	$as_id= $_POST['student_id'];
+			$at_id= $_POST['teacher_id'];
+			$am_id= $_POST['month_id'];
+			$ay_id= $_POST['year_id'];
+			$adat= $_POST['date'];
+			$atim= $_POST['time'];
+			$adis= $_POST['discription'];
+			$ad_id= $_POST['dept_id'];
+			$ag_id= $_POST['g_id'];
+			$al_id= $_POST['lan_id'];
+			$ac_id= $_POST['c_id'];
+			$apr_id= $_POST['pr_id'];
+			$app_id= $_POST['parent_id'];
+			$aman_id= $_POST['man_id'];
+			$atn= $_POST['timename'];
+			$apn= $_POST['tzphp'];	
+			$sst= $_POST['stut'];
+			mysql_query ("INSERT INTO test_results (course_id, teacher_id, m_id, y_id, test_date, test_time, test_discription, parent_id, dept_id, c_id, g_id, lan_id, tremark, time_name, phptime, man_id, test_status, makharij, noon_sakin, meem_sakin, qulqala, guuna, madda)
+					VALUES('$as_id', '$at_id', '$am_id', '$ay_id', '$adat', '$atim', '" . mysql_real_escape_string($adis) . "', '$app_id', '2', '$ac_id', '$ag_id', '$al_id', '$apr_id', '$atn', '$apn', '$aman_id', '$sst', '1', '1', '1', '1', '1', '1')") or die(mysql_error()); 
+					 header(
+			 	"Location: teacher-student-list");
+				}
+?>
+<?php
+date_default_timezone_set($_SESSION['is']['teacher_time']);
+$mon = date('F');
+if($mon== "January") 
+        {
+            $m = 1;
+        }
+    elseif($mon== "February")
+        {
+            $m = 2;
+        } 
+    elseif($mon== "March") 
+        {
+            $m = 3;
+        } 
+    elseif($mon== "April")
+        {
+            $m = 4;
+        } 
+    elseif($mon== "May")
+        {
+            $m = 5;
+        } 
+    elseif($mon== "June") 
+        {
+            $m = 6;
+        } 
+    elseif($mon== "July")
+        {
+            $m = 7;
+        } 
+    elseif($mon== "August") 
+        {
+            $m = 8;
+        } 
+    elseif($mon== "September")
+        {
+            $m = 9;
+        } 
+    elseif($mon== "October")
+        {
+            $m = 10;
+        } 
+    elseif($mon== "November") 
+        {
+            $m = 11;
+        }
+    else 
+        {
+    // Since it is not any of the days above it must be Saturday
+            $m = 12;
+        }
+?>
+<?php
+date_default_timezone_set($_SESSION['is']['teacher_time']);
+$sy = date('Y');
+if($sy == "2014") 
+        {
+            $y = 1;
+        }
+    elseif($sy == "2015")
+        {
+           $y = 2;
+        } 
+    elseif($sy == "2016") 
+        {
+            $y = 3;
+        }
+    elseif($sy == "2017") 
+        {
+            $y = 4;
+        }
+    elseif($sy == "2018") 
+        {
+            $y = 5;
+        }
+    elseif($sy == "2019") 
+        {
+            $y = 6;
+        }
+    elseif($sy == "2020") 
+        {
+            $y = 7;
+        }
+?>
+<?php
+date_default_timezone_set("Asia/Karachi");
+$t_date = date('Y-m-d');
+?>
+<?php echo $main_header; ?>
+<?php echo $tool_bar; ?>
+<?php echo $start_menu; ?>
+<?php echo $search_bar; ?>
+<?php echo $main_menu; ?>
+<!-- BEGIN PAGE CONTAINER -->
+<div class="page-container">
+	<!-- BEGIN PAGE HEAD -->
+	<div class="page-head">
+		<div class="container">
+			<!-- BEGIN PAGE TITLE -->
+			<div class="page-title">
+				<h1>Create Test <small><?php echo $mon; ?>-<?php echo $sy; ?></small></h1>
+			</div>
+			<!-- END PAGE TITLE -->
+			<!-- BEGIN PAGE TOOLBAR -->
+			<div class="page-toolbar">
+			</div>
+			<!-- END PAGE TOOLBAR -->
+		</div>
+	</div>
+	<!-- END PAGE HEAD -->
+	<!-- BEGIN PAGE CONTENT -->
+	<div class="page-content">
+		<div class="container">
+			<!-- BEGIN PAGE BREADCRUMB -->
+			<ul class="page-breadcrumb breadcrumb">
+				<li>
+					<a href="admin-home">Home</a><i class="fa fa-circle"></i>
+				</li>
+				<li class="active">
+					 Create Test
+				</li>
+			</ul>
+			<!-- END PAGE BREADCRUMB -->
+			<!-- BEGIN PAGE CONTENT INNER -->
+			<div class="row">
+				<div class="col-md-12">
+					<div class="tabbable tabbable-custom tabbable-noborder tabbable-reversed">
+						<div class="tab-content">
+								<div class="portlet box green">
+									<div class="portlet-title">
+										<div class="caption">
+											<i class="fa fa-mortar-board"></i>You are Creating Test
+										</div>
+									</div>
+									<div class="portlet-body form">
+										<!-- BEGIN FORM--><?php
+										$st_id =base64_decode($_GET['st_id']);
+$result = mysql_query("SELECT * FROM course WHERE course_id = $st_id");
+if (!$result) 
+		{
+		die("Querffffffffffffd");
+		}
+			$numberOfRows = MYSQL_NUMROWS($result);
+			If ($numberOfRows == 0) 
+				{
+			//echo 'Sorry No Record Found!';
+				}
+			else if ($numberOfRows > 0) 
+				{
+				$i=0;
+			$pcourse = MYSQL_RESULT($result,$i,"course_id");
+			$pcoursennn = MYSQL_RESULT($result,$i,"course_yrSec");
+			$pdept = MYSQL_RESULT($result,$i,"dept_id");
+			$pgender = MYSQL_RESULT($result,$i,"g_id");
+			$plan = MYSQL_RESULT($result,$i,"lan_id");
+			$pcon = MYSQL_RESULT($result,$i,"c_id");
+			$ptech = MYSQL_RESULT($result,$i,"Teacher");
+			$premark = MYSQL_RESULT($result,$i,"remark_teacher");
+			$pparent = MYSQL_RESULT($result,$i,"parent_id");
+			$pman = MYSQL_RESULT($result,$i,"m_id");
+			$ptime = MYSQL_RESULT($result,$i,"time_name");
+			$pphp = MYSQL_RESULT($result,$i,"php_tz");
+}
+?>
+										<form action="<?php echo $_SERVER['PHP_SELF']?>" method="post" class="form-horizontal form-row-seperated">
+										<div class="form-group">
+															<label class="control-label col-md-3">
+															<strong>Student Name:</strong></label>
+															<div class="col-md-9">
+															<label class="control-label">
+															<?php echo $pcoursennn; ?></label>
+															
+															</div>
+												</div>
+										<div class="form-group">
+															<label class="control-label col-md-3">
+															<strong>Test Month:</strong></label>
+															<div class="col-md-9">
+															<label class="control-label">
+															<?php echo $mon; ?>-<?php echo $sy; ?></label>
+															</div>
+												</div>
+												<div class="form-group">
+													<label class="col-md-3 control-label"><strong>Test Time*</strong></label>
+													<div class="col-md-3">
+														<select required class="form-control" name="time"  id="time" onchange="javascript: return optionList9_SelectedIndex()">
+                    <?php // source 1: http://www.dmxzone.com/showDetail.asp?NewsId=5102&TypeId=25
+			  	// source 2: http://localhost/phpmyadmin/index.php?db=mydbase&token=651c0063e511c381c9c82ce1fe9b6854
+				$result = mysql_query("SELECT * FROM timestart ORDER BY time_s_id");			  	
+				do {  ?>
+                    <option value="<?php echo $row['time_s_id'];?>"><?php echo $row['time_s'];?> </option>
+                    <?php } while ($row = mysql_fetch_assoc($result)); ?>
+                  </select>
+													</div>
+												</div>
+												<div class="form-group">
+													<label class="col-md-3 control-label"><strong>Reading Details*</strong></label>
+													<div class="col-md-9">
+														<textarea required class="form-control" name="discription" id="discription"></textarea>													
+													</div>
+												</div>
+												<input type="hidden" class="form-control" value="<?php echo $t_date; ?>" name="date" id="date">
+												<input type="hidden" class="form-control" value="<?php echo $pcourse; ?>" name="student_id" id="student_id">
+												<input type="hidden" class="form-control" value="<?php echo $ptech; ?>" name="teacher_id" id="teacher_id">
+												<input type="hidden" class="form-control" value="<?php echo $m; ?>" name="month_id" id="month_id">
+												<input type="hidden" class="form-control" value="<?php echo $y; ?>" name="year_id" id="year_id">
+												<input type="hidden" class="form-control" value="<?php echo $pdept; ?>" name="dept_id" id="dept_id">
+												<input type="hidden" class="form-control" value="<?php echo $pgender; ?>" name="g_id" id="g_id">
+												<input type="hidden" class="form-control" value="<?php echo $plan; ?>" name="lan_id" id="lan_id">
+												<input type="hidden" class="form-control" value="<?php echo $pcon; ?>" name="c_id" id="c_id">
+												<input type="hidden" class="form-control" value="<?php echo $premark; ?>" name="pr_id" id="pr_id">
+												<input type="hidden" class="form-control" value="<?php echo $pparent; ?>" name="parent_id" id="parent_id">
+												<input type="hidden" class="form-control" value="<?php echo $pman; ?>" name="man_id" id="man_id">
+												<input type="hidden" class="form-control" value="<?php echo $ptime; ?>" name="timename" id="timename">
+												<input type="hidden" class="form-control" value="<?php echo $pphp; ?>" name="tzphp" id="tzphp">
+												<input type="hidden" class="form-control" value="1" name="stut" id="stut">
+											<div class="form-actions">
+												<div class="row">
+													<div class="col-md-offset-3 col-md-9">
+														<button type="submit" name="cmdSubmit" class="btn btn-circle blue">Submit</button>
+														<button type="button" class="btn btn-circle default">Cancel</button>
+													</div>
+												</div>
+											</div>
+										</form>
+										<!-- END FORM-->
+									</div>
+								</div>
+							</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- END PAGE CONTENT INNER -->
+		</div>
+	</div>
+	<!-- END PAGE CONTENT -->
+</div>
+<!-- END PAGE CONTAINER -->
+<?php echo $fot; ?>

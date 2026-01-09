@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /wp-admin/
+Disallow: /member-area/accounts/
+Disallow: /member-area/employees/
+Disallow: /member-area/admin/
+
+Sitemap: https://qarabic.com/sitemap_index.xml
