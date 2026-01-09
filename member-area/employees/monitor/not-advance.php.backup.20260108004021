@@ -1,0 +1,8 @@
+<?php
+  require ("../includes/dbconnection.php");
+  $o_id =$_REQUEST['original_id'];
+  $h_id =$_REQUEST['his_id'];  
+mysql_query("UPDATE class_history SET monitor_id = 1, status = 1 WHERE history_id = '$o_id'") or die(mysql_error());
+mysql_query("DELETE FROM class_resched WHERE history_id = '$h_id'") or die(mysql_error());
+header('Location: ' . $_SERVER['HTTP_REFERER']);
+?>

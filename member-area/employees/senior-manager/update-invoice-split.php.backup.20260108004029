@@ -1,0 +1,57 @@
+<?php
+  require ("../includes/dbconnection.php");  
+?>
+<?php
+	$pid =$_REQUEST['py_id'];
+	$add_fee =$_REQUEST['fee'];
+	$result = mysql_query("SELECT * FROM invoice WHERE py_id = '$pid'");
+if (!$result) 
+	{
+    die("Query to show fields from table failed");
+	}
+$numberOfRows = MYSQL_NUMROWS($result);
+If ($numberOfRows == 0) 
+	{
+	echo '<font color="#0DB5C0">Sorry No Invoice Send Yet!</font>';
+	}
+else if ($numberOfRows > 0) 
+	{
+		
+			$apy_id = MYSQL_RESULT($result,$i,"py_id");
+			$aparent_id = MYSQL_RESULT($result,$i,"parent_id");
+			$aparent_name = MYSQL_RESULT($result,$i,"parent_name");
+			$aissue= MYSQL_RESULT($result,$i,"issue");
+			$adue= MYSQL_RESULT($result,$i,"due");
+			$asubmit= MYSQL_RESULT($result,$i,"submit");
+			$astatus= MYSQL_RESULT($result,$i,"status");
+			$amon_id= MYSQL_RESULT($result,$i,"mon_id");
+			$ay_id= MYSQL_RESULT($result,$i,"y_id");
+			$aemail= MYSQL_RESULT($result,$i,"email");
+			$ad = MYSQL_RESULT($result,$i,"d");
+			$aremind= MYSQL_RESULT($result,$i,"remind");
+			$atelephone= MYSQL_RESULT($result,$i,"telephone");
+			$amobile= MYSQL_RESULT($result,$i,"mobile");
+			$askype= MYSQL_RESULT($result,$i,"skype");
+			$ac_id= MYSQL_RESULT($result,$i,"c_id");
+			$am_id= MYSQL_RESULT($result,$i,"m_id");
+			$amode= MYSQL_RESULT($result,$i,"mode");
+			$apaid= MYSQL_RESULT($result,$i,"paid");
+			$acurrency_id= MYSQL_RESULT($result,$i,"currency_id");
+			$amode_id= MYSQL_RESULT($result,$i,"mode_id");
+			$afee= MYSQL_RESULT($result,$i,"fee");
+			$aextra = MYSQL_RESULT($result,$i,"extra");
+			$aduep= MYSQL_RESULT($result,$i,"duep");
+			$au_id= MYSQL_RESULT($result,$i,"u_id");
+			$ainvoice_add= MYSQL_RESULT($result,$i,"invoice_add");
+			$aorder_num= MYSQL_RESULT($result,$i,"order_num");
+			$aadd_note= MYSQL_RESULT($result,$i,"add_note");
+			$ac_rate= MYSQL_RESULT($result,$i,"c_rate");
+			$old_fee = $afee-$add_fee;
+	}	
+	mysql_query ("INSERT INTO invoice (parent_id, parent_name, issue, due, submit, fee, status, mon_id, y_id, email, d, remind, telephone, mobile, skype, c_id, m_id, mode, paid, currency_id, mode_id, extra, duep, u_id, order_num, add_note, c_rate) 
+			VALUES ('$aparent_id', '$aparent_name', '$aissue', '$adue', '$asubmit', '$add_fee', '$astatus', '$amon_id', '$ay_id', '$aemail', '$ad', '$aremind', '$atelephone', '$amobile', '$askype', '$ac_id', '$am_id', '$amode', '$apaid', '$acurrency_id', '$amode_id', '$aextra', '$aduep', '$au_id', '$aorder_num', '$aadd_note', '$ac_rate')") or die(mysql_error()); 
+	if(mysql_query){
+	mysql_query("UPDATE invoice SET fee = '$old_fee' WHERE py_id = '$pid'") or die(mysql_error());
+	header('Location: ' . $_SERVER['HTTP_REFERER']);
+	}
+?>

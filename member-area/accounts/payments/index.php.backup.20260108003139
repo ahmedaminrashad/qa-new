@@ -1,0 +1,15 @@
+<?php
+require('config.php');
+?>
+<form action="submit.php" method="post">
+	<script src="https://checkout.stripe.com/checkout.js" class="stripe-button" 
+	data-key="<?php echo $publishableKey ?>" 
+	data-amount="<?php echo $amount ?>" 
+	data-name="<?php echo $name ?>" 
+	data-description="<?php echo $description ?>" 
+	data-image="<?php echo $image ?>" 
+	data-currency="<?php echo $currency ?>" 
+	data-email="<?php echo $email ?>">
+	</script>
+
+</form>

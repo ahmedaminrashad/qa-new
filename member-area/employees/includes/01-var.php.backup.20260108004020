@@ -1,0 +1,7 @@
+<?php
+$INS_ID = '';
+$CL_ID = '';
+$SEC = '';
+$admin = '';
+$site = 'http://api.whatsmate.net/v3/whatsapp/group/text/message/' . $INS_ID;
+?>

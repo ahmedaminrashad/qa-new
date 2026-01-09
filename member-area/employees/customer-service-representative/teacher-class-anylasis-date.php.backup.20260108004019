@@ -1,0 +1,408 @@
+<?php session_start(); ?>
+<?php
+   include("../includes/session.php");
+  include("../includes/csr_rights.php");
+  require ("../includes/dbconnection.php");
+  include("header.php");
+  include("monitoring-functions.php");
+  $tech_id =$_REQUEST['teacher'];
+$date_start =$_REQUEST['date1'];
+$date_end =$_REQUEST['date2'];
+function class_monitor($var2, $var3, $var4){
+    $sql2="SELECT SEC_TO_TIME(SUM(TIME_TO_SEC(`duration`))) AS total FROM class_history WHERE teacher_id = '$var2' AND monitor_id = '$var3' AND date_teacher = '$var4' AND re_status = 1";
+$res2 = mysql_query($sql2);
+$totalRow = mysql_fetch_array($res2);
+$total = $totalRow['total'];
+if ($total != 0){echo $total;}
+else {echo '--';}
+}
+function class_monitor_num($var2, $var3, $var4){
+    $result = mysql_query("SELECT history_id FROM class_history WHERE teacher_id = '$var2' AND monitor_id = '$var3' AND date_teacher = '$var4' AND re_status = 1");
+if (!$result) 
+	{
+    die("Query to show");
+	}
+$numberOfRows = MYSQL_NUMROWS($result);
+If ($numberOfRows == 0) 
+	{
+	echo '--';
+	}
+else if ($numberOfRows > 0) 
+	{
+echo "(".$numberOfRows.")";
+}
+}
+function class_paid($var2, $a, $var4)
+{
+    $date_start =$_REQUEST['date1'];
+$date_end =$_REQUEST['date2'];
+    $sql2="SELECT SEC_TO_TIME(SUM(TIME_TO_SEC(`duration`))) AS total FROM class_history WHERE teacher_id = '$var2' AND re_status != 2 AND date_teacher = '$var4' AND (monitor_id = 4 OR monitor_id = 9 OR monitor_id = 6 OR monitor_id = 21)";
+$res2 = mysql_query($sql2);
+$totalRow = mysql_fetch_array($res2);
+$total = $totalRow['total'];
+if ($total != 0){echo $total;}
+else {echo '--';}
+}
+function class_paid_total($var2)
+{
+$date_start =$_REQUEST['date1'];
+$date_end =$_REQUEST['date2'];
+
+$sql2="SELECT SEC_TO_TIME(SUM(TIME_TO_SEC(`duration`))) AS total FROM class_history WHERE teacher_id = '$var2' AND re_status != 2 AND date_teacher >= '$date_start' AND date_teacher <= '$date_end' AND (monitor_id = 4 OR monitor_id = 9 OR monitor_id = 6 OR monitor_id = 21)";
+$res2 = mysql_query($sql2);
+$totalRow = mysql_fetch_array($res2);
+$total = $totalRow['total'];
+if ($total != 0){echo $total;}
+else {echo '--';}
+}
+
+function class_paid_amu($var2)
+{
+$date_start =$_REQUEST['date1'];
+$date_end =$_REQUEST['date2'];
+$tech_id =$_REQUEST['teacher'];
+$result7 = mysql_query("SELECT * FROM profile WHERE teacher_id = '$tech_id'");
+if (!$result7) 
+	{
+    die("Query to show");
+	}
+$numberOfRows7 = MYSQL_NUMROWS($result7);
+If ($numberOfRows7 == 0) 
+	{
+	echo 'not found';
+	}
+else if ($numberOfRows7 > 0) 
+	{
+	$rate_id = MYSQL_RESULT($result7,$i,"hour_rate");
+	$cur_id = MYSQL_RESULT($result7,$i,"currency");
+	}
+
+$sql2="SELECT SEC_TO_TIME(SUM(TIME_TO_SEC(`duration`))) AS total FROM class_history WHERE teacher_id = '$var2' AND re_status != 2 AND date_teacher >= '$date_start' AND date_teacher <= '$date_end' AND (monitor_id = 4 OR monitor_id = 9 OR monitor_id = 6 OR monitor_id = 21)";
+$res2 = mysql_query($sql2);
+$totalRow = mysql_fetch_array($res2);
+$total = $totalRow['total'];
+$hours=$total;
+
+    list($h, $m, $s) = explode(':',$hours);  //Split up string into hours/minutes
+    $decimal = $m/60;  //get minutes as decimal
+    $hoursAsDecimal = $h+$decimal;
+
+echo "".$cur_id." ".$hoursAsDecimal*$rate_id."";
+}
+
+function class_paid_day($var2, $a, $var4)
+{
+$date_start =$_REQUEST['date1'];
+$date_end =$_REQUEST['date2'];
+$tech_id =$_REQUEST['teacher'];
+$result7 = mysql_query("SELECT * FROM profile WHERE teacher_id = '$tech_id'");
+if (!$result7) 
+	{
+    die("Query to show");
+	}
+$numberOfRows7 = MYSQL_NUMROWS($result7);
+If ($numberOfRows7 == 0) 
+	{
+	echo 'not found';
+	}
+else if ($numberOfRows7 > 0) 
+	{
+	$rate_id = MYSQL_RESULT($result7,$i,"hour_rate");
+	$cur_id = MYSQL_RESULT($result7,$i,"currency");
+	}
+
+$sql2="SELECT SEC_TO_TIME(SUM(TIME_TO_SEC(`duration`))) AS total FROM class_history WHERE teacher_id = '$var2' AND re_status != 2 AND date_teacher = '$var4' AND (monitor_id = 4 OR monitor_id = 9 OR monitor_id = 6 OR monitor_id = 21)";
+$res2 = mysql_query($sql2);
+$totalRow = mysql_fetch_array($res2);
+$total = $totalRow['total'];
+$hours=$total;
+
+    list($h, $m, $s) = explode(':',$hours);  //Split up string into hours/minutes
+    $decimal = $m/60;  //get minutes as decimal
+    $hoursAsDecimal = $h+$decimal;
+
+echo "".$cur_id." ".$hoursAsDecimal*$rate_id."";
+}
+?>
+<?php
+date_default_timezone_set("Africa/Cairo");
+$sy = date('Y-m-d');
+$mm_id = date('m');
+$yy_id = date('Y');
+?>
+<?php echo $main_header; ?>
+<?php echo $tool_bar; ?>
+<?php echo $start_menu; ?>
+<?php echo $main_menu; ?>
+<!-- BEGIN PAGE CONTAINER -->
+<div class="page-container">
+	<!-- BEGIN PAGE HEAD -->
+	<div class="page-head">
+		<div class="container">
+			<!-- BEGIN PAGE TITLE -->
+			<div class="page-title">
+				<h1>Teacher<small> Student's List</small></h1>
+			</div>
+			<!-- END PAGE TITLE -->
+			<!-- BEGIN PAGE TOOLBAR -->
+			<div class="page-toolbar">
+			</div>
+			<!-- END PAGE TOOLBAR -->
+		</div>
+	</div>
+	<!-- END PAGE HEAD -->
+	<!-- BEGIN PAGE CONTENT -->
+	<div class="page-content">
+		<div class="container">
+
+			<!-- BEGIN PAGE BREADCRUMB -->
+			<ul class="page-breadcrumb breadcrumb">
+				<li>
+					<a href="admin-home">Home</a><i class="fa fa-circle"></i>
+				</li>
+				<li>
+					<a href="parent-accounts">List of Teachers</a><i class="fa fa-circle"></i>
+				</li>
+				<li class="active">
+					 List of Students of <?php 
+$result1 = mysql_query("SELECT * FROM profile HAVING teacher_id='$tech_id'");
+if (!$result1) 
+		{
+		die("Query to show fields from table failed");
+		}
+			$numberOfRows = MYSQL_NUMROWS($result1);
+			If ($numberOfRows == 0) 
+				{
+				echo '';
+				}
+			else if ($numberOfRows > 0) 
+				{
+				$i=0;
+			$teacher = MYSQL_RESULT($result1,$i,"teacher_name");
+				}			
+		echo $teacher; ?>
+				</li>
+			</ul>
+			<!-- END PAGE BREADCRUMB -->
+			<!-- BEGIN PAGE CONTENT INNER -->
+			<div class="row">
+				<div class="col-md-12">
+					<!-- BEGIN SAMPLE TABLE PORTLET-->
+					<div class="portlet light">
+					<h4><?php 
+$result = mysql_query("SELECT * FROM course WHERE Teacher = '$tech_id'");
+$counter = 0;
+if (!$result) 
+	{
+    die("Query to show fields from table failed");
+	}
+$numberOfRows = MYSQL_NUMROWS($result);
+echo "Total Number of Students: $numberOfRows"; ?></h4>
+<a onclick="goBack()" class="btn default">
+									Change Date: <b>From: <?php echo date('d M-Y',strtotime($date_start)); ?> To: <?php echo date('d M-Y',strtotime($date_end)); ?>)</b></a>
+						<div class="portlet-body">
+							<div id="mytable" class="table-responsive">
+								<table class="table table-hover">
+								<thead>
+								<tr>
+								<th>
+									 Student Name
+								</th>
+								<th>
+									 Taken
+								</th>
+								<th>
+									 Absent
+								</th>
+								<th>
+									 Leave
+								</th>
+								<th>
+									 Declined
+								</th>
+								<th>
+									 Pending
+								</th>
+								<th>
+									 Holiday
+								</th>
+								<th>
+									 Paid
+								</th>
+								<th>
+									 Amount
+								</th>
+								<?php
+// sending query
+   $result = mysql_query("SELECT * FROM `class_history` WHERE teacher_id = '$tech_id' AND date_teacher >= '$date_start' AND date_teacher <= '$date_end' GROUP BY date_teacher;");
+   $counter = 0;
+if (!$result) 
+	{
+    die("Query to show");
+	}
+$numberOfRows = MYSQL_NUMROWS($result);
+If ($numberOfRows == 0) 
+	{
+	echo '<div class="label label-info">Sorry, no record found!</div>';
+	}
+else if ($numberOfRows > 0) 
+	{
+	while($row = mysql_fetch_array($result))
+		{		
+			$sched_id = MYSQL_RESULT($result,$i,"history_id");
+			$admin_time = MYSQL_RESULT($result,$i,"atime_s_id");
+			$student_time = MYSQL_RESULT($result,$i,"stime_s_id");
+			$teacher_time = MYSQL_RESULT($result,$i,"time_s_id");
+			$teacher_id = MYSQL_RESULT($result,$i,"teacher_id");
+			$student_id = MYSQL_RESULT($result,$i,"course_id");
+			$parent_id = MYSQL_RESULT($result,$i,"parent_id");
+			$monitor = MYSQL_RESULT($result,$i,"monitor_id");// pending, taken, absent, leave, taken advance, running, waiting or still pending
+			$dept_id = MYSQL_RESULT($result,$i,"dept_id");
+			$pstr = MYSQL_RESULT($result,$i,"time_s_id");
+			$wa = MYSQL_RESULT($result,$i,"activation");
+			$status = MYSQL_RESULT($result,$i,"status");// Regular, Trial, Rescheduled or Suspended
+			$re_status = MYSQL_RESULT($result,$i,"re_status");
+			$his_date = MYSQL_RESULT($result,$i,"date_admin");
+?>
+							</tr>
+								</thead>
+								<tbody>
+								<tr>
+								<td>
+									 <a href="teacher_date?&teacher=<?php echo $tech_id; ?>&date=<?php echo $his_date; ?>" target="_blank"><?php echo date('jS M-Y (D)',strtotime($his_date)); ?></a>
+								</td>
+								<td><?php echo class_monitor("$tech_id", "9", "$his_date"); ?> <?php class_monitor_num("$tech_id", "9", "$his_date"); ?></td>
+								<td><?php echo class_monitor("$tech_id", "4", "$his_date"); ?> <?php class_monitor_num("$tech_id", "4", "$his_date"); ?></td>
+								<td><?php echo class_monitor("$tech_id", "5", "$his_date"); ?> <?php class_monitor_num("$tech_id", "5", "$his_date"); ?></td>
+								<td><?php echo class_monitor("$tech_id", "6", "$his_date"); ?> <?php class_monitor_num("$tech_id", "6", "$his_date"); ?></td>
+								<td><?php echo class_monitor("$tech_id", "1", "$his_date"); ?> <?php class_monitor_num("$tech_id", "1", "$his_date"); ?></td>
+								<td><?php echo class_monitor("$tech_id", "21", "$his_date"); ?> <?php class_monitor_num("$tech_id", "21", "$his_date"); ?></td>
+								<td><?php echo class_paid("$tech_id","2", "$his_date"); ?></td>
+								<td><?php echo class_paid_day("$tech_id","2", "$his_date"); ?></td>
+							</tr>
+							<?php 	
+		$i++;		
+		}
+	}	
+?>
+								<tr>
+								<td colspan="7" style="text-align:right">
+									 <span class="caption-subject bold font-green-sharp">Total</span>
+								</td>
+								<td>
+									 <span class="caption-subject bold font-green-sharp"><?php echo class_paid_total("$tech_id"); ?></span>
+								</td>
+								<td>
+									 <span class="caption-subject bold font-green-sharp"><?php echo class_paid_amu("$tech_id"); ?></span>
+								</td>
+							</tr>
+								</tbody>
+								</table>
+							</div>
+						</div>
+						<!-- full width -->
+								<div class="modal fade" id="full-width" tabindex="-1" role="dialog" aria-hidden="true">
+								<div class="modal-dialog modal-full">
+									<div class="modal-content">
+										<div class="modal-header">
+											<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+											<h4 class="modal-title">Search For Previous Month Records</h4>
+										</div>
+										<div class="modal-body">
+								<div class="portlet box green">
+									<div class="portlet-title">
+										<div class="caption">
+											<i class="fa fa-chevron-right"></i>Search For Previous Month Records
+										</div>
+									</div>
+									<div class="portlet-body form">
+										<!-- BEGIN FORM-->
+										<form action="teacher-class-anylasis-search" method="GET" class="form-horizontal">
+											<div class="form-body">
+												<h3 class="form-section">Please Select Desired Month and Year</h3>
+												<div class="row">
+													<div class="col-md-6">
+														<div class="form-group">
+															<label class="control-label col-md-3">Month</label>
+															<div class="col-md-9">
+																<select required class="form-control" name="month_id"  id="month_id">
+
+																	<?php // source 1: http://www.dmxzone.com/showDetail.asp?NewsId=5102&TypeId=25
+			  	// source 2: http://localhost/phpmyadmin/index.php?db=mydbase&token=651c0063e511c381c9c82ce1fe9b6854
+				$result = mysql_query("SELECT * FROM month ORDER BY month_id ");			  	
+				do {  ?>
+  <option value="<?php echo $row['num'];?>"><?php echo $row['month_name'];?> </option>
+  <?php } while ($row = mysql_fetch_assoc($result)); ?>
+</select>
+																<span class="help-block">
+																Please Select Month. </span>
+															</div>
+														</div>
+													</div>
+													<!--/span-->
+													<div class="col-md-6">
+														<div class="form-group">
+															<label class="control-label col-md-3">Year</label>
+															<div class="col-md-9">
+															<select required class="form-control" name="year_id"  id="year_id">
+																<?php // source 1: http://www.dmxzone.com/showDetail.asp?NewsId=5102&TypeId=25
+			  	// source 2: http://localhost/phpmyadmin/index.php?db=mydbase&token=651c0063e511c381c9c82ce1fe9b6854
+				$result = mysql_query("SELECT * FROM school_yr ORDER BY year_id ");			  	
+				do {  ?>
+  <option value="<?php echo $row['school_year'];?>"><?php echo $row['school_year'];?> </option>
+  <?php } while ($row = mysql_fetch_assoc($result)); ?>
+</select>
+<span class="help-block">
+																Please Select Year. </span>
+
+<input type="hidden" id="profile_no" name="profile_no"  value="<?php echo $_GET['profile_no']; ?>" />
+
+															</div>
+														</div>
+													</div>
+													<!--/span-->
+												</div>
+												<!--/row-->
+												</div>
+											<div class="form-actions">
+												<div class="row">
+													<div class="col-md-6">
+														<div class="row">
+															<div class="col-md-offset-3 col-md-9">
+																<button type="submit" class="btn green">Submit</button>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</form>
+										<!-- END FORM-->
+									</div>
+								</div>
+							</div>
+										</div>
+									</div>
+								</div>
+					</div>
+					<!-- END SAMPLE TABLE PORTLET-->
+				</div>
+			</div>
+			<!-- END PAGE CONTENT INNER -->
+		</div>
+	</div>
+	<!-- END PAGE CONTENT -->
+</div>
+<!-- END PAGE CONTAINER -->
+<?php echo $fot; ?>
+<script language="javascript" >
+	var form = document.forms[0];
+	//purpose?: to retrieve what users last input on the field..
+	form.month_id.value = ("<?php echo $mm_id; ?>");
+	form.year_id.value = ("<?php echo $yy_id; ?>");
+	//alert (form.pCityM.value);				
+</script>
+<script>
+function goBack() {
+    window.history.back();
+}
+</script>

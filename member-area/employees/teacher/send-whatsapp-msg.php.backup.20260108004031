@@ -1,0 +1,29 @@
+<?php
+$INSTANCE_ID = '43';  // TODO: Replace it with your gateway instance ID here
+$CLIENT_ID = "qarabicacademy@gmail.com";  // TODO: Replace it with your Forever Green client ID here
+$CLIENT_SECRET = "5d4aac71c6af4c8c80cbd57d4e38f45d";   // TODO: Replace it with your Forever Green client secret here
+$postData = array(
+  'group_admin' => '+201112292690',  // TODO: Specify the WhatsApp number of the group creator, including the country code
+  'group_name' => 'Wp_msg',    // TODO: Specify the name of the group
+  'message' => 'Guys, party tonight?'  // TODO: Specify the content of your message
+);
+
+$headers = array(
+  'Content-Type: application/json',
+  'X-WM-CLIENT-ID: '.$CLIENT_ID,
+  'X-WM-CLIENT-SECRET: '.$CLIENT_SECRET
+);
+
+$url = 'http://api.whatsmate.net/v3/whatsapp/group/text/message/' . $INSTANCE_ID;
+$ch = curl_init($url);
+
+curl_setopt($ch, CURLOPT_POST, 1);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($postData));
+
+$response = curl_exec($ch);
+
+echo "Response: ".$response;
+curl_close($ch);
+?>

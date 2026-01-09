@@ -1,0 +1,20 @@
+<?php
+
+  require ("../includes/dbconnection.php");  
+?>
+<?php
+date_default_timezone_set("Africa/Cairo");
+$data_date1 = date('Y-m-d', time());
+	$pid =$_REQUEST['t_id'];
+	$link =$_REQUEST['link'];
+
+	mysql_query("UPDATE account SET active = '1' WHERE parent_id = '$pid'") or die(mysql_error());
+	
+	mysql_query("UPDATE course SET active = 1 WHERE parent_id = $pid") or die(mysql_error());
+	
+	mysql_query("UPDATE sched SET status = 1 WHERE parent_id = $pid") or die(mysql_error());
+	
+	mysql_query("UPDATE class_history SET status = '1' WHERE parent_id = '$pid' AND date_admin >= '$data_date1'") or die(mysql_error());
+
+	header('Location: ' . $_SERVER['HTTP_REFERER']);
+?>

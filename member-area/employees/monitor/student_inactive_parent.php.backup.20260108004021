@@ -1,0 +1,14 @@
+<?php
+
+  require ("../includes/dbconnection.php");  
+?>
+<?php
+	$pid =$_REQUEST['p_id'];
+
+	mysql_query("UPDATE course SET nature = '2', Teacher = '0' WHERE parent_id = '$pid'") or die(mysql_error());  	
+if(mysql_query){
+ 	
+mysql_query("DELETE FROM sched WHERE parent_id = '$pid'") or die(mysql_error());
+	header("Location: parent-accounts");
+}
+?>

@@ -1,0 +1,199 @@
+<?php
+require ("../../includes/dbconnection.php");
+date_default_timezone_set("Africa/Cairo");
+$y = date('Y');
+// Connect to MySQL
+$link = mysql_connect( $server_db, $username_db, $userpass_db );
+if ( !$link ) {
+  die( 'Could not connect: ' . mysql_error() );
+}
+
+// Select the data base
+$db = mysql_select_db( $name_db, $link );
+if ( !$db ) {
+  die ( 'Error selecting database \'test\' : ' . mysql_error() );
+}
+
+// Fetch the data
+function usd($m, $y)
+{
+$sql = "select sum(fee) from invoice where mon_id = $m and y_id = $y and currency_id = 1";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo $row[0];
+        }
+    else
+        {
+            echo '0';
+        }
+
+		}
+function pond($m, $y)
+{
+$sql = "select sum(fee) from invoice where mon_id = $m and y_id = $y and currency_id = 2";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo $row[0];
+        }
+    else
+        {
+            echo '0';
+        }
+
+		}
+function euro($m, $y)
+{
+$sql = "select sum(fee) from invoice where mon_id = $m and y_id = $y and currency_id = 3";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo $row[0];
+        }
+    else
+        {
+            echo '0';
+        }
+
+		}
+function rupee($m, $y)
+{
+$sql = "select sum(fee) from invoice where mon_id = $m and y_id = $y and currency_id = 4";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo $row[0];
+        }
+    else
+        {
+            echo '0';
+        }
+
+		}
+function month($var)
+  {
+			$result = mysql_query("SELECT * FROM month WHERE month_id = $var");
+		if (!$result) 
+			{
+			die("Query to show fields from table failed");
+			}
+		$numberOfRows = MYSQL_NUMROWS($result);
+		If ($numberOfRows == 0){
+			echo '';
+			}
+		else if ($numberOfRows > 0) 
+			{
+			$i=0;
+			while ($i<$numberOfRows)
+				{			
+					$m_id = MYSQL_RESULT($result,$i,"month_id");
+					$m_name = MYSQL_RESULT($result,$i,"month_name");
+					$m_num = MYSQL_RESULT($result,$i,"num");
+					$s_name = MYSQL_RESULT($result,$i,"short_name");
+			 echo $s_name;		
+	$i++;	 
+			}
+			}
+	}
+date_default_timezone_set("Africa/Cairo");
+$year1 = date('Y');
+$month1 = date('m');
+$month2 = date('m', strtotime('-1 month', strtotime(date("F") . "1")));
+$month3 = date('m', strtotime('-2 month', strtotime(date("F") . "1")));
+$month4 = date('m', strtotime('-3 month', strtotime(date("F") . "1")));
+$month5 = date('m', strtotime('-4 month', strtotime(date("F") . "1")));
+$month6 = date('m', strtotime('-5 month', strtotime(date("F") . "1")));
+if($month2 > $month1){$year2 = $year1-1;} else{$year2 = $year1;}
+if($month3 > $month2){$year3 = $year2-1;} else{$year3 = $year2;}
+if($month4 > $month2){$year4 = $year3-1;} else{$year4 = $year3;}
+if($month5 > $month2){$year5 = $year4-1;} else{$year5 = $year4;}
+if($month6 > $month2){$year6 = $year5-1;} else{$year6 = $year5;}
+$sy = date('Y');
+if($sy == "2014") 
+        {
+            $y1 = 1;
+        }
+    elseif($sy == "2015")
+        {
+           $y1 = 2;
+        } 
+    elseif($sy == "2016") 
+        {
+            $y1 = 3;
+        }
+    elseif($sy == "2017") 
+        {
+            $y1 = 4;
+        } 
+    elseif($sy == "2018") 
+        {
+            $y1 = 5;
+        }
+    elseif($sy == "2019") 
+        {
+            $y1 = 6;
+        }
+    elseif($sy == "2020") 
+        {
+            $y1 = 7;
+        }
+if($month2 > $month1){$y2 = $y1-1;} else{$y2 = $y1;}
+if($month3 > $month2){$y3 = $y2-1;} else{$y3 = $y2;}
+if($month4 > $month2){$y4 = $y3-1;} else{$y4 = $y3;}
+if($month5 > $month2){$y5 = $y4-1;} else{$y5 = $y4;}
+if($month6 > $month2){$y6 = $y5-1;} else{$y6 = $y5;}
+$monthin1 = (string)((int)"$month1");
+$monthin2 = (string)((int)"$month2");
+$monthin3 = (string)((int)"$month3");
+$monthin4 = (string)((int)"$month4");
+$monthin5 = (string)((int)"$month5");
+$monthin6 = (string)((int)"$month6");
+?>
+[{
+    "month": "<?php echo month("$month6"); ?>-<?php echo $year6; ?>" ,
+    "usd": <?php echo usd("$monthin6","$y6"); ?> ,
+    "pond": <?php echo pond("$monthin6","$y6"); ?> ,
+    "euro": <?php echo euro("$monthin6","$y6"); ?> ,
+    "rupee": <?php echo rupee("$monthin6","$y6"); ?>
+
+},{
+    "month": "<?php echo month("$month5"); ?>-<?php echo $year5; ?>" ,
+    "usd": <?php echo usd("$monthin5","$y5"); ?> ,
+    "pond": <?php echo pond("$monthin5","$y5"); ?> ,
+    "euro": <?php echo euro("$monthin5","$y5"); ?> ,
+    "rupee": <?php echo rupee("$monthin5","$y5"); ?>
+
+},{
+    "month": "<?php echo month("$month4"); ?>-<?php echo $year4; ?>" ,
+    "usd": <?php echo usd("$monthin4","$y4"); ?> ,
+    "pond": <?php echo pond("$monthin4","$y4"); ?> ,
+    "euro": <?php echo euro("$monthin4","$y4"); ?> ,
+    "rupee": <?php echo rupee("$monthin4","$y4"); ?>
+
+}, {
+    "month": "<?php echo month("$month3"); ?>-<?php echo $year3; ?>" ,
+    "usd": <?php echo usd("$monthin3","$y3"); ?> ,
+    "pond": <?php echo pond("$monthin3","$y3"); ?> ,
+    "euro": <?php echo euro("$monthin3","$y3"); ?> ,
+    "rupee": <?php echo rupee("$monthin3","$y3"); ?>
+
+}, {
+    "month": "<?php echo month("$month2"); ?>-<?php echo $year2; ?>" ,
+    "usd": <?php echo usd("$monthin2","$y2"); ?> ,
+    "pond": <?php echo pond("$monthin2","$y2"); ?> ,
+    "euro": <?php echo euro("$monthin2","$y2"); ?> ,
+    "rupee": <?php echo rupee("$monthin2","$y2"); ?>
+
+}, {
+    "month": "<?php echo month("$month1"); ?>-<?php echo $year1; ?>" ,
+    "usd": <?php echo usd("$monthin1","$y1"); ?> ,
+    "pond": <?php echo pond("$monthin1","$y1"); ?> ,
+    "euro": <?php echo euro("$monthin1","$y1"); ?> ,
+    "rupee": <?php echo rupee("$monthin1","$y1"); ?>
+
+}]

@@ -1,0 +1,12 @@
+<?php 
+session_start();
+require("../includes/dbconnection.php");
+?>
+<?php
+date_default_timezone_set($_SESSION['is']['teacher_time']);
+$time_start = date("g:i:A", time(true));
+$time_start1 = date('Y-m-d H:i:s');
+$history = $_REQUEST['history_id'];
+mysql_query("UPDATE class_history SET monitor_id = '3', activation = '$time_start', start_time = '$time_start1', end_time = '$time_start1' WHERE history_id = '$history'") or die(mysql_error());
+header('Location: ' . $_SERVER['HTTP_REFERER']);
+?>

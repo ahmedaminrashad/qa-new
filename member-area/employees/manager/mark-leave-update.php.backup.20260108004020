@@ -1,0 +1,10 @@
+<?php session_start(); ?>
+<?php
+include("../includes/session.php");
+require ("../includes/dbconnection.php");
+			$leaveid= $_POST['leave_id'];
+		 	$status_id= $_POST['status_id'];
+		 	$remarks= $_POST['remarks'];
+			mysql_query ("UPDATE leave_app SET status = '$status_id', manager_remarks = '" . mysql_real_escape_string($remarks) . "' WHERE leave_id = '$leaveid'");
+					header('Location: ' . $_SERVER['HTTP_REFERER']);
+?>

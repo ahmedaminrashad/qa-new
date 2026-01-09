@@ -1,0 +1,231 @@
+<?php session_start(); ?>
+<?php
+  include("../includes/session.php");
+  include("../includes/s_manager_rights.php");
+  require ("../includes/dbconnection.php");
+include("header.php");
+  $link = $_SERVER['REQUEST_URI'];
+  $teacher =$_REQUEST['teacher'];
+  $c =$_REQUEST['date'];
+  $check =$_REQUEST['check'];
+date_default_timezone_set("Africa/Cairo");
+$date = date('d/m/Y', time());
+?>
+<?php
+date_default_timezone_set("Africa/Cairo");
+$sy = date('Y-m-d');
+$mm_id = date('m');
+$yy_id = date('Y');
+?>
+<?php echo $main_header; ?>
+<?php echo $tool_bar; ?>
+<?php echo $start_menu; ?>
+<?php echo $search_bar; ?>
+<?php echo $main_menu; ?>
+<!-- BEGIN PAGE CONTAINER -->
+<div class="page-container">
+	<!-- BEGIN PAGE HEAD -->
+	<div class="page-head">
+		<div class="container">
+			<!-- BEGIN PAGE TITLE -->
+			<div class="page-title">
+				<h1>Admin Home<small> Today's Classes</small></h1>
+			</div>
+			<!-- END PAGE TITLE -->
+			<!-- BEGIN PAGE TOOLBAR -->
+			<div class="page-toolbar">
+			</div>
+			<!-- END PAGE TOOLBAR -->
+		</div>
+	</div>
+	<!-- END PAGE HEAD -->
+	<!-- BEGIN PAGE CONTENT -->
+	<div class="page-content">
+		<div class="container">
+
+			<!-- BEGIN PAGE BREADCRUMB -->
+			<ul class="page-breadcrumb breadcrumb">
+				<li>
+					<a href="admin-home">Home</a><i class="fa fa-circle"></i>
+				</li>
+				<li class="active">
+					 Teacher class search
+				</li>
+			</ul>
+			<!-- END PAGE BREADCRUMB -->
+			<!-- BEGIN PAGE CONTENT INNER -->
+					<div class="row">
+				<div class="col-md-12">
+					<!-- BEGIN SAMPLE TABLE PORTLET-->
+					<div class="portlet light">
+						<div class="portlet-body">
+						<h2><?php $old_date_timestamp = strtotime($c);
+$new_date = date('l jS F-Y', $old_date_timestamp); echo '<span class="label label label-success">'.$new_date.'</span>'; ?></h2>
+						<table class="table table-hover">
+								<thead>
+								<tr>
+								<th>
+									 A-Time
+								</th>
+								<th>
+									 T-Time
+								</th>
+								<th>
+									 S-Time
+								</th>
+								<th>
+									 Online Time
+								</th>
+								<th>
+									 Student
+								</th>
+								<th>
+									 History
+								</th>
+								<th>
+									 Teacher
+								</th>
+								<th>
+									 Status
+								</th>
+								<th>
+									 &nbsp;
+								</th>
+								<th>
+									 &nbsp;
+								</th>
+								<?php
+// sending query
+   $result = mysql_query("SELECT `class_history`.*, `course`.`course_yrSec`, `timestart`.`time_s`, `3StimeS1time`.`stime_s1`, `3StimeS2time`.`stime_s2`, `monitor`.`mnt_name`,`profile`.`teacher_name` FROM `class_history`,`course`,`profile`,`timestart`,`3StimeS1time`,`3StimeS2time`,`monitor` WHERE class_history.course_id=course.course_id and class_history.teacher_id=profile.teacher_id and class_history.atime_s_id=timestart.time_s_id and class_history.stime_s_id=3StimeS1time.stime_s_id1 and class_history.time_s_id=3StimeS2time.stime_s_id2 and class_history.monitor_id=monitor.mnt_id HAVING date_admin = '$c' AND teacher_id = '$teacher' ORDER BY atime_s_id;
+  			");
+if (!$result) 
+	{
+    die("Query to show fields from table failed");
+	}
+$numberOfRows = MYSQL_NUMROWS($result);
+If ($numberOfRows == 0) 
+	{
+	echo '<font color="#007094" size="3"><b>Sorry No Record Found!</b></font>';
+	}
+else if ($numberOfRows > 0) 
+	{
+	while($row = mysql_fetch_array($result))
+		{		
+			if($row['monitor_id']=='2') //waiting
+				{
+					$bgcolor ='#F5A9A9';
+				}
+			else if($row['monitor_id']=='3') //running
+				{
+					$bgcolor ='#F2F5A9';
+				}		
+			else if($row['monitor_id']=='4') //absent
+				{
+					$bgcolor ='#F9BCBC';
+				}
+			else if($row['monitor_id']=='5') //leave
+				{
+					$bgcolor ='#C3C3FA';
+				}
+			else if($row['monitor_id']=='6') //declined
+				{
+					$bgcolor ='#CEECF5';
+				}
+			else if($row['monitor_id']=='7') //still pending
+				{
+					$bgcolor ='#FE642E';
+				}
+			else if($row['monitor_id']=='8') //taken advance
+				{
+					$bgcolor ='#D8D8D8';
+				}
+			else if($row['monitor_id']=='9') //taken
+				{
+					$bgcolor ='#BCF5A9';
+				}
+			else
+				{
+					$bgcolor ='#fffff'; // pending
+				}
+			$sched_id = MYSQL_RESULT($result,$i,"history_id");
+			$student = MYSQL_RESULT($result,$i,"course_yrSec");
+			$teacher = MYSQL_RESULT($result,$i,"teacher_name");
+			$admin_time = MYSQL_RESULT($result,$i,"time_s");
+			$student_time = MYSQL_RESULT($result,$i,"stime_s1");
+			$teacher_time = MYSQL_RESULT($result,$i,"stime_s2");
+			$teacher_id = MYSQL_RESULT($result,$i,"teacher_id");
+			$student_id = MYSQL_RESULT($result,$i,"course_id");
+			$parent_id = MYSQL_RESULT($result,$i,"parent_id");
+			$monitor = MYSQL_RESULT($result,$i,"mnt_name");// pending, taken, absent, leave, taken advance, running, waiting or still pending
+			$dept_id = MYSQL_RESULT($result,$i,"dept_id");
+			$adept_id = MYSQL_RESULT($result,$i,"adept_id");
+			$pstr = MYSQL_RESULT($result,$i,"time_s_id");
+			$wa = MYSQL_RESULT($result,$i,"activation");
+			$status = MYSQL_RESULT($result,$i,"status");// Regular, Trial, Rescheduled or Suspended
+			$re_status = MYSQL_RESULT($result,$i,"re_status");
+			$a_date = MYSQL_RESULT($result,$i,"date_admin");
+			$t_date = MYSQL_RESULT($result,$i,"date_teacher");
+			$s_date = MYSQL_RESULT($result,$i,"date_student");
+			$mnp_id = MYSQL_RESULT($result,$i,"monitor_id");
+			
+?>
+							</tr>
+								</thead>
+								<tbody>
+								<tr bgcolor="<?php echo $bgcolor; ?>">
+								<td>
+									 <?php echo $admin_time; ?>
+								</td>
+								<td>
+									 <?php echo $teacher_time; ?>
+								</td>
+								<td>
+									 <?php echo $student_time; ?>
+								</td>
+								<td>
+									 <?php echo $wa; ?>
+								</td>
+								<td>
+									 <a href="parent-accounts-profile?parent_id=<?php echo base64_encode($parent_id); ?>"><?php echo $student; ?></a>
+								</td>
+								<td>
+									 <a href="history_course?Course_ID=<?php echo base64_encode($student_id); ?>">History</a>
+								</td>
+								<td>
+									 <a href="teacher-schedule?pT=<?php echo $teacher_id; ?>"><?php echo $teacher; ?></a>
+								</td>
+								<td>
+									 <?php if ($re_status == 2){
+				$set_icon= '<i class="fa fa-clock-o"></i>';
+				} else {$set_icon= '';}?>
+								</td>
+								<td>
+								<?php if ($status == 11){ echo '<span class="label label-sm label-warning">'.$set_icon.' On Trial ('.$monitor.')</span>'; } 
+								elseif ($status == 17){ echo '<span class="label label-sm label-danger">'.$set_icon.' Suspended ('.$monitor.')</span>'; } 
+								elseif ($status == 19){ echo '<span class="label label-sm label-info">'.$set_icon.' Advance ('.$monitor.')</span>'; } 
+								elseif ($status == 20){ echo '<span class="label label-sm label-warning">'.$set_icon.' Re-Scheduled ('.$monitor.')</span>'; } 
+								else { echo '<span class="label label-sm label-success">'.$set_icon.' Regular ('.$monitor.')</span>'; } ?></td>
+								<td><?php if ($mnp_id == 1) { echo '<a href="schedule-advance-class?adateid='.$a_date.'&tdateid='.$t_date.'&sdateid='.$s_date.'&Course_ID='.$student_id.'&tech='.$teacher_id.'&studentName='.$student.'&link='.base64_encode($link).'&history_id='.$sched_id.'&dept_id='.$dept_id.'&adept_id='.$adept_id.'"><button type="button" class="btn blue btn-xs" title="Add Schedule">Advance</button></a>';}
+								elseif ($mnp_id != 8) { echo '<a href="valid.php?parent_id='.$sched_id.'"><button type="button" class="btn yellow btn-xs"><i class="fa fa-history"></i></button></a>';} ?></td>
+							</tr>
+							<?php 	
+		$i++;		
+		}
+	}	
+?>
+								</tbody>
+								</table>
+							</div>
+
+						</div>
+					</div>
+					<!-- END SAMPLE TABLE PORTLET-->
+				</div>
+			</div>
+			<!-- END PAGE CONTENT INNER -->
+		</div>
+	</div>
+	<!-- END PAGE CONTENT -->
+</div>
+<!-- END PAGE CONTAINER -->
+<?php echo $fot; ?>

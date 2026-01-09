@@ -1,0 +1,8 @@
+<?php
+  require ("../includes/dbconnection.php");  
+?>
+<?php
+$req_id =$_REQUEST['req'];
+	mysql_query("UPDATE new_request SET status = 6 WHERE request_id = '$req_id'") or die(mysql_error()); 		
+	header('Location: ' . $_SERVER['HTTP_REFERER']);
+?>

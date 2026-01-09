@@ -1,0 +1,12 @@
+<?php
+  require ("../includes/dbconnection.php");  
+date_default_timezone_set("Asia/Karachi");
+$time_start = date(" g:i:A", time(true));
+$date = date('d/m/Y', time());
+?>
+<?php
+	$pid =$_REQUEST['payment_id'];
+	$date = date('d-m-Y', time());
+	mysql_query("UPDATE invoice SET status = '2', submit = '$date', d = now() WHERE py_id = '$pid'") or die(mysql_error());  	
+	header('Location: ' . $_SERVER['HTTP_REFERER']);
+?>

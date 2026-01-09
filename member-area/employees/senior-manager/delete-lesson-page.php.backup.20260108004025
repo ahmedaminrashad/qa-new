@@ -1,0 +1,11 @@
+<?php
+  require ("../includes/dbconnection.php");  
+?>
+<?php
+$dept_id =$_REQUEST['cid'];
+$img_id =$_REQUEST['img'];
+	mysql_query("DELETE FROM lesson_image WHERE page_id = '$dept_id'") or die(mysql_error());
+	unlink('../uploads/'.$img_id.'');
+	unlink('../uploads/thumb/'.$img_id.'');  		
+	header('Location: ' . $_SERVER['HTTP_REFERER']);
+?>

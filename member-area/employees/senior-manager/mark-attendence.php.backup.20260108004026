@@ -1,0 +1,14 @@
+<?php
+
+  require ("../includes/dbconnection.php");  
+date_default_timezone_set("Africa/Cairo");
+$time_start = date("h:i:s A", time(true));
+?>
+<?php
+	$tech_id =$_REQUEST['t_id'];
+	$status =$_REQUEST['status'];
+	$date =$_REQUEST['date'];
+	mysql_query ("INSERT INTO teacher_attendance (teacher_id, date, time_in, status)
+					VALUES('$tech_id', '$date', '$time_start', '$status')") or die(mysql_error()); 	
+	header('Location: ' . $_SERVER['HTTP_REFERER']);
+?>

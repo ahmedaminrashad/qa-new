@@ -1,0 +1,8 @@
+<?php
+  require ("../includes/dbconnection.php");  
+?>
+<?php
+$history_id =$_REQUEST['history_id'];
+	mysql_query("DELETE FROM class_history WHERE history_id = '$history_id'") or die(mysql_error());  		
+	header('Location: ' . $_SERVER['HTTP_REFERER']);
+?>

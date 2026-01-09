@@ -1,0 +1,9 @@
+<?php
+  require ("../includes/dbconnection.php");  
+?>
+<?php
+	$pid =$_REQUEST['parent_id'];
+	// sending query
+	mysql_query("DELETE FROM account WHERE parent_id = '$pid'") or die(mysql_error());  	
+	header("Location: account-list.php");
+?>

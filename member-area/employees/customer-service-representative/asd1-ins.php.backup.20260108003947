@@ -1,0 +1,87 @@
+<?php
+  require ("../includes/dbconnection.php");  
+
+
+
+error_reporting(E_STRICT | E_ALL);
+
+date_default_timezone_set("Asia/Karachi");
+$time_start = date(" g:i:A", time(true));
+$date = date('d/m/Y', time());
+
+require 'PHPMailer-master/PHPMailerAutoload.php';
+
+$mail = new PHPMailer;
+
+$body = file_get_contents('PHPMailer-master/examples/contents.html');
+
+$mail->isSMTP();
+$mail->Host = 'smtp.tarteelequran.com';
+$mail->SMTPAuth = true;
+$mail->SMTPKeepAlive = true; // SMTP connection will not close after each email sent, reduces SMTP overhead
+$mail->Port = 25;
+$mail->Username = 'accounts@tarteelequran.com';
+$mail->Password = 'Asd@5179482';
+$mail->setFrom('accounts@tarteelequran.com', 'TarteeleQuran Accounts');
+$mail->addReplyTo('accounts@tarteelequran.com', 'TarteeleQuran Accounts');
+
+$mail->Subject = "Invoice Request";
+
+$result = mysql_query("SELECT `payment`.*, `currency`.`currency_name` FROM `payment`,`currency` WHERE payment.currency_id=currency.currency_id");
+if(mysql_num_rows($result) > 0) 
+{ 
+$count = 0; 
+while ($row = mysql_fetch_array ($result, MYSQL_ASSOC)) 
+{
+$mail->addAddress($row['email']); 
+$name = $row['parent_name'];
+$user = $row['username'];
+$pass = $row['userpass'];
+$fee = $row['fee'];
+$cur = $row['currency_name'];
+$m =$_REQUEST['month'];
+$due =$_REQUEST['due'];
+$y =$_REQUEST['year'];
+
+$mail->msgHTML($body);
+//msgHTML also sets AltBody, but if you want a custom one, set it afterwards
+$mail->AltBody = 'Assalam-o-Aliakum $name!';
+$mail->AltBody =" \r\n";
+$mail->AltBody ="This is a request for payment from: TarteeleQuran.Com. \r\n";
+$mail->AltBody =" \r\n";
+$mail->AltBody ="Billing Details: \r\n";
+$mail->AltBody ="Month: $m-$y \r\n";
+$mail->AltBody ="Amount: $cur $fee \r\n";
+$mail->AltBody ="Due Date: $due \r\n";
+$mail->AltBody =" \r\n";
+$mail->AltBody ="Kindly use the following credentials to login your account for payments. \r\n";
+$mail->AltBody ="Login Link: www.tarteelequran.com/login.php \r\n";
+$mail->AltBody ="User Name: $user \r\n";
+$mail->AltBody ="User Pass: $pass \r\n";
+$mail->AltBody =" \r\n";
+$mail->AltBody ="Once you logged in, you will found your invoice under the 'Invoice(s)'. Kindly follow the 'Pay Now' link to fill your order to checkout. \r\n";
+$mail->AltBody ="Your secure order will be processed by 2Checkout.com, Inc.  \r\n";
+$mail->AltBody ="You will have the option to pay in the currency of your choice during checkout.  \r\n";
+$mail->AltBody ="If the payment link does not work properly, please contact accounts@tarteelequran.com  \r\n";
+$mail->AltBody =" \r\n";
+$mail->AltBody ="Kindly Pay your invoice before/on due date. If you are unable to pay your invoice due to any reason, please inform us telling the date you will pay your invoice at accounts@tarteelequran.com so that your classes remain continue without any inconvenience. \r\n";
+$mail->AltBody =" \r\n";
+$mail->AltBody ="We sincerely thank you for choosing us to be your online Quran Learning Institute. \r\n";
+$mail->AltBody =" \r\n";
+$mail->AltBody ="This is a software generated request. If you have already pay your invoice kindly ignore this email. \r\n";
+$mail->AltBody ="TarteeleQuran Accounts \r\n";
+$mail->AltBody ="www.tarteelequran.com \r\n";
+$mail->AltBody ="E-mail:accounts@tarteelequran.com \r\n";
+$mail->AltBody ="Phone: \r\n";
+$mail->AltBody ="US:+1 770 872 7794 \r\n";
+$mail->AltBody ="UK:+44 207 097 1406 \r\n";
+$mail->AltBody ="AU:+61 280 114 377 \r\n";
+$count++; 
+} 
+echo "myResult=$count Emails Sent. Done."; 
+} 
+else 
+{ 
+echo "myResult=Email Submissions Failed."; 
+}
+?>

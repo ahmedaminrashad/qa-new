@@ -1,0 +1,202 @@
+<?php session_start(); ?>
+<?php
+  include("../includes/session.php");
+  include("../includes/manager_rights.php");
+  require ("../includes/dbconnection.php");
+include("header.php");
+    $pnid =base64_decode($_GET["test_id"]);
+	$result = mysql_query("SELECT `test_results`.*,`profile`.`teacher_name`,`course`.`course_yrSec`,`month`.`month_name`,`school_yr`.`school_year`,`timestart`.`time_s`,`dept`.`department`,`lan`.`lan_name`,`Gender`.`gender` FROM `test_results`,`profile`,`course`,`month`,`school_yr`,`timestart`,`dept`,`lan`,`Gender` WHERE test_results.teacher_id=profile.teacher_id and test_results.course_id=course.course_id and test_results.m_id=month.month_id and test_results.y_id=school_yr.year_id and test_results.test_time=timestart.time_s_id and test_results.dept_id=dept.dept_id and test_results.lan_id=lan.lan_id and test_results.g_id=Gender.g_id HAVING test_id = '$pnid'");
+	if (!$result) 
+		{
+		die("Query to etyeriled");
+		}
+			$numberOfRows = MYSQL_NUMROWS($result);
+			If ($numberOfRows == 0) 
+				{
+			//echo 'Sorry No Record Found!';
+				}
+			else if ($numberOfRows > 0) 
+				{
+				$i=0;
+			$t_id = MYSQL_RESULT($result,$i,"test_id");
+			$student_name = MYSQL_RESULT($result,$i,"course_yrSec");
+			$teacher_name = MYSQL_RESULT($result,$i,"teacher_name");
+			$month = MYSQL_RESULT($result,$i,"month_name");
+			$year = MYSQL_RESULT($result,$i,"school_year");
+			$test_d = MYSQL_RESULT($result,$i,"test_date");
+			$test_t = MYSQL_RESULT($result,$i,"time_s");
+			$test_dis = MYSQL_RESULT($result,$i,"test_discription");
+			$course = MYSQL_RESULT($result,$i,"department");
+			$lan = MYSQL_RESULT($result,$i,"lan_name");
+			$gen = MYSQL_RESULT($result,$i,"Gender");
+			}
+?>
+<?php
+date_default_timezone_set("Asia/Karachi");
+$sy = date('Y-m-d');
+?>
+<?php
+if (isset($_POST['cmdSubmit'])) 
+  	{ 	
+			$remarks_p = $_POST['p_remarks'];
+			$remarks_t = $_POST['t_remarks'];
+			$grade_a = $_POST['grade'];
+			$ttt_id = $_POST['tt_id'];
+
+			mysql_query( "UPDATE test_results SET parent_remarks = '$remarks_p', test_remarks = '$remarks_t', test_grade = '$grade_a', taken_date_admin = '$sy', status_id = '2' where test_id = '$ttt_id'") or die(mysql_error()); 
+							 header("Location: test_status");
+				}
+?>
+<?php
+date_default_timezone_set("Asia/Karachi");
+$sy = date('Y-m-d');
+?>
+<?php echo $main_header; ?>
+<?php echo $tool_bar; ?>
+<?php echo $start_menu; ?>
+<?php echo $search_bar; ?>
+<?php echo $main_menu; ?>
+<!-- BEGIN PAGE CONTAINER -->
+<div class="page-container">
+	<!-- BEGIN PAGE HEAD -->
+	<div class="page-head">
+		<div class="container">
+			<!-- BEGIN PAGE TITLE -->
+			<div class="page-title">
+				<h1>Create Test <small><?php echo $mon; ?>-<?php echo $sy; ?></small></h1>
+			</div>
+			<!-- END PAGE TITLE -->
+			<!-- BEGIN PAGE TOOLBAR -->
+			<div class="page-toolbar">
+			</div>
+			<!-- END PAGE TOOLBAR -->
+		</div>
+	</div>
+	<!-- END PAGE HEAD -->
+	<!-- BEGIN PAGE CONTENT -->
+	<div class="page-content">
+		<div class="container">
+			<!-- BEGIN PAGE BREADCRUMB -->
+			<ul class="page-breadcrumb breadcrumb">
+				<li>
+					<a href="admin-home">Home</a><i class="fa fa-circle"></i>
+				</li>
+				<li class="active">
+					 Take Test
+				</li>
+			</ul>
+			<!-- END PAGE BREADCRUMB -->
+			<!-- BEGIN PAGE CONTENT INNER -->
+			<div class="row">
+				<div class="col-md-12">
+					<div class="tabbable tabbable-custom tabbable-noborder tabbable-reversed">
+						<div class="tab-content">
+								<div class="portlet box green">
+									<div class="portlet-title">
+										<div class="caption">
+											<i class="fa fa-mortar-board"></i>Test Details
+										</div>
+										<div class="tools">
+											<a href="javascript:;" class="collapse">
+											</a>
+										</div>
+									</div>
+									<div class="portlet-body form">
+										<!-- BEGIN FORM-->
+										<table class="table table-hover">
+								<tbody>
+								<tr>
+								<td>Student Name:</td>
+								<td><font color="#44B6AE"> <b><?php echo $student_name; ?></b></font></td>
+								</tr>
+								<tr>
+								<td>Teacher Name:</td>
+								<td><font color="#44B6AE"> <b><?php echo $teacher_name; ?></b></font></td>
+								</tr>
+								<tr>
+								<tr>
+								<td>Test Month:</td>
+								<td><font color="#44B6AE"> <b><?php echo $month; ?> - <?php echo $year; ?></b></font></td>
+								</tr>
+								<tr>
+								<td>Date/Time:</td>
+								<td>
+								<font color="#44B6AE"> <b><?php echo $test_d; ?> - <?php echo $test_t; ?></b></font>
+								</td>
+								</tr>
+								<tr>
+								<td>Other Details:</td>
+								<td>
+								<font color="#44B6AE"> Lang: <b><?php echo $lan; ?></b> Gender: <b><?php echo $gen; ?></b> Course: <b><?php echo $course; ?></b></font>
+								</td>
+								</tr>
+								<tr>
+								<td>Discription:</td>
+								<td><font color="#44B6AE"> <b><?php echo $test_dis; ?></b></font></td>
+								</tr>
+								</tbody>
+								</table>
+										<!-- END FORM-->
+									</div>
+								</div>
+							</div>
+							<div class="tabbable tabbable-custom tabbable-noborder tabbable-reversed">
+						<div class="tab-content">
+								<div class="portlet box green">
+									<div class="portlet-title">
+										<div class="caption">
+											<i class="fa fa-mortar-board"></i>Enter Results
+										</div>
+									</div>
+									<div class="portlet-body form">
+										<!-- BEGIN FORM-->
+										<form action="<?php echo $_SERVER['PHP_SELF']?>" method="post" class="form-horizontal form-row-seperated">
+												<div class="form-group">
+													<label class="col-md-3 control-label"><strong>Remarks for Parents</strong></label>
+													<div class="col-md-9">
+														<textarea required class="form-control" placeholder="Enter Test Discription" name="p_remarks" id="p_remarks" required></textarea>													</div>
+												</div>
+												<div class="form-group">
+													<label class="col-md-3 control-label"><strong>Remarks for Teachers</strong></label>
+													<div class="col-md-9">
+														<textarea required class="form-control" placeholder="Enter Test Discription" name="t_remarks" id="t_remarks" required></textarea>													</div>
+												</div>
+												<div class="form-group">
+													<label class="col-md-3 control-label"><strong>Remarks for Teachers</strong></label>
+													<div class="col-md-9">
+														<select required class="form-control" name="grade"  id="grade">
+																<option value="Not Good">Not Good</option>
+																<option value="Good">Good</option>
+																<option value="Very Good">Very Good</option>
+																<option value="Excellent">Excellent</option>
+															</select>
+													</div>
+												</div>
+												<input type="hidden" class="form-control" value="<?php echo $t_id; ?>" name="tt_id" id="tt_id">
+											<div class="form-actions">
+												<div class="row">
+													<div class="col-md-offset-3 col-md-9">
+														<button type="submit" name="cmdSubmit" class="btn btn-circle blue">Submit</button>
+														<button type="button" class="btn btn-circle default">Cancel</button>
+													</div>
+												</div>
+											</div>
+										</form>
+										<!-- END FORM-->
+									</div>
+								</div>
+							</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- END PAGE CONTENT INNER -->
+		</div>
+	</div>
+	<!-- END PAGE CONTENT -->
+</div>
+<!-- END PAGE CONTAINER -->
+<?php echo $fot; ?>

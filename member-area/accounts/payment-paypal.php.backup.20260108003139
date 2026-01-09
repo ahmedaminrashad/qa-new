@@ -1,0 +1,311 @@
+<?php if (empty($session)) { session_start(); } 
+?>
+<?php
+  include("../includes/session.php");
+  require ("../includes/dbconnection.php");
+  include("header.php");
+  include("../includes/main-var.php");
+  $lang=$_POST['c_mon'];
+$rank=$_POST['c_year'];
+$merge=array_combine($lang,$rank);
+  $tt = $_SESSION['is']['parent_id'];
+  $pyid = $_POST['checkbox'];
+$sql = 'select sum(fee) from invoice where py_id IN (' . implode(',', array_map('intval', $pyid)) . ')';
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+$fee = $row[0];
+$sql = 'select sum(invoice_add) from invoice where py_id IN (' . implode(',', array_map('intval', $pyid)) . ')';
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+$add = $row[0];
+$pamu = $fee+$add;
+$pyid1 = implode(',', array_map('intval', $pyid));
+$cur_m =$_REQUEST['cur_m'];
+function ccur(){
+$cm =$_REQUEST['cur_n'];
+$result = mysql_query("SELECT * FROM currency Where currency_id = '$cm'");
+			//HAVING course_id='$pCourse'
+		if (!$result) 
+			{
+			die("Query to show fields from table failed");
+			}
+		$numberOfRows = MYSQL_NUMROWS($result);
+		If ($numberOfRows == 0){
+			echo '--';
+			}
+		else if ($numberOfRows > 0) 
+			{
+			$i=0;
+			while ($i<$numberOfRows)
+				{			
+					$acat_id = MYSQL_RESULT($result,$i,"currency_id");
+					$acat_name = MYSQL_RESULT($result,$i,"currency_name");
+					echo $acat_name;
+		
+	$i++;	 
+			}
+			}
+}
+
+?>
+<?php 
+function all1($var){
+$result = mysql_query("SELECT `invoice`.*, `month`.`month_name`, `school_yr`.`school_year` FROM `invoice`,`month`,`school_yr` WHERE invoice.mon_id=month.month_id and invoice.y_id=school_yr.year_id HAVING py_id = $var ORDER BY py_id DESC");
+if (!$result) 
+	{
+    die("Query to show fields from table failed");
+	}
+$numberOfRows = MYSQL_NUMROWS($result);
+If ($numberOfRows == 0) 
+	{
+	echo '<font color="#0DB5C0">Sorry No Invoice Send Yet!</font>';
+	}
+else if ($numberOfRows > 0) 
+	{
+	while($row = mysql_fetch_array($result))
+		{		
+			$mon = MYSQL_RESULT($result,$i,"month_name");
+			$yr = MYSQL_RESULT($result,$i,"school_year");
+echo ''.$mon.'-'.$yr.'';
+														$i++;		
+		}
+	}
+	}
+?>
+<?php echo $main_header; ?>
+<head>
+<style type="text/css">
+.auto-style1 {
+	text-align: right;
+}
+</style>
+</head>
+<!-- BEGIN TOP NAVIGATION MENU -->
+			<div class="top-menu">
+				<ul class="nav navbar-nav pull-right">
+					<!-- BEGIN NOTIFICATION DROPDOWN -->
+					<li class="dropdown dropdown-extended dropdown-dark dropdown-notification" id="header_notification_bar">
+						<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+						<i class="icon-bell"></i>
+						<?php 
+$result = mysql_query("SELECT * FROM invoice WHERE status = 1 and parent_id =$tt");
+$counter = 0;
+if (!$result) 
+	{
+    die("Query to show fields from table failed");
+	}
+$numberOfRowsot = MYSQL_NUMROWS($result);
+If ($numberOfRowsot == 0) 
+	{
+	echo '';
+	}
+else if ($numberOfRowsot > 0) 
+	{
+	echo '<span class="badge badge-default">'.$numberOfRowsot.'</span>';
+	}
+ ?>
+						</a>
+						<ul class="dropdown-menu">
+							<li class="external">
+								<h3>You have <strong><?php 
+$result = mysql_query("SELECT * FROM invoice WHERE status = 1 and parent_id =$tt");
+$counter = 0;
+if (!$result) 
+	{
+    die("Query to show fields from table failed");
+	}
+$numberOfRowsot1 = MYSQL_NUMROWS($result);
+If ($numberOfRowsot == 0) 
+	{
+	echo '0';
+	}
+else if ($numberOfRowsot1 > 0) 
+	{
+	echo $numberOfRowsot1;
+	}
+ ?> Invoice(s)</strong> unpaid</h3>
+								<a href="ind_details">view all</a>
+							</li>
+							<li>
+							</li>
+						</ul>
+					</li>
+					<!-- END NOTIFICATION DROPDOWN -->
+					<li class="droddown dropdown-separator">
+						<span class="separator"></span>
+					</li>
+					<!-- BEGIN USER LOGIN DROPDOWN -->
+					<li class="dropdown dropdown-user dropdown-dark">
+						<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+						<img alt="" class="img-circle" src="../assets/admin/layout3/img/user-alt-128.png">
+						<span class="username username-hide-mobile"><?php echo $_SESSION['is']['parent']; ?></span>
+						</a>
+						<ul class="dropdown-menu dropdown-menu-default">
+							<li>
+								<a href="logout">
+								<i class="icon-key"></i> Log Out </a>
+							</li>
+						</ul>
+					</li>
+					<!-- END USER LOGIN DROPDOWN -->
+				</ul>
+			</div>
+			<!-- END TOP NAVIGATION MENU -->
+			</div>
+	</div>
+<?php echo $start_menu; ?>
+<?php echo $main_menu; ?>
+<!-- BEGIN PAGE CONTAINER -->
+<div class="page-container">
+	<!-- BEGIN PAGE HEAD -->
+	<div class="page-head">
+		<div class="container">
+			<!-- BEGIN PAGE TITLE -->
+			<div class="page-title">
+				<h1>Payment <small>Details</small></h1>
+			</div>
+			<!-- END PAGE TITLE -->
+			<!-- BEGIN PAGE TOOLBAR -->
+			<div class="page-toolbar">
+			</div>
+			<!-- END PAGE TOOLBAR -->
+		</div>
+	</div>
+	<!-- END PAGE HEAD -->
+	<!-- BEGIN PAGE CONTENT -->
+	<div class="page-content">
+		<div class="container">
+			<!-- BEGIN PAGE BREADCRUMB -->
+			<?php echo $note; ?>
+			<ul class="page-breadcrumb breadcrumb">
+				<li>
+					<a href="parents-home">Home</a><i class="fa fa-circle"></i>
+				</li>
+				<li class="active">
+					 <a href="ind_details">Invoice(s)</a><i class="fa fa-circle"></i>
+				</li>
+				<li class="active">
+					 Payment Form
+				</li>
+			</ul>
+			<!-- END PAGE BREADCRUMB -->
+			<!-- BEGIN PAGE CONTENT INNER -->
+			<div class="row">
+				<div class="col-md-12">
+				<div class="note note-info note-bordered">
+													<p>You have selected the following invoice(s)</p>
+													</div></div>
+													<div class="col-md-6">
+											<table class="table table-hover">
+								<thead>
+								<tr>
+								<th>
+									<i class="fa fa-calendar"></i> Month
+								</th>
+								<th>
+									<i class="fa fa-calendar"></i> Due Date
+								</th>
+								<th class="auto-style1">
+									<i class="fa fa-money"></i> Fee
+								</th>
+								<?php 
+$checkbox = $_POST['checkbox'];
+
+for($i=0;$i<count($checkbox);$i++){
+$del_id = $checkbox[$i];
+$result = mysql_query("SELECT `invoice`.*, `month`.`month_name`, `school_yr`.`school_year`, `statusp`.`status_name`, `currency`.`currency_name` FROM `invoice`,`month`,`school_yr`,`statusp`,`currency` WHERE invoice.mon_id=month.month_id and invoice.y_id=school_yr.year_id and invoice.status=statusp.s_id and invoice.currency_id=currency.currency_id HAVING py_id = '$del_id' ORDER BY py_id DESC");
+$counter = 0;
+if (!$result) 
+	{
+    die("Query to show fields from table failed");
+	}
+$numberOfRows = MYSQL_NUMROWS($result);
+If ($numberOfRows == 0) 
+	{
+	echo 'Sorry No Record Found!';
+	}
+else if ($numberOfRows > 0) 
+	{
+	while($row = mysql_fetch_array($result))
+		{	?>
+														</tr>
+														</thead>
+														<tbody>
+														<tr>
+															<td>
+																<font color="<?php echo $bgcolor; ?>"><?php echo $row['month_name']; ?>-<?php echo $row['school_year']; ?></font>
+															</td>
+															<td>
+																 <font color="<?php echo $bgcolor; ?>"><?php echo $row['due']; ?></font>
+															</td>
+															<td class="auto-style1">
+																<font color="<?php echo $bgcolor; ?>"><?php echo $row['currency_name']; ?> <?php echo $row['fee']+$row['invoice_add']; ?>/-</font>
+															</td>
+														</tr>
+														<?php		
+		}
+	}
+	}
+?>
+								<tr colspan="3" class="auto-style1">
+									<td colspan="2" class="auto-style1"><b>Total</b></td>
+									<td class="auto-style1"><?php ccur(); ?> <?php echo $pamu; ?>/-</td>
+								</tr>
+								<tr>
+							<td>
+								<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+								    <input type="hidden" name="item_name_1" value="<?php echo $_SESSION['is']['parent']; ?> for <?php 
+                                $checkbox = $_POST['checkbox'];
+
+                                for($i=0;$i<count($checkbox);$i++){
+                                    $del_id = $checkbox[$i];
+                                    echo all1("$del_id");echo ', '; }?>" />
+                                <input type="hidden" name="amount_1" value='<?php echo $pamu; ?>' />
+                                <input type="hidden" name="quantity_1" value="1" />
+                                <input type='hidden' name='item_number' value='' />
+                                <input type="hidden" name="shipping_1" value='0.00' />
+                                <input type="image"  style="height: 6vh;" src="https://quransquare.com/resources/newassets/images/paypal-button@2x.png"
+                                        name="submit" class="wp_cart_checkout_button"
+                                        alt="Make payments with PayPal - it\'s fast, free and secure!" />
+                                
+                                <input type="hidden" name="return" value="https://quransquare.com/member-area/accounts/payment-done.php" />
+                                <input type="hidden" name="business" value="<?php echo $paypal_email;?>" />
+                                <input type="hidden" name="currency_code" value="<?php echo $cur_m; ?>" />
+                                <!--Custom variable here: -->
+                                <input type="hidden" name="custom" value="<?php echo $pyid1; ?>">
+                                <input type="hidden" name="cmd" value="_cart" />
+                                <input type="hidden" name="upload" value="1" />
+                                <input type="hidden" name="rm" value="2" />
+                                <input type="hidden" name="mrb" value="ABC2343FGBM234" />
+                                   
+                                </form>
+							</td>
+						<!--<td>-->
+						<!--	 <form action ="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">-->
+      <!--                           <input type="hidden" name="cmd" value="_s-xclick">-->
+      <!--                              <input type="hidden" name="hosted_button_id" value="YH788KXUKGG6S">-->
+      <!--                              <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_buynowCC_LG.gif" border="0" name="submit" class="wp_cart_checkout_button" alt="PayPal - The safer, easier way to pay online!">-->
+      <!--                              <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">-->
+      <!--                      </from>-->
+      <!--                  </td>-->
+                    
+								</tbody>
+								</table></div>
+								<div class="col-md-12">
+					<div class="tabbable tabbable-custom tabbable-noborder tabbable-reversed">
+						<div class="tab-content">
+							</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- END PAGE CONTENT INNER -->
+		</div>
+	</div>
+	<!-- END PAGE CONTENT -->
+</div>
+<!-- END PAGE CONTAINER -->
+<?php echo $fot; ?>

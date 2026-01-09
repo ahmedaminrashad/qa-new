@@ -1,0 +1,12 @@
+<?php session_start(); ?>
+<?php
+require ("../includes/dbconnection.php");
+date_default_timezone_set("Africa/Cairo");
+$sy11 = date('Y-m-d');
+$time_start = date('h:i a', time());
+$rid =$_REQUEST['class_id'];
+$cid =$_REQUEST['feed'];
+$mid =$_REQUEST['m_id'];
+			mysql_query( "UPDATE complaint SET feed = '" . mysql_real_escape_string($cid) . "', cn_id = '2', feed_date = '$sy11', feed_time = '$time_start', feed_id = '$mid' where com_id = '$rid'") or die(mysql_error());
+header('Location: ' . $_SERVER['HTTP_REFERER']);
+?>

@@ -1,0 +1,59 @@
+<?php 
+function opt($time, $tr, $tech)
+			$result = mysql_query("SELECT * FROM profile HAVING teacher_id = '$tech'");
+			//HAVING course_id='$pCourse'
+		if (!$result) 
+			{
+			die("Query to show fields from table failed");
+			}
+		$numberOfRows = MYSQL_NUMROWS($result);
+		If ($numberOfRows == 0) 
+			{
+			echo "";
+			}
+		else if ($numberOfRows > 0) 
+			{
+				
+					$st1 = MYSQL_RESULT($result,$i,"st1");
+					$st2 = MYSQL_RESULT($result,$i,"st2");
+					$et1 = MYSQL_RESULT($result,$i,"et1");
+					$et2 = MYSQL_RESULT($result,$i,"et2");
+					$st3 = MYSQL_RESULT($result,$i,"st3");
+					$et3 = MYSQL_RESULT($result,$i,"et3");
+			 if ($st1 <= $tr && $et1 >= $tr){	
+					$c = '#81F781';
+						}
+			 elseif ($st2 <= $tr && $et2 >= $tr){	
+					$c = '#81F781';
+						}
+			elseif ($st3 <= $tr && $et3 >= $tr){	
+					$c = '#81F781';
+						}
+			else {	
+					$c = '#ffffff';
+						}
+if ($c == "#81F781"){ 
+$result = mysql_query("SELECT `sched`.*,`course`.`course_yrSec`,`Stime`.`stime_s` FROM `sched`,`course`,`Stime`  WHERE sched.course_id=course.course_id and sched.stime_s_id=Stime.stime_s_id HAVING teacher_id='$tech'");
+			//HAVING course_id='$pCourse'
+		if (!$result) 
+			{
+			die("Query to show fields from table failed");
+			}
+		$numberOfRows = MYSQL_NUMROWS($result);
+		If ($numberOfRows == 0){
+			echo '';
+			}
+		else if ($numberOfRows > 0) 
+			{			
+					$hidden_pcourse = MYSQL_RESULT($result,$i,"course_yrSec");
+					$hidden_pday = MYSQL_RESULT($result,$i,"day_id");
+					$hidden_pstime = MYSQL_RESULT($result,$i,"time_s_id");
+					$trial = MYSQL_RESULT($result,$i,"status");
+			 if ($hidden_pday == $d && $hidden_pstime == $t){	
+			  		echo '<option value="'.$tr.'">'.$time.' ('.$hidden_pcourse.')</option>';
+						}			
+			}
+	}
+ }
+			} 
+			 ?>

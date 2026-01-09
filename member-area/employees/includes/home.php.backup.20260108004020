@@ -1,0 +1,296 @@
+<?php session_start(); ?>
+  <?php
+  include("../includes/session.php");
+  require ("../../includes/dbconnection.php");
+  include("header.php");
+  function req_note($er)
+{
+// sending query
+   $result = mysql_query("SELECT * FROM new_request_comments Where request_id = $er");
+if (!$result) 
+	{
+    die("Query to show fields from table failed");
+	}
+$tnumberOfRows = MYSQL_NUMROWS($result);
+if ($tnumberOfRows > 0){
+echo $tnumberOfRows;
+}
+else { echo 0; }
+}
+?>
+<?php
+date_default_timezone_set("Asia/Karachi");
+$sy = date('Y-m-d');
+$y = date('Y');
+?>
+<?php echo $main_header; ?>
+<head>
+<link href="../../assets/admin/pages/css/timeline.css" rel="stylesheet" type="text/css"/>
+</head>
+<!-- BEGIN TOP NAVIGATION MENU -->
+			<div class="top-menu">
+				<ul class="nav navbar-nav pull-right">
+					<li class="dropdown dropdown-extended dropdown-dark dropdown-inbox" id="header_inbox_bar">
+						<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+						<span class="circle">3</span>
+						<span class="corner"></span>
+						</a>
+						<ul class="dropdown-menu">
+							<li class="external">
+								<h3>You have <strong>7 New</strong> Messages</h3>
+								<a href="javascript:;">view all</a>
+							</li>
+							<li>
+								<ul class="dropdown-menu-list scroller" style="height: 275px;" data-handle-color="#637283">
+									<li>
+										<a href="inbox.html?a=view">
+										<span class="photo">
+										<img src="../../assets/admin/layout3/img/avatar2.jpg" class="img-circle" alt="">
+										</span>
+										<span class="subject">
+										<span class="from">
+										Lisa Wong </span>
+										<span class="time">Just Now </span>
+										</span>
+										<span class="message">
+										Vivamus sed auctor nibh congue nibh. auctor nibh auctor nibh... </span>
+										</a>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</li>
+					<!-- END INBOX DROPDOWN -->
+					<!-- BEGIN USER LOGIN DROPDOWN -->
+					<li class="dropdown dropdown-user dropdown-dark">
+						<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+						<img alt="" class="img-circle" src="../../uploads/thumb/<?php echo $_SESSION['is']['image_name'];?>">
+						<span class="username username-hide-mobile"><?php echo $_SESSION['is']['teacher_name']; ?></span>
+						</a>
+						<ul class="dropdown-menu dropdown-menu-default">
+						<?php echo s_manager(); ?>
+						<?php echo manager(); ?>
+						<?php echo accounts(); ?>
+						<?php echo csr(); ?>
+						<?php echo teacher(); ?>
+						<?php echo billing(); ?>
+							<li>
+								<a href="logout">
+								<i class="icon-key"></i> Log Out </a>
+							</li>
+						</ul>
+					</li>
+					<!-- END USER LOGIN DROPDOWN -->
+				</ul>
+			</div>
+			<!-- END TOP NAVIGATION MENU -->
+			</div>
+	</div>
+<?php echo $start_menu; ?>
+<?php echo $search_bar; ?>
+<?php echo $main_menu; ?>
+<!-- BEGIN PAGE CONTAINER -->
+<div class="page-container">
+	<!-- BEGIN PAGE HEAD -->
+	<div class="page-head">
+		<div class="container">
+			<!-- BEGIN PAGE TITLE -->
+			<div class="page-title">
+				<h1>New<small> Requests</small></h1>
+
+			</div>
+			<!-- END PAGE TITLE -->
+			<!-- BEGIN PAGE TOOLBAR -->
+			<div class="page-toolbar">
+			</div>
+			<!-- END PAGE TOOLBAR -->
+		</div>
+	</div>
+	<!-- END PAGE HEAD -->
+	<!-- BEGIN PAGE CONTENT -->
+	<div class="page-content">
+		<div class="container">
+
+			<!-- BEGIN PAGE BREADCRUMB -->
+			<ul class="page-breadcrumb breadcrumb">
+				<li>
+					<a href="admin-home">Home</a><i class="fa fa-circle"></i>
+				</li>
+				<li class="active">
+					 List of New Requests
+				</li>
+			</ul>
+			<!-- END PAGE BREADCRUMB -->
+			<!-- BEGIN PAGE CONTENT INNER -->
+			<div class="row">
+				<div class="col-md-12">
+					<!-- BEGIN SAMPLE TABLE PORTLET-->
+					<div class="portlet light">
+					<h4><?php 
+$result = mysql_query("SELECT * FROM new_request");
+$counter = 0;
+if (!$result) 
+	{
+    die("Query to show fields from table failed");
+	}
+$numberOfRows = MYSQL_NUMROWS($result);
+echo "Total Number of New Requests to be entertain: $numberOfRows"; ?></h4>
+						<div class="portlet-body">
+							<div class="timeline">
+						<!-- TIMELINE ITEM -->
+						<?php 
+// sending query
+$result = mysql_query("SELECT * FROM new_request WHERE status = 1 teacher_id = $ID ORDER BY request_id DESC;");
+$counter = 0;
+if (!$result) 
+	{
+    die("Query to show fields from table failed");
+	}
+$numberOfRows = MYSQL_NUMROWS($result);
+If ($numberOfRows == 0) 
+	{
+	echo 'There is no pending request...';
+	}
+else if ($numberOfRows > 0) 
+	{
+	$i=0;
+	while ($i<$numberOfRows)
+		{		
+			$arequest_id = MYSQL_RESULT($result,$i,"request_id");
+			$aname = MYSQL_RESULT($result,$i,"name");
+			$aemail = MYSQL_RESULT($result,$i,"email");
+			$aphone = MYSQL_RESULT($result,$i,"phone");
+			$askype = MYSQL_RESULT($result,$i,"skype");
+			$acountry = MYSQL_RESULT($result,$i,"country");
+			$acity = MYSQL_RESULT($result,$i,"city");
+			$amessage = MYSQL_RESULT($result,$i,"message");
+			$adate = MYSQL_RESULT($result,$i,"date");
+			$atime = MYSQL_RESULT($result,$i,"time");
+			$aupdate = MYSQL_RESULT($result,$i,"time_update");
+			$asent = MYSQL_RESULT($result,$i,"sent");
+			$acsr_id = MYSQL_RESULT($result,$i,"csr_id");
+?>
+						<div class="timeline-item">
+							<div class="timeline-body">
+								<div class="timeline-body-arrow">
+								</div>
+								<div class="timeline-body-head">
+									<div class="timeline-body-head-caption">
+										<a href="javascript:;" class="timeline-body-title font-blue-madison"><?php echo $aname; ?></a>
+										<span class="timeline-body-time font-grey-cascade"><?php echo $adate; ?> (<?php echo $atime; ?>)</span>
+									</div>
+									<div class="timeline-body-head-actions">
+										<div class="btn-group">
+											<button class="btn btn-circle green-haze btn-sm dropdown-toggle" type="button" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+											Actions <i class="fa fa-angle-down"></i>
+											</button>
+											<ul class="dropdown-menu pull-right" role="menu">
+												<li>
+													<a href="add-new-request-note?req=<?php echo $arequest_id; ?>&name=<?php echo $aname; ?>">Add Note </a>
+												</li>
+												<li>
+													<a href="welcome-email?request=<?php echo $arequest_id; ?>">Send Email </a>
+												</li>
+												<li>
+													<a href="add-parent-account?req=<?php echo $arequest_id; ?>&name=<?php echo $aname; ?>&email=<?php echo $aemail; ?>&phone=<?php echo $aphone; ?>&skype=<?php echo $askype; ?>&city=<?php echo $acity; ?>">Create Account </a>
+												</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+								<div class="timeline-body-content">
+									<span class="font-grey-cascade">
+									<div id="mytable" class="table-responsive">
+								<table class="table table-hover">
+								<thead>
+								<tr>
+								<th>
+									 Email
+								</th>
+								<th>
+									 Phone
+								</th>
+								<th>
+									 Skype
+								</th>
+								<th>
+									 Country
+								</th>
+								<th>
+									 City
+								</th>
+								</tr>
+								</thead>
+								<tbody>
+								<tr bgcolor="<?php echo $bgcolor; ?>">
+								<td>
+									 <?php echo $aemail; ?>
+								</td>
+								<td>
+									 <?php echo $aphone; ?>
+								</td>
+								<td>
+									 <?php echo $askype; ?>
+								</td>
+								<td>
+									 <?php echo $acountry; ?>
+								</td>
+								<td>
+										<?php echo $acity; ?>
+								</td>
+							</tr>
+							<tr>
+								<td>
+								<strong>Message:</strong>
+								</td>
+								<td colspan="4">
+									<?php echo $amessage; ?>
+								</td>
+							</tr>
+							<tr>
+								<td colspan="5">
+								<span class="label label-sm label-warning" title="Email Status"><i class="fa fa-envelope"> <?php if ($asent == 2){ echo '<font color="green">Sent</font>';} else { echo '<font color="red">Not Sent</font>';} ?></i></span>
+								<a class="notes" href="#notes-d" data-toggle="modal" data-target="#notes-d" data-id="<?php echo $arequest_id; ?>" data-name="<?php echo $aname; ?>"><span class="label label-sm label-success" title="Note Details"><i class="fa fa-comments-o"> <?php echo req_note("$arequest_id"); ?></i></span></a>
+								</td>
+							</tr>
+							</tbody>
+								</table>
+								</div>
+								</span>
+								</div>
+							</div>
+						</div>
+						<?php 	
+		$i++;		
+		}
+	}	
+?>							</div>
+					</div>
+					<!-- END SAMPLE TABLE PORTLET-->
+        <div class="modal fade bs-modal-lg" id="notes-d" tabindex="-1" role="dialog" aria-hidden="true">
+								<div class="modal-dialog modal-lg">
+									<div class="modal-content">
+
+
+        </div>
+    </div>
+</div>
+				</div>
+			</div>
+			<!-- END PAGE CONTENT INNER -->
+		</div>
+	</div>
+	<!-- END PAGE CONTENT -->
+</div>
+<!-- END PAGE CONTAINER -->
+<?php echo $fot; ?>
+<script>
+$('.notes').click(function(){
+    var famID=$(this).attr('data-id');
+    var famName=$(this).attr('data-name');
+
+    $.ajax({url:"note-details.php?famID="+famID+"&famName="+famName,cache:false,success:function(result){
+        $(".modal-content").html(result);
+    }});
+});
+</script>

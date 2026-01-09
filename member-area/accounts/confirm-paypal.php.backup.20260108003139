@@ -1,0 +1,12 @@
+<?php
+  require ("../includes/dbconnection.php");  
+date_default_timezone_set($TimeZoneCustome);
+$time_start = date(" g:i:A", time(true));
+$date = date('d/m/Y', time());
+?>
+<?php
+	$pid =$_REQUEST['custom'];
+	$oid =$_REQUEST['txn_id'];
+	mysql_query("UPDATE invoice SET status = '2', order_num = '$oid', submit = '$date', d = now() WHERE py_id IN ($pid)") or die(mysql_error()); 
+	header("Location: payment-done");
+?>

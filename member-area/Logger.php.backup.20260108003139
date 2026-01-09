@@ -1,0 +1,9 @@
+<?php
+class Logger {
+    public static function log($message) {
+        $date = date('Y-m-d',  strtotime('now +1 hour'));
+        $datetime = date('Y-m-d H:i:s',  strtotime('now +1 hour'));
+        $formattedMessage = "[$datetime] $message" . PHP_EOL;
+        file_put_contents('logs/app'.$date.'.log', $formattedMessage, FILE_APPEND);
+    }
+}

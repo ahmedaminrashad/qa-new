@@ -1,0 +1,13 @@
+<?php
+$subject = 'Your Account has beed Activated';
+$first_line = 'Following action has been taken to your account at www.qarabic.Com';
+$first_para = 'This is a confirmation email that your account has been Activated. If you have any question in this regard, feel free to ask anything.';
+$second_para = 'Hope you are satified with our services.';
+$bottom_line = 'This is a software generated request. If you have any dispute over this email. Please contact as soon as possible.';
+$bottom = '<strong>Admin qarabic Institute</strong>
+<br>www.qarabic.Com
+<br>E-mail: info@qarabic.com<br>
+<br>Phone:<br>
+USA: +1 (445) 300-1433<br>
+UK: +44-741-839-7601<br>';
+?>

@@ -1,0 +1,16 @@
+<?php
+
+  require ("../includes/dbconnection.php");  
+date_default_timezone_set("Asia/Karachi");
+$sy = date('Y-m-d h:i:sa');
+
+	$tkid =$_REQUEST['new_id'];
+	$com =$_REQUEST['comment'];
+	$user =$_REQUEST['usertk_id'];
+	$newuser =$_REQUEST['techid'];
+	mysql_query("UPDATE task_creator SET status = '1', to_person = '$newuser' WHERE task_id = '$tkid'") or die(mysql_error());
+	
+	mysql_query ("INSERT INTO task_string (task_id, user, msg, date)
+					VALUES('$tkid', '$user', '" . mysql_real_escape_string($com) . "', '$sy')") or die(mysql_error()); 
+					 header('Location: ' . $_SERVER['HTTP_REFERER']);
+?>

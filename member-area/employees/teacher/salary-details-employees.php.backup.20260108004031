@@ -1,0 +1,321 @@
+<?php if (empty($session)) { session_start(); } 
+?>
+<?php
+  include("../includes/session.php");
+require("../includes/dbconnection.php");
+include("../includes/teacher_rights.php");  include("header.php");
+ function blocked($d){
+$pT =$_REQUEST['teach_id'];
+$result = mysql_query("SELECT `profile`.*, `Gender`.`gender`, `employee_catagory`.`cat_name` FROM `profile`,`Gender`,`employee_catagory` WHERE profile.g_id=Gender.g_id and profile.cat_id=employee_catagory.cat_id HAVING teacher_id = '$pT'");
+		if (!$result) 
+			{
+			die("Query to show fields from table failed");
+			}
+		$numberOfRows = MYSQL_NUMROWS($result);
+		If ($numberOfRows == 0){
+			echo '';
+			}
+		else if ($numberOfRows > 0) 
+			{
+			$i=0;
+		
+			$tname = MYSQL_RESULT($result,$i,"teacher_name");
+			$gender = MYSQL_RESULT($result,$i,"gender");
+			$currency = MYSQL_RESULT($result,$i,"currency");
+			$employ = MYSQL_RESULT($result,$i,"cat_name");
+			if ($d == 'gender') {
+				echo $gender;
+			}
+			elseif ($d == 'name') {
+				echo $tname;
+			}
+			elseif ($d == 'designation') {
+				echo $employ;
+			}
+			elseif ($d == 'currency') {
+				echo $currency;
+			}
+			}
+	} 
+  $sal_id =$_REQUEST['sal_id'];
+  $smonth =$_REQUEST['month'];
+$result = mysql_query("SELECT * FROM teacher_salary WHERE salary_id = $sal_id");
+$counter = 0;
+if (!$result) 
+	{
+    die("Query to show fields from table failed");
+	}
+$numberOfRows = MYSQL_NUMROWS($result);
+If ($numberOfRows == 0) 
+	{
+	echo 'Sorry No Record Found!';
+	}
+else if ($numberOfRows > 0) 
+	{
+	$i=0;		
+			//basic details
+			$sal_id = MYSQL_RESULT($result,$i,"salary_id");
+			$ttt_id = MYSQL_RESULT($result,$i,"teacher_id");
+			$t_date = MYSQL_RESULT($result,$i,"date");
+			$t_salary = MYSQL_RESULT($result,$i,"monthly_salary");
+			$t_type = MYSQL_RESULT($result,$i,"type");
+			$t_cat = MYSQL_RESULT($result,$i,"cat_id");
+			//Allowance and deductions
+			$t_returns = MYSQL_RESULT($result,$i,"company_returns");
+			$t_bouns = MYSQL_RESULT($result,$i,"performance");
+			$t_rent = MYSQL_RESULT($result,$i,"residence_all");
+			$t_medi = MYSQL_RESULT($result,$i,"medical_allowance");
+			$t_ent = MYSQL_RESULT($result,$i,"entertainment_allowance");
+			$t_misc = MYSQL_RESULT($result,$i,"misc_allowances");
+			$t_eobi = MYSQL_RESULT($result,$i,"eobi");
+			$t_fine = MYSQL_RESULT($result,$i,"fine");
+			$t_leave = MYSQL_RESULT($result,$i,"leave_duc");
+			$t_advance = MYSQL_RESULT($result,$i,"advance_duc");
+			$t_reduc = MYSQL_RESULT($result,$i,"fine_reduc");
+			$t_tax = MYSQL_RESULT($result,$i,"tax");
+			$t_gift = MYSQL_RESULT($result,$i,"gift");
+			$t_oadd = MYSQL_RESULT($result,$i,"other_add");
+			$t_odec = MYSQL_RESULT($result,$i,"other_dec");
+			//salary types and rates
+			$class_rate = MYSQL_RESULT($result,$i,"class_rate");
+			$csr_rate = MYSQL_RESULT($result,$i,"csr_rate");
+			$slot_rate = MYSQL_RESULT($result,$i,"slot_rate");
+			$hour_rate = MYSQL_RESULT($result,$i,"hour_rate");
+			$numStu = MYSQL_RESULT($result,$i,"num_student");
+			$t_to_class = MYSQL_RESULT($result,$i,"total_classes");
+			$t_to_hours = MYSQL_RESULT($result,$i,"total_hours");
+			//earning
+			$t_class = MYSQL_RESULT($result,$i,"class_earning");
+			$t_csr = MYSQL_RESULT($result,$i,"csr_earning");
+			$t_hour = MYSQL_RESULT($result,$i,"hour_earning");
+			$t_slot = MYSQL_RESULT($result,$i,"slot_earning");
+			$date_start = MYSQL_RESULT($result,$i,"date1");
+			$date_end = MYSQL_RESULT($result,$i,"date2");
+			
+			$total_add = $t_salary + $t_returns + $t_bouns + $t_rent + $t_reduc + $t_class + $t_csr + $t_medi + $t_misc + $t_hour + $t_slot + $t_gift + $t_oadd;
+			$total_sub = $t_fine + $t_leave + $t_advance + $t_tax + $t_eobi + $t_odec;
+			$paid = $total_add - $total_sub;
+			}
+?>
+<?php echo $main_header; ?>
+<head>
+<style type="text/css">
+.auto-style5 {
+	text-align: right;
+}
+</style>
+</head>
+<?php echo $tool_bar; ?>
+<?php echo $start_menu; ?>
+<?php echo $search_bar; ?>
+<?php echo $main_menu; ?>
+<!-- BEGIN PAGE CONTAINER -->
+<div class="page-container">
+	<!-- BEGIN PAGE HEAD -->
+	<div class="page-head">
+		<div class="container">
+			<!-- BEGIN PAGE TITLE -->
+			<div class="page-title">
+				<h1>Salary<small> Details</small></h1>
+			</div>
+			<!-- END PAGE TITLE -->
+			<!-- BEGIN PAGE TOOLBAR -->
+			<div class="page-toolbar">
+			</div>
+			<!-- END PAGE TOOLBAR -->
+		</div>
+	</div>
+	<!-- END PAGE HEAD -->
+	<!-- BEGIN PAGE CONTENT -->
+	<div class="page-content">
+		<div class="container">
+			<!-- BEGIN PAGE BREADCRUMB -->
+			<ul class="page-breadcrumb breadcrumb">
+				<li>
+					<a href="admin-home">Home</a><i class="fa fa-circle"></i>
+				</li>
+				<li class="active">
+					 Salary Detail for the month of <?php echo $smonth; ?>
+				</li>
+			</ul>
+			<!-- END PAGE BREADCRUMB -->
+			<!-- BEGIN PAGE CONTENT INNER -->
+					<div class="row">
+				<div class="col-md-12">
+				<div class="portlet light">
+									<h4>
+									<font color="#44B6AE"> <b>Salary Summary:</b></font>
+									</h4>
+									<div id="mytable" class="table-responsive">
+								<table class="table table-bordered table-hover">
+								<tbody>
+								<tr class="warning">
+								<td><b>Name:</b></td>
+								<td><?php echo blocked('name'); ?></td>
+								<td><b>Designation:</b></td>
+								<td><?php echo blocked('designation'); ?></td>
+								<td><b>Gender:</b></td>
+								<td><?php echo blocked('gender'); ?></td>
+								</tr>
+								<tr class="warning">
+								<td><b>Department:</b></td>
+								<td><?php if ($t_cat == 1 OR $t_cat == 2 OR $t_cat == 3 OR $t_cat == 4 OR $t_cat == 5 OR $t_cat == 6 OR $t_cat == 10){ echo 'ADMIN'; } elseif ($t_cat == 8) {echo 'TEACHING';} elseif ($t_cat == 9) {echo 'ACCOUNTS';} else {echo 'HELP DESK';}?></td>
+								<td><b>Salary Type:</b></td>
+								<td><?php if ($t_type == 1) {echo 'Monthly-Fixed';} elseif ($t_type == 2) {echo 'Per Class';} elseif ($t_type == 3) {echo 'Per Hour';} elseif ($t_type == 4) {echo 'Slab Based';} ?></td>
+								<td><b><?php if ($t_type == 1) {echo 'Monthly Salary';} elseif ($t_type == 2) { echo 'Total Classes (Rate: '.$class_rate.')'; } elseif ($t_type == 3) { echo 'Total Hours (Rate: '.$hour_rate.')'; } elseif ($t_type == 4) {echo 'Slab (Size: '.$slot_rate.')';} else {echo '--';} ?></b></td>
+								<td><?php if ($t_type == 1) {echo $t_salary;} elseif ($t_type == 2) { echo $t_to_class; } elseif ($t_type == 3) { echo $t_to_hours; } elseif ($t_type == 4) {echo $t_slot;} else {echo '--';} ?></td>
+								</tr>
+								</tbody>
+								</table>
+								<table class="table table-bordered table-hover">
+								<tbody class="warning">
+								<tr class="info">
+								<td><b>Pay and Allowances</b></td>
+								<td class="auto-style5"><b>Amount (<?php echo blocked('currency'); //if ($t_type == 3){//echo '$';} else{//echo 'Rs.';} ?>)</b></td>
+								<td></td>
+								<td><b>Deductions/Recoveries</b></td>
+								<td class="auto-style5"><b>Amount (<?php echo blocked('currency'); //if ($t_type == 3){echo '$';} else{echo 'Rs.';} ?>)</b></td>
+								</tr>
+								<tr class="info">
+								<td colspan="5"></td>
+								</tr>
+								<tr class="info">
+								<td><b>Basic Pay</b></td>
+								<td class="auto-style5"><?php echo number_format($t_salary, 2); ?></td>
+								<td  rowspan="12"></td>
+								<td><b>Income Tax</b></td>
+								<td class="auto-style5"><?php echo number_format($t_tax, 2); ?></td>
+								</tr>
+								<tr class="info">
+								<td><b><?php if ($t_type == 3) { echo 'Hours Earning'; } elseif ($t_type == 4) {echo 'Slab Earning';} else { echo 'Classes Earning'; } ?></b></td>
+								<td class="auto-style5"><?php if ($t_type == 3) { echo number_format($t_hour, 2); } elseif ($t_type == 4) {echo number_format($t_slot, 2);} else { echo number_format($t_class, 2); } ?></td>
+								<td><b>Loan Deduction</b></td>
+								<td class="auto-style5"><a class="fine" href="#fine-d" data-toggle="modal" data-target="#fine-d" data-id="<?php echo $ttt_id; ?>" data-month="<?php echo $date_start; ?>" data-year="<?php echo $date_end; ?>" data-type="3" data-name="Advances"><?php echo number_format($t_advance, 2); ?></a></td>
+								</tr>
+								<tr class="info">
+								<td><b>Student Commission</b></td>
+								<td class="auto-style5"><?php echo number_format($t_csr, 2); ?></td>
+								<td><b>Leave Deduction</b></td>
+								<td class="auto-style5"><a class="leaves" href="#leaves-d" data-toggle="modal" data-target="#leaves-d" data-id="<?php echo $ttt_id; ?>" data-month="<?php echo $date_start; ?>" data-year="<?php echo $date_end; ?>" data-amu="<?php echo $t_salary; ?>"><?php echo number_format($t_leave, 2); ?></a></td>
+								</tr>
+								<tr class="info">
+								<td><b>Medical Allowance</b></td>
+								<td class="auto-style5"><?php echo number_format($t_medi, 2); ?></td>
+								<td><b>Fine Deduction</b></td>
+								<td class="auto-style5"><a class="fine" href="#fine-d" data-toggle="modal" data-target="#fine-d" data-id="<?php echo $ttt_id; ?>" data-month="<?php echo $date_start; ?>" data-year="<?php echo $date_end; ?>" data-type="1" data-name="Fines"><?php echo number_format($t_fine, 2); ?></a></td>
+								</tr>
+								<tr class="info">
+								<td><b>Residence Allowance</b></td>
+								<td class="auto-style5"><?php echo number_format($t_rent, 2); ?></td>
+								<td><b>EOBI Deduction</b></td>
+								<td class="auto-style5"><?php echo number_format($t_eobi, 2); ?></td>
+								</tr>
+								<tr class="info">
+								<td><b>Bonus</b></td>
+								<td class="auto-style5"><a class="fine" href="#fine-d" data-toggle="modal" data-target="#fine-d" data-id="<?php echo $ttt_id; ?>" data-id="<?php echo $ttt_id; ?>" data-month="<?php echo $date_start; ?>" data-year="<?php echo $date_end; ?>" data-type="2" data-name="Bonus"><?php echo number_format($t_bouns, 2); ?></a></td>
+								<td><b>Other Deductions</b></td>
+								<td class="auto-style5"><?php echo number_format($t_odec, 2); ?></td>
+								</tr>
+								<tr class="info">
+								<td><b>Fine Reduction</b></td>
+								<td class="auto-style5"><a class="fine" href="#fine-d" data-toggle="modal" data-target="#fine-d" data-id="<?php echo $ttt_id; ?>" data-id="<?php echo $ttt_id; ?>" data-month="<?php echo $date_start; ?>" data-year="<?php echo $date_end; ?>" data-type="5" data-name="Fine Reduction"><?php echo number_format($t_reduc, 2); ?></a></td>
+								<td>&nbsp;</td>
+								<td></td>
+								</tr>
+								<tr class="info">
+								<td><b>Gift</b></td>
+								<td class="auto-style5"><a class="fine" href="#fine-d" data-toggle="modal" data-target="#fine-d" data-id="<?php echo $ttt_id; ?>" data-id="<?php echo $ttt_id; ?>" data-month="<?php echo $date_start; ?>" data-year="<?php echo $date_end; ?>" data-type="6" data-name="Fine Reduction"><?php echo number_format($t_gift, 2); ?></a></td>
+								<td>&nbsp;</td>
+								<td></td>
+								</tr>
+								<tr class="info">
+								<td><b>Other Additions</b></td>
+								<td class="auto-style5"><a class="fine" href="#fine-d" data-toggle="modal" data-target="#fine-d" data-id="<?php echo $ttt_id; ?>" data-id="<?php echo $ttt_id; ?>" data-month="<?php echo $date_start; ?>" data-year="<?php echo $date_end; ?>" data-type="7" data-name="Fine Reduction"><?php echo number_format($t_oadd, 2); ?></a></td>
+								<td>&nbsp;</td>
+								<td></td>
+								</tr>
+								<tr class="info">
+								<td><b>Entertainment Allowance</b></td>
+								<td class="auto-style5"><?php echo number_format($t_ent, 2); ?></td>
+								<td>&nbsp;</td>
+								<td></td>
+								</tr>
+								<tr class="info">
+								<td><b>Arrears</b></td>
+								<td class="auto-style5"><a class="fine" href="#fine-d" data-toggle="modal" data-target="#fine-d" data-id="<?php echo $ttt_id; ?>" data-id="<?php echo $ttt_id; ?>" data-month="<?php echo $date_start; ?>" data-year="<?php echo $date_end; ?>" data-type="4" data-name="Compony Returns"><?php echo number_format($t_returns, 2); ?></a></td>
+								<td>&nbsp;</td>
+								<td></td>
+								</tr>
+								<tr class="info">
+								<td><b>Misc. Allowances</b></td>
+								<td class="auto-style5"><?php echo number_format($t_misc, 2); ?></td>
+								<td>&nbsp;</td>
+								<td></td>
+								</tr>
+								<tr class="info">
+								<td><b>Gross Total:</b></td>
+								<td class="auto-style5"><b><?php echo number_format($total_add, 2); ?></b></td>
+								<td></td>
+								<td><b>Total Deduction:</b></td>
+								<td class="auto-style5"><b><?php echo number_format($total_sub, 2); ?></b></td>
+								</tr>
+								<tr>
+								<td colspan="5"></td>
+								</tr>
+								<tr class="success">
+								<td colspan="3"></td>
+								<td><b>Net Payable:</b></td>
+								<td class="auto-style5"><b><?php echo number_format($paid, 2); ?></b></td>
+								</tr>
+								</tbody>
+								</table>
+							</div>
+					<!-- END SAMPLE TABLE PORTLET-->
+					<div class="modal fade bs-modal-lg" id="fine-d" tabindex="-1" role="dialog" aria-hidden="true">
+								<div class="modal-dialog modal-lg">
+									<div class="modal-content">
+
+
+        </div>
+    </div>
+</div>
+<div class="modal fade bs-modal-lg" id="leaves-d" tabindex="-1" role="dialog" aria-hidden="true">
+								<div class="modal-dialog modal-lg">
+									<div class="modal-content">
+
+
+        </div>
+    </div>
+</div>
+				</div>
+			</div>
+			<!-- END PAGE CONTENT INNER -->
+		</div>
+	</div>
+	<!-- END PAGE CONTENT -->
+</div>
+<!-- END PAGE CONTAINER -->
+<?php echo $fot; ?>
+<script>
+$('.fine').click(function(){
+    var famID=$(this).attr('data-id');
+    var famMonth=$(this).attr('data-month');
+    var famYear=$(this).attr('data-year');
+    var famType=$(this).attr('data-type');
+    var famName=$(this).attr('data-name');
+
+    $.ajax({url:"salary-cat-details.php?famID="+famID+"&famMonth="+famMonth+"&famYear="+famYear+"&famType="+famType+"&famName="+famName,cache:false,success:function(result){
+        $(".modal-content").html(result);
+    }});
+});
+$('.leaves').click(function(){
+    var famID=$(this).attr('data-id');
+    var famMonth=$(this).attr('data-month');
+    var famYear=$(this).attr('data-year');
+    var famAmu=$(this).attr('data-amu');
+
+    $.ajax({url:"salary-leaves-details.php?famID="+famID+"&famMonth="+famMonth+"&famYear="+famYear+"&famAmu="+famAmu,cache:false,success:function(result){
+        $(".modal-content").html(result);
+    }});
+});
+</script>

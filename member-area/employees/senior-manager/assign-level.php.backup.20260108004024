@@ -1,0 +1,13 @@
+<?php
+
+  require ("../includes/dbconnection.php");  
+?>
+<?php
+	$task =$_REQUEST['a_id'];
+	$link =$_REQUEST['t_link'];
+	$sta =$_REQUEST['level'];
+
+	mysql_query("UPDATE profile SET level = '$sta' WHERE teacher_id = $task") or die(mysql_error());  	
+
+	header("Location: ".$link."");
+?>

@@ -1,0 +1,13 @@
+<?php
+
+  require ("../includes/dbconnection.php");  
+?>
+<?php
+	$pid =$_REQUEST['pidf'];
+	$tsu =$_REQUEST['at'];
+
+	mysql_query("UPDATE sched SET status = $tsu WHERE course_id = $pid") or die(mysql_error());  	
+
+	header("Location: make-trial-schedule3?pids=$pid&ats=$tsu");
+
+?>

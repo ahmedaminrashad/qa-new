@@ -1,0 +1,6408 @@
+<?php session_start(); ?>
+<?php
+include("../includes/session.php");
+  include("../includes/billing_rights.php");
+  require ("../includes/dbconnection.php");
+   include("header.php");
+date_default_timezone_set("Asia/Karachi");
+$date = date('d/m/Y', time());
+?>
+<?php
+date_default_timezone_set("Asia/Karachi");
+$mon = date('F');
+if($mon== "January") 
+        {
+            $m = 1;
+        }
+    elseif($mon== "February")
+        {
+            $m = 2;
+        } 
+    elseif($mon== "March") 
+        {
+            $m = 3;
+        } 
+    elseif($mon== "April")
+        {
+            $m = 4;
+        } 
+    elseif($mon== "May")
+        {
+            $m = 5;
+        } 
+    elseif($mon== "June") 
+        {
+            $m = 6;
+        } 
+    elseif($mon== "July")
+        {
+            $m = 7;
+        } 
+    elseif($mon== "August") 
+        {
+            $m = 8;
+        } 
+    elseif($mon== "September")
+        {
+            $m = 9;
+        } 
+    elseif($mon== "October")
+        {
+            $m = 10;
+        } 
+    elseif($mon== "November") 
+        {
+            $m = 11;
+        }
+    else 
+        {
+    // Since it is not any of the days above it must be Saturday
+            $m = 12;
+        }
+?>
+<?php
+date_default_timezone_set("Asia/Karachi");
+$sy = date('Y');
+if($sy == "2014") 
+        {
+            $y = 1;
+        }
+    elseif($sy == "2015")
+        {
+           $y = 2;
+        } 
+    elseif($sy == "2016") 
+        {
+            $y = 3;
+        }
+    elseif($sy == "2017") 
+        {
+            $y = 4;
+        } 
+    elseif($sy == "2018") 
+        {
+            $y = 5;
+        }
+    elseif($sy == "2019") 
+        {
+            $y = 6;
+        }
+    elseif($sy == "2020") 
+        {
+            $y = 7;
+        }
+$py=$y-1;
+?>
+<?php
+date_default_timezone_set("Asia/Karachi");
+$syyw = date('Y-m-d');
+?>
+<?php echo $main_header; ?>
+<!-- BEGIN TOP NAVIGATION MENU -->
+			<div class="top-menu">
+				<ul class="nav navbar-nav pull-right">
+					<li class="dropdown dropdown-extended dropdown-dark dropdown-inbox" id="header_inbox_bar">
+						<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+						<span class="circle">3</span>
+						<span class="corner"></span>
+						</a>
+						<ul class="dropdown-menu">
+							<li class="external">
+								<h3>You have <strong>7 New</strong> Messages</h3>
+								<a href="javascript:;">view all</a>
+							</li>
+							<li>
+								<ul class="dropdown-menu-list scroller" style="height: 275px;" data-handle-color="#637283">
+									<li>
+										<a href="inbox.html?a=view">
+										<span class="photo">
+										<img src="../../assets/admin/layout3/img/avatar2.jpg" class="img-circle" alt="">
+										</span>
+										<span class="subject">
+										<span class="from">
+										Lisa Wong </span>
+										<span class="time">Just Now </span>
+										</span>
+										<span class="message">
+										Vivamus sed auctor nibh congue nibh. auctor nibh auctor nibh... </span>
+										</a>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</li>
+					<!-- END INBOX DROPDOWN -->
+					<!-- BEGIN USER LOGIN DROPDOWN -->
+					<li class="dropdown dropdown-user dropdown-dark">
+						<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+						<img alt="" class="img-circle" src="../../uploads/thumb/<?php echo $_SESSION['is']['image_name'];?>">
+						<span class="username username-hide-mobile"><?php echo $_SESSION['is']['teacher_name']; ?></span>
+						</a>
+						<ul class="dropdown-menu dropdown-menu-default">
+						<?php echo s_manager(); ?>
+						<?php echo manager(); ?>
+						<?php echo accounts(); ?>
+						<?php echo csr(); ?>
+						<?php echo teacher(); ?>
+						<?php echo billing(); ?>
+							<li>
+								<a href="logout">
+								<i class="icon-key"></i> Log Out </a>
+							</li>
+						</ul>
+					</li>
+					<!-- END USER LOGIN DROPDOWN -->
+				</ul>
+			</div>
+			<!-- END TOP NAVIGATION MENU -->
+			</div>
+	</div>
+<?php echo $start_menu; ?>
+<?php echo $search_bar; ?>
+<?php echo $main_menu; ?>
+<!-- BEGIN PAGE CONTAINER -->
+<div class="page-container">
+	<!-- BEGIN PAGE HEAD -->
+	<div class="page-head">
+		<div class="container">
+			<!-- BEGIN PAGE TITLE -->
+			<div class="page-title">
+				<h1>Invoice Details<small> <?php $result = mysql_query("SELECT * FROM school_yr WHERE year_id = $y");
+if (!$result) 
+	{
+    die("Query to show fields from table failed");
+	}
+$numberOfRows = MYSQL_NUMROWS($result);
+$pidm = MYSQL_RESULT($result,$i,"school_year");
+echo $pidm;?></small></h1>
+			</div>
+			<!-- END PAGE TITLE -->
+			<!-- BEGIN PAGE TOOLBAR -->
+			<div class="page-toolbar">
+			</div>
+			<!-- END PAGE TOOLBAR -->
+		</div>
+	</div>
+	<!-- END PAGE HEAD -->
+	<!-- BEGIN PAGE CONTENT -->
+	<div class="page-content">
+		<div class="container">
+
+			<!-- BEGIN PAGE BREADCRUMB -->
+			<ul class="page-breadcrumb breadcrumb">
+				<li>
+					<a href="admin-home">Home</a><i class="fa fa-circle"></i>
+				</li>
+				<li class="active">
+					 Invoice Records<i class="fa fa-circle"></i>
+				</li>
+				<li class="active">
+					 <strong>Current Expected Revenue = <?php
+$sql = "select sum(fee) from account WHERE active = 1 and currency_id = 1";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+echo '$ ' .number_format($row[0], 2);
+?>.00 - <?php
+$sql = "select sum(fee) from account WHERE active = 1 and currency_id = 2";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+echo '&pound; ' .number_format($row[0], 2);
+?>.00 - <?php
+$sql = "select sum(fee) from account WHERE active = 1 and currency_id = 3";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+echo '&euro; ' .number_format($row[0], 2);
+?>.00 - <?php
+$sql = "select sum(fee) from account WHERE active = 1 and currency_id = 4";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+echo 'Rs. ' .number_format($row[0], 2);
+?>.00</strong>
+				</li>
+			</ul>
+			<!-- END PAGE BREADCRUMB -->
+			<!-- BEGIN PAGE CONTENT INNER -->
+			<div class="row">
+				<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 margin-bottom-10">
+					<a class="dashboard-stat dashboard-stat-light blue-madison">
+					<div class="visual">
+						<i class="fa fa-money fa-icon-medium"></i>
+					</div>
+					<div class="details">
+						<div class="number">
+							 <?php
+$sql = "select sum(fee) from invoice where mon_id = $m and y_id = $y and currency_id = 1";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '$ ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?>
+						</div>
+						<div class="desc">
+							 Total Current Monthly Revenue in USD
+						</div>
+					</div>
+					</a>
+				</div>
+				<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+					<a class="dashboard-stat dashboard-stat-light green-haze">
+					<div class="visual">
+						<i class="fa fa-money"></i>
+					</div>
+					<div class="details">
+						<div class="number">
+							 <?php
+$sql = "select sum(fee) from invoice where mon_id = $m and y_id = $y and currency_id = 2";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '&pound; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?>
+						</div>
+						<div class="desc">
+							 Total Current Monthly Revenue in Pounds
+						</div>
+					</div>
+					</a>
+				</div>
+				<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+					<a class="dashboard-stat dashboard-stat-light red-intense">
+					<div class="visual">
+						<i class="fa fa-money fa-icon-medium"></i>
+					</div>
+					<div class="details">
+						<div class="number">
+							 <?php
+$sql = "select sum(fee) from invoice where mon_id = $m and y_id = $y and currency_id = 4";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo 'Rs. ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?>
+						</div>
+						<div class="desc">
+							 Total Current Monthly Revenue in Rupees
+						</div>
+					</div>
+					</a>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-6">
+					<!-- Begin: life time stats -->
+					<div class="portlet light">
+						<div class="portlet-title">
+							<div class="caption">
+								<i class="icon-bar-chart font-green-sharp"></i>
+								<span class="caption-helper">INVOICE DETAILS FOR THE YEAR</span>
+								<span class="caption-subject font-green-sharp bold uppercase"><?php $result = mysql_query("SELECT * FROM school_yr WHERE year_id = $y");
+if (!$result) 
+	{
+    die("Query to show fields from table failed");
+	}
+$numberOfRows = MYSQL_NUMROWS($result);
+$pidm = MYSQL_RESULT($result,$i,"school_year");
+echo $pidm ?></span>
+							</div>
+							<div class="tools">
+								<a href="javascript:;" class="collapse">
+								</a>
+								<a href="#portlet-config" data-toggle="modal" class="config">
+								</a>
+								<a href="javascript:;" class="reload">
+								</a>
+								<a href="javascript:;" class="remove">
+								</a>
+							</div>
+						</div>
+						<div class="portlet-body">
+							<div class="tabbable-line">
+								<ul class="nav nav-tabs">
+									<li class="active">
+										<a href="#overview_1" data-toggle="tab">
+										Dollars </a>
+									</li>
+									<li>
+										<a href="#overview_2" data-toggle="tab">
+										Pounds </a>
+									</li>
+									<li>
+										<a href="#overview_3" data-toggle="tab">
+										Euro </a>
+									</li>
+									<li>
+										<a href="#overview_4" data-toggle="tab">
+										Rupees </a>
+									</li>
+								</ul>
+								<div class="tab-content">
+									<div class="tab-pane active" id="overview_1">
+										<div class="table-responsive">
+											<table class="table table-hover table-light">
+											<thead>
+											<tr class="uppercase">
+												<th>
+													Month
+												</th>
+												<th>
+													 Received
+												</th>
+												<th>
+													 Remaining
+												</th>
+												<th>
+												Total
+												</th>
+											</tr>
+											</thead>
+											<tbody>
+											<tr>
+												<td>
+													<a href="888.php?mon=1&year=<?php echo $y; ?>&cur=1&currency_name=$">
+													January</a>
+												</td>
+												<td>
+													 <a href="invoice-received?mon=1&year=<?php echo $y; ?>&cur=1&currency_name=$"><?php
+$sql = "select sum(fee) from invoice where status = 2 and mon_id = 1 and y_id = $y and currency_id = 1";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo '$ ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													 <a href="8881.php?mon=1&stu=1&year=<?php echo $y; ?>&cur=1&currency_name=$"><?php
+$sql = "select sum(fee) from invoice where status = 1 and mon_id = 1 and y_id = $y and currency_id = 1";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo '$ ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													<?php
+$sql = "select sum(fee) from invoice where mon_id = 1 and y_id = $y and currency_id = 1";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo '$ ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<a href="888.php?mon=2&year=<?php echo $y; ?>&cur=1&currency_name=$">
+													February</a>
+												</td>
+												<td>
+													 <a href="invoice-received?mon=2&year=<?php echo $y; ?>&cur=1&currency_name=$"><?php
+$sql = "select sum(fee) from invoice where status = 2 and mon_id = 2 and y_id = $y and currency_id = 1";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo '$ ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													 <a href="8881.php?mon=2&stu=1&year=<?php echo $y; ?>&cur=1&currency_name=$"><?php
+$sql = "select sum(fee) from invoice where status = 1 and mon_id = 2 and y_id = $y and currency_id = 1";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo '$ ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													<?php
+$sql = "select sum(fee) from invoice where mon_id = 2 and y_id = $y and currency_id = 1";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo '$ ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<a href="888.php?mon=3&year=<?php echo $y; ?>&cur=1&currency_name=$">
+													March</a>
+												</td>
+												<td>
+													 <a href="invoice-received?mon=3&year=<?php echo $y; ?>&cur=1&currency_name=$"><?php
+$sql = "select sum(fee) from invoice where status = 2 and mon_id = 3 and y_id = $y and currency_id = 1";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo '$ ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													 <a href="8881.php?mon=3&stu=1&year=<?php echo $y; ?>&cur=1&currency_name=$"><?php
+$sql = "select sum(fee) from invoice where status = 1 and mon_id = 3 and y_id = $y and currency_id = 1";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo '$ ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													<?php
+$sql = "select sum(fee) from invoice where mon_id = 3 and y_id = $y and currency_id = 1";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo '$ ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<a href="888.php?mon=4&year=<?php echo $y; ?>&cur=1&currency_name=$">
+													April</a>
+												</td>
+												<td>
+													 <a href="invoice-received?mon=4&year=<?php echo $y; ?>&cur=1&currency_name=$"><?php
+$sql = "select sum(fee) from invoice where status = 2 and mon_id = 4 and y_id = $y and currency_id = 1";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo '$ ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													 <a href="8881.php?mon=4&stu=1&year=<?php echo $y; ?>&cur=1&currency_name=$"><?php
+$sql = "select sum(fee) from invoice where status = 1 and mon_id = 4 and y_id = $y and currency_id = 1";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo '$ ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													<?php
+$sql = "select sum(fee) from invoice where mon_id = 4 and y_id = $y and currency_id = 1";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo '$ ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<a href="888.php?mon=5&year=<?php echo $y; ?>&cur=1&currency_name=$">
+													May</a>
+												</td>
+												<td>
+													 <a href="invoice-received?mon=5&year=<?php echo $y; ?>&cur=1&currency_name=$"><?php
+$sql = "select sum(fee) from invoice where status = 2 and mon_id = 5 and y_id = $y and currency_id = 1";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo '$ ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													 <a href="8881.php?mon=5&stu=1&year=<?php echo $y; ?>&cur=1&currency_name=$"><?php
+$sql = "select sum(fee) from invoice where status = 1 and mon_id = 5 and y_id = $y and currency_id = 1";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo '$ ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													<?php
+$sql = "select sum(fee) from invoice where mon_id = 5 and y_id = $y and currency_id = 1";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo '$ ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<a href="888.php?mon=6&year=<?php echo $y; ?>&cur=1&currency_name=$">
+													June</a>
+												</td>
+												<td>
+													 <a href="invoice-received?mon=6&year=<?php echo $y; ?>&cur=1&currency_name=$"><?php
+$sql = "select sum(fee) from invoice where status = 2 and mon_id = 6 and y_id = $y and currency_id = 1";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo '$ ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													 <a href="8881.php?mon=6&stu=1&year=<?php echo $y; ?>&cur=1&currency_name=$"><?php
+$sql = "select sum(fee) from invoice where status = 1 and mon_id = 6 and y_id = $y and currency_id = 1";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '$ ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													<?php
+$sql = "select sum(fee) from invoice where mon_id = 6 and y_id = $y and currency_id = 1";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '$ ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<a href="888.php?mon=7&year=<?php echo $y; ?>&cur=1&currency_name=$">
+													July</a>
+												</td>
+												<td>
+													 <a href="invoice-received?mon=7&year=<?php echo $y; ?>&cur=1&currency_name=$"><?php
+$sql = "select sum(fee) from invoice where status = 2 and mon_id = 7 and y_id = $y and currency_id = 1";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '$ ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													 <a href="8881.php?mon=7&stu=1&year=<?php echo $y; ?>&cur=1&currency_name=$"><?php
+$sql = "select sum(fee) from invoice where status = 1 and mon_id = 7 and y_id = $y and currency_id = 1";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '$ ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													<?php
+$sql = "select sum(fee) from invoice where mon_id = 7 and y_id = $y and currency_id = 1";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '$ ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<a href="888.php?mon=8&year=<?php echo $y; ?>&cur=1&currency_name=$">
+													August</a>
+												</td>
+												<td>
+													 <a href="invoice-received?mon=8&year=<?php echo $y; ?>&cur=1&currency_name=$"><?php
+$sql = "select sum(fee) from invoice where status = 2 and mon_id = 8 and y_id = $y and currency_id = 1";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '$ ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													 <a href="8881.php?mon=8&stu=1&year=<?php echo $y; ?>&cur=1&currency_name=$"><?php
+$sql = "select sum(fee) from invoice where status = 1 and mon_id = 8 and y_id = $y and currency_id = 1";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '$ ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													<?php
+$sql = "select sum(fee) from invoice where mon_id = 8 and y_id = $y and currency_id = 1";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '$ ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<a href="888.php?mon=9&year=<?php echo $y; ?>&cur=1&currency_name=$">
+													September</a>
+												</td>
+												<td>
+													 <a href="invoice-received?mon=9&year=<?php echo $y; ?>&cur=1&currency_name=$"><?php
+$sql = "select sum(fee) from invoice where status = 2 and mon_id = 9 and y_id = $y and currency_id = 1";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '$ ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													 <a href="8881.php?mon=9&stu=1&year=<?php echo $y; ?>&cur=1&currency_name=$"><?php
+$sql = "select sum(fee) from invoice where status = 1 and mon_id = 9 and y_id = $y and currency_id = 1";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '$ ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													<?php
+$sql = "select sum(fee) from invoice where mon_id = 9 and y_id = $y and currency_id = 1";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '$ ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<a href="888.php?mon=10&year=<?php echo $y; ?>&cur=1&currency_name=$">
+													October</a>
+												</td>
+												<td>
+													 <a href="invoice-received?mon=10&year=<?php echo $y; ?>&cur=1&currency_name=$"><?php
+$sql = "select sum(fee) from invoice where status = 2 and mon_id = 10 and y_id = $y and currency_id = 1";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '$ ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													 <a href="8881.php?mon=10&stu=1&year=<?php echo $y; ?>&cur=1&currency_name=$"><?php
+$sql = "select sum(fee) from invoice where status = 1 and mon_id = 10 and y_id = $y and currency_id = 1";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '$ ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													<?php
+$sql = "select sum(fee) from invoice where mon_id = 10 and y_id = $y and currency_id = 1";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '$ ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<a href="888.php?mon=11&year=<?php echo $y; ?>&cur=1&currency_name=$">
+													November</a>
+												</td>
+												<td>
+													 <a href="invoice-received?mon=11&year=<?php echo $y; ?>&cur=1&currency_name=$"><?php
+$sql = "select sum(fee) from invoice where status = 2 and mon_id = 11 and y_id = $y and currency_id = 1";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '$ ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													 <a href="8881.php?mon=11&stu=1&year=<?php echo $y; ?>&cur=1&currency_name=$"><?php
+$sql = "select sum(fee) from invoice where status = 1 and mon_id = 11 and y_id = $y and currency_id = 1";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '$ ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													<?php
+$sql = "select sum(fee) from invoice where mon_id = 11 and y_id = $y and currency_id = 1";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '$ ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<a href="888.php?mon=12&year=<?php echo $y; ?>&cur=1&currency_name=$">
+													December</a>
+												</td>
+												<td>
+													 <a href="invoice-received?mon=12&year=<?php echo $y; ?>&cur=1&currency_name=$"><?php
+$sql = "select sum(fee) from invoice where status = 2 and mon_id = 12 and y_id = $y and currency_id = 1";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '$ ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													 <a href="8881.php?mon=12&stu=1&year=<?php echo $y; ?>&cur=1&currency_name=$"><?php
+$sql = "select sum(fee) from invoice where status = 1 and mon_id = 12 and y_id = $y and currency_id = 1";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '$ ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													<?php
+$sql = "select sum(fee) from invoice where mon_id = 12 and y_id = $y and currency_id = 1";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '$ ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?>
+												</td>
+											</tr>
+											</tbody>
+											</table>
+										</div>
+									</div>
+									<div class="tab-pane" id="overview_2">
+										<div class="table-responsive">
+											<table class="table table-hover table-light">
+											<thead>
+											<tr class="uppercase">
+												<th>
+													Month
+												</th>
+												<th>
+													 Received
+												</th>
+												<th>
+													 Remaining
+												</th>
+												<th>
+												Total
+												</th>
+											</tr>
+											</thead>
+											<tbody>
+											<tr>
+												<td>
+													<a href="888.php?mon=1&year=<?php echo $y; ?>&cur=2&currency_name=&pound;">
+													January</a>
+												</td>
+												<td>
+													 <a href="invoice-received?mon=1&year=<?php echo $y; ?>&cur=2&currency_name=&pound;"><?php
+$sql = "select sum(fee) from invoice where status = 2 and mon_id = 1 and y_id = $y and currency_id = 2";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo '&pound; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													 <a href="8881.php?mon=1&stu=1&year=<?php echo $y; ?>&cur=2&currency_name=&pound;"><?php
+$sql = "select sum(fee) from invoice where status = 1 and mon_id = 1 and y_id = $y and currency_id = 2";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo '&pound; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													<?php
+$sql = "select sum(fee) from invoice where mon_id = 1 and y_id = $y and currency_id = 2";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo '&pound; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<a href="888.php?mon=2&year=<?php echo $y; ?>&cur=2&currency_name=&pound;">
+													February</a>
+												</td>
+												<td>
+													 <a href="invoice-received?mon=2&year=<?php echo $y; ?>&cur=2&currency_name=&pound;"><?php
+$sql = "select sum(fee) from invoice where status = 2 and mon_id = 2 and y_id = $y and currency_id = 2";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo '&pound; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													 <a href="8881.php?mon=2&stu=1&year=<?php echo $y; ?>&cur=2&currency_name=&pound;"><?php
+$sql = "select sum(fee) from invoice where status = 1 and mon_id = 2 and y_id = $y and currency_id = 2";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo '&pound; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													<?php
+$sql = "select sum(fee) from invoice where mon_id = 2 and y_id = $y and currency_id = 2";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo '&pound; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<a href="888.php?mon=3&year=<?php echo $y; ?>&cur=2&currency_name=&pound;">
+													March</a>
+												</td>
+												<td>
+													 <a href="invoice-received?mon=3&year=<?php echo $y; ?>&cur=2&currency_name=&pound;"><?php
+$sql = "select sum(fee) from invoice where status = 2 and mon_id = 3 and y_id = $y and currency_id = 2";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo '&pound; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													 <a href="8881.php?mon=3&stu=1&year=<?php echo $y; ?>&cur=2&currency_name=&pound;"><?php
+$sql = "select sum(fee) from invoice where status = 1 and mon_id = 3 and y_id = $y and currency_id = 2";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo '&pound; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													<?php
+$sql = "select sum(fee) from invoice where mon_id = 3 and y_id = $y and currency_id = 2";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo '&pound; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<a href="888.php?mon=4&year=<?php echo $y; ?>&cur=2&currency_name=&pound;">
+													April</a>
+												</td>
+												<td>
+													 <a href="invoice-received?mon=4&year=<?php echo $y; ?>&cur=2&currency_name=&pound;"><?php
+$sql = "select sum(fee) from invoice where status = 2 and mon_id = 4 and y_id = $y and currency_id = 2";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo '&pound; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													 <a href="8881.php?mon=4&stu=1&year=<?php echo $y; ?>&cur=2&currency_name=&pound;"><?php
+$sql = "select sum(fee) from invoice where status = 1 and mon_id = 4 and y_id = $y and currency_id = 2";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo '&pound; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													<?php
+$sql = "select sum(fee) from invoice where mon_id = 4 and y_id = $y and currency_id = 2";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo '&pound; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<a href="888.php?mon=5&year=<?php echo $y; ?>&cur=2&currency_name=&pound;">
+													May</a>
+												</td>
+												<td>
+													 <a href="invoice-received?mon=5&year=<?php echo $y; ?>&cur=2&currency_name=&pound;"><?php
+$sql = "select sum(fee) from invoice where status = 2 and mon_id = 5 and y_id = $y and currency_id = 2";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo '&pound; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													 <a href="8881.php?mon=5&stu=1&year=<?php echo $y; ?>&cur=2&currency_name=&pound;"><?php
+$sql = "select sum(fee) from invoice where status = 1 and mon_id = 5 and y_id = $y and currency_id = 2";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo '&pound; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													<?php
+$sql = "select sum(fee) from invoice where mon_id = 5 and y_id = $y and currency_id = 2";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo '&pound; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<a href="888.php?mon=6&year=<?php echo $y; ?>&cur=2&currency_name=&pound;">
+													June</a>
+												</td>
+												<td>
+													 <a href="invoice-received?mon=6&year=<?php echo $y; ?>&cur=2&currency_name=&pound;"><?php
+$sql = "select sum(fee) from invoice where status = 2 and mon_id = 6 and y_id = $y and currency_id = 2";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo '&pound; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													 <a href="8881.php?mon=6&stu=1&year=<?php echo $y; ?>&cur=2&currency_name=&pound;"><?php
+$sql = "select sum(fee) from invoice where status = 1 and mon_id = 6 and y_id = $y and currency_id = 2";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '&pound; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													<?php
+$sql = "select sum(fee) from invoice where mon_id = 6 and y_id = $y and currency_id = 2";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '&pound; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<a href="888.php?mon=7&year=<?php echo $y; ?>&cur=2&currency_name=&pound;">
+													July</a>
+												</td>
+												<td>
+													 <a href="invoice-received?mon=7&year=<?php echo $y; ?>&cur=2&currency_name=&pound;"><?php
+$sql = "select sum(fee) from invoice where status = 2 and mon_id = 7 and y_id = $y and currency_id = 2";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '&pound; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													 <a href="8881.php?mon=7&stu=1&year=<?php echo $y; ?>&cur=2&currency_name=&pound;"><?php
+$sql = "select sum(fee) from invoice where status = 1 and mon_id = 7 and y_id = $y and currency_id = 2";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '&pound; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													<?php
+$sql = "select sum(fee) from invoice where mon_id = 7 and y_id = $y and currency_id = 2";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '&pound; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<a href="888.php?mon=8&year=<?php echo $y; ?>&cur=2&currency_name=&pound;">
+													August</a>
+												</td>
+												<td>
+													 <a href="invoice-received?mon=8&year=<?php echo $y; ?>&cur=2&currency_name=&pound;"><?php
+$sql = "select sum(fee) from invoice where status = 2 and mon_id = 8 and y_id = $y and currency_id = 2";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '&pound; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													 <a href="8881.php?mon=8&stu=1&year=<?php echo $y; ?>&cur=2&currency_name=&pound;"><?php
+$sql = "select sum(fee) from invoice where status = 1 and mon_id = 8 and y_id = $y and currency_id = 2";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '&pound; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													<?php
+$sql = "select sum(fee) from invoice where mon_id = 8 and y_id = $y and currency_id = 2";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '&pound; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<a href="888.php?mon=9&year=<?php echo $y; ?>&cur=2&currency_name=&pound;">
+													September</a>
+												</td>
+												<td>
+													 <a href="invoice-received?mon=9&year=<?php echo $y; ?>&cur=2&currency_name=&pound;"><?php
+$sql = "select sum(fee) from invoice where status = 2 and mon_id = 9 and y_id = $y and currency_id = 2";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '&pound; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													 <a href="8881.php?mon=9&stu=1&year=<?php echo $y; ?>&cur=2&currency_name=&pound;"><?php
+$sql = "select sum(fee) from invoice where status = 1 and mon_id = 9 and y_id = $y and currency_id = 2";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '$ ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													<?php
+$sql = "select sum(fee) from invoice where mon_id = 9 and y_id = $y and currency_id = 2";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '&pound; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<a href="888.php?mon=10&year=<?php echo $y; ?>&cur=2&currency_name=&pound;">
+													October</a>
+												</td>
+												<td>
+													 <a href="invoice-received?mon=10&year=<?php echo $y; ?>&cur=2&currency_name=&pound;"><?php
+$sql = "select sum(fee) from invoice where status = 2 and mon_id = 10 and y_id = $y and currency_id = 2";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '&pound; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													 <a href="8881.php?mon=10&stu=1&year=<?php echo $y; ?>&cur=2&currency_name=&pound;"><?php
+$sql = "select sum(fee) from invoice where status = 1 and mon_id = 10 and y_id = $y and currency_id = 2";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '&pound; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													<?php
+$sql = "select sum(fee) from invoice where mon_id = 10 and y_id = $y and currency_id = 2";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '&pound; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<a href="888.php?mon=11&year=<?php echo $y; ?>&cur=2&currency_name=&pound;">
+													November</a>
+												</td>
+												<td>
+													 <a href="invoice-received?mon=11&year=<?php echo $y; ?>&cur=2&currency_name=&pound;"><?php
+$sql = "select sum(fee) from invoice where status = 2 and mon_id = 11 and y_id = $y and currency_id = 2";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '&pound; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													 <a href="8881.php?mon=11&stu=1&year=<?php echo $y; ?>&cur=2&currency_name=&pound;"><?php
+$sql = "select sum(fee) from invoice where status = 1 and mon_id = 11 and y_id = $y and currency_id = 2";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '&pound; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													<?php
+$sql = "select sum(fee) from invoice where mon_id = 11 and y_id = $y and currency_id = 2";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '&pound; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<a href="888.php?mon=12&year=<?php echo $y; ?>&cur=2&currency_name=&pound;">
+													December</a>
+												</td>
+												<td>
+													 <a href="invoice-received?mon=12&year=<?php echo $y; ?>&cur=2&currency_name=&pound;"><?php
+$sql = "select sum(fee) from invoice where status = 2 and mon_id = 12 and y_id = $y and currency_id = 2";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '&pound; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													 <a href="8881.php?mon=12&stu=1&year=<?php echo $y; ?>&cur=2&currency_name=&pound;"><?php
+$sql = "select sum(fee) from invoice where status = 1 and mon_id = 12 and y_id = $y and currency_id = 2";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '&pound; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													<?php
+$sql = "select sum(fee) from invoice where mon_id = 12 and y_id = $y and currency_id = 2";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '&pound; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?>
+												</td>
+											</tr>
+											</tbody>
+											</table>
+										</div>
+									</div>
+									<div class="tab-pane" id="overview_3">
+										<div class="table-responsive">
+											<table class="table table-hover table-light">
+											<thead>
+											<tr class="uppercase">
+												<th>
+													Month
+												</th>
+												<th>
+													 Received
+												</th>
+												<th>
+													 Remaining
+												</th>
+												<th>
+												Total
+												</th>
+											</tr>
+											</thead>
+											<tbody>
+											<tr>
+												<td>
+													<a href="888.php?mon=1&year=<?php echo $y; ?>&cur=3&currency_name=&euro;">
+													January</a>
+												</td>
+												<td>
+													 <a href="invoice-received?mon=1&year=<?php echo $y; ?>&cur=3&currency_name=&euro;"><?php
+$sql = "select sum(fee) from invoice where status = 2 and mon_id = 1 and y_id = $y and currency_id = 3";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo '&euro; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													 <a href="8881.php?mon=1&stu=1&year=<?php echo $y; ?>&cur=3&currency_name=&euro;"><?php
+$sql = "select sum(fee) from invoice where status = 1 and mon_id = 1 and y_id = $y and currency_id = 3";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo '&euro; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													<?php
+$sql = "select sum(fee) from invoice where mon_id = 1 and y_id = $y and currency_id = 3";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo '&euro; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<a href="888.php?mon=2&year=<?php echo $y; ?>&cur=3&currency_name=&euro;">
+													February</a>
+												</td>
+												<td>
+													 <a href="invoice-received?mon=2&year=<?php echo $y; ?>&cur=3&currency_name=&euro;"><?php
+$sql = "select sum(fee) from invoice where status = 2 and mon_id = 2 and y_id = $y and currency_id = 3";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo '&euro; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													 <a href="8881.php?mon=2&stu=1&year=<?php echo $y; ?>&cur=3&currency_name=&euro;"><?php
+$sql = "select sum(fee) from invoice where status = 1 and mon_id = 2 and y_id = $y and currency_id = 3";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo '&euro; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													<?php
+$sql = "select sum(fee) from invoice where mon_id = 2 and y_id = $y and currency_id = 3";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo '&euro; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<a href="888.php?mon=3&year=<?php echo $y; ?>&cur=3&currency_name=&euro;">
+													March</a>
+												</td>
+												<td>
+													 <a href="invoice-received?mon=3&year=<?php echo $y; ?>&cur=3&currency_name=&euro;"><?php
+$sql = "select sum(fee) from invoice where status = 2 and mon_id = 3 and y_id = $y and currency_id = 3";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo '&euro; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													 <a href="8881.php?mon=3&stu=1&year=<?php echo $y; ?>&cur=3&currency_name=&euro;"><?php
+$sql = "select sum(fee) from invoice where status = 1 and mon_id = 3 and y_id = $y and currency_id = 3";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo '&euro; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													<?php
+$sql = "select sum(fee) from invoice where mon_id = 3 and y_id = $y and currency_id = 3";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo '&euro; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<a href="888.php?mon=4&year=<?php echo $y; ?>&cur=3&currency_name=&euro;">
+													April</a>
+												</td>
+												<td>
+													 <a href="invoice-received?mon=4&year=<?php echo $y; ?>&cur=3&currency_name=&euro;"><?php
+$sql = "select sum(fee) from invoice where status = 2 and mon_id = 4 and y_id = $y and currency_id = 3";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo '&euro; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													 <a href="8881.php?mon=4&stu=1&year=<?php echo $y; ?>&cur=3&currency_name=&euro;"><?php
+$sql = "select sum(fee) from invoice where status = 1 and mon_id = 4 and y_id = $y and currency_id = 3";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo '&euro; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													<?php
+$sql = "select sum(fee) from invoice where mon_id = 4 and y_id = $y and currency_id = 3";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo '&euro; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<a href="888.php?mon=5&year=<?php echo $y; ?>&cur=3&currency_name=&euro;">
+													May</a>
+												</td>
+												<td>
+													 <a href="invoice-received?mon=5&year=<?php echo $y; ?>&cur=3&currency_name=&euro;"><?php
+$sql = "select sum(fee) from invoice where status = 2 and mon_id = 5 and y_id = $y and currency_id = 3";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo '&euro; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													 <a href="8881.php?mon=5&stu=1&year=<?php echo $y; ?>&cur=3&currency_name=&euro;"><?php
+$sql = "select sum(fee) from invoice where status = 1 and mon_id = 5 and y_id = $y and currency_id = 3";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo '&euro; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													<?php
+$sql = "select sum(fee) from invoice where mon_id = 5 and y_id = $y and currency_id = 3";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo '&euro; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<a href="888.php?mon=6&year=<?php echo $y; ?>&cur=3&currency_name=&euro;">
+													June</a>
+												</td>
+												<td>
+													 <a href="invoice-received?mon=6&year=<?php echo $y; ?>&cur=3&currency_name=&euro;"><?php
+$sql = "select sum(fee) from invoice where status = 2 and mon_id = 6 and y_id = $y and currency_id = 3";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo '&euro; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													 <a href="8881.php?mon=6&stu=1&year=<?php echo $y; ?>&cur=3&currency_name=&euro;"><?php
+$sql = "select sum(fee) from invoice where status = 1 and mon_id = 6 and y_id = $y and currency_id = 3";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '&euro; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													<?php
+$sql = "select sum(fee) from invoice where mon_id = 6 and y_id = $y and currency_id = 3";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '&euro; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<a href="888.php?mon=7&year=<?php echo $y; ?>&cur=3&currency_name=&euro;">
+													July</a>
+												</td>
+												<td>
+													 <a href="invoice-received?mon=7&year=<?php echo $y; ?>&cur=3&currency_name=&euro;"><?php
+$sql = "select sum(fee) from invoice where status = 2 and mon_id = 7 and y_id = $y and currency_id = 3";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '&euro; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													 <a href="8881.php?mon=7&stu=1&year=<?php echo $y; ?>&cur=3&currency_name=&euro;"><?php
+$sql = "select sum(fee) from invoice where status = 1 and mon_id = 7 and y_id = $y and currency_id = 3";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '&euro; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													<?php
+$sql = "select sum(fee) from invoice where mon_id = 7 and y_id = $y and currency_id = 3";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '&euro; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<a href="888.php?mon=8&year=<?php echo $y; ?>&cur=3&currency_name=&euro;">
+													August</a>
+												</td>
+												<td>
+													 <a href="invoice-received?mon=8&year=<?php echo $y; ?>&cur=3&currency_name=&euro;"><?php
+$sql = "select sum(fee) from invoice where status = 2 and mon_id = 8 and y_id = $y and currency_id = 3";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '&euro; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													 <a href="8881.php?mon=8&stu=1&year=<?php echo $y; ?>&cur=3&currency_name=&euro;"><?php
+$sql = "select sum(fee) from invoice where status = 1 and mon_id = 8 and y_id = $y and currency_id = 3";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '&euro; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													<?php
+$sql = "select sum(fee) from invoice where mon_id = 8 and y_id = $y and currency_id = 3";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '&euro; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<a href="888.php?mon=9&year=<?php echo $y; ?>&cur=3&currency_name=&euro;">
+													September</a>
+												</td>
+												<td>
+													 <a href="invoice-received?mon=9&year=<?php echo $y; ?>&cur=3&currency_name=&euro;"><?php
+$sql = "select sum(fee) from invoice where status = 2 and mon_id = 9 and y_id = $y and currency_id = 3";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '&euro; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													 <a href="8881.php?mon=9&stu=1&year=<?php echo $y; ?>&cur=3&currency_name=&euro;"><?php
+$sql = "select sum(fee) from invoice where status = 1 and mon_id = 9 and y_id = $y and currency_id = 3";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '$ ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													<?php
+$sql = "select sum(fee) from invoice where mon_id = 9 and y_id = $y and currency_id = 3";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '&euro; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<a href="888.php?mon=10&year=<?php echo $y; ?>&cur=3&currency_name=&euro;">
+													October</a>
+												</td>
+												<td>
+													 <a href="invoice-received?mon=10&year=<?php echo $y; ?>&cur=3&currency_name=&euro;"><?php
+$sql = "select sum(fee) from invoice where status = 2 and mon_id = 10 and y_id = $y and currency_id = 3";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '&euro; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													 <a href="8881.php?mon=10&stu=1&year=<?php echo $y; ?>&cur=3&currency_name=&euro;"><?php
+$sql = "select sum(fee) from invoice where status = 1 and mon_id = 10 and y_id = $y and currency_id = 3";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '&euro; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													<?php
+$sql = "select sum(fee) from invoice where mon_id = 10 and y_id = $y and currency_id = 3";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '&euro; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<a href="888.php?mon=11&year=<?php echo $y; ?>&cur=3&currency_name=&euro;">
+													November</a>
+												</td>
+												<td>
+													 <a href="invoice-received?mon=11&year=<?php echo $y; ?>&cur=3&currency_name=&euro;"><?php
+$sql = "select sum(fee) from invoice where status = 2 and mon_id = 11 and y_id = $y and currency_id = 3";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '&euro; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													 <a href="8881.php?mon=11&stu=1&year=<?php echo $y; ?>&cur=3&currency_name=&euro;"><?php
+$sql = "select sum(fee) from invoice where status = 1 and mon_id = 11 and y_id = $y and currency_id = 3";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '&euro; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													<?php
+$sql = "select sum(fee) from invoice where mon_id = 11 and y_id = $y and currency_id = 3";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '&euro; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<a href="888.php?mon=12&year=<?php echo $y; ?>&cur=3&currency_name=&euro;">
+													December</a>
+												</td>
+												<td>
+													 <a href="invoice-received?mon=12&year=<?php echo $y; ?>&cur=3&currency_name=&euro;"><?php
+$sql = "select sum(fee) from invoice where status = 2 and mon_id = 12 and y_id = $y and currency_id = 3";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '&euro; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													 <a href="8881.php?mon=12&stu=1&year=<?php echo $y; ?>&cur=3&currency_name=&euro;"><?php
+$sql = "select sum(fee) from invoice where status = 1 and mon_id = 12 and y_id = $y and currency_id = 3";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '&euro; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													<?php
+$sql = "select sum(fee) from invoice where mon_id = 12 and y_id = $y and currency_id = 3";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '&euro; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?>
+												</td>
+											</tr>
+											</tbody>
+											</table>
+										</div>
+									</div>
+									<div class="tab-pane" id="overview_4">
+										<div class="table-responsive">
+											<table class="table table-hover table-light">
+											<thead>
+											<tr class="uppercase">
+												<th>
+													Month
+												</th>
+												<th>
+													 Received
+												</th>
+												<th>
+													 Remaining
+												</th>
+												<th>
+												Total
+												</th>
+											</tr>
+											</thead>
+											<tbody>
+											<tr>
+												<td>
+													<a href="888.php?mon=1&year=<?php echo $y; ?>&cur=4&currency_name=Rs.">
+													January</a>
+												</td>
+												<td>
+													 <a href="invoice-received?mon=1&year=<?php echo $y; ?>&cur=4&currency_name=Rs."><?php
+$sql = "select sum(fee) from invoice where status = 2 and mon_id = 1 and y_id = $y and currency_id = 4";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo 'Rs. ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													 <a href="8881.php?mon=1&stu=1&year=<?php echo $y; ?>&cur=4&currency_name=Rs."><?php
+$sql = "select sum(fee) from invoice where status = 1 and mon_id = 1 and y_id = $y and currency_id = 4";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo 'Rs. ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													<?php
+$sql = "select sum(fee) from invoice where mon_id = 1 and y_id = $y and currency_id = 4";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo 'Rs. ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<a href="888.php?mon=2&year=<?php echo $y; ?>&cur=4&currency_name=Rs.">
+													February</a>
+												</td>
+												<td>
+													 <a href="invoice-received?mon=2&year=<?php echo $y; ?>&cur=4&currency_name=Rs."><?php
+$sql = "select sum(fee) from invoice where status = 2 and mon_id = 2 and y_id = $y and currency_id = 4";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo 'Rs. ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													 <a href="8881.php?mon=2&stu=1&year=<?php echo $y; ?>&cur=4&currency_name=Rs."><?php
+$sql = "select sum(fee) from invoice where status = 1 and mon_id = 2 and y_id = $y and currency_id = 4";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo 'Rs. ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													<?php
+$sql = "select sum(fee) from invoice where mon_id = 2 and y_id = $y and currency_id = 4";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo 'Rs. ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<a href="888.php?mon=3&year=<?php echo $y; ?>&cur=4&currency_name=Rs.">
+													March</a>
+												</td>
+												<td>
+													 <a href="invoice-received?mon=3&year=<?php echo $y; ?>&cur=4&currency_name=Rs."><?php
+$sql = "select sum(fee) from invoice where status = 2 and mon_id = 3 and y_id = $y and currency_id = 4";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo 'Rs. ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													 <a href="8881.php?mon=3&stu=1&year=<?php echo $y; ?>&cur=4&currency_name=Rs."><?php
+$sql = "select sum(fee) from invoice where status = 1 and mon_id = 3 and y_id = $y and currency_id = 4";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo 'Rs. ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													<?php
+$sql = "select sum(fee) from invoice where mon_id = 3 and y_id = $y and currency_id = 4";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo 'Rs. ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<a href="888.php?mon=4&year=<?php echo $y; ?>&cur=4&currency_name=Rs.">
+													April</a>
+												</td>
+												<td>
+													 <a href="invoice-received?mon=4&year=<?php echo $y; ?>&cur=4&currency_name=Rs."><?php
+$sql = "select sum(fee) from invoice where status = 2 and mon_id = 4 and y_id = $y and currency_id = 4";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo 'Rs. ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													 <a href="8881.php?mon=4&stu=1&year=<?php echo $y; ?>&cur=4&currency_name=Rs."><?php
+$sql = "select sum(fee) from invoice where status = 1 and mon_id = 4 and y_id = $y and currency_id = 4";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo 'Rs. ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													<?php
+$sql = "select sum(fee) from invoice where mon_id = 4 and y_id = $y and currency_id = 4";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo 'Rs. ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<a href="888.php?mon=5&year=<?php echo $y; ?>&cur=4&currency_name=Rs.">
+													May</a>
+												</td>
+												<td>
+													 <a href="invoice-received?mon=5&year=<?php echo $y; ?>&cur=4&currency_name=Rs."><?php
+$sql = "select sum(fee) from invoice where status = 2 and mon_id = 5 and y_id = $y and currency_id = 4";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo 'Rs. ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													 <a href="8881.php?mon=5&stu=1&year=<?php echo $y; ?>&cur=4&currency_name=Rs."><?php
+$sql = "select sum(fee) from invoice where status = 1 and mon_id = 5 and y_id = $y and currency_id = 4";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo 'Rs. ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													<?php
+$sql = "select sum(fee) from invoice where mon_id = 5 and y_id = $y and currency_id = 4";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo 'Rs. ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<a href="888.php?mon=6&year=<?php echo $y; ?>&cur=4&currency_name=Rs.">
+													June</a>
+												</td>
+												<td>
+													 <a href="invoice-received?mon=6&year=<?php echo $y; ?>&cur=4&currency_name=Rs."><?php
+$sql = "select sum(fee) from invoice where status = 2 and mon_id = 6 and y_id = $y and currency_id = 4";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo 'Rs. ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													 <a href="8881.php?mon=6&stu=1&year=<?php echo $y; ?>&cur=4&currency_name=Rs."><?php
+$sql = "select sum(fee) from invoice where status = 1 and mon_id = 6 and y_id = $y and currency_id = 4";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo 'Rs. ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													<?php
+$sql = "select sum(fee) from invoice where mon_id = 6 and y_id = $y and currency_id = 4";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo 'Rs. ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<a href="888.php?mon=7&year=<?php echo $y; ?>&cur=4&currency_name=Rs.">
+													July</a>
+												</td>
+												<td>
+													 <a href="invoice-received?mon=7&year=<?php echo $y; ?>&cur=4&currency_name=Rs."><?php
+$sql = "select sum(fee) from invoice where status = 2 and mon_id = 7 and y_id = $y and currency_id = 4";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo 'Rs. ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													 <a href="8881.php?mon=7&stu=1&year=<?php echo $y; ?>&cur=4&currency_name=Rs."><?php
+$sql = "select sum(fee) from invoice where status = 1 and mon_id = 7 and y_id = $y and currency_id = 4";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo 'Rs. ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													<?php
+$sql = "select sum(fee) from invoice where mon_id = 7 and y_id = $y and currency_id = 4";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo 'Rs. ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<a href="888.php?mon=8&year=<?php echo $y; ?>&cur=4&currency_name=Rs.">
+													August</a>
+												</td>
+												<td>
+													 <a href="invoice-received?mon=8&year=<?php echo $y; ?>&cur=4&currency_name=Rs."><?php
+$sql = "select sum(fee) from invoice where status = 2 and mon_id = 8 and y_id = $y and currency_id = 4";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo 'Rs. ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													 <a href="8881.php?mon=8&stu=1&year=<?php echo $y; ?>&cur=4&currency_name=Rs."><?php
+$sql = "select sum(fee) from invoice where status = 1 and mon_id = 8 and y_id = $y and currency_id = 4";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo 'Rs. ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													<?php
+$sql = "select sum(fee) from invoice where mon_id = 8 and y_id = $y and currency_id = 4";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo 'Rs. ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<a href="888.php?mon=9&year=<?php echo $y; ?>&cur=4&currency_name=Rs.">
+													September</a>
+												</td>
+												<td>
+													 <a href="invoice-received?mon=9&year=<?php echo $y; ?>&cur=4&currency_name=Rs."><?php
+$sql = "select sum(fee) from invoice where status = 2 and mon_id = 9 and y_id = $y and currency_id = 4";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo 'Rs. ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													 <a href="8881.php?mon=9&stu=1&year=<?php echo $y; ?>&cur=4&currency_name=Rs."><?php
+$sql = "select sum(fee) from invoice where status = 1 and mon_id = 9 and y_id = $y and currency_id = 4";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo 'Rs ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													<?php
+$sql = "select sum(fee) from invoice where mon_id = 9 and y_id = $y and currency_id = 4";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo 'Rs. ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<a href="888.php?mon=10&year=<?php echo $y; ?>&cur=4&currency_name=Rs.">
+													October</a>
+												</td>
+												<td>
+													 <a href="invoice-received?mon=10&year=<?php echo $y; ?>&cur=4&currency_name=Rs."><?php
+$sql = "select sum(fee) from invoice where status = 2 and mon_id = 10 and y_id = $y and currency_id = 4";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo 'Rs. ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													 <a href="8881.php?mon=10&stu=1&year=<?php echo $y; ?>&cur=4&currency_name=Rs."><?php
+$sql = "select sum(fee) from invoice where status = 1 and mon_id = 10 and y_id = $y and currency_id = 4";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo 'Rs. ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													<?php
+$sql = "select sum(fee) from invoice where mon_id = 10 and y_id = $y and currency_id = 4";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo 'Rs. ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<a href="888.php?mon=11&year=<?php echo $y; ?>&cur=4&currency_name=Rs.">
+													November</a>
+												</td>
+												<td>
+													 <a href="invoice-received?mon=11&year=<?php echo $y; ?>&cur=4&currency_name=Rs."><?php
+$sql = "select sum(fee) from invoice where status = 2 and mon_id = 11 and y_id = $y and currency_id = 4";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo 'Rs. ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													 <a href="8881.php?mon=11&stu=1&year=<?php echo $y; ?>&cur=4&currency_name=Rs."><?php
+$sql = "select sum(fee) from invoice where status = 1 and mon_id = 11 and y_id = $y and currency_id = 4";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo 'Rs. ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													<?php
+$sql = "select sum(fee) from invoice where mon_id = 11 and y_id = $y and currency_id = 4";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo 'Rs. ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<a href="888.php?mon=12&year=<?php echo $y; ?>&cur=4&currency_name=Rs.">
+													December</a>
+												</td>
+												<td>
+													 <a href="invoice-received?mon=12&year=<?php echo $y; ?>&cur=4&currency_name=Rs."><?php
+$sql = "select sum(fee) from invoice where status = 2 and mon_id = 12 and y_id = $y and currency_id = 4";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo 'Rs. ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													 <a href="8881.php?mon=12&stu=1&year=<?php echo $y; ?>&cur=4&currency_name=Rs."><?php
+$sql = "select sum(fee) from invoice where status = 1 and mon_id = 12 and y_id = $y and currency_id = 4";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo 'Rs. ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													<?php
+$sql = "select sum(fee) from invoice where mon_id = 12 and y_id = $y and currency_id = 4";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo 'Rs. ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?>
+												</td>
+											</tr>
+											</tbody>
+											</table>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- End: life time stats -->
+				</div>
+				<div class="col-md-6">
+					<!-- Begin: life time stats -->
+					<div class="portlet light">
+						<div class="portlet-title">
+							<div class="caption">
+								<i class="icon-bar-chart font-green-sharp"></i>
+								<span class="caption-helper">INVOICE DETAILS FOR THE YEAR</span>
+								<span class="caption-subject font-green-sharp bold uppercase"><?php $result = mysql_query("SELECT * FROM school_yr WHERE year_id = $py");
+if (!$result) 
+	{
+    die("Query to show fields from table failed");
+	}
+$numberOfRows = MYSQL_NUMROWS($result);
+$pidm = MYSQL_RESULT($result,$i,"school_year");
+echo $pidm ?></span>
+							</div>
+							<div class="tools">
+								<a href="javascript:;" class="collapse">
+								</a>
+								<a href="#portlet-config" data-toggle="modal" class="config">
+								</a>
+								<a href="javascript:;" class="reload">
+								</a>
+								<a href="javascript:;" class="remove">
+								</a>
+							</div>
+						</div>
+						<div class="portlet-body">
+							<div class="tabbable-line">
+								<ul class="nav nav-tabs">
+									<li class="active">
+										<a href="#overview_5" data-toggle="tab">
+										Dollars </a>
+									</li>
+									<li>
+										<a href="#overview_6" data-toggle="tab">
+										Pounds </a>
+									</li>
+									<li>
+										<a href="#overview_7" data-toggle="tab">
+										Euro </a>
+									</li>
+									<li>
+										<a href="#overview_8" data-toggle="tab">
+										Rupees </a>
+									</li>
+								</ul>
+								<div class="tab-content">
+									<div class="tab-pane active" id="overview_5">
+										<div class="table-responsive">
+											<table class="table table-hover table-light">
+											<thead>
+											<tr class="uppercase">
+												<th>
+													Month
+												</th>
+												<th>
+													 Received
+												</th>
+												<th>
+													 Remaining
+												</th>
+												<th>
+												Total
+												</th>
+											</tr>
+											</thead>
+											<tbody>
+											<tr>
+												<td>
+													<a href="888.php?mon=1&year=<?php echo $py; ?>&cur=1&currency_name=$">
+													January</a>
+												</td>
+												<td>
+													 <a href="invoice-received?mon=1&year=<?php echo $py; ?>&cur=1&currency_name=$"><?php
+$sql = "select sum(fee) from invoice where status = 2 and mon_id = 1 and y_id = $py and currency_id = 1";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo '$ ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													 <a href="8881.php?mon=1&stu=1&year=<?php echo $py; ?>&cur=1&currency_name=$"><?php
+$sql = "select sum(fee) from invoice where status = 1 and mon_id = 1 and y_id = $py and currency_id = 1";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo '$ ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													<?php
+$sql = "select sum(fee) from invoice where mon_id = 1 and y_id = $py and currency_id = 1";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo '$ ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<a href="888.php?mon=2&year=<?php echo $py; ?>&cur=1&currency_name=$">
+													February</a>
+												</td>
+												<td>
+													 <a href="invoice-received?mon=2&year=<?php echo $py; ?>&cur=1&currency_name=$"><?php
+$sql = "select sum(fee) from invoice where status = 2 and mon_id = 2 and y_id = $py and currency_id = 1";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo '$ ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													 <a href="8881.php?mon=2&stu=1&year=<?php echo $py; ?>&cur=1&currency_name=$"><?php
+$sql = "select sum(fee) from invoice where status = 1 and mon_id = 2 and y_id = $py and currency_id = 1";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo '$ ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													<?php
+$sql = "select sum(fee) from invoice where mon_id = 2 and y_id = $py and currency_id = 1";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo '$ ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<a href="888.php?mon=3&year=<?php echo $py; ?>&cur=1&currency_name=$">
+													March</a>
+												</td>
+												<td>
+													 <a href="invoice-received?mon=3&year=<?php echo $py; ?>&cur=1&currency_name=$"><?php
+$sql = "select sum(fee) from invoice where status = 2 and mon_id = 3 and y_id = $py and currency_id = 1";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo '$ ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													 <a href="8881.php?mon=3&stu=1&year=<?php echo $py; ?>&cur=1&currency_name=$"><?php
+$sql = "select sum(fee) from invoice where status = 1 and mon_id = 3 and y_id = $py and currency_id = 1";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo '$ ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													<?php
+$sql = "select sum(fee) from invoice where mon_id = 3 and y_id = $py and currency_id = 1";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo '$ ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<a href="888.php?mon=4&year=<?php echo $py; ?>&cur=1&currency_name=$">
+													April</a>
+												</td>
+												<td>
+													 <a href="invoice-received?mon=4&year=<?php echo $py; ?>&cur=1&currency_name=$"><?php
+$sql = "select sum(fee) from invoice where status = 2 and mon_id = 4 and y_id = $py and currency_id = 1";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo '$ ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													 <a href="8881.php?mon=4&stu=1&year=<?php echo $py; ?>&cur=1&currency_name=$"><?php
+$sql = "select sum(fee) from invoice where status = 1 and mon_id = 4 and y_id = $py and currency_id = 1";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo '$ ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													<?php
+$sql = "select sum(fee) from invoice where mon_id = 4 and y_id = $py and currency_id = 1";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo '$ ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<a href="888.php?mon=5&year=<?php echo $py; ?>&cur=1&currency_name=$">
+													May</a>
+												</td>
+												<td>
+													 <a href="invoice-received?mon=5&year=<?php echo $py; ?>&cur=1&currency_name=$"><?php
+$sql = "select sum(fee) from invoice where status = 2 and mon_id = 5 and y_id = $py and currency_id = 1";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo '$ ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													 <a href="8881.php?mon=5&stu=1&year=<?php echo $py; ?>&cur=1&currency_name=$"><?php
+$sql = "select sum(fee) from invoice where status = 1 and mon_id = 5 and y_id = $py and currency_id = 1";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo '$ ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													<?php
+$sql = "select sum(fee) from invoice where mon_id = 5 and y_id = $py and currency_id = 1";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo '$ ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<a href="888.php?mon=6&year=<?php echo $py; ?>&cur=1&currency_name=$">
+													June</a>
+												</td>
+												<td>
+													 <a href="invoice-received?mon=6&year=<?php echo $py; ?>&cur=1&currency_name=$"><?php
+$sql = "select sum(fee) from invoice where status = 2 and mon_id = 6 and y_id = $py and currency_id = 1";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo '$ ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													 <a href="8881.php?mon=6&stu=1&year=<?php echo $py; ?>&cur=1&currency_name=$"><?php
+$sql = "select sum(fee) from invoice where status = 1 and mon_id = 6 and y_id = $py and currency_id = 1";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '$ ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													<?php
+$sql = "select sum(fee) from invoice where mon_id = 6 and y_id = $py and currency_id = 1";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '$ ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<a href="888.php?mon=7&year=<?php echo $py; ?>&cur=1&currency_name=$">
+													July</a>
+												</td>
+												<td>
+													 <a href="invoice-received?mon=7&year=<?php echo $py; ?>&cur=1&currency_name=$"><?php
+$sql = "select sum(fee) from invoice where status = 2 and mon_id = 7 and y_id = $py and currency_id = 1";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '$ ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													 <a href="8881.php?mon=7&stu=1&year=<?php echo $py; ?>&cur=1&currency_name=$"><?php
+$sql = "select sum(fee) from invoice where status = 1 and mon_id = 7 and y_id = $py and currency_id = 1";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '$ ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													<?php
+$sql = "select sum(fee) from invoice where mon_id = 7 and y_id = $py and currency_id = 1";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '$ ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<a href="888.php?mon=8&year=<?php echo $py; ?>&cur=1&currency_name=$">
+													August</a>
+												</td>
+												<td>
+													 <a href="invoice-received?mon=8&year=<?php echo $py; ?>&cur=1&currency_name=$"><?php
+$sql = "select sum(fee) from invoice where status = 2 and mon_id = 8 and y_id = $py and currency_id = 1";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '$ ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													 <a href="8881.php?mon=8&stu=1&year=<?php echo $py; ?>&cur=1&currency_name=$"><?php
+$sql = "select sum(fee) from invoice where status = 1 and mon_id = 8 and y_id = $py and currency_id = 1";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '$ ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													<?php
+$sql = "select sum(fee) from invoice where mon_id = 8 and y_id = $py and currency_id = 1";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '$ ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<a href="888.php?mon=9&year=<?php echo $py; ?>&cur=1&currency_name=$">
+													September</a>
+												</td>
+												<td>
+													 <a href="invoice-received?mon=9&year=<?php echo $py; ?>&cur=1&currency_name=$"><?php
+$sql = "select sum(fee) from invoice where status = 2 and mon_id = 9 and y_id = $py and currency_id = 1";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '$ ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													 <a href="8881.php?mon=9&stu=1&year=<?php echo $py; ?>&cur=1&currency_name=$"><?php
+$sql = "select sum(fee) from invoice where status = 1 and mon_id = 9 and y_id = $py and currency_id = 1";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '$ ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													<?php
+$sql = "select sum(fee) from invoice where mon_id = 9 and y_id = $py and currency_id = 1";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '$ ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<a href="888.php?mon=10&year=<?php echo $py; ?>&cur=1&currency_name=$">
+													October</a>
+												</td>
+												<td>
+													 <a href="invoice-received?mon=10&year=<?php echo $py; ?>&cur=1&currency_name=$"><?php
+$sql = "select sum(fee) from invoice where status = 2 and mon_id = 10 and y_id = $py and currency_id = 1";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '$ ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													 <a href="8881.php?mon=10&stu=1&year=<?php echo $py; ?>&cur=1&currency_name=$"><?php
+$sql = "select sum(fee) from invoice where status = 1 and mon_id = 10 and y_id = $py and currency_id = 1";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '$ ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													<?php
+$sql = "select sum(fee) from invoice where mon_id = 10 and y_id = $py and currency_id = 1";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '$ ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<a href="888.php?mon=11&year=<?php echo $py; ?>&cur=1&currency_name=$">
+													November</a>
+												</td>
+												<td>
+													 <a href="invoice-received?mon=11&year=<?php echo $py; ?>&cur=1&currency_name=$"><?php
+$sql = "select sum(fee) from invoice where status = 2 and mon_id = 11 and y_id = $py and currency_id = 1";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '$ ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													 <a href="8881.php?mon=11&stu=1&year=<?php echo $py; ?>&cur=1&currency_name=$"><?php
+$sql = "select sum(fee) from invoice where status = 1 and mon_id = 11 and y_id = $py and currency_id = 1";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '$ ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													<?php
+$sql = "select sum(fee) from invoice where mon_id = 11 and y_id = $py and currency_id = 1";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '$ ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<a href="888.php?mon=12&year=<?php echo $py; ?>&cur=1&currency_name=$">
+													December</a>
+												</td>
+												<td>
+													 <a href="invoice-received?mon=12&year=<?php echo $py; ?>&cur=1&currency_name=$"><?php
+$sql = "select sum(fee) from invoice where status = 2 and mon_id = 12 and y_id = $py and currency_id = 1";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '$ ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													 <a href="8881.php?mon=12&stu=1&year=<?php echo $py; ?>&cur=1&currency_name=$"><?php
+$sql = "select sum(fee) from invoice where status = 1 and mon_id = 12 and y_id = $py and currency_id = 1";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '$ ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													<?php
+$sql = "select sum(fee) from invoice where mon_id = 12 and y_id = $py and currency_id = 1";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '$ ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?>
+												</td>
+											</tr>
+											</tbody>
+											</table>
+										</div>
+									</div>
+									<div class="tab-pane" id="overview_6">
+										<div class="table-responsive">
+											<table class="table table-hover table-light">
+											<thead>
+											<tr class="uppercase">
+												<th>
+													Month
+												</th>
+												<th>
+													 Received
+												</th>
+												<th>
+													 Remaining
+												</th>
+												<th>
+												Total
+												</th>
+											</tr>
+											</thead>
+											<tbody>
+											<tr>
+												<td>
+													<a href="888.php?mon=1&year=<?php echo $py; ?>&cur=2&currency_name=&pound;">
+													January</a>
+												</td>
+												<td>
+													 <a href="invoice-received?mon=1&year=<?php echo $py; ?>&cur=2&currency_name=&pound;"><?php
+$sql = "select sum(fee) from invoice where status = 2 and mon_id = 1 and y_id = $py and currency_id = 2";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo '&pound; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													 <a href="8881.php?mon=1&stu=1&year=<?php echo $py; ?>&cur=2&currency_name=&pound;"><?php
+$sql = "select sum(fee) from invoice where status = 1 and mon_id = 1 and y_id = $py and currency_id = 2";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo '&pound; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													<?php
+$sql = "select sum(fee) from invoice where mon_id = 1 and y_id = $py and currency_id = 2";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo '&pound; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<a href="888.php?mon=2&year=<?php echo $py; ?>&cur=2&currency_name=&pound;">
+													February</a>
+												</td>
+												<td>
+													 <a href="invoice-received?mon=2&year=<?php echo $py; ?>&cur=2&currency_name=&pound;"><?php
+$sql = "select sum(fee) from invoice where status = 2 and mon_id = 2 and y_id = $py and currency_id = 2";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo '&pound; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													 <a href="8881.php?mon=2&stu=1&year=<?php echo $py; ?>&cur=2&currency_name=&pound;"><?php
+$sql = "select sum(fee) from invoice where status = 1 and mon_id = 2 and y_id = $py and currency_id = 2";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo '&pound; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													<?php
+$sql = "select sum(fee) from invoice where mon_id = 2 and y_id = $py and currency_id = 2";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo '&pound; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<a href="888.php?mon=3&year=<?php echo $py; ?>&cur=2&currency_name=&pound;">
+													March</a>
+												</td>
+												<td>
+													 <a href="invoice-received?mon=3&year=<?php echo $py; ?>&cur=2&currency_name=&pound;"><?php
+$sql = "select sum(fee) from invoice where status = 2 and mon_id = 3 and y_id = $py and currency_id = 2";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo '&pound; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													 <a href="8881.php?mon=3&stu=1&year=<?php echo $py; ?>&cur=2&currency_name=&pound;"><?php
+$sql = "select sum(fee) from invoice where status = 1 and mon_id = 3 and y_id = $py and currency_id = 2";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo '&pound; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													<?php
+$sql = "select sum(fee) from invoice where mon_id = 3 and y_id = $py and currency_id = 2";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo '&pound; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<a href="888.php?mon=4&year=<?php echo $py; ?>&cur=2&currency_name=&pound;">
+													April</a>
+												</td>
+												<td>
+													 <a href="invoice-received?mon=4&year=<?php echo $py; ?>&cur=2&currency_name=&pound;"><?php
+$sql = "select sum(fee) from invoice where status = 2 and mon_id = 4 and y_id = $py and currency_id = 2";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo '&pound; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													 <a href="8881.php?mon=4&stu=1&year=<?php echo $py; ?>&cur=2&currency_name=&pound;"><?php
+$sql = "select sum(fee) from invoice where status = 1 and mon_id = 4 and y_id = $py and currency_id = 2";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo '&pound; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													<?php
+$sql = "select sum(fee) from invoice where mon_id = 4 and y_id = $py and currency_id = 2";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo '&pound; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<a href="888.php?mon=5&year=<?php echo $py; ?>&cur=2&currency_name=&pound;">
+													May</a>
+												</td>
+												<td>
+													 <a href="invoice-received?mon=5&year=<?php echo $py; ?>&cur=2&currency_name=&pound;"><?php
+$sql = "select sum(fee) from invoice where status = 2 and mon_id = 5 and y_id = $py and currency_id = 2";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo '&pound; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													 <a href="8881.php?mon=5&stu=1&year=<?php echo $py; ?>&cur=2&currency_name=&pound;"><?php
+$sql = "select sum(fee) from invoice where status = 1 and mon_id = 5 and y_id = $py and currency_id = 2";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo '&pound; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													<?php
+$sql = "select sum(fee) from invoice where mon_id = 5 and y_id = $py and currency_id = 2";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo '&pound; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<a href="888.php?mon=6&year=<?php echo $py; ?>&cur=2&currency_name=&pound;">
+													June</a>
+												</td>
+												<td>
+													 <a href="invoice-received?mon=6&year=<?php echo $py; ?>&cur=2&currency_name=&pound;"><?php
+$sql = "select sum(fee) from invoice where status = 2 and mon_id = 6 and y_id = $py and currency_id = 2";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo '&pound; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													 <a href="8881.php?mon=6&stu=1&year=<?php echo $py; ?>&cur=2&currency_name=&pound;"><?php
+$sql = "select sum(fee) from invoice where status = 1 and mon_id = 6 and y_id = $py and currency_id = 2";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '&pound; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													<?php
+$sql = "select sum(fee) from invoice where mon_id = 6 and y_id = $py and currency_id = 2";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '&pound; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<a href="888.php?mon=7&year=<?php echo $py; ?>&cur=2&currency_name=&pound;">
+													July</a>
+												</td>
+												<td>
+													 <a href="invoice-received?mon=7&year=<?php echo $py; ?>&cur=2&currency_name=&pound;"><?php
+$sql = "select sum(fee) from invoice where status = 2 and mon_id = 7 and y_id = $py and currency_id = 2";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '&pound; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													 <a href="8881.php?mon=7&stu=1&year=<?php echo $py; ?>&cur=2&currency_name=&pound;"><?php
+$sql = "select sum(fee) from invoice where status = 1 and mon_id = 7 and y_id = $py and currency_id = 2";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '&pound; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													<?php
+$sql = "select sum(fee) from invoice where mon_id = 7 and y_id = $py and currency_id = 2";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '&pound; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<a href="888.php?mon=8&year=<?php echo $py; ?>&cur=2&currency_name=&pound;">
+													August</a>
+												</td>
+												<td>
+													 <a href="invoice-received?mon=8&year=<?php echo $py; ?>&cur=2&currency_name=&pound;"><?php
+$sql = "select sum(fee) from invoice where status = 2 and mon_id = 8 and y_id = $py and currency_id = 2";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '&pound; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													 <a href="8881.php?mon=8&stu=1&year=<?php echo $py; ?>&cur=2&currency_name=&pound;"><?php
+$sql = "select sum(fee) from invoice where status = 1 and mon_id = 8 and y_id = $py and currency_id = 2";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '&pound; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													<?php
+$sql = "select sum(fee) from invoice where mon_id = 8 and y_id = $py and currency_id = 2";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '&pound; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<a href="888.php?mon=9&year=<?php echo $py; ?>&cur=2&currency_name=&pound;">
+													September</a>
+												</td>
+												<td>
+													 <a href="invoice-received?mon=9&year=<?php echo $py; ?>&cur=2&currency_name=&pound;"><?php
+$sql = "select sum(fee) from invoice where status = 2 and mon_id = 9 and y_id = $py and currency_id = 2";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '&pound; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													 <a href="8881.php?mon=9&stu=1&year=<?php echo $py; ?>&cur=2&currency_name=&pound;"><?php
+$sql = "select sum(fee) from invoice where status = 1 and mon_id = 9 and y_id = $py and currency_id = 2";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '$ ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													<?php
+$sql = "select sum(fee) from invoice where mon_id = 9 and y_id = $py and currency_id = 2";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '&pound; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<a href="888.php?mon=10&year=<?php echo $py; ?>&cur=2&currency_name=&pound;">
+													October</a>
+												</td>
+												<td>
+													 <a href="invoice-received?mon=10&year=<?php echo $py; ?>&cur=2&currency_name=&pound;"><?php
+$sql = "select sum(fee) from invoice where status = 2 and mon_id = 10 and y_id = $py and currency_id = 2";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '&pound; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													 <a href="8881.php?mon=10&stu=1&year=<?php echo $py; ?>&cur=2&currency_name=&pound;"><?php
+$sql = "select sum(fee) from invoice where status = 1 and mon_id = 10 and y_id = $py and currency_id = 2";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '&pound; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													<?php
+$sql = "select sum(fee) from invoice where mon_id = 10 and y_id = $py and currency_id = 2";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '&pound; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<a href="888.php?mon=11&year=<?php echo $py; ?>&cur=2&currency_name=&pound;">
+													November</a>
+												</td>
+												<td>
+													 <a href="invoice-received?mon=11&year=<?php echo $py; ?>&cur=2&currency_name=&pound;"><?php
+$sql = "select sum(fee) from invoice where status = 2 and mon_id = 11 and y_id = $py and currency_id = 2";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '&pound; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													 <a href="8881.php?mon=11&stu=1&year=<?php echo $py; ?>&cur=2&currency_name=&pound;"><?php
+$sql = "select sum(fee) from invoice where status = 1 and mon_id = 11 and y_id = $py and currency_id = 2";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '&pound; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													<?php
+$sql = "select sum(fee) from invoice where mon_id = 11 and y_id = $py and currency_id = 2";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '&pound; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<a href="888.php?mon=12&year=<?php echo $py; ?>&cur=2&currency_name=&pound;">
+													December</a>
+												</td>
+												<td>
+													 <a href="invoice-received?mon=12&year=<?php echo $py; ?>&cur=2&currency_name=&pound;"><?php
+$sql = "select sum(fee) from invoice where status = 2 and mon_id = 12 and y_id = $py and currency_id = 2";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '&pound; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													 <a href="8881.php?mon=12&stu=1&year=<?php echo $py; ?>&cur=2&currency_name=&pound;"><?php
+$sql = "select sum(fee) from invoice where status = 1 and mon_id = 12 and y_id = $py and currency_id = 2";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '&pound; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													<?php
+$sql = "select sum(fee) from invoice where mon_id = 12 and y_id = $py and currency_id = 2";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '&pound; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?>
+												</td>
+											</tr>
+											</tbody>
+											</table>
+										</div>
+									</div>
+									<div class="tab-pane" id="overview_7">
+										<div class="table-responsive">
+											<table class="table table-hover table-light">
+											<thead>
+											<tr class="uppercase">
+												<th>
+													Month
+												</th>
+												<th>
+													 Received
+												</th>
+												<th>
+													 Remaining
+												</th>
+												<th>
+												Total
+												</th>
+											</tr>
+											</thead>
+											<tbody>
+											<tr>
+												<td>
+													<a href="888.php?mon=1&year=<?php echo $py; ?>&cur=3&currency_name=&euro;">
+													January</a>
+												</td>
+												<td>
+													 <a href="invoice-received?mon=1&year=<?php echo $py; ?>&cur=3&currency_name=&euro;"><?php
+$sql = "select sum(fee) from invoice where status = 2 and mon_id = 1 and y_id = $py and currency_id = 3";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo '&euro; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													 <a href="8881.php?mon=1&stu=1&year=<?php echo $py; ?>&cur=3&currency_name=&euro;"><?php
+$sql = "select sum(fee) from invoice where status = 1 and mon_id = 1 and y_id = $py and currency_id = 3";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo '&euro; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													<?php
+$sql = "select sum(fee) from invoice where mon_id = 1 and y_id = $py and currency_id = 3";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo '&euro; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<a href="888.php?mon=2&year=<?php echo $py; ?>&cur=3&currency_name=&euro;">
+													February</a>
+												</td>
+												<td>
+													 <a href="invoice-received?mon=2&year=<?php echo $py; ?>&cur=3&currency_name=&euro;"><?php
+$sql = "select sum(fee) from invoice where status = 2 and mon_id = 2 and y_id = $py and currency_id = 3";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo '&euro; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													 <a href="8881.php?mon=2&stu=1&year=<?php echo $py; ?>&cur=3&currency_name=&euro;"><?php
+$sql = "select sum(fee) from invoice where status = 1 and mon_id = 2 and y_id = $py and currency_id = 3";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo '&euro; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													<?php
+$sql = "select sum(fee) from invoice where mon_id = 2 and y_id = $py and currency_id = 3";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo '&euro; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<a href="888.php?mon=3&year=<?php echo $py; ?>&cur=3&currency_name=&euro;">
+													March</a>
+												</td>
+												<td>
+													 <a href="invoice-received?mon=3&year=<?php echo $py; ?>&cur=3&currency_name=&euro;"><?php
+$sql = "select sum(fee) from invoice where status = 2 and mon_id = 3 and y_id = $py and currency_id = 3";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo '&euro; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													 <a href="8881.php?mon=3&stu=1&year=<?php echo $py; ?>&cur=3&currency_name=&euro;"><?php
+$sql = "select sum(fee) from invoice where status = 1 and mon_id = 3 and y_id = $py and currency_id = 3";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo '&euro; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													<?php
+$sql = "select sum(fee) from invoice where mon_id = 3 and y_id = $py and currency_id = 3";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo '&euro; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<a href="888.php?mon=4&year=<?php echo $py; ?>&cur=3&currency_name=&euro;">
+													April</a>
+												</td>
+												<td>
+													 <a href="invoice-received?mon=4&year=<?php echo $py; ?>&cur=3&currency_name=&euro;"><?php
+$sql = "select sum(fee) from invoice where status = 2 and mon_id = 4 and y_id = $py and currency_id = 3";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo '&euro; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													 <a href="8881.php?mon=4&stu=1&year=<?php echo $py; ?>&cur=3&currency_name=&euro;"><?php
+$sql = "select sum(fee) from invoice where status = 1 and mon_id = 4 and y_id = $py and currency_id = 3";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo '&euro; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													<?php
+$sql = "select sum(fee) from invoice where mon_id = 4 and y_id = $py and currency_id = 3";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo '&euro; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<a href="888.php?mon=5&year=<?php echo $py; ?>&cur=3&currency_name=&euro;">
+													May</a>
+												</td>
+												<td>
+													 <a href="invoice-received?mon=5&year=<?php echo $py; ?>&cur=3&currency_name=&euro;"><?php
+$sql = "select sum(fee) from invoice where status = 2 and mon_id = 5 and y_id = $py and currency_id = 3";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo '&euro; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													 <a href="8881.php?mon=5&stu=1&year=<?php echo $py; ?>&cur=3&currency_name=&euro;"><?php
+$sql = "select sum(fee) from invoice where status = 1 and mon_id = 5 and y_id = $py and currency_id = 3";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo '&euro; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													<?php
+$sql = "select sum(fee) from invoice where mon_id = 5 and y_id = $py and currency_id = 3";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo '&euro; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<a href="888.php?mon=6&year=<?php echo $py; ?>&cur=3&currency_name=&euro;">
+													June</a>
+												</td>
+												<td>
+													 <a href="invoice-received?mon=6&year=<?php echo $py; ?>&cur=3&currency_name=&euro;"><?php
+$sql = "select sum(fee) from invoice where status = 2 and mon_id = 6 and y_id = $py and currency_id = 3";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo '&euro; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													 <a href="8881.php?mon=6&stu=1&year=<?php echo $py; ?>&cur=3&currency_name=&euro;"><?php
+$sql = "select sum(fee) from invoice where status = 1 and mon_id = 6 and y_id = $py and currency_id = 3";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '&euro; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													<?php
+$sql = "select sum(fee) from invoice where mon_id = 6 and y_id = $py and currency_id = 3";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '&euro; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<a href="888.php?mon=7&year=<?php echo $py; ?>&cur=3&currency_name=&euro;">
+													July</a>
+												</td>
+												<td>
+													 <a href="invoice-received?mon=7&year=<?php echo $py; ?>&cur=3&currency_name=&euro;"><?php
+$sql = "select sum(fee) from invoice where status = 2 and mon_id = 7 and y_id = $py and currency_id = 3";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '&euro; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													 <a href="8881.php?mon=7&stu=1&year=<?php echo $py; ?>&cur=3&currency_name=&euro;"><?php
+$sql = "select sum(fee) from invoice where status = 1 and mon_id = 7 and y_id = $py and currency_id = 3";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '&euro; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													<?php
+$sql = "select sum(fee) from invoice where mon_id = 7 and y_id = $py and currency_id = 3";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '&euro; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<a href="888.php?mon=8&year=<?php echo $py; ?>&cur=3&currency_name=&euro;">
+													August</a>
+												</td>
+												<td>
+													 <a href="invoice-received?mon=8&year=<?php echo $py; ?>&cur=3&currency_name=&euro;"><?php
+$sql = "select sum(fee) from invoice where status = 2 and mon_id = 8 and y_id = $py and currency_id = 3";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '&euro; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													 <a href="8881.php?mon=8&stu=1&year=<?php echo $py; ?>&cur=3&currency_name=&euro;"><?php
+$sql = "select sum(fee) from invoice where status = 1 and mon_id = 8 and y_id = $py and currency_id = 3";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '&euro; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													<?php
+$sql = "select sum(fee) from invoice where mon_id = 8 and y_id = $py and currency_id = 3";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '&euro; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<a href="888.php?mon=9&year=<?php echo $py; ?>&cur=3&currency_name=&euro;">
+													September</a>
+												</td>
+												<td>
+													 <a href="invoice-received?mon=9&year=<?php echo $py; ?>&cur=3&currency_name=&euro;"><?php
+$sql = "select sum(fee) from invoice where status = 2 and mon_id = 9 and y_id = $py and currency_id = 3";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '&euro; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													 <a href="8881.php?mon=9&stu=1&year=<?php echo $py; ?>&cur=3&currency_name=&euro;"><?php
+$sql = "select sum(fee) from invoice where status = 1 and mon_id = 9 and y_id = $py and currency_id = 3";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '$ ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													<?php
+$sql = "select sum(fee) from invoice where mon_id = 9 and y_id = $py and currency_id = 3";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '&euro; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<a href="888.php?mon=10&year=<?php echo $py; ?>&cur=3&currency_name=&euro;">
+													October</a>
+												</td>
+												<td>
+													 <a href="invoice-received?mon=10&year=<?php echo $py; ?>&cur=3&currency_name=&euro;"><?php
+$sql = "select sum(fee) from invoice where status = 2 and mon_id = 10 and y_id = $py and currency_id = 3";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '&euro; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													 <a href="8881.php?mon=10&stu=1&year=<?php echo $py; ?>&cur=3&currency_name=&euro;"><?php
+$sql = "select sum(fee) from invoice where status = 1 and mon_id = 10 and y_id = $py and currency_id = 3";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '&euro; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													<?php
+$sql = "select sum(fee) from invoice where mon_id = 10 and y_id = $py and currency_id = 3";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '&euro; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<a href="888.php?mon=11&year=<?php echo $py; ?>&cur=3&currency_name=&euro;">
+													November</a>
+												</td>
+												<td>
+													 <a href="invoice-received?mon=11&year=<?php echo $py; ?>&cur=3&currency_name=&euro;"><?php
+$sql = "select sum(fee) from invoice where status = 2 and mon_id = 11 and y_id = $py and currency_id = 3";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '&euro; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													 <a href="8881.php?mon=11&stu=1&year=<?php echo $py; ?>&cur=3&currency_name=&euro;"><?php
+$sql = "select sum(fee) from invoice where status = 1 and mon_id = 11 and y_id = $py and currency_id = 3";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '&euro; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													<?php
+$sql = "select sum(fee) from invoice where mon_id = 11 and y_id = $py and currency_id = 3";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '&euro; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<a href="888.php?mon=12&year=<?php echo $py; ?>&cur=3&currency_name=&euro;">
+													December</a>
+												</td>
+												<td>
+													 <a href="invoice-received?mon=12&year=<?php echo $py; ?>&cur=3&currency_name=&euro;"><?php
+$sql = "select sum(fee) from invoice where status = 2 and mon_id = 12 and y_id = $py and currency_id = 3";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '&euro; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													 <a href="8881.php?mon=12&stu=1&year=<?php echo $py; ?>&cur=3&currency_name=&euro;"><?php
+$sql = "select sum(fee) from invoice where status = 1 and mon_id = 12 and y_id = $py and currency_id = 3";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '&euro; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													<?php
+$sql = "select sum(fee) from invoice where mon_id = 12 and y_id = $py and currency_id = 3";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '&euro; ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?>
+												</td>
+											</tr>
+											</tbody>
+											</table>
+										</div>
+									</div>
+									<div class="tab-pane" id="overview_8">
+										<div class="table-responsive">
+											<table class="table table-hover table-light">
+											<thead>
+											<tr class="uppercase">
+												<th>
+													Month
+												</th>
+												<th>
+													 Received
+												</th>
+												<th>
+													 Remaining
+												</th>
+												<th>
+												Total
+												</th>
+											</tr>
+											</thead>
+											<tbody>
+											<tr>
+												<td>
+													<a href="888.php?mon=1&year=<?php echo $py; ?>&cur=4&currency_name=Rs.">
+													January</a>
+												</td>
+												<td>
+													 <a href="invoice-received?mon=1&year=<?php echo $py; ?>&cur=4&currency_name=Rs."><?php
+$sql = "select sum(fee) from invoice where status = 2 and mon_id = 1 and y_id = $py and currency_id = 4";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo 'Rs. ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													 <a href="8881.php?mon=1&stu=1&year=<?php echo $py; ?>&cur=4&currency_name=Rs."><?php
+$sql = "select sum(fee) from invoice where status = 1 and mon_id = 1 and y_id = $py and currency_id = 4";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo 'Rs. ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													<?php
+$sql = "select sum(fee) from invoice where mon_id = 1 and y_id = $py and currency_id = 4";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo 'Rs. ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<a href="888.php?mon=2&year=<?php echo $py; ?>&cur=4&currency_name=Rs.">
+													February</a>
+												</td>
+												<td>
+													 <a href="invoice-received?mon=2&year=<?php echo $py; ?>&cur=4&currency_name=Rs."><?php
+$sql = "select sum(fee) from invoice where status = 2 and mon_id = 2 and y_id = $py and currency_id = 4";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo 'Rs. ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													 <a href="8881.php?mon=2&stu=1&year=<?php echo $py; ?>&cur=4&currency_name=Rs."><?php
+$sql = "select sum(fee) from invoice where status = 1 and mon_id = 2 and y_id = $py and currency_id = 4";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo 'Rs. ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													<?php
+$sql = "select sum(fee) from invoice where mon_id = 2 and y_id = $py and currency_id = 4";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo 'Rs. ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<a href="888.php?mon=3&year=<?php echo $py; ?>&cur=4&currency_name=Rs.">
+													March</a>
+												</td>
+												<td>
+													 <a href="invoice-received?mon=3&year=<?php echo $py; ?>&cur=4&currency_name=Rs."><?php
+$sql = "select sum(fee) from invoice where status = 2 and mon_id = 3 and y_id = $py and currency_id = 4";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo 'Rs. ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													 <a href="8881.php?mon=3&stu=1&year=<?php echo $py; ?>&cur=4&currency_name=Rs."><?php
+$sql = "select sum(fee) from invoice where status = 1 and mon_id = 3 and y_id = $py and currency_id = 4";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo 'Rs. ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													<?php
+$sql = "select sum(fee) from invoice where mon_id = 3 and y_id = $py and currency_id = 4";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo 'Rs. ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<a href="888.php?mon=4&year=<?php echo $py; ?>&cur=4&currency_name=Rs.">
+													April</a>
+												</td>
+												<td>
+													 <a href="invoice-received?mon=4&year=<?php echo $py; ?>&cur=4&currency_name=Rs."><?php
+$sql = "select sum(fee) from invoice where status = 2 and mon_id = 4 and y_id = $py and currency_id = 4";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo 'Rs. ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													 <a href="8881.php?mon=4&stu=1&year=<?php echo $py; ?>&cur=4&currency_name=Rs."><?php
+$sql = "select sum(fee) from invoice where status = 1 and mon_id = 4 and y_id = $py and currency_id = 4";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo 'Rs. ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													<?php
+$sql = "select sum(fee) from invoice where mon_id = 4 and y_id = $py and currency_id = 4";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo 'Rs. ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<a href="888.php?mon=5&year=<?php echo $py; ?>&cur=4&currency_name=Rs.">
+													May</a>
+												</td>
+												<td>
+													 <a href="invoice-received?mon=5&year=<?php echo $py; ?>&cur=4&currency_name=Rs."><?php
+$sql = "select sum(fee) from invoice where status = 2 and mon_id = 5 and y_id = $py and currency_id = 4";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo 'Rs. ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													 <a href="8881.php?mon=5&stu=1&year=<?php echo $py; ?>&cur=4&currency_name=Rs."><?php
+$sql = "select sum(fee) from invoice where status = 1 and mon_id = 5 and y_id = $py and currency_id = 4";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo 'Rs. ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													<?php
+$sql = "select sum(fee) from invoice where mon_id = 5 and y_id = $py and currency_id = 4";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo 'Rs. ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<a href="888.php?mon=6&year=<?php echo $py; ?>&cur=4&currency_name=Rs.">
+													June</a>
+												</td>
+												<td>
+													 <a href="invoice-received?mon=6&year=<?php echo $py; ?>&cur=4&currency_name=Rs."><?php
+$sql = "select sum(fee) from invoice where status = 2 and mon_id = 6 and y_id = $py and currency_id = 4";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            if($row[0] > 0) 
+        {
+            echo 'Rs. ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													 <a href="8881.php?mon=6&stu=1&year=<?php echo $py; ?>&cur=4&currency_name=Rs."><?php
+$sql = "select sum(fee) from invoice where status = 1 and mon_id = 6 and y_id = $py and currency_id = 4";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo 'Rs. ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													<?php
+$sql = "select sum(fee) from invoice where mon_id = 6 and y_id = $py and currency_id = 4";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo 'Rs. ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<a href="888.php?mon=7&year=<?php echo $py; ?>&cur=4&currency_name=Rs.">
+													July</a>
+												</td>
+												<td>
+													 <a href="invoice-received?mon=7&year=<?php echo $py; ?>&cur=4&currency_name=Rs."><?php
+$sql = "select sum(fee) from invoice where status = 2 and mon_id = 7 and y_id = $py and currency_id = 4";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo 'Rs. ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													 <a href="8881.php?mon=7&stu=1&year=<?php echo $py; ?>&cur=4&currency_name=Rs."><?php
+$sql = "select sum(fee) from invoice where status = 1 and mon_id = 7 and y_id = $py and currency_id = 4";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo 'Rs. ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													<?php
+$sql = "select sum(fee) from invoice where mon_id = 7 and y_id = $py and currency_id = 4";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo 'Rs. ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<a href="888.php?mon=8&year=<?php echo $py; ?>&cur=4&currency_name=Rs.">
+													August</a>
+												</td>
+												<td>
+													 <a href="invoice-received?mon=8&year=<?php echo $py; ?>&cur=4&currency_name=Rs."><?php
+$sql = "select sum(fee) from invoice where status = 2 and mon_id = 8 and y_id = $py and currency_id = 4";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo 'Rs. ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													 <a href="8881.php?mon=8&stu=1&year=<?php echo $py; ?>&cur=4&currency_name=Rs."><?php
+$sql = "select sum(fee) from invoice where status = 1 and mon_id = 8 and y_id = $py and currency_id = 4";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo 'Rs. ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													<?php
+$sql = "select sum(fee) from invoice where mon_id = 8 and y_id = $py and currency_id = 4";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo 'Rs. ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<a href="888.php?mon=9&year=<?php echo $py; ?>&cur=4&currency_name=Rs.">
+													September</a>
+												</td>
+												<td>
+													 <a href="invoice-received?mon=9&year=<?php echo $py; ?>&cur=4&currency_name=Rs."><?php
+$sql = "select sum(fee) from invoice where status = 2 and mon_id = 9 and y_id = $py and currency_id = 4";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo 'Rs. ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													 <a href="8881.php?mon=9&stu=1&year=<?php echo $py; ?>&cur=4&currency_name=Rs."><?php
+$sql = "select sum(fee) from invoice where status = 1 and mon_id = 9 and y_id = $py and currency_id = 4";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo '$ ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													<?php
+$sql = "select sum(fee) from invoice where mon_id = 9 and y_id = $py and currency_id = 4";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo 'Rs. ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<a href="888.php?mon=10&year=<?php echo $py; ?>&cur=4&currency_name=Rs.">
+													October</a>
+												</td>
+												<td>
+													 <a href="invoice-received?mon=10&year=<?php echo $py; ?>&cur=4&currency_name=Rs."><?php
+$sql = "select sum(fee) from invoice where status = 2 and mon_id = 10 and y_id = $py and currency_id = 4";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo 'Rs. ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													 <a href="8881.php?mon=10&stu=1&year=<?php echo $py; ?>&cur=4&currency_name=Rs."><?php
+$sql = "select sum(fee) from invoice where status = 1 and mon_id = 10 and y_id = $py and currency_id = 4";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo 'Rs. ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													<?php
+$sql = "select sum(fee) from invoice where mon_id = 10 and y_id = $py and currency_id = 4";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo 'Rs. ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<a href="888.php?mon=11&year=<?php echo $py; ?>&cur=4&currency_name=Rs.">
+													November</a>
+												</td>
+												<td>
+													 <a href="invoice-received?mon=11&year=<?php echo $py; ?>&cur=4&currency_name=Rs."><?php
+$sql = "select sum(fee) from invoice where status = 2 and mon_id = 11 and y_id = $py and currency_id = 4";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo 'Rs. ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													 <a href="8881.php?mon=11&stu=1&year=<?php echo $py; ?>&cur=4&currency_name=Rs."><?php
+$sql = "select sum(fee) from invoice where status = 1 and mon_id = 11 and y_id = $py and currency_id = 4";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo 'Rs. ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													<?php
+$sql = "select sum(fee) from invoice where mon_id = 11 and y_id = $py and currency_id = 4";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo 'Rs. ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<a href="888.php?mon=12&year=<?php echo $py; ?>&cur=4&currency_name=Rs.">
+													December</a>
+												</td>
+												<td>
+													 <a href="invoice-received?mon=12&year=<?php echo $py; ?>&cur=4&currency_name=Rs."><?php
+$sql = "select sum(fee) from invoice where status = 2 and mon_id = 12 and y_id = $py and currency_id = 4";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo 'Rs. ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													 <a href="8881.php?mon=12&stu=1&year=<?php echo $py; ?>&cur=4&currency_name=Rs."><?php
+$sql = "select sum(fee) from invoice where status = 1 and mon_id = 12 and y_id = $py and currency_id = 4";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo 'Rs. ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?></a>
+												</td>
+												<td>
+													<?php
+$sql = "select sum(fee) from invoice where mon_id = 12 and y_id = $py and currency_id = 4";
+$q = mysql_query($sql);
+$row = mysql_fetch_array($q);
+if($row[0] > 0) 
+        {
+            echo 'Rs. ' .number_format($row[0], 2);
+        }
+    else
+        {
+            echo '--';
+        }
+?>
+												</td>
+											</tr>
+											</tbody>
+											</table>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- End: life time stats -->
+				</div>
+			</div>
+			<!-- END PAGE CONTENT INNER -->
+		</div>
+	</div>
+	<!-- END PAGE CONTENT -->
+</div>
+<!-- END PAGE CONTAINER -->
+<?php echo $fot; ?>
