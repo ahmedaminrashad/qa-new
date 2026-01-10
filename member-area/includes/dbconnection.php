@@ -75,9 +75,9 @@ if (!defined('ENV_LOADED')) {
 
 // Database configuration - read from environment variables with fallback to defaults
 $server_db = env('DB_HOST', 'localhost');
-$username_db = env('DB_USERNAME', 'root');
-$userpass_db = env('DB_PASSWORD', '');
-$name_db = env('DB_NAME', 'quraan-laravel');
+$username_db = env('DB_USERNAME', 'forge');
+$userpass_db = env('DB_PASSWORD', 'nUr8TVpfj3kXNolsLnZv');
+$name_db = env('DB_NAME', 'live');
 $db_charset = env('DB_CHARSET', 'utf8');
 $TimeZoneCustome = env('APP_TIMEZONE', 'Africa/Cairo');
 
