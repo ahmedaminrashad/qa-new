@@ -1,5 +1,4 @@
 <?php
-die("test");
 /**
  * Database Connection Configuration
  * Refactored to use mysqli instead of deprecated mysql_* functions
