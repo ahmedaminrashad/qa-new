@@ -97,26 +97,74 @@ if (!isset($GLOBALS['conn']) || !($GLOBALS['conn'] instanceof mysqli)) {
         // Display connection details for debugging (remove in production)
         error_log("Attempting database connection to: host=$server_db, user=$username_db, database=$name_db");
         
-        $conn = new mysqli($server_db, $username_db, $userpass_db, $name_db);
+        // Suppress warnings during connection attempt - we'll handle errors explicitly
+        $conn = @new mysqli($server_db, $username_db, $userpass_db, $name_db);
         
-        // Store in $GLOBALS to ensure it's accessible everywhere
+        // Store in $GLOBALS first
         $GLOBALS['conn'] = $conn;
         
-        // Check connection using connect_errno (more reliable than connect_error)
-        if (mysqli_connect_errno() || $conn->connect_error) {
-            $error_no = mysqli_connect_errno();
-            $error_msg = $conn->connect_error ? $conn->connect_error : mysqli_connect_error();
-            error_log("Database connection failed - Error #$error_no: $error_msg");
+        // Check for connection errors - use object properties (most reliable)
+        // mysqli object always has connect_errno and connect_error properties
+        $connect_errno = 0;
+        $connect_error = '';
+        
+        if ($conn instanceof mysqli) {
+            // Check both connect_errno and connect_error from the object
+            $connect_errno = (int)$conn->connect_errno;
+            $connect_error = (string)$conn->connect_error;
+        } else {
+            // If connection object wasn't created properly, check global functions
+            $connect_errno = mysqli_connect_errno();
+            $connect_error = mysqli_connect_error() ?: 'Failed to create mysqli connection object';
+        }
+        
+        // Check connection - mysqli_connect_errno() returns 0 on success, non-zero on failure
+        if ($connect_errno !== 0 || !empty($connect_error)) {
+            error_log("Database connection failed - Error #$connect_errno: $connect_error");
             error_log("Connection parameters: host=$server_db, user=$username_db, database=$name_db");
             
             // Always show detailed error for debugging
-            $error_details = "<h2>Database Connection Error</h2>";
-            $error_details .= "<p><strong>Error Code:</strong> $error_no</p>";
-            $error_details .= "<p><strong>Error Message:</strong> " . htmlspecialchars($error_msg) . "</p>";
+            $error_details = "<!DOCTYPE html><html><head><title>Database Connection Error</title>";
+            $error_details .= "<style>body{font-family:Arial,sans-serif;margin:40px;background:#f5f5f5;}";
+            $error_details .= ".error-box{background:white;padding:30px;border-radius:5px;box-shadow:0 2px 10px rgba(0,0,0,0.1);}";
+            $error_details .= "h2{color:#d32f2f;margin-top:0;}p{margin:10px 0;}strong{color:#333;}</style></head><body>";
+            $error_details .= "<div class='error-box'>";
+            $error_details .= "<h2>Database Connection Error</h2>";
+            $error_details .= "<p><strong>Error Code:</strong> " . ($connect_errno ? $connect_errno : 'Unknown') . "</p>";
+            $error_details .= "<p><strong>Error Message:</strong> " . htmlspecialchars($connect_error ? $connect_error : 'Connection failed') . "</p>";
+            $error_details .= "<hr style='margin:20px 0;border:none;border-top:1px solid #ddd;'>";
+            $error_details .= "<h3>Connection Parameters:</h3>";
             $error_details .= "<p><strong>Host:</strong> " . htmlspecialchars($server_db) . "</p>";
             $error_details .= "<p><strong>Username:</strong> " . htmlspecialchars($username_db) . "</p>";
             $error_details .= "<p><strong>Database:</strong> " . htmlspecialchars($name_db) . "</p>";
+            $error_details .= "<hr style='margin:20px 0;border:none;border-top:1px solid #ddd;'>";
+            $error_details .= "<h3>Troubleshooting Steps:</h3>";
+            $error_details .= "<ul>";
+            $error_details .= "<li>Verify MySQL/MariaDB service is running</li>";
+            $error_details .= "<li>Check database credentials are correct</li>";
+            $error_details .= "<li>Ensure database '" . htmlspecialchars($name_db) . "' exists</li>";
+            $error_details .= "<li>Verify user '" . htmlspecialchars($username_db) . "' has access to the database</li>";
+            $error_details .= "<li>Check firewall rules allow connection to MySQL port (usually 3306)</li>";
+            $error_details .= "<li>If using XAMPP, ensure MySQL is started in XAMPP Control Panel</li>";
+            $error_details .= "</ul>";
+            $error_details .= "</div></body></html>";
             
+            die($error_details);
+        }
+        
+        // Verify the connection is actually working by testing it
+        if (!$conn || !$conn->ping()) {
+            $error_details = "<!DOCTYPE html><html><head><title>Database Connection Verification Failed</title>";
+            $error_details .= "<style>body{font-family:Arial,sans-serif;margin:40px;background:#f5f5f5;}";
+            $error_details .= ".error-box{background:white;padding:30px;border-radius:5px;box-shadow:0 2px 10px rgba(0,0,0,0.1);}";
+            $error_details .= "h2{color:#d32f2f;margin-top:0;}p{margin:10px 0;}strong{color:#333;}</style></head><body>";
+            $error_details .= "<div class='error-box'>";
+            $error_details .= "<h2>Database Connection Verification Failed</h2>";
+            $error_details .= "<p>The connection object was created but the connection test (ping) failed.</p>";
+            $error_details .= "<p><strong>Host:</strong> " . htmlspecialchars($server_db) . "</p>";
+            $error_details .= "<p><strong>Username:</strong> " . htmlspecialchars($username_db) . "</p>";
+            $error_details .= "<p><strong>Database:</strong> " . htmlspecialchars($name_db) . "</p>";
+            $error_details .= "</div></body></html>";
             die($error_details);
         }
         
@@ -129,11 +177,36 @@ if (!isset($GLOBALS['conn']) || !($GLOBALS['conn'] instanceof mysqli)) {
         error_log("Database connection exception: " . $error_msg);
         error_log("Connection parameters: host=$server_db, user=$username_db, database=$name_db");
         
-        $error_details = "<h2>Database Connection Exception</h2>";
+        $error_details = "<!DOCTYPE html><html><head><title>Database Connection Exception</title>";
+        $error_details .= "<style>body{font-family:Arial,sans-serif;margin:40px;background:#f5f5f5;}";
+        $error_details .= ".error-box{background:white;padding:30px;border-radius:5px;box-shadow:0 2px 10px rgba(0,0,0,0.1);}";
+        $error_details .= "h2{color:#d32f2f;margin-top:0;}p{margin:10px 0;}strong{color:#333;}</style></head><body>";
+        $error_details .= "<div class='error-box'>";
+        $error_details .= "<h2>Database Connection Exception</h2>";
         $error_details .= "<p><strong>Exception Message:</strong> " . htmlspecialchars($error_msg) . "</p>";
         $error_details .= "<p><strong>Host:</strong> " . htmlspecialchars($server_db) . "</p>";
         $error_details .= "<p><strong>Username:</strong> " . htmlspecialchars($username_db) . "</p>";
         $error_details .= "<p><strong>Database:</strong> " . htmlspecialchars($name_db) . "</p>";
+        $error_details .= "</div></body></html>";
+        
+        die($error_details);
+    } catch (Error $e) {
+        // PHP 7+ also catches Error exceptions
+        $error_msg = $e->getMessage();
+        error_log("Database connection error: " . $error_msg);
+        error_log("Connection parameters: host=$server_db, user=$username_db, database=$name_db");
+        
+        $error_details = "<!DOCTYPE html><html><head><title>Database Connection Error</title>";
+        $error_details .= "<style>body{font-family:Arial,sans-serif;margin:40px;background:#f5f5f5;}";
+        $error_details .= ".error-box{background:white;padding:30px;border-radius:5px;box-shadow:0 2px 10px rgba(0,0,0,0.1);}";
+        $error_details .= "h2{color:#d32f2f;margin-top:0;}p{margin:10px 0;}strong{color:#333;}</style></head><body>";
+        $error_details .= "<div class='error-box'>";
+        $error_details .= "<h2>Database Connection Error</h2>";
+        $error_details .= "<p><strong>Error Message:</strong> " . htmlspecialchars($error_msg) . "</p>";
+        $error_details .= "<p><strong>Host:</strong> " . htmlspecialchars($server_db) . "</p>";
+        $error_details .= "<p><strong>Username:</strong> " . htmlspecialchars($username_db) . "</p>";
+        $error_details .= "<p><strong>Database:</strong> " . htmlspecialchars($name_db) . "</p>";
+        $error_details .= "</div></body></html>";
         
         die($error_details);
     }
