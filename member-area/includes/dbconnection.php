@@ -36,12 +36,22 @@ ini_set('log_errors', 1);
 
 date_default_timezone_set("Africa/Cairo");
 
-// Database configuration
-$username_db = 'root';
-$userpass_db = '';
-$name_db = 'quraan-laravel';
-$server_db = 'localhost';
-$TimeZoneCustome = 'Africa/Cairo';
+// Load environment variables from .env file
+if (!defined('ENV_LOADED')) {
+    $envLoaderPath = __DIR__ . DIRECTORY_SEPARATOR . 'env-loader.php';
+    if (file_exists($envLoaderPath)) {
+        require_once($envLoaderPath);
+    }
+}
+
+// Database configuration - read from environment variables with fallback to defaults
+$server_db = env('DB_HOST', 'localhost');
+$username_db = env('DB_USERNAME', 'root');
+$userpass_db = env('DB_PASSWORD', '');
+$name_db = env('DB_NAME', 'quraan-laravel');
+$db_charset = env('DB_CHARSET', 'utf8');
+$TimeZoneCustome = env('APP_TIMEZONE', 'Africa/Cairo');
+
 // Store in GLOBALS for consistency
 $GLOBALS['TimeZoneCustome'] = $TimeZoneCustome;
 
@@ -71,8 +81,8 @@ if (!isset($GLOBALS['conn']) || !($GLOBALS['conn'] instanceof mysqli)) {
             }
         }
         
-        // Set charset to utf8 to prevent encoding issues
-        $conn->set_charset("utf8");
+        // Set charset to prevent encoding issues (from .env or default to utf8)
+        $conn->set_charset($db_charset);
     } catch (Exception $e) {
         error_log("Database connection exception: " . $e->getMessage());
         if (ini_get('display_errors')) {
