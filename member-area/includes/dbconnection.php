@@ -19,6 +19,35 @@ if (defined('DBCONNECTION_LOADED')) {
     if (isset($GLOBALS['conn']) && ($GLOBALS['conn'] instanceof mysqli)) {
         // Make sure $conn is available in this scope
         $conn = $GLOBALS['conn'];
+        
+        // Verify the connection is still valid
+        if (mysqli_connect_errno() || ($conn->connect_error && !empty($conn->connect_error))) {
+            $error_no = mysqli_connect_errno();
+            $error_msg = $conn->connect_error ? $conn->connect_error : mysqli_connect_error();
+            $error_details = "<h2>Database Connection Error (Reused Connection)</h2>";
+            $error_details .= "<p><strong>Error Code:</strong> $error_no</p>";
+            $error_details .= "<p><strong>Error Message:</strong> " . htmlspecialchars($error_msg) . "</p>";
+            $error_details .= "<p>The previously established connection is no longer valid.</p>";
+            die($error_details);
+        }
+        
+        // Test the connection with a ping
+        if (!$conn->ping()) {
+            $error_details = "<h2>Database Connection Lost</h2>";
+            $error_details .= "<p><strong>Error:</strong> The database connection was lost or the server is not responding.</p>";
+            $error_details .= "<p><strong>Error Message:</strong> " . htmlspecialchars($conn->error) . "</p>";
+            die($error_details);
+        }
+    } else {
+        // Connection was supposed to be loaded but isn't available
+        $error_details = "<h2>Database Connection Error</h2>";
+        $error_details .= "<p><strong>Error:</strong> Database connection was expected to be loaded but is not available.</p>";
+        if (isset($GLOBALS['conn'])) {
+            $error_details .= "<p><strong>Debug Info:</strong> \$GLOBALS['conn'] exists but is not a mysqli instance (type: " . gettype($GLOBALS['conn']) . ")</p>";
+        } else {
+            $error_details .= "<p><strong>Debug Info:</strong> \$GLOBALS['conn'] is not set</p>";
+        }
+        die($error_details);
     }
     // Ensure TimeZoneCustome is available in this scope
     if (isset($GLOBALS['TimeZoneCustome'])) {
@@ -65,31 +94,48 @@ if (!extension_loaded('mysqli')) {
 // $conn is already declared as global above
 if (!isset($GLOBALS['conn']) || !($GLOBALS['conn'] instanceof mysqli)) {
     try {
+        // Display connection details for debugging (remove in production)
+        error_log("Attempting database connection to: host=$server_db, user=$username_db, database=$name_db");
+        
         $conn = new mysqli($server_db, $username_db, $userpass_db, $name_db);
         
         // Store in $GLOBALS to ensure it's accessible everywhere
         $GLOBALS['conn'] = $conn;
         
-        // Check connection
-        if ($conn->connect_error) {
-            error_log("Database connection failed: " . $conn->connect_error);
-            // In development, show the error; in production, show generic message
-            if (ini_get('display_errors')) {
-                die("Database connection failed: " . $conn->connect_error);
-            } else {
-                die("Connection failed. Please contact the administrator. test". $conn->connect_error);
-            }
+        // Check connection using connect_errno (more reliable than connect_error)
+        if (mysqli_connect_errno() || $conn->connect_error) {
+            $error_no = mysqli_connect_errno();
+            $error_msg = $conn->connect_error ? $conn->connect_error : mysqli_connect_error();
+            error_log("Database connection failed - Error #$error_no: $error_msg");
+            error_log("Connection parameters: host=$server_db, user=$username_db, database=$name_db");
+            
+            // Always show detailed error for debugging
+            $error_details = "<h2>Database Connection Error</h2>";
+            $error_details .= "<p><strong>Error Code:</strong> $error_no</p>";
+            $error_details .= "<p><strong>Error Message:</strong> " . htmlspecialchars($error_msg) . "</p>";
+            $error_details .= "<p><strong>Host:</strong> " . htmlspecialchars($server_db) . "</p>";
+            $error_details .= "<p><strong>Username:</strong> " . htmlspecialchars($username_db) . "</p>";
+            $error_details .= "<p><strong>Database:</strong> " . htmlspecialchars($name_db) . "</p>";
+            
+            die($error_details);
         }
         
         // Set charset to prevent encoding issues (from .env or default to utf8)
-        $conn->set_charset($db_charset);
-    } catch (Exception $e) {
-        error_log("Database connection exception: " . $e->getMessage());
-        if (ini_get('display_errors')) {
-            die("Database connection error: " . $e->getMessage());
-        } else {
-            die("Connection failed. Please contact the administrator. test  ");
+        if (!$conn->set_charset($db_charset)) {
+            error_log("Warning: Failed to set charset to $db_charset. Error: " . $conn->error);
         }
+    } catch (Exception $e) {
+        $error_msg = $e->getMessage();
+        error_log("Database connection exception: " . $error_msg);
+        error_log("Connection parameters: host=$server_db, user=$username_db, database=$name_db");
+        
+        $error_details = "<h2>Database Connection Exception</h2>";
+        $error_details .= "<p><strong>Exception Message:</strong> " . htmlspecialchars($error_msg) . "</p>";
+        $error_details .= "<p><strong>Host:</strong> " . htmlspecialchars($server_db) . "</p>";
+        $error_details .= "<p><strong>Username:</strong> " . htmlspecialchars($username_db) . "</p>";
+        $error_details .= "<p><strong>Database:</strong> " . htmlspecialchars($name_db) . "</p>";
+        
+        die($error_details);
     }
 }
 
